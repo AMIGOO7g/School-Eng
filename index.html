@@ -22,7 +22,7 @@
 
 .scene-transition{position:fixed;inset:0;z-index:100;pointer-events:none;opacity:0;transition:opacity .52s ease;display:grid;place-items:center;background:radial-gradient(circle at 22% 20%,#bad9ee,transparent 60%),radial-gradient(circle at 79% 78%,#ffdfc9,transparent 60%),#e5ecf2}.scene-transition strong{font-size:clamp(70px,16vw,250px);letter-spacing:-.085em;color:#253d54;transform:translateY(25px);transition:transform .7s cubic-bezier(.2,.8,.2,1)}body.leaving .scene-transition{opacity:1}body.leaving .scene-transition strong{transform:translateY(0)}
 @media(max-width:700px){.skater{width:110vw;left:57%;top:45%}.grade-center{transform:translateY(-15vh)}}
-</style></head>
+</style><style>.grade-center{transform:translateY(1.5vh)!important}.grade-label{opacity:.13!important}.panel-inner{top:53%!important}</style></head>
 <body><div id="track" class="track"><main id="stage" class="stage"><div id="bg" class="bg"></div><div id="grades" class="grade"></div><div id="travel" class="travel"></div><div class="shadow"></div><div id="skater" class="skater"><img id="hockeyFrame" src="frames/frame_000.webp" alt="Hockey player"></div><header class="top"><div class="brand">ICE <span>ENGLISH</span></div><div id="counter" class="counter">01 / 07</div></header><footer class="bottom"><div id="bars" class="bars"></div><div>SCROLL TO SKATE</div></footer></main></div><div id="toast" class="toast"></div><button id="restart" class="alt">В начало</button>
 <script>(()=>{const data=[
 {grade:'',k:'01 / ICE ENGLISH',title:'GLIDE<br><span>IN.</span>',desc:'Твой английский начинается здесь. Листай дальше и выбирай маршрут.'},
