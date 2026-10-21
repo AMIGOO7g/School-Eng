@@ -5,11 +5,11 @@
 <link rel="stylesheet" href="ice.css">
 <style>
 :root{--left:clamp(24px,5vw,74px);--cardw:clamp(560px,40vw,1000px)}
-.scene{--zoom:1.12;transform:translate(-50%,-50%) scale(var(--zoom)) translateX(var(--pan,0%));transition:transform 1.4s var(--ease)}
-body.ready .scene{--zoom:1.06}
-body.leaving .scene{--zoom:1.16}
-.giant.ghost{left:55%;bottom:74.5%;font-size:20cqh;transform:translateX(-50%) translateY(var(--gy,0%));opacity:var(--go,1);transition:transform 1.2s var(--ease),opacity .8s ease}
-.giant.ghost.hidden{--gy:62%;--go:0;transition:transform .55s cubic-bezier(.6,0,.8,.4),opacity .45s}
+.stage{transition:transform 1.2s var(--ease)}
+body.leaving .stage{transform:scale(1.06)}
+.stage .ibg-svg{transition:transform 1.4s var(--ease);transform:translateX(var(--pan,0px))}
+.stage .ibg-giant-wrap{transform:none;opacity:1;transition:transform 1.2s var(--ease),opacity .8s ease}
+.stage .ibg-giant-wrap.hidden{transform:translateY(20vh);opacity:0;transition:transform .55s cubic-bezier(.6,0,.8,.4),opacity .45s}
 
 /* карточка урока */
 .card{position:fixed;z-index:10;left:var(--left);top:72px;bottom:clamp(16px,3vh,32px);width:var(--cardw);display:flex;flex-direction:column;border-radius:30px;
@@ -19,10 +19,12 @@ body.ready .card{opacity:1;transform:none}
 body.leaving .card{opacity:0;transform:translateX(-24px);transition-delay:0s}
 .chead{display:flex;align-items:center;gap:12px;padding:18px 22px 0;flex-wrap:wrap}
 .pucks{margin-left:auto;display:flex;gap:6px;align-items:center}
-.pucks i{width:15px;height:8px;border-radius:50%;background:rgba(36,55,77,.16);transition:background .3s,transform .3s}
-.pucks i.ok{background:var(--ink)}
-.pucks i.err{background:transparent;box-shadow:inset 0 0 0 2px var(--red)}
-.pucks i.now{transform:scale(1.35);background:rgba(36,55,77,.4)}
+.pucks i{width:18px;height:18px;border-radius:50%;background:rgba(255,255,255,.6);box-shadow:inset 0 0 0 1.5px rgba(36,55,77,.22);position:relative;transition:transform .3s}
+.pucks i.ok,.pucks i.err{background:radial-gradient(circle at 34% 30%,#6b7785 0 9%,#2a3440 32%,#111820 64%,#0a0f15);box-shadow:inset 0 0 0 1.5px #1c2530,0 2px 5px rgba(10,20,30,.3)}
+.pucks i.err{box-shadow:0 0 0 2.5px var(--red),inset 0 0 0 1.5px #1c2530}
+.pucks i.now{transform:scale(1.15);box-shadow:inset 0 0 0 1.5px rgba(36,55,77,.4)}
+.pucks i.now::after{content:"";position:absolute;inset:-4px;border-radius:50%;border:2px solid var(--red);animation:pulse3 1.6s ease-out infinite}
+@keyframes pulse3{from{transform:scale(.9);opacity:1}to{transform:scale(1.5);opacity:0}}
 .ptitle{padding:18px 30px 0}
 .ptitle h2{font-size:clamp(28px,2.4vw,46px);margin:8px 0 0}
 .pbody{flex:1;min-height:0;overflow:auto;padding:16px 30px 10px;font-size:15px;line-height:1.5}
@@ -82,6 +84,10 @@ body.leaving .card{opacity:0;transform:translateX(-24px);transition-delay:0s}
 .check .kicker{display:block;margin-bottom:6px;color:var(--red)}
 .check p{margin:0 0 10px;font-weight:800}
 
+mark{background:linear-gradient(transparent 58%,rgba(211,38,46,.26) 58%);color:inherit;font-weight:800;padding:0 1px}
+.duo mark,.cases mark,.hw-top mark{background:linear-gradient(transparent 58%,rgba(255,110,115,.45) 58%);color:#fff}
+.f{display:inline-block;font-weight:800;font-size:.92em;background:#fff;color:var(--ink);padding:2px 9px;border-radius:8px;white-space:nowrap}
+.pbody .ex{border-left:3px solid var(--red)}
 /* задания */
 .q{font-size:clamp(20px,1.8vw,30px);font-weight:800;letter-spacing:-.02em;line-height:1.3;margin:6px 0 18px}
 .q u{text-decoration:none;display:inline-block;min-width:90px;border-bottom:3px solid var(--red)}
@@ -143,6 +149,20 @@ body.leaving .card{opacity:0;transform:translateX(-24px);transition-delay:0s}
 .fc .b{background:var(--ink);color:#fff;transform:rotateY(180deg);font-size:16px;font-weight:700}
 
 /* домашка */
+.gloss{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}
+.gloss span{font-size:13px;background:rgba(37,75,112,.07);padding:5px 10px;border-radius:999px;color:var(--ink-2)}
+.gloss b{color:var(--ink);cursor:pointer}
+.tr-en{font-size:16px}
+.tr-n{display:inline-grid;place-items:center;width:24px;height:24px;border-radius:50%;background:var(--ink);color:#fff;font-size:12px;margin-right:4px}
+.tr-in{width:100%;font:inherit;font-size:15px;padding:10px 12px;border-radius:12px;border:1px solid rgba(36,55,77,.18);background:#fff;resize:vertical;margin:4px 0}
+.tr-all{margin-top:8px;padding:12px 14px;border-radius:14px;background:var(--ink);color:#fff}
+.tr-all .kicker{color:rgba(255,255,255,.6)}.tr-all p{margin:6px 0 0}
+.checklist{display:grid;gap:6px;margin-top:10px;padding:12px 14px;border-radius:14px;background:#fff;border-top:3px solid var(--red)}
+.checklist label{font-size:14px;cursor:pointer}
+.wr-out p{margin:6px 0;padding:8px 12px;border-radius:12px;font-weight:600}
+.wr-out p.ok{background:rgba(36,55,77,.08)}
+.wr-out p.bad{background:#fff;border:2px solid var(--red)}
+.wr-out small{display:block;font-weight:600;color:var(--red);margin-top:2px}
 .hw{border-radius:22px;background:#fff;box-shadow:0 8px 22px rgba(27,47,69,.08);margin-bottom:14px;overflow:hidden}
 .hw-top{background:var(--ink);color:#fff;padding:14px 18px}
 .hw-top .kicker{color:rgba(255,255,255,.6)}
@@ -156,20 +176,19 @@ body.leaving .card{opacity:0;transform:translateX(-24px);transition-delay:0s}
 .hw-item.open .h{display:block;animation:vin .35s var(--ease)}
 .hw-prac{padding:0 18px 16px}
 
-/* лёд: игрок, шайба, ворота — на красной линии справа от карточки */
-.player-slot{position:fixed;z-index:6;transition:transform 1s var(--ease);border-radius:22px}
-.goal{position:fixed;z-index:6;aspect-ratio:450/550;pointer-events:none}
-.goal img{position:absolute;inset:0;width:100%;height:100%;transition:opacity .25s}
-.goal .lit{opacity:0}
-.goal.on .lit{opacity:1}
-.goal .glow{position:absolute;left:80%;top:9%;width:240%;aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(circle,rgba(255,60,50,.55),rgba(255,60,50,0) 60%);opacity:0}
-.goal.on .glow{animation:beacon .9s ease-in-out infinite alternate}
-@keyframes beacon{from{opacity:.25}to{opacity:1}}
-.goal.shake img{animation:net .5s}
-@keyframes net{30%{transform:translateX(5px) scale(1.01)}60%{transform:translateX(-3px)}}
-.puck{position:fixed;z-index:7;width:24px;height:10px;border-radius:50%;background:#14202c;box-shadow:0 2px 0 rgba(0,0,0,.25);left:0;transition:transform 1s var(--ease)}
-.puck.fly{transition:transform .55s cubic-bezier(.3,.1,.4,1)}
-.puck.back{transition:transform .5s cubic-bezier(.2,.7,.3,1)}
+/* хоккеист справа от карточки (сюда встанет видео с поворотом головы за курсором), шайба и лампа гола */
+.player-slot{position:fixed;z-index:6;right:clamp(24px,4vw,74px);bottom:clamp(16px,3vh,32px);height:min(46vh,560px);width:min(46vh,560px);border-radius:28px}
+.shotpuck{position:fixed;z-index:7;width:26px;height:26px;border-radius:50%;left:0;top:0;opacity:0;
+  background:radial-gradient(circle at 34% 30%,#6b7785 0 8%,#2a3440 30%,#111820 62%,#0a0f15);box-shadow:0 0 0 2px #1c2530 inset,0 6px 14px rgba(10,20,30,.35)}
+.shotpuck.go{opacity:1;transition:transform .5s cubic-bezier(.35,.1,.6,1),opacity .1s}
+.lamp{position:fixed;z-index:9;width:110px;height:128px;transform:translateX(-120%);transition:transform .7s var(--ease);pointer-events:none}
+.lamp img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}
+.lamp .lit{opacity:0}
+.lamp.on .lit{animation:blink .45s steps(1) 5}
+.lamp .glow{position:absolute;left:50%;top:32%;width:260%;aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(circle,rgba(255,60,50,.5),rgba(255,60,50,0) 62%);opacity:0}
+.lamp.on .glow{animation:blink .45s steps(1) 5}
+.lamp.out{transform:translateX(128px)}
+@keyframes blink{0%{opacity:1}50%{opacity:0}}
 .flash{position:fixed;z-index:30;left:var(--fx,70%);top:38%;transform:translate(-50%,-50%) scale(.6);font-size:min(16vw,240px);font-weight:900;letter-spacing:-.083em;color:var(--red);opacity:0;pointer-events:none}
 .flash.show{animation:flash 1.6s var(--ease) forwards}
 @keyframes flash{0%{opacity:0;transform:translate(-50%,-50%) scale(.6)}20%{opacity:1;transform:translate(-50%,-50%) scale(1)}75%{opacity:1}100%{opacity:0;transform:translate(-50%,-60%) scale(1.04)}}
@@ -178,13 +197,7 @@ body.leaving .card{opacity:0;transform:translateX(-24px);transition-delay:0s}
 @media (max-height:800px){.ptitle{padding-top:12px}.ptitle h2{font-size:28px}.q{margin-bottom:12px}.opt{padding:11px 16px}.tile{min-height:118px;padding:14px}}
 </style></head>
 <body class="arriving">
-<main class="stage">
-  <div class="scene" id="scene">
-    <img src="img/lesson_sky.webp" alt="">
-    <div class="giant ghost hidden" id="ghost">1a</div>
-    <img class="fg" src="img/lesson_fg.webp" alt="" style="top:6.45%;height:22.55%">
-  </div>
-</main>
+<main class="stage" id="stage"></main>
 <header class="top" style="padding-left:calc(var(--left) + var(--cardw) + 28px)">
   <nav class="crumbs" aria-label="Где ты сейчас"><a href="index.html">Главная</a><i>/</i><a href="school.html" class="nav-out">Spotlight 7</a><i>/</i><a href="module.html?m=1" class="nav-out" id="crumbMod">Модуль 1</a><i>/</i><span id="crumbL">Урок 1a</span><i>/</i><span id="crumbV">Обзор</span></nav>
 </header>
@@ -197,16 +210,20 @@ body.leaving .card{opacity:0;transform:translateX(-24px);transition-delay:0s}
   <div class="pfoot" id="pf"></div>
 </section>
 
-<div class="player-slot" id="player"><span>Хоккеист: езда с шайбой и удар</span></div>
-<div class="goal" id="goal"><img class="off" src="img/goal_off.webp" alt=""><img class="lit" src="img/goal_lit.webp" alt=""><div class="glow"></div></div>
-<div class="puck" id="puck"></div>
+<div class="player-slot" id="player"><span>Хоккеист: следит за курсором, бросает шайбу</span></div>
+<div class="shotpuck" id="puck"></div>
+<div class="lamp" id="lamp"><div class="glow"></div><img src="img/lamp_off.webp" alt=""><img class="lit" src="img/lamp_lit.webp" alt=""></div>
 <div class="flash" id="flash">ГОЛ!</div>
 <div class="veil"></div>
 
 <script src="data.js"></script>
-<script src="lessons/1a.js"></script>
+<script src="ice-bg.js"></script>
 <script>
 (() => {
+  const id = new URLSearchParams(location.search).get('l') || '1a';
+  const sc = document.createElement('script'); sc.src = `lessons/${ICE_READY[id] ? id : '1a'}.js`; sc.onload = run; document.head.appendChild(sc);
+})();
+function run() {
   const L = ICE_LESSON, store = ICE_STORE.load();
   const lp = store.lp[L.id] = store.lp[L.id] || {};
   const save = () => ICE_STORE.save(store);
@@ -216,7 +233,9 @@ body.leaving .card{opacity:0;transform:translateX(-24px);transition-delay:0s}
   const btn = (html, cls, on) => { const b = el('button', cls, html); b.onclick = on; return b; };
   const spacer = () => el('span', 'sp');
   document.title = `ICE ENGLISH · Урок ${L.code}`;
-  $('ghost').textContent = L.code;
+  const bg = IceBG.mount($('stage'), { text: L.code, giantBehind: 2, horizon: .46, seed: 21, giantSize: .34, giantLift: .01,
+    onText: t => { const cr = document.querySelector('.card').getBoundingClientRect().right; t.setAttribute('x', (cr + innerWidth) / 2); } });
+  const gwrap = () => document.querySelector('.ibg-giant-wrap');
   $('crumbMod').textContent = `Модуль ${L.module}`; $('crumbMod').href = `module.html?m=${L.module}`;
   $('crumbL').textContent = `Урок ${L.code}`;
   store.module = L.module; save();
@@ -237,8 +256,8 @@ body.leaving .card{opacity:0;transform:translateX(-24px);transition-delay:0s}
     const changed = v !== view; view = v;
     [...$('tabs').children].forEach((b, i) => b.classList.toggle('on', VIEWS[i][0] === v));
     $('crumbV').textContent = VIEWS.find(x => x[0] === v)[1];
-    $('scene').style.setProperty('--pan', PAN[v] + '%');
-    if (changed) { const g = $('ghost'); g.classList.add('hidden'); clearTimeout(g.t); g.t = setTimeout(() => g.classList.remove('hidden'), 650); }
+    $('stage').style.setProperty('--pan', (PAN[v] * innerWidth / 160).toFixed(0) + 'px');
+    if (changed) { const g = gwrap(); if (g) { g.classList.add('hidden'); clearTimeout(g.t); g.t = setTimeout(() => g.classList.remove('hidden'), 650); } }
     ({ hub: showHub, theory: () => showTheory(arg || 0), practice: () => startPractice(true), words: showWords, hw: showHw })[v]();
   }
   // смена содержимого карточки
@@ -311,13 +330,13 @@ body.leaving .card{opacity:0;transform:translateX(-24px);transition-delay:0s}
   function showHub() {
     const st = {
       theory: lp.theory ? 'Пройдено' : `${L.theory.length} коротких карточек`,
-      practice: lp.best != null ? `Лучший результат: ${lp.best} из ${L.tasks.length}` : `${L.tasks.length} заданий и бросок по воротам`,
+      practice: lp.best != null ? `Лучший результат: ${lp.best} из ${L.tasks.length}` : `${L.tasks.length} заданий и бросок`,
       words: lp.words ? 'Пройдено' : `${L.words.length} слов урока`,
       hw: lp.hw ? 'Открывал' : L.homework.map(h => h.ex.split(',')[0]).join(', ')
     };
     const rec = !lp.theory ? 'theory' : lp.best == null || !store.done[L.id] ? 'practice' : !lp.words ? 'words' : 'hw';
     const T = [['theory', 'Шаг 1', 'Разобраться', 'Правило простыми словами, примеры из учебника'],
-               ['practice', 'Шаг 2', 'Тренироваться', 'Задания, хоккеист и бросок: 8 из 10 — гол'],
+               ['practice', 'Шаг 2', 'Тренироваться', 'Задания и бросок шайбы: 8 из 10 — гол'],
                ['words', 'Шаг 3', 'Слова', 'Карточки слов урока с озвучкой и проверкой'],
                ['hw', 'Когда задали', 'Домашка', 'Подсказки к упражнениям учебника, без готовых ответов']];
     const body = el('div');
@@ -346,7 +365,7 @@ body.leaving .card{opacity:0;transform:translateX(-24px);transition-delay:0s}
     ck.appendChild(choice(c.check.options, fb, () => next.disabled = false)); ck.appendChild(fb); body.appendChild(ck);
     const prev = btn('‹ Назад', 'go light', () => i ? showTheory(i - 1) : go('hub'));
     const skip = btn('Пропустить вопрос', 'go light', () => next.disabled = false); skip.style.opacity = '.7';
-    $('scene').style.setProperty('--pan', (PAN.theory - i * .25) + '%');
+    $('stage').style.setProperty('--pan', ((PAN.theory - i * .25) * innerWidth / 160).toFixed(0) + 'px');
     frame(`Разобраться, ${i + 1} из ${L.theory.length}`, c.title, body, [prev, spacer(), skip, next]);
   }
 
@@ -364,7 +383,7 @@ body.leaving .card{opacity:0;transform:translateX(-24px);transition-delay:0s}
     const right = () => { markResult(idx, true); solved++; moveTo(solved / queue.length); next.disabled = false; };
     const wrong = () => markResult(idx, false);
     const body = el('div'); body.appendChild(RENDER[t.type](t, fb, right, wrong, idx)); body.appendChild(fb);
-    $('scene').style.setProperty('--pan', (PAN.practice - qi * .08) + '%');
+    $('stage').style.setProperty('--pan', ((PAN.practice - qi * .08) * innerWidth / 160).toFixed(0) + 'px');
     frame(`${round > 1 ? 'Работа над ошибками' : 'Тренироваться'}, задание ${qi + 1} из ${queue.length}`, t.prompt, body, [btn('‹ Обзор урока', 'go light', () => go('hub')), spacer(), next]);
   }
   const RENDER = {
@@ -514,16 +533,18 @@ body.leaving .card{opacity:0;transform:translateX(-24px);transition-delay:0s}
   function showHw() {
     lp.hw = true; save();
     const body = el('div'); body.appendChild(el('p', 'meta', 'Здесь нет готовых ответов: подсказка показывает, где искать и какое правило нужно. Сначала попробуй сам, подсказку открывай, если застрял.'));
-    L.homework.forEach(h => {
+    lp.tr = lp.tr || {}; lp.wr = lp.wr || {};
+    L.homework.forEach((h, hi) => {
       const box = el('div', 'hw');
       box.appendChild(el('div', 'hw-top', `<span class="kicker">${h.ex}</span><p>${h.task}</p>`));
-      box.appendChild(el('div', 'hw-rule', `<b>Правило.</b> ${h.rule}`));
-      const items = el('div', 'hw-items');
-      h.items.forEach(it => {
-        const row = el('div', 'hw-item', `<p>${it.t}</p>`); const h2 = el('div', 'h', it.hint);
-        row.appendChild(btn('Подсказка', '', () => row.classList.toggle('open'))); row.appendChild(h2); items.appendChild(row);
-      });
-      box.appendChild(items);
+      box.appendChild(el('div', 'hw-rule', `<b>Как делать.</b> ${h.rule}`));
+      if (h.type === 'translate') box.appendChild(translateBox(h, hi));
+      else if (h.type === 'write') box.appendChild(writeBox(h, hi));
+      else {
+        const items = el('div', 'hw-items');
+        h.items.forEach(it => { const row = el('div', 'hw-item', `<p>${it.t}</p>`); row.appendChild(btn('Подсказка', '', () => row.classList.toggle('open'))); row.appendChild(el('div', 'h', it.hint)); items.appendChild(row); });
+        box.appendChild(items);
+      }
       if (h.practice) {
         const pr = el('div', 'hw-prac'); const fb = fbBox();
         pr.appendChild(el('p', '', `<b>Потренируйся на похожем.</b> ${h.practice.q.replace('___', '<u>&nbsp;</u>')}`));
@@ -534,51 +555,82 @@ body.leaving .card{opacity:0;transform:translateX(-24px);transition-delay:0s}
     frame('Домашка', `Помощь с упражнениями, стр. ${L.pages}`, body, [btn('‹ Обзор урока', 'go light', () => go('hub')), spacer()]);
   }
 
-  /* ---------- лёд: игрок едет по красной линии к воротам ---------- */
-  const player = $('player'), puck = $('puck'), goal = $('goal');
-  let pos = 0, G = {};
-  function layoutRink() {
-    const vw = innerWidth, vh = innerHeight, z = 1.06;
-    const Hs = Math.max(vh, vw / 1.777) * z;
-    const lineY = vh / 2 + (.603 - .5) * Hs;                         // красная линия на фото
-    const cardR = document.querySelector('.card').getBoundingClientRect().right;
-    const avail = vw - cardR - 24 - Math.max(24, vw * .04);
-    const h = Math.max(90, Math.min(vh * .27, 420, avail / 2.9)), w = h * 1.5;
-    const gh = h * .8, gw = gh * 450 / 550, gl = vw - Math.max(24, vw * .04) - gw;
-    Object.assign(player.style, { left: (cardR + 24) + 'px', top: (lineY - h + 6) + 'px', width: w + 'px', height: h + 'px' });
-    Object.assign(goal.style, { left: gl + 'px', top: (lineY - gh + 4) + 'px', height: gh + 'px' });
-    G = { x0: cardR + 24, w, travel: Math.max(0, gl - w * .98 - (cardR + 24)), lineY, gl, gw, gh };
-    puck.style.top = (lineY - 4) + 'px';
-    document.documentElement.style.setProperty('--fx', ((cardR + vw) / 2) + 'px');
+  /* перевод по кускам: словарик к каждому куску, подсказка, своё поле; готового перевода нет */
+  function translateBox(h, hi) {
+    const wrap = el('div', 'hw-items'), key = L.id + ':' + hi, saved = lp.tr[key] || [];
+    const all = el('div', 'tr-all');
+    const update = () => { all.innerHTML = `<span class="kicker">Мой перевод целиком</span><p>${saved.filter(Boolean).join(' ') || '<i>Здесь соберётся твой перевод.</i>'}</p>`; };
+    h.chunks.forEach((c, ci) => {
+      const row = el('div', 'hw-item tr-chunk');
+      row.appendChild(el('p', 'tr-en', `<span class="tr-n">${ci + 1}</span> <span data-say="${c.en.replace(/["…]/g, '')}" style="cursor:pointer">${c.en}</span>`));
+      const gl = el('div', 'gloss'); c.gloss.forEach(([w, r]) => gl.appendChild(el('span', '', `<b data-say="${w}">${w}</b> ${r}`))); row.appendChild(gl);
+      const ta = el('textarea', 'tr-in'); ta.rows = 2; ta.placeholder = 'Напиши свой перевод этого куска'; ta.value = saved[ci] || '';
+      ta.oninput = () => { saved[ci] = ta.value.trim(); lp.tr[key] = saved; save(); update(); };
+      row.appendChild(ta);
+      row.appendChild(btn('Подсказка', '', () => row.classList.toggle('open'))); row.appendChild(el('div', 'h', c.hint));
+      wrap.appendChild(row);
+    });
+    update(); wrap.appendChild(all);
+    const cl = el('div', 'checklist', '<span class="kicker">Проверь себя</span>');
+    h.checklist.forEach(t => { const l = el('label', '', `<input type="checkbox"> ${t}`); cl.appendChild(l); });
+    wrap.appendChild(cl);
+    return wrap;
   }
-  function moveTo(f, instant) {
-    pos = f; const x = G.travel * f;
-    [player, puck].forEach(e => { if (instant) e.style.transition = 'none'; });
-    player.style.transform = `translateX(${x}px)`;
-    puck.classList.remove('fly', 'back');
-    puck.style.transform = `translateX(${G.x0 + x + G.w * .92}px)`;
-    if (instant) requestAnimationFrame(() => [player, puck].forEach(e => e.style.transition = ''));
+  /* свои предложения с used to: сайт не знает, правда ли это, но проверяет форму */
+  function writeBox(h, hi) {
+    const wrap = el('div', 'hw-items'), key = L.id + ':' + hi;
+    wrap.appendChild(el('p', '', '<b>Слова из учебника:</b> ' + h.phrases.map(p => `<span class="f">${p}</span>`).join(' ')));
+    const ta = el('textarea', 'tr-in'); ta.rows = 5; ta.placeholder = 'When I was six, I used to …\nWhen I was six, I didn’t use to …'; ta.value = lp.wr[key] || '';
+    const out = el('div', 'wr-out');
+    const check = () => {
+      lp.wr[key] = ta.value; save();
+      const lines = ta.value.split(/\n+/).map(x => x.trim()).filter(Boolean);
+      out.innerHTML = lines.map(t => {
+        const l = t.toLowerCase().replace(/’/g, "'"); let msg = '', ok = false;
+        if (/didn'?t used to|did not used to/.test(l)) msg = 'После didn’t пиши use to — без -d.';
+        else if (/used to \w+ing\b/.test(l) && !/used to (bring|sing|swing)\b/.test(l)) msg = 'После used to глагол без -ing: used to read.';
+        else if (/(^|[^d] |^i )use to/.test(l) && !/didn'?t use to|did not use to|did .* use to/.test(l)) msg = 'В утвердительном предложении пиши used to, с -d.';
+        else if (/(used to|use to) \w+/.test(l)) ok = true;
+        else msg = 'Не вижу used to / didn’t use to. Пример: When I was six, I used to watch cartoons.';
+        return `<p class="${ok ? 'ok' : 'bad'}">${ok ? '✓' : '!'} ${t}${msg ? `<small>${msg}</small>` : ''}</p>`;
+      }).join('');
+    };
+    ta.oninput = check; check();
+    wrap.append(ta, out);
+    return wrap;
   }
-  function resetGoal() { goal.classList.remove('on', 'shake'); }
-  addEventListener('resize', () => { layoutRink(); moveTo(pos, true); });
 
+  /* ---------- лёд: игрок едет по красной линии к воротам ---------- */
+  /* бросок: шайба улетает за край экрана, из-за карточки выезжает лампа, мигает и уезжает обратно */
+  const player = $('player'), puck = $('puck'), lamp = $('lamp');
+  let pos = 0;
+  function layoutRink() {
+    const c = document.querySelector('.card').getBoundingClientRect();
+    document.documentElement.style.setProperty('--fx', ((c.right + innerWidth) / 2) + 'px');
+    lamp.style.left = (c.right - 110) + 'px'; lamp.style.top = (c.top + c.height * .22) + 'px';
+  }
+  function moveTo(f) { pos = f; }
+  function resetGoal() { lamp.classList.remove('out', 'on'); }
+  addEventListener('resize', layoutRink);
   function shoot() {
     const got = queue.filter(i => first[i]).length, need = Math.ceil(queue.length * .8), win = got >= need;
     frame('Бросок', 'Шайба летит…', el('div'), [], true);
+    const pr = player.getBoundingClientRect();
+    const x0 = pr.left + pr.width * .55, y0 = pr.bottom - pr.height * .12;
+    puck.classList.remove('go'); puck.style.transform = `translate(${x0}px, ${y0}px) scale(.8)`;
     setTimeout(() => {
-      puck.classList.add('fly');
+      puck.classList.add('go');
+      puck.style.transform = win ? `translate(${innerWidth + 80}px, ${y0 - innerHeight * .28}px) scale(.5)` : `translate(${innerWidth + 80}px, ${y0 + 40}px) scale(.5)`;
       if (win) {
-        puck.style.transform = `translate(${G.gl + G.gw * .32}px, -${G.gh * .14}px)`;
-        setTimeout(() => { goal.classList.add('on', 'shake'); const f = $('flash'); f.classList.remove('show'); void f.offsetWidth; f.classList.add('show'); }, 560);
         store.done[L.id] = true;
-      } else {
-        puck.style.transform = `translate(${G.gl + G.gw * .06}px, -${G.gh * .1}px)`;
-        setTimeout(() => { puck.classList.remove('fly'); puck.classList.add('back'); puck.style.transform = `translate(${G.gl - G.gw * 1.4}px, 0)`; }, 560);
+        setTimeout(() => { lamp.classList.add('out'); setTimeout(() => lamp.classList.add('on'), 450);
+          const f = $('flash'); f.classList.remove('show'); void f.offsetWidth; f.classList.add('show');
+          setTimeout(() => lamp.classList.remove('out', 'on'), 3000); }, 380);
       }
       if (round === 1) lp.best = Math.max(lp.best || 0, got);
       save();
-      setTimeout(() => showResult(got, need, win), win ? 1500 : 1200);
-    }, 300);
+      setTimeout(() => { puck.classList.remove('go'); showResult(got, need, win); }, win ? 1500 : 900);
+    }, 250);
   }
   function showResult(got, need, win) {
     const errs = queue.filter(i => !first[i]);
@@ -597,11 +649,11 @@ body.leaving .card{opacity:0;transform:translateX(-24px);transition-delay:0s}
   function leave(href) { document.body.classList.add('leaving'); setTimeout(() => location.assign(href), 650); }
   document.querySelectorAll('.nav-out').forEach(a => a.onclick = e => { e.preventDefault(); leave(a.href); });
 
-  layoutRink(); moveTo(0, true);
+  layoutRink();
   const startView = new URLSearchParams(location.search).get('v');
   go(VIEWS.some(v => v[0] === startView) ? startView : 'hub');
-  requestAnimationFrame(() => setTimeout(() => { document.body.classList.add('ready'); document.body.classList.remove('arriving'); layoutRink(); moveTo(pos, true); }, 60));
-  setTimeout(() => { layoutRink(); moveTo(pos, true); }, 1000);
-})();
+  requestAnimationFrame(() => setTimeout(() => { document.body.classList.add('ready'); document.body.classList.remove('arriving'); layoutRink(); }, 60));
+  setTimeout(layoutRink, 1000);
+}
 </script>
 </body></html>

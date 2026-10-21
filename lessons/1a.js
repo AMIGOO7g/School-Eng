@@ -49,11 +49,11 @@ window.ICE_LESSON = {
       html: `
         <div class="duo">
           <div><span class="kicker">Present Simple</span>
-            <p>То, что бывает <b>обычно, всегда, регулярно</b>. Привычки, расписания, факты.</p>
+            <p>То, что бывает <mark>обычно, всегда, регулярно</mark>. Привычки, расписания, факты.</p>
             <p class="ex" data-say="Everyone gets up at 5 am on the farm.">Everyone <b>gets up</b> at 5 am on the farm.</p>
             <p class="tr">На ферме все встают в 5 утра (каждый день).</p></div>
           <div><span class="kicker">Present Continuous</span>
-            <p>То, что происходит <b>прямо сейчас</b> или <b>временно</b>, в эти дни.</p>
+            <p>То, что происходит <mark>прямо сейчас</mark> или <mark>временно</mark>, в эти дни.</p>
             <p class="ex" data-say="Today we are milking the cows.">Today we <b>are milking</b> the cows.</p>
             <p class="tr">Сегодня мы доим коров (сейчас, а не всегда).</p></div>
         </div>
@@ -77,7 +77,7 @@ window.ICE_LESSON = {
               <tr><td>you / we / they</td><td><b>are</b> play<b>ing</b></td></tr>
               <tr><td>вопрос / отрицание</td><td><b>Are</b> you playing? She <b>isn’t</b> playing.</td></tr></table></div>
         </div>
-        <p class="note">Главное правило Continuous: всегда две части — <b>am / is / are</b> и глагол с <b>-ing</b>. Одной части мало.</p>`,
+        <p class="note">Главное правило Continuous: всегда две части — <span class="f">am / is / are</span> + <span class="f">глагол-ing</span>. Одной части мало.</p>`,
       check: { q: 'She ___ to school by bus every day.', options: [
         { t: 'goes', ok: true, why: 'Верно: every day — это привычка, а после she в Present Simple нужно окончание: go → goes.' },
         { t: 'go', why: 'После he / she / it в Present Simple глагол получает окончание -s (-es): she goes.' },
@@ -103,13 +103,13 @@ window.ICE_LESSON = {
       title: 'Хитрые случаи',
       html: `
         <ul class="cases">
-          <li><b>Расписание → Present Simple.</b> Даже если речь о будущем.
+          <li><mark>Расписание</mark> → Present Simple. Даже если речь о будущем.
             <p class="ex" data-say="My lessons start at 8:30.">My lessons <b>start</b> at 8:30.</p></li>
-          <li><b>Договорились на ближайшее будущее → Present Continuous.</b>
+          <li><mark>Договорились на ближайшее будущее</mark> → Present Continuous.
             <p class="ex" data-say="Tonight I am meeting my friends.">Tonight I <b>am meeting</b> my friends.</p></li>
-          <li><b>Кто-то постоянно делает что-то раздражающее → is always + -ing.</b>
+          <li><mark>Кто-то постоянно делает что-то раздражающее</mark> → <span class="f">is always + -ing</span>
             <p class="ex" data-say="My sister is always taking my clothes!">My sister <b>is always taking</b> my clothes!</p></li>
-          <li><b>Глаголы состояния обычно не ставим в -ing:</b> like, love, hate, want, need, know, understand, think (= считаю).
+          <li><mark>Глаголы состояния</mark> обычно не ставим в -ing: like, love, hate, want, need, know, understand, think (= считаю).
             <p class="ex" data-say="I don't think it's a good idea.">I <b>don’t think</b> it’s a good idea. <span class="tr">— Я не считаю…</span></p>
             <p class="ex" data-say="I am thinking of changing school.">I <b>am thinking</b> of changing school. <span class="tr">— Я обдумываю… (это процесс)</span></p></li>
         </ul>`,
@@ -132,8 +132,8 @@ window.ICE_LESSON = {
           <span data-say="feeling isolated"><b>feeling isolated</b>чувство оторванности</span>
           <span data-say="the hustle and bustle"><b>the hustle and bustle</b>суета большого города</span>
         </div>
-        <p class="note"><b>Как образуются слова:</b> глагол + <b>-ment</b> = существительное: employ → employment (работа, занятость), develop → development (развитие).
-          Приставка <b>un-</b> даёт противоположный смысл: unemployment — безработица.</p>
+        <p class="note"><b>Как образуются слова:</b> глагол + <span class="f">-ment</span> = существительное: employ → employment (работа, занятость), develop → development (развитие).
+          Приставка <span class="f">un-</span> даёт противоположный смысл: unemployment — безработица.</p>
         <p class="note">Нажми на слово, чтобы услышать, как оно звучит.</p>`,
       check: { q: 'I can’t stand ___ . I love quiet places.', options: [
         { t: 'crowded streets', ok: true, why: 'Верно: тот, кто любит тишину, не выносит людных улиц.' },

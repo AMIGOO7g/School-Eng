@@ -4,17 +4,11 @@
 <title>ICE ENGLISH · Школа · Spotlight 7</title>
 <link rel="stylesheet" href="ice.css">
 <style>
-.scene{--zoom:1.07;filter:saturate(.72) brightness(1.16) contrast(.84)}
-body.from-home .scene{--zoom:1.2}
-body.from-home.ready .scene{--zoom:1.07}
-.giant.num{left:50%;bottom:75.2%;font-size:25cqh;transform:translate(calc(-50% + var(--px,0%)),var(--y,0%));opacity:var(--o,1);
-  transition:transform 1.1s var(--ease),opacity .8s ease}
-.giant.num.out{--y:55%;--o:0;transition:transform .7s cubic-bezier(.6,0,.8,.4),opacity .6s ease}
-.giant.num.pre{--y:60%;--o:0;transition:none}
-.haze{position:fixed;inset:0;pointer-events:none;z-index:2;
-  background:linear-gradient(90deg,rgba(239,245,250,.55) 0%,rgba(239,245,250,.3) 28%,rgba(239,245,250,0) 48%)}
-
-.info-top{position:fixed;z-index:10;left:clamp(24px,5vw,74px);top:calc(var(--hz,300px) + 16px);width:min(52vw,820px)}
+.stage .ibg-giant-wrap{transform:translateY(0);opacity:1;transition:transform 1.1s var(--ease),opacity .8s ease}
+.stage .ibg-giant-wrap.down{transform:translateY(22vh);opacity:0;transition:transform .6s cubic-bezier(.6,0,.8,.4),opacity .5s ease}
+.stage .ibg-giant-wrap.pre{transform:translateY(24vh);opacity:0;transition:none}
+body.opening .stage{transform:scale(1.08);transition:transform .9s var(--ease)}
+.info-top{position:fixed;z-index:10;left:clamp(24px,5vw,74px);top:clamp(96px,19vh,240px);width:min(52vw,820px)}
 .info-top h1{font-size:clamp(48px,5.6vw,112px);margin:10px 0 0}
 .info-top .kicker{color:var(--ink)}
 .info-low{position:fixed;z-index:10;left:clamp(24px,5vw,74px);top:var(--low,420px);width:min(44vw,620px)}
@@ -47,11 +41,11 @@ body.ready .tile{opacity:1;transform:none;transition-delay:calc(var(--i) * 45ms 
 .tile .t{font-size:13px;line-height:1.25;color:var(--ink-2);font-weight:600}
 body.ready .tile.on{transform:translateY(-14px);background:rgba(255,255,255,.95);box-shadow:0 20px 44px rgba(20,44,70,.24);transition-delay:0s}
 .tile.on::before{content:"";position:absolute;left:14px;right:14px;top:-1px;height:3px;border-radius:0 0 3px 3px;background:var(--red)}
+.pathline{position:absolute;left:0;right:0;top:-14px;height:20px;pointer-events:none;overflow:visible}
 .tile .ok{position:absolute;right:10px;top:10px;width:20px;height:20px;border-radius:50%;background:var(--red);color:#fff;font-size:12px;display:grid;place-items:center}
 
 .player-slot{right:clamp(24px,5vw,74px);bottom:calc(clamp(18px,3vh,32px) + 175px);height:38vh;width:57vh}
 
-body.opening .scene{--zoom:1.45}
 body.opening .info-top,body.opening .info-low,body.opening .dock,body.opening .player-slot{opacity:0;transition:opacity .4s}
 
 @media (max-width:1100px){
@@ -67,14 +61,7 @@ body.opening .info-top,body.opening .info-low,body.opening .dock,body.opening .p
 <body class="arriving">
 <script>if (/from=home/.test(location.search)) document.body.classList.add('from-home');</script>
 <div class="entry" aria-hidden="true"><strong>SCHOOL</strong></div>
-<main class="stage">
-  <div class="scene" id="scene">
-    <img src="img/modules_sky.webp" alt="">
-    <div class="giant num pre" id="numA">01</div>
-    <div class="giant num pre" id="numB">02</div>
-    <img class="fg" src="img/modules_fg.webp" alt="" style="top:12.98%;height:18.18%">
-  </div>
-</main>
+<main class="stage" id="stage"></main>
 <div class="player-slot" aria-hidden="true"><span>Место для хоккеиста: поворот и торможение</span></div>
 
 <header class="top">
@@ -103,16 +90,17 @@ body.opening .info-top,body.opening .info-low,body.opening .dock,body.opening .p
 
 <section class="dock" aria-label="Модули учебника">
   <div class="dock-head">
-    <span class="kicker">Модули учебника</span><span class="line"></span>
+    <span class="kicker">Модули учебника</span><span class="line"></span><button class="ghostbtn" id="asked">Что задали?</button>
     <small>колесо мыши или стрелки</small>
     <button class="arrow" id="prev" aria-label="Предыдущий модуль">‹</button>
     <button class="arrow" id="next" aria-label="Следующий модуль">›</button>
   </div>
-  <nav class="rail" id="rail"></nav>
+  <div style="position:relative"><svg class="pathline" id="pathline"></svg><nav class="rail" id="rail"></nav></div>
 </section>
 <div class="veil"></div>
 
 <script src="data.js"></script>
+<script src="ice-bg.js"></script>
 <script>
 (() => {
   const B = ICE_BOOK, store = ICE_STORE.load();
@@ -131,8 +119,8 @@ body.opening .info-top,body.opening .info-low,body.opening .dock,body.opening .p
     $('rail').appendChild(b);
   });
 
-  let front = $('numA'), back = $('numB');
-  const px = () => (((cur - 1) / 9) * 12 - 6).toFixed(1) + '%';
+  const bg = IceBG.mount($('stage'), { text: pad(cur), giantX: .5, giantSize: .30, giantBehind: 2, horizon: .44, seed: 3, giantLift: .015 });
+  const wrap = () => document.querySelector('.ibg-giant-wrap');
   function fill() {
     const m = B[cur - 1], d = doneIn(m);
     $('count').textContent = `Модуль ${pad(m.n)} / 10`;
@@ -147,19 +135,30 @@ body.opening .info-top,body.opening .info-low,body.opening .dock,body.opening .p
   }
   function paint(first) {
     [...$('rail').children].forEach(t => t.classList.toggle('on', +t.dataset.n === cur));
-    $('scene').style.setProperty('--pan', (2 - (cur - 1) / 9 * 4).toFixed(2) + '%');
-    if (first) { fill(); front.textContent = pad(cur); front.style.setProperty('--px', px()); return; }
+    drawPath();
+    if (first) { fill(); return; }
     const sw = [$('swap'), $('swapTop')]; sw.forEach(x => x.classList.add('hide'));
     clearTimeout(sw[0].t); sw[0].t = setTimeout(() => { fill(); horizon(); sw.forEach(x => x.classList.remove('hide')); }, 300);
-    front.classList.add('out');
-    back.textContent = pad(cur); back.style.setProperty('--px', px());
-    back.classList.add('pre'); back.classList.remove('out');
-    void back.offsetWidth;
-    const rising = back;
-    clearTimeout(rising.t); rising.t = setTimeout(() => rising.classList.remove('pre'), 260);
-    [front, back] = [back, front];
+    // цифра уходит за горы и поднимается новая
+    const w = wrap(); w.classList.add('down'); clearTimeout(w.t);
+    w.t = setTimeout(() => { bg.setText(pad(cur)); w.classList.remove('down'); w.classList.add('pre'); void w.getBoundingClientRect(); w.classList.remove('pre'); }, 520);
     store.module = cur; ICE_STORE.save(store);
   }
+  // путь по модулям над плитками: пройденное — красная линия, впереди — светлый пунктир, фишка «7» у текущего модуля
+  function drawPath() {
+    const svg = $('pathline'), tiles = [...$('rail').children]; if (!tiles.length) return;
+    const R0 = svg.getBoundingClientRect(), rows = new Set(tiles.map(t => t.offsetTop)).size;
+    if (rows > 1) { svg.innerHTML = ''; return; }
+    const xs = tiles.map(t => { const r = t.getBoundingClientRect(); return r.left + r.width / 2 - R0.left; });
+    const done = B.map(m => doneIn(m) === m.lessons.length), y = 6;
+    let h = '';
+    for (let i = 0; i < 9; i++) h += `<line x1="${xs[i]}" y1="${y}" x2="${xs[i + 1]}" y2="${y}" stroke="${done[i] ? '#d3262e' : '#ffffff'}" stroke-width="${done[i] ? 3 : 2}" ${done[i] ? '' : 'stroke-dasharray="5 6"'} stroke-linecap="round"/>`;
+    xs.forEach((x, i) => { h += `<circle cx="${x}" cy="${y}" r="${i + 1 === cur ? 0 : 4}" fill="${done[i] ? '#d3262e' : '#fff'}" stroke="#24374d" stroke-opacity=".25"/>`; });
+    const nx = ICE_NEXT(store).m.n;
+    h += `<g transform="translate(${xs[nx - 1]} ${y})"><circle r="11" fill="#d3262e" stroke="#fff" stroke-width="2"/><text y="4" text-anchor="middle" font-size="11" font-weight="900" fill="#fff" font-family="Inter,Arial">7</text></g>`;
+    svg.innerHTML = h;
+  }
+  addEventListener('resize', drawPath);
   function go(n) { if (n < 1 || n > 10 || n === cur) return; cur = n; paint(false); }
   function open() {
     document.body.classList.add('opening');
@@ -187,13 +186,33 @@ body.opening .info-top,body.opening .info-low,body.opening .dock,body.opening .p
 
   // горизонт (начало льда на фото) — заголовок стоит над ним, мелкий текст ниже, на светлом льду
   function horizon() {
-    const vw = innerWidth, vh = innerHeight, Hs = Math.max(vh, vw / 1.777) * 1.07;
-    document.documentElement.style.setProperty('--hz', (vh / 2 + (.338 - .5) * Hs).toFixed(0) + 'px');
+    document.documentElement.style.setProperty('--hz', bg.horizon().toFixed(0) + 'px');
     requestAnimationFrame(() => document.documentElement.style.setProperty('--low', (document.querySelector('.info-top').getBoundingClientRect().bottom + 8).toFixed(0) + 'px'));
   }
   horizon(); addEventListener('resize', horizon);
 
   // «Продолжить»
+  // «Что задали?» — номер страницы учебника ведёт в нужный урок
+  $('asked').onclick = () => {
+    const box = $('coach');
+    box.innerHTML = `<div class="coach-card" style="left:50%;top:50%;transform:translate(-50%,-50%)"><span class="kicker">Домашка</span><h3>Что задали?</h3>
+      <p>Введи номер страницы из учебника — откроется нужный урок.</p>
+      <input id="askPage" type="number" min="5" max="104" placeholder="например, 18" style="width:100%;font:inherit;font-size:20px;font-weight:800;padding:12px 14px;border-radius:14px;border:1px solid rgba(36,55,77,.2);margin-bottom:10px">
+      <p id="askRes" style="min-height:22px;margin:0 0 12px"></p>
+      <div class="row"><button class="skip">Закрыть</button><span class="sp"></span><button class="go" id="askGo" disabled>Открыть <span>↗</span></button></div></div>`;
+    box.classList.add('show');
+    const inp = $('askPage'); inp.focus(); let target = null;
+    inp.oninput = () => {
+      const pg = +inp.value; target = null;
+      B.forEach(m => m.lessons.forEach(l => { const [a, b] = l.pages.split('–').map(Number); if (pg >= a && pg <= (b || a)) target = { m, l }; }));
+      $('askGo').disabled = !target;
+      $('askRes').innerHTML = target ? `Модуль ${target.m.n}, урок <b>${target.l.code} «${target.l.en}»</b>${ICE_READY[target.l.id] ? '' : ' — этот урок пока готовится'}` : (inp.value ? 'Такой страницы нет в уроках модулей' : '');
+    };
+    inp.onkeydown = e => { if (e.key === 'Enter' && target) $('askGo').click(); };
+    box.querySelector('.skip').onclick = () => { box.classList.remove('show'); box.innerHTML = ''; };
+    $('askGo').onclick = () => { const href = ICE_READY[target.l.id] ? `lesson.html?l=${target.l.id}&v=hw` : `module.html?m=${target.m.n}&l=${target.l.id}`; document.body.classList.add('leaving'); setTimeout(() => location.assign(href), 550); };
+  };
+
   const nx = ICE_NEXT(store);
   $('contName').textContent = `модуль ${nx.m.n}, урок ${nx.l.code}`;
   $('continue').onclick = e => { e.preventDefault(); document.body.classList.add('leaving'); setTimeout(() => location.assign(nx.href), 550); };
@@ -224,7 +243,7 @@ body.opening .info-top,body.opening .info-low,body.opening .dock,body.opening .p
   if (!store.seen) setTimeout(() => coach(0), 1600);
 
   paint(true);
-  setTimeout(() => front.classList.remove('pre'), document.body.classList.contains('from-home') ? 650 : 280);
+  wrap().classList.add('pre'); setTimeout(() => wrap().classList.remove('pre'), document.body.classList.contains('from-home') ? 700 : 250);
   if (qs.has('from') || qs.has('m')) history.replaceState(null, '', 'school.html');
   requestAnimationFrame(() => setTimeout(() => { document.body.classList.add('ready'); document.body.classList.remove('arriving'); }, 80));
 })();
