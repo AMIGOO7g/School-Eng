@@ -4,11 +4,12 @@
 <title>ICE ENGLISH · Модуль</title>
 <link rel="stylesheet" href="ice.css">
 <style>
-.scene{--zoom:1.12}
-body.ready .scene{--zoom:1}
+.scene{--zoom:1.12;transform:translate(calc(-50% + var(--sx,0px)),calc(-50% + var(--sy,0px))) scale(var(--zoom));transition:transform 1.3s var(--ease)}
+body.night .giant{color:rgba(255,255,255,.16)}
+body.ready .scene{--zoom:var(--cz,1)}
 body.back .scene{--zoom:.94}
 body.go-lesson .scene{--zoom:1.35}
-.giant.word{left:var(--wl,40%);bottom:72.6%;font-size:var(--fs,20cqh);transform:translateY(70%);opacity:0;transition:transform 1.5s var(--ease) .35s,opacity .9s ease .35s}
+.giant.word{left:var(--wl,40%);bottom:var(--wb,72.6%);font-size:var(--fs,20cqh);transform:translateY(70%);opacity:0;transition:transform 1.5s var(--ease) .35s,opacity .9s ease .35s}
 body.ready .giant.word{transform:none;opacity:1}
 body.back .giant.word,body.go-lesson .giant.word{transform:translateY(70%);opacity:0;transition:transform .6s cubic-bezier(.6,0,.8,.4),opacity .5s}
 
@@ -22,13 +23,18 @@ body.back .giant.word,body.go-lesson .giant.word{transform:translateY(70%);opaci
 .tag{position:absolute;top:0;left:calc(var(--dw) / 2 + 8px);transform:translateY(-50%);white-space:nowrap;font-size:max(12px,calc(1.55cqh * max(var(--s),.75)));
   font-weight:600;line-height:1.2;padding:.5em .85em;border-radius:999px;background:rgba(255,255,255,.72);
   backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.85);color:var(--ink);transition:background .3s,color .3s}
+.node .tag{opacity:0;pointer-events:none;transition:opacity .3s,background .3s,color .3s}
+.node.now .tag,.node.sel .tag,.node:hover .tag,.node:focus-visible .tag{opacity:1}
 .node.left .tag{left:auto;right:calc(var(--dw) / 2 + 8px)}
-.node.below .tag{left:0;top:calc(var(--dw) / 2 + 12px);transform:translateX(-50%)}
+.node.below .tag{left:0;top:calc(var(--dw) * 1.05 + 10px);transform:translateX(-50%)}
 .node:hover .dot{transform:translate(-50%,-50%) scale(1.08)}
 .node.done .dot{background:var(--red);border-color:var(--red);color:#fff}
 .node.now .dot{background:#fff;border-color:var(--red);border-width:3px}
 .node.now .dot::after{content:"";position:absolute;inset:-3px;border-radius:50%;border:2px solid var(--red);animation:pulse 1.8s ease-out infinite}
 .node.sel .tag{background:var(--ink);color:#fff;border-color:var(--ink)}
+.node.soon .dot{background:rgba(255,255,255,.5);border-style:dashed;color:var(--ink-2)}
+.node .tag em{font-style:normal;font-size:.8em;margin-left:8px;padding:2px 7px;border-radius:999px;background:rgba(37,75,112,.14)}
+.node.sel .tag em{background:rgba(255,255,255,.2)}
 @keyframes pulse{from{transform:scale(1);opacity:.9}to{transform:scale(1.9);opacity:0}}
 .node{opacity:0;transition:opacity .5s ease var(--d,0s)}
 body.ready .node{opacity:1}
@@ -55,6 +61,11 @@ body.back .card,body.go-lesson .card{opacity:0;transform:translateX(-24px);trans
 .list button:hover{background:rgba(255,255,255,.6)}
 .list .c{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-weight:900;letter-spacing:-.04em;font-size:13px;background:rgba(36,55,77,.08)}
 .list .e{font-size:14px;font-weight:600;line-height:1.25}
+.list .e small{display:block;font-size:11px;font-weight:600;color:var(--mute);margin-top:2px}
+.list li.sel .e small{color:rgba(255,255,255,.65)}
+.list .soon{font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--mute);margin-left:6px}
+.lhead{display:flex;align-items:center;gap:10px;margin:4px 0 6px}
+.lhead .line{flex:1;height:1px;background:rgba(36,55,77,.12)}
 .list .p{font-size:12px;color:var(--mute)}
 .list li.done .c{background:var(--red);color:#fff}
 .list li.now .c{box-shadow:inset 0 0 0 2px var(--red);background:#fff}
@@ -67,14 +78,15 @@ body.back .card,body.go-lesson .card{opacity:0;transform:translateX(-24px);trans
 
 @media (max-height:820px){.list button{padding:5px 10px}.list .c{width:30px;height:30px}.card h1{font-size:40px;margin:6px 0 4px}.card .title-2{margin-bottom:8px}
   .card .kicker{margin-top:12px}.card{padding:18px 22px 18px;top:64px}.detail{margin-top:8px;padding-top:10px}.detail small{margin-bottom:10px}}
+@media (min-width:1900px){.card{width:min(26vw,640px);padding:30px 34px}.card h1{font-size:72px}.list .e{font-size:17px}.list .c{width:42px;height:42px;font-size:15px}.list button{grid-template-columns:44px 1fr auto;padding:11px 12px}.detail p{font-size:16px}.card .crumbs{font-size:14px}.tag{font-size:max(15px,calc(1.55cqh * max(var(--s),.75)))}}
 @media (max-width:1200px){.card{width:min(37vw,420px)}.player-slot{height:30vh;width:45vh}}
 </style></head>
 <body class="arriving">
 <main class="stage">
   <div class="scene" id="scene">
-    <img src="img/route_sky.webp" alt="">
+    <img id="sky" alt="">
     <div class="giant word" id="word">LIFESTYLES</div>
-    <img src="img/route_fg.webp" alt="">
+    <img class="fg" id="fg" alt="">
   </div>
 </main>
 <div class="player-slot" aria-hidden="true"><span>Место для хоккеиста: подъезд и торможение</span></div>
@@ -87,6 +99,7 @@ body.back .card,body.go-lesson .card{opacity:0;transform:translateX(-24px);trans
   <div class="kicker" id="mnum">Модуль 01, учебник стр. 5–14</div>
   <h1 class="title" id="title">Lifestyles</h1>
   <p class="title-2" id="ru">Образ жизни</p>
+  <div class="lhead"><span class="kicker" style="margin:0">Уроки модуля</span><span class="line"></span></div>
   <ol class="list" id="list"></ol>
   <div class="detail">
     <p id="dText"></p>
@@ -104,13 +117,20 @@ body.back .card,body.go-lesson .card{opacity:0;transform:translateX(-24px);trans
   const store = ICE_STORE.load();
   const n = Math.min(10, Math.max(1, +new URLSearchParams(location.search).get('m') || 1));
   const M = ICE_BOOK[n - 1];
-  const READY = { '1a': true };                 // уроки, у которых уже есть содержание
+  const READY = ICE_READY;
+  const R = ICE_ROUTES[ICE_ROUTE_FOR(n)];
+  if (ICE_ROUTE_FOR(n) === 'night') document.body.classList.add('night');
+  $('sky').src = `img/${R.img}_sky.webp`; $('fg').src = `img/${R.img}_fg.webp`;
+  $('fg').style.top = R.fg[0] * 100 + '%'; $('fg').style.height = R.fg[1] * 100 + '%';
+  // слово стоит на хребте и чуть выглядывает: низ спрятан за горами
+  document.documentElement.style.setProperty('--wb', ((1 - R.ridge - .035) * 100).toFixed(2) + '%');
   store.module = n; ICE_STORE.save(store);
   document.title = `ICE ENGLISH · Модуль ${n} · ${M.en}`;
 
   // точки на красной линии (координаты в долях фото)
-  const P = [[.512,.86],[.528,.672],[.585,.548],[.685,.483],[.80,.432],[.843,.396],[.775,.366]];
-  const scaleAt = y => .36 + .64 * Math.max(0, (y - .34) / (.86 - .34));
+  const P = R.nodes;
+  const yN = P[0][1], yF = P[P.length - 1][1];
+  const scaleAt = y => .38 + .62 * Math.max(0, (y - yF) / (yN - yF));
   let cur = M.lessons.findIndex(l => !store.done[l.id]);
   if (cur < 0) cur = M.lessons.length - 1;
   let sel = cur;
@@ -123,15 +143,16 @@ body.back .card,body.go-lesson .card{opacity:0;transform:translateX(-24px);trans
   M.lessons.forEach((l, i) => {
     const [x, y] = P[i], s = scaleAt(y);
     const b = document.createElement('button');
-    b.className = 'node' + (i === cur ? ' below' : '');
+    b.className = 'node';
     b.style.left = x * 100 + '%'; b.style.top = y * 100 + '%';
     b.style.setProperty('--s', s.toFixed(3)); b.style.setProperty('--d', (.35 + i * .08) + 's');
     b.setAttribute('aria-label', `${l.code}: ${l.en}`);
-    b.innerHTML = `<span class="dot">${l.code}</span><span class="tag">${l.en}</span>`;
+    if (!READY[l.id]) b.classList.add('soon');
+    b.innerHTML = `<span class="dot">${l.code}</span><span class="tag">${l.en}${READY[l.id] ? '' : '<em>скоро</em>'}</span>`;
     b.onclick = () => select(i);
     scene.appendChild(b); nodes.push(b);
     const li = document.createElement('li');
-    li.innerHTML = `<button><span class="c">${l.code}</span><span class="e">${l.en}</span><span class="p">стр. ${l.pages}</span></button>`;
+    li.innerHTML = `<button><span class="c">${l.code}</span><span class="e">${l.en}${l.kind ? `<small>${l.kind}</small>` : ''}</span><span class="p">${READY[l.id] ? '' : '<span class="soon">скоро</span> '}стр. ${l.pages}</span></button>`;
     li.firstChild.onclick = () => select(i);
     $('list').appendChild(li); items.push(li);
   });
@@ -143,7 +164,24 @@ body.back .card,body.go-lesson .card{opacity:0;transform:translateX(-24px);trans
     }));
     $('dText').textContent = l.ru;
     $('dPages').textContent = `Учебник, стр. ${l.pages}`;
-    $('startText').textContent = store.done[l.id] ? 'Повторить урок' : 'Начать урок';
+    $('startText').textContent = !READY[l.id] ? 'Урок готовится' : store.done[l.id] ? 'Повторить урок' : 'Начать урок';
+    $('start').disabled = !READY[l.id];
+    camera(i);
+  }
+  // камера едет к выбранному уроку: чем дальше точка, тем сильнее приближение; сама точка остаётся на месте
+  function camera(i) {
+    const [x, y] = P[i], s = scaleAt(y), z = 1 + .42 * (1 - s);
+    const Ws = W(), Hs = Ws / 1.777;
+    const px = (x - .5) * Ws, py = (y - .5) * Hs;
+    // точку дополнительно подтягиваем к свободной части экрана справа от карточки
+    const cardR = document.querySelector('.card').getBoundingClientRect().right;
+    const targetX = (cardR + innerWidth) / 2 - innerWidth / 2, targetY = 0;
+    const k = (1 - s) * .55;
+    let sx = px * (1 - z) + (targetX - px) * k, sy = py * (1 - z) + (targetY - py) * k * .5;
+    const lx = (z * Ws - innerWidth) / 2, ly = (z * Hs - innerHeight) / 2;     // край фото не должен показаться
+    sx = Math.max(-lx, Math.min(lx, sx)); sy = Math.max(-ly, Math.min(ly, sy));
+    scene.style.setProperty('--cz', z.toFixed(3));
+    scene.style.setProperty('--sx', sx.toFixed(1) + 'px'); scene.style.setProperty('--sy', sy.toFixed(1) + 'px');
   }
 
   const W = () => Math.max(innerWidth, innerHeight * 1.777);
@@ -168,7 +206,6 @@ body.back .card,body.go-lesson .card{opacity:0;transform:translateX(-24px);trans
     nodes.forEach((b, i) => {
       const x = vw / 2 + (P[i][0] - .5) * Ws, y = innerHeight / 2 + (P[i][1] - .5) * (Ws / 1.777);
       const t = b.querySelector('.tag'), tw = t.offsetWidth, dw = b.querySelector('.dot').offsetWidth / 2 + 8;
-      if (i === cur) { const shift = Math.max(0, cardR - (x - tw / 2)); t.style.transform = `translateX(calc(-50% + ${shift}px))`; return; }
       const hitsSlot = y > slot.top - 10;
       const fitsR = x + dw + tw < Math.min(vw - 8, hitsSlot ? slot.left - 6 : vw), fitsL = x - dw - tw > cardR;
       let left = P[i][0] > .8 || hitsSlot;
@@ -182,7 +219,7 @@ body.back .card,body.go-lesson .card{opacity:0;transform:translateX(-24px);trans
   const say = msg => { toast.textContent = msg; toast.classList.add('show'); clearTimeout(toast.t); toast.t = setTimeout(() => toast.classList.remove('show'), 2400); };
   $('start').onclick = () => {
     const l = M.lessons[sel];
-    if (!READY[l.id]) return say(`Урок ${l.code} пока в работе. Готов урок 1a`);
+    if (!READY[l.id]) return;
     document.body.classList.add('go-lesson');
     setTimeout(() => document.body.classList.add('leaving'), 300);
     setTimeout(() => location.assign(`lesson.html?l=${l.id}`), 850);

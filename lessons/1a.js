@@ -3,7 +3,46 @@
 window.ICE_LESSON = {
   id: '1a', module: 1, code: '1a', pages: '6–7',
   en: 'A city mouse or a country mouse?',
-  ghost: 'PRESENT',
+  ru: 'Город или деревня: как живут люди',
+  minutes: 15,
+  learn: ['Отличать Present Simple от Present Continuous', 'Строить вопросы и отрицания в обоих временах', 'Говорить о жизни в городе и в деревне'],
+  words: [
+    ['heavy traffic', 'плотное движение'], ['crowded streets', 'людные улицы'], ['constant noise', 'постоянный шум'],
+    ['high cost of living', 'дорогая жизнь'], ['convenient public transport', 'удобный транспорт'], ['fresh air', 'свежий воздух'],
+    ['peace and quiet', 'тишина и покой'], ['beautiful landscapes', 'красивые пейзажи'], ['feeling isolated', 'чувство оторванности'],
+    ['the hustle and bustle', 'суета большого города'], ['employment', 'работа, занятость'], ['unemployment', 'безработица']
+  ],
+  homework: [
+    { ex: 'Упр. 3a, стр. 6', task: 'Прочитай текст «Teenage Life Swap» на стр. 7 и отметь утверждения: T — верно, F — неверно, NS — в тексте не сказано. Потом объясни слова, выделенные жирным.',
+      rule: 'Найди в тексте место, о котором говорится в утверждении, и сравни. NS ставим, только если в тексте об этом вообще ничего нет. Если сказано обратное — это F.',
+      items: [
+        { t: '1. Annabel doesn’t like staying in bed.', hint: 'Найди Day 2 у Аннабель на ферме. Что она делает, когда мама Сары приносит ей чай в постель?' },
+        { t: '2. Sarah can’t sleep well.', hint: 'Найди у Сары место про ночь в Лондоне. Сказано ли прямо, как она спит, или только что ей слышно?' },
+        { t: '3. Sarah’s new school has lots of facilities.', hint: 'Day 4 у Сары: что она пишет про школу Аннабель и что ей нравится больше всего?' },
+        { t: '4. Annabel travels five miles to reach the school.', hint: 'Day 4 у Аннабель: куда именно они едут пять миль — до школы или до чего-то другого?' }],
+      practice: { q: 'Похожее утверждение: «Sarah loves the swimming pool.» По тексту Day 4 Сары это…', options: [
+        { t: 'T — верно', ok: true, why: 'В конце Day 4 Сара называет своими любимыми местами компьютерный класс и бассейн.' },
+        { t: 'F — неверно', why: 'Перечитай последнее предложение Day 4 у Сары: какие места она называет любимыми?' },
+        { t: 'NS — не сказано', why: 'Об этом в тексте сказано прямо — в конце Day 4 у Сары.' }] } },
+    { ex: 'Упр. 6, стр. 7', task: 'Поставь глаголы в скобках в Present Simple или Present Continuous и объясни, почему выбрал это время.',
+      rule: 'Спроси себя: это происходит сейчас, временно или уже договорено → Present Continuous. Это обычно, по расписанию или это мнение → Present Simple. Жалоба на надоедливую привычку → is always + -ing.',
+      items: [
+        { t: '1. Why … (you/be) in such a hurry? — I’m worried. My exam … (start) in ten minutes.', hint: 'be — глагол состояния, в -ing его обычно не ставят. А экзамен начинается по расписанию.' },
+        { t: '2. I … (think) of changing school. — I … (not/think) it’s a good idea.', hint: 'Одно think значит «обдумываю» (процесс), другое — «считаю» (мнение). Какое где?' },
+        { t: '3. Why … (you/be) angry? — My sister … (always/take) my clothes.', hint: 'Вторая часть — жалоба на надоедливую привычку. Вспомни хитрый случай с always из объяснения.' },
+        { t: '4. Why … (you/leave) now? — My train … (leave) in an hour.', hint: 'Первый leave — то, что происходит прямо сейчас. Второй — поезд, который ходит по расписанию.' }],
+      practice: { q: 'Похожий пример: Why ___ (you/laugh)? Look at this funny video!', options: [
+        { t: 'are you laughing', ok: true, why: 'Смеются прямо сейчас, на наших глазах — Present Continuous.' },
+        { t: 'do you laugh', why: 'Вопрос о том, что происходит в эту минуту, — нужен Present Continuous: are you laughing.' }] } },
+    { ex: 'Упр. 7, стр. 7 (письмо)', task: 'Напиши письмо другу по переписке: где ты живёшь, какой у тебя обычный день и чем ты занят в эти дни или сегодня вечером.',
+      rule: 'Где живёшь и обычный день — Present Simple. Чем занят в эти дни и планы на вечер — Present Continuous. Образец — письмо Jim на стр. 7.',
+      items: [
+        { t: 'Начало письма', hint: 'Hi, …! Thanks for your email. — поздоровайся и поблагодари за письмо.' },
+        { t: 'Где ты живёшь', hint: 'I live in … It is a big city / a small town. — Present Simple.' },
+        { t: 'Твой обычный день', hint: 'I usually get up at … My lessons start at … After school I … — Present Simple со словами usually, always, every day.' },
+        { t: 'Что сейчас и сегодня', hint: 'These days I am … Tonight I am … — Present Continuous.' },
+        { t: 'Конец письма', hint: 'Write again soon. — и твоё имя.' }] }
+  ],
   theory: [
     {
       title: 'Два настоящих времени',

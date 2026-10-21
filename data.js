@@ -70,15 +70,34 @@ window.ICE_BOOK = (() => {
       const pages = j < 2 ? `${s + 1 + 2 * j}–${s + 2 + 2 * j}` : `${s + 3 + j}`;
       L.push({ id: `${n}${k}`, code: `${n}${k}`, en: m[3 + j][0], ru: m[3 + j][1], pages });
     });
-    L.push({ id: `${n}eu`, code: 'EU', en: `English in Use ${n}`, ru: m[7], pages: `${s + 7}` });
-    L.push({ id: `${n}ac`, code: 'AC', en: 'Across the Curriculum', ru: m[8], pages: `${s + 8}` });
-    L.push({ id: `${n}pc`, code: 'PC', en: `Progress Check ${n}`, ru: 'Проверь себя по всему модулю', pages: `${s + 9}` });
+    L.push({ id: `${n}eu`, code: 'EU', en: `English in Use ${n}`, kind: 'Речь в жизни', ru: m[7], pages: `${s + 7}` });
+    L.push({ id: `${n}ac`, code: 'AC', en: 'Across the Curriculum', kind: 'Связь с другими предметами', ru: m[8], pages: `${s + 8}` });
+    L.push({ id: `${n}pc`, code: 'PC', en: `Progress Check ${n}`, kind: 'Проверка модуля', ru: 'Проверь себя по всему модулю', pages: `${s + 9}` });
     return { n, en: m[0], ru: m[1], grammar: m[2], pages: `${s}–${s + 9}`, lessons: L };
   });
 })();
 
+/* Уроки, у которых уже есть содержание */
+window.ICE_READY = { '1a': true };
+
+/* Фоны маршрута по времени суток и точки уроков на красной линии (доли фото) */
+window.ICE_ROUTES = {
+  morning: { img: 'route_morning', fg: [.1534, .1978], ridge: .2186, nodes: [[.45,.88],[.455,.72],[.47,.61],[.53,.54],[.60,.49],[.64,.465],[.53,.433]] },
+  day:     { img: 'route_day',     fg: [.1221, .1693], ridge: .2096, nodes: [[.44,.88],[.465,.72],[.505,.61],[.555,.525],[.595,.465],[.52,.415],[.44,.393]] },
+  sunset:  { img: 'route_sunset',  fg: [.1659, .1624], ridge: .2609, nodes: [[.54,.90],[.47,.73],[.435,.60],[.49,.52],[.57,.48],[.52,.425],[.445,.395]] },
+  night:   { img: 'route_night',   fg: [.2353, .1631], ridge: .2935, nodes: [[.485,.90],[.44,.74],[.425,.61],[.47,.525],[.54,.485],[.52,.44],[.43,.425]] }
+};
+window.ICE_ROUTE_FOR = n => n <= 3 ? 'morning' : n <= 6 ? 'day' : n <= 9 ? 'sunset' : 'night';
+
+/* Куда ведёт «Продолжить»: первый непройденный урок текущего модуля */
+window.ICE_NEXT = st => {
+  const m = window.ICE_BOOK[(st.module || 1) - 1];
+  const l = m.lessons.find(x => !st.done[x.id]) || m.lessons[0];
+  return { m, l, href: window.ICE_READY[l.id] ? `lesson.html?l=${l.id}` : `module.html?m=${m.n}` };
+};
+
 window.ICE_STORE = {
   key: 'ice_english_progress_v1',
-  load() { try { return JSON.parse(localStorage.getItem(this.key)) || { done: {}, module: 1 }; } catch (e) { return { done: {}, module: 1 }; } },
+  load() { let s; try { s = JSON.parse(localStorage.getItem(this.key)); } catch (e) {} s = s || {}; s.done = s.done || {}; s.lp = s.lp || {}; s.module = s.module || 1; return s; },
   save(s) { try { localStorage.setItem(this.key, JSON.stringify(s)); } catch (e) {} }
 };
