@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>ICE ENGLISH · Модуль</title>
+<link rel="stylesheet" href="ice.css">
+<style>
+.scene{container-type:size;--zoom:1.22}
+body.ready .scene{--zoom:1}
+body.back .scene{--zoom:.94}
+.giant.word{left:var(--wl,40%);bottom:72.6%;font-size:var(--fs,20cqh);color:rgba(232,240,248,.86)}
+
+/* точки уроков на красной линии */
+.node{position:absolute;z-index:5;width:0;height:0;border:0;background:none;padding:0;cursor:pointer;--dw:max(22px,calc(6.4cqh * var(--s)))}
+.dot{position:absolute;left:0;top:0;transform:translate(-50%,-50%);width:var(--dw);height:var(--dw);border-radius:50%;display:grid;place-items:center;
+  font-family:var(--display);font-weight:600;font-size:max(11px,calc(2.2cqh * var(--s)));color:var(--ink);
+  background:rgba(255,255,255,.72);border:2px solid #fff;box-shadow:0 6px 18px rgba(27,47,69,.22);backdrop-filter:blur(6px);transition:transform .35s var(--ease),background .3s}
+.tag{position:absolute;top:0;left:calc(var(--dw) / 2 + 8px);transform:translateY(-50%);white-space:nowrap;font-size:max(11px,calc(1.55cqh * max(var(--s),.7)));line-height:1.2;padding:.5em .85em;border-radius:999px;background:rgba(255,255,255,.62);
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.8);color:var(--ink);transition:background .3s,color .3s}
+.node.left .tag{left:auto;right:calc(var(--dw) / 2 + 8px)}
+.node.below .tag{left:0;top:calc(var(--dw) / 2 + 10px);transform:translateX(-50%)}
+.node:hover .dot{transform:translate(-50%,-50%) scale(1.08)}
+.node.done .dot{background:var(--red);border-color:var(--red);color:#fff}
+.node.now .dot{background:#fff;border-color:var(--red);border-width:3px}
+.node.now .dot::after{content:"";position:absolute;inset:-3px;border-radius:50%;border:2px solid var(--red);animation:pulse 1.8s ease-out infinite}
+.node.sel .tag{background:var(--ink);color:#fff;border-color:var(--ink);opacity:1}
+@keyframes pulse{from{transform:scale(1);opacity:.9}to{transform:scale(1.9);opacity:0}}
+.node{opacity:0;transition:opacity .5s ease var(--d,0s)}
+body.ready .node{opacity:1}
+
+.scene .player-slot{z-index:4;width:calc(30cqh * var(--s));height:calc(20cqh * var(--s));transform:translate(0,-100%);border-radius:calc(3cqh * var(--s))}
+.scene .player-slot span{font-size:max(11px,calc(1.4cqh * var(--s)))}
+
+/* карточка модуля */
+.card{position:fixed;z-index:10;left:clamp(20px,4.6vw,80px);top:clamp(96px,13vh,130px);bottom:clamp(20px,3.4vh,36px);width:min(34vw,470px);
+  display:flex;flex-direction:column;border-radius:28px;padding:26px 26px 22px;background:rgba(255,255,255,.6);border:1px solid rgba(255,255,255,.85);
+  backdrop-filter:blur(18px) saturate(1.1);-webkit-backdrop-filter:blur(18px) saturate(1.1);box-shadow:0 24px 60px rgba(27,47,69,.14);
+  opacity:0;transform:translateX(-24px);transition:opacity .6s ease .25s,transform .8s var(--ease) .25s}
+body.ready .card{opacity:1;transform:none}
+body.back .card{opacity:0;transform:translateX(-24px);transition-delay:0s}
+.back-link{align-self:flex-start;font-size:14px;color:var(--ink-2);text-decoration:none;display:inline-flex;gap:8px;align-items:center}
+.back-link:hover{color:var(--red)}
+.mnum{margin-top:18px;font-size:14px;color:var(--ink-2);display:flex;gap:10px;align-items:center}
+.mnum::before{content:"";width:24px;height:3px;border-radius:3px;background:var(--red)}
+.card h1{font-family:var(--display);font-weight:600;font-size:clamp(38px,3.6vw,60px);line-height:.95;margin:10px 0 6px}
+.card .ru{margin:0 0 16px;font-weight:500;font-size:17px}
+.list{list-style:none;margin:0;padding:0;overflow:auto;flex:1;min-height:0}
+.list button{width:100%;display:grid;grid-template-columns:38px 1fr auto;gap:12px;align-items:center;text-align:left;border:0;background:none;
+  padding:9px 10px;border-radius:14px;cursor:pointer}
+.list button:hover{background:rgba(255,255,255,.55)}
+.list .c{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-family:var(--display);font-weight:600;font-size:14px;background:rgba(27,47,69,.07)}
+.list .e{font-size:15px;line-height:1.25}
+.list .p{font-size:12px;color:var(--mute)}
+.list li.done .c{background:var(--red);color:#fff}
+.list li.now .c{box-shadow:inset 0 0 0 2px var(--red);background:#fff}
+.list li.sel button{background:var(--ink);color:#fff}
+.list li.sel .p{color:rgba(255,255,255,.7)}
+.list li.sel .c{background:#fff;color:var(--ink)}
+.detail{border-top:1px solid rgba(27,47,69,.1);margin-top:12px;padding-top:16px}
+.detail p{margin:0 0 6px;font-size:15px;line-height:1.45;color:var(--ink)}
+.detail small{display:block;font-size:13px;color:var(--mute);margin-bottom:16px}
+.detail .go{padding:14px 22px;font-size:15px}
+
+@media (max-height:820px){.list button{padding:5px 10px}.list .c{width:30px;height:30px}.list .e{font-size:14px}.card h1{font-size:40px;margin:6px 0 4px}.card .ru{margin-bottom:10px}.mnum{margin-top:12px}.card{padding:20px 22px 18px;top:86px}.detail{margin-top:8px;padding-top:12px}.detail p{font-size:14px}.detail small{margin-bottom:12px}}
+@media (max-width:1200px){.card{width:min(37vw,420px)}}
+</style></head>
+<body>
+<main class="stage">
+  <div class="scene" id="scene">
+    <img src="img/route_sky.webp" alt="">
+    <div class="giant word" id="word">LIFESTYLES</div>
+    <img src="img/route_fg.webp" alt="">
+    <div class="player-slot" id="slot" aria-hidden="true"><span>Место для хоккеиста</span></div>
+  </div>
+</main>
+
+<header class="top" style="padding-left:calc(clamp(20px,4.6vw,80px) + min(34vw,470px) + 32px)">
+  <nav class="crumbs" aria-label="Где ты сейчас"><a href="index.html">Главная</a><i>/</i><a href="school.html" id="crumbSchool">Spotlight 7</a><i>/</i><span id="crumbMod">Модуль 1</span></nav>
+</header>
+
+<aside class="card">
+  <a class="back-link" href="school.html" id="back">‹ Все модули</a>
+  <div class="mnum" id="mnum">Модуль 1, учебник стр. 5–14</div>
+  <h1 id="title">Lifestyles</h1>
+  <p class="ru" id="ru">Образ жизни</p>
+  <ol class="list" id="list"></ol>
+  <div class="detail">
+    <p id="dText"></p>
+    <small id="dPages"></small>
+    <button class="go" id="start">Начать урок <b>›</b></button>
+  </div>
+</aside>
+<div class="veil"></div>
+<div class="toast" id="toast"></div>
+
+<script src="data.js"></script>
+<script>
+(() => {
+  const $ = id => document.getElementById(id);
+  const store = ICE_STORE.load();
+  const n = Math.min(10, Math.max(1, +new URLSearchParams(location.search).get('m') || 1));
+  const M = ICE_BOOK[n - 1];
+  store.module = n; ICE_STORE.save(store);
+  document.title = `ICE ENGLISH · Модуль ${n} · ${M.en}`;
+
+  // точки на красной линии (координаты в долях фото)
+  const P = [[.512,.86],[.528,.672],[.585,.548],[.685,.483],[.80,.432],[.843,.396],[.775,.366]];
+  const scaleAt = y => .36 + .64 * Math.max(0, (y - .34) / (.86 - .34));
+
+  const cur = Math.max(0, M.lessons.findIndex(l => !store.done[l.id]));
+  let sel = cur === -1 ? 0 : cur;
+
+  $('title').textContent = M.en; $('ru').textContent = M.ru;
+  $('mnum').textContent = `Модуль ${n}, учебник стр. ${M.pages}`;
+  $('crumbMod').textContent = `Модуль ${n}`;
+  $('word').textContent = M.en.toUpperCase();
+
+  const scene = $('scene'), nodes = [], items = [];
+  M.lessons.forEach((l, i) => {
+    const [x, y] = P[i], s = scaleAt(y);
+    const b = document.createElement('button');
+    b.className = 'node' + (i === cur ? ' below' : (x > .8 || i === cur + 1) ? ' left' : '');
+    b.style.left = x * 100 + '%'; b.style.top = y * 100 + '%';
+    b.style.setProperty('--s', s.toFixed(3)); b.style.setProperty('--d', (.35 + i * .08) + 's');
+    b.setAttribute('aria-label', `${l.code}: ${l.en}`);
+    b.innerHTML = `<span class="dot">${l.code.replace(/^\d+/, m => m)}</span><span class="tag">${l.en}</span>`;
+    b.onclick = () => select(i);
+    scene.appendChild(b); nodes.push(b);
+
+    const li = document.createElement('li');
+    li.innerHTML = `<button><span class="c">${l.code}</span><span class="e">${l.en}</span><span class="p">стр. ${l.pages}</span></button>`;
+    li.firstChild.onclick = () => select(i);
+    $('list').appendChild(li); items.push(li);
+  });
+
+  function select(i) {
+    sel = i; const l = M.lessons[i];
+    nodes.forEach((b, k) => { b.classList.toggle('sel', k === i); b.classList.toggle('done', !!store.done[M.lessons[k].id]); b.classList.toggle('now', k === cur); });
+    items.forEach((li, k) => { li.classList.toggle('sel', k === i); li.classList.toggle('done', !!store.done[M.lessons[k].id]); li.classList.toggle('now', k === cur); });
+    $('dText').textContent = l.ru;
+    $('dPages').textContent = `Учебник, стр. ${l.pages}`;
+    $('start').firstChild.textContent = store.done[l.id] ? 'Повторить урок ' : 'Начать урок ';
+  }
+
+  // место хоккеиста — у текущего урока, справа от линии
+  function placeSlot() {
+    const [x, y] = P[cur < 0 ? 0 : cur], s = scaleAt(y), slot = $('slot');
+    slot.style.setProperty('--s', s.toFixed(3));
+    slot.style.left = (x * 100 + (x > .8 ? -24 * s : 4.5 * s)) + '%';
+    slot.style.top = (y * 100 + 1.5 * s) + '%';
+  }
+
+  // подгоняем гигантское слово под ширину неба
+  function fitWord() {
+    // слово стоит в видимой части неба: от правого края карточки до правого края экрана
+    const w = $('word'), vw = innerWidth, vh = innerHeight;
+    const Ws = Math.max(vw, vh * 1.777), sx = parseFloat(scene.style.getPropertyValue('--sx')) || 0;
+    const sceneLeft = vw / 2 + sx - Ws / 2;
+    const cardR = document.querySelector('.card').getBoundingClientRect().right + 24;
+    const x0 = (cardR - sceneLeft) / Ws, x1 = (vw - Math.max(24, vw * .03) - sceneLeft) / Ws;
+    w.textContent = M.en.toUpperCase();
+    w.style.setProperty('--fs', '20cqh');
+    let cw = w.offsetWidth / Ws; const avail = x1 - x0;
+    // длинное название не помещается крупно — показываем номер модуля
+    if (avail / cw < .75) { w.textContent = `MODULE ${n}`; cw = w.offsetWidth / Ws; }
+    const k = Math.min(1, avail / cw);
+    w.style.setProperty('--fs', (20 * k).toFixed(2) + 'cqh');
+    w.style.setProperty('--wl', ((x1 - cw * k) * 100).toFixed(2) + '%');
+  }
+
+  // на узких экранах сдвигаем сцену, чтобы маршрут не уходил за край
+  function frame() {
+    const vw = innerWidth, vh = innerHeight, Ws = Math.max(vw, vh * 1.777);
+    let sx = 0;
+    if (vw / vh < 1.25) {
+      const target = .72 * vw - vw / 2 - (.68 - .5) * Ws;
+      const lim = (Ws - vw) / 2; sx = Math.max(-lim, Math.min(lim, target));
+    }
+    scene.style.setProperty('--sx', sx + 'px');
+  }
+
+  const toast = $('toast');
+  $('start').onclick = () => {
+    toast.textContent = `Урок ${M.lessons[sel].code} соберём в следующем блоке`;
+    toast.classList.add('show'); clearTimeout(toast.t); toast.t = setTimeout(() => toast.classList.remove('show'), 2400);
+  };
+  const leave = e => {
+    e.preventDefault(); const href = `school.html?m=${n}`;
+    document.body.classList.add('back');
+    setTimeout(() => document.body.classList.add('leaving'), 250);
+    setTimeout(() => location.assign(href), 800);
+  };
+  $('back').onclick = leave; $('crumbSchool').onclick = leave;
+  addEventListener('keydown', e => {
+    if (e.key === 'ArrowDown' || e.key === 'ArrowRight') select(Math.min(M.lessons.length - 1, sel + 1));
+    if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') select(Math.max(0, sel - 1));
+    if (e.key === 'Escape') leave(e);
+  });
+  // подписи точек: если подпись залезает на карточку или за край экрана, переносим её на другую сторону
+  function placeTags() {
+    const vw = innerWidth, vh = innerHeight, Ws = Math.max(vw, vh * 1.777);
+    const sx = parseFloat(scene.style.getPropertyValue('--sx')) || 0;
+    const cardR = document.querySelector('.card').getBoundingClientRect().right + 12;
+    nodes.forEach((b, i) => {
+      if (i === cur) {
+        const x = vw / 2 + sx + (P[i][0] - .5) * Ws, t = b.querySelector('.tag'), tw = t.offsetWidth;
+        const shift = Math.max(0, cardR - (x - tw / 2));
+        t.style.transform = `translateX(calc(-50% + ${shift}px))`;
+        return;
+      }
+      const x = vw / 2 + sx + (P[i][0] - .5) * Ws, tw = b.querySelector('.tag').offsetWidth, dw = b.querySelector('.dot').offsetWidth / 2 + 8;
+      const fitsR = x + dw + tw < vw - 8, fitsL = x - dw - tw > cardR;
+      let left = P[i][0] > .8 || i === cur + 1;
+      if (left && !fitsL && fitsR) left = false;
+      if (!left && !fitsR && fitsL) left = true;
+      b.classList.toggle('left', left);
+    });
+  }
+  addEventListener('resize', () => { frame(); fitWord(); placeTags(); });
+
+  select(sel); placeSlot(); frame(); fitWord(); placeTags();
+  (document.fonts ? document.fonts.ready : Promise.resolve()).then(() => { fitWord(); placeTags(); });
+  requestAnimationFrame(() => setTimeout(() => document.body.classList.add('ready'), 60));
+})();
+</script>
+</body></html>
