@@ -4,89 +4,94 @@
 <title>ICE ENGLISH · Модуль</title>
 <link rel="stylesheet" href="ice.css">
 <style>
-.scene{container-type:size;--zoom:1.22}
+.scene{--zoom:1.12}
 body.ready .scene{--zoom:1}
 body.back .scene{--zoom:.94}
-.giant.word{left:var(--wl,40%);bottom:72.6%;font-size:var(--fs,20cqh);color:rgba(232,240,248,.86)}
+body.go-lesson .scene{--zoom:1.35}
+.giant.word{left:var(--wl,40%);bottom:72.6%;font-size:var(--fs,20cqh);transform:translateY(70%);opacity:0;transition:transform 1.5s var(--ease) .35s,opacity .9s ease .35s}
+body.ready .giant.word{transform:none;opacity:1}
+body.back .giant.word,body.go-lesson .giant.word{transform:translateY(70%);opacity:0;transition:transform .6s cubic-bezier(.6,0,.8,.4),opacity .5s}
 
 /* точки уроков на красной линии */
 .node{position:absolute;z-index:5;width:0;height:0;border:0;background:none;padding:0;cursor:pointer;--dw:max(22px,calc(6.4cqh * var(--s)))}
+.node::before{content:"";position:absolute;left:0;top:calc(var(--dw) * .42);width:calc(var(--dw) * 1.9);height:calc(var(--dw) * .55);transform:translate(-50%,-50%);
+  border-radius:50%;background:radial-gradient(ellipse at center,rgba(20,44,70,.28),rgba(20,44,70,0) 70%);border:1.5px solid rgba(255,255,255,.75)}
 .dot{position:absolute;left:0;top:0;transform:translate(-50%,-50%);width:var(--dw);height:var(--dw);border-radius:50%;display:grid;place-items:center;
-  font-family:var(--display);font-weight:600;font-size:max(11px,calc(2.2cqh * var(--s)));color:var(--ink);
-  background:rgba(255,255,255,.72);border:2px solid #fff;box-shadow:0 6px 18px rgba(27,47,69,.22);backdrop-filter:blur(6px);transition:transform .35s var(--ease),background .3s}
-.tag{position:absolute;top:0;left:calc(var(--dw) / 2 + 8px);transform:translateY(-50%);white-space:nowrap;font-size:max(11px,calc(1.55cqh * max(var(--s),.7)));line-height:1.2;padding:.5em .85em;border-radius:999px;background:rgba(255,255,255,.62);
-  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.8);color:var(--ink);transition:background .3s,color .3s}
+  font-weight:900;letter-spacing:-.04em;font-size:max(11px,calc(2.1cqh * var(--s)));color:var(--ink);
+  background:rgba(255,255,255,.8);border:2px solid #fff;box-shadow:0 6px 18px rgba(27,47,69,.22);backdrop-filter:blur(6px);transition:transform .35s var(--ease),background .3s}
+.tag{position:absolute;top:0;left:calc(var(--dw) / 2 + 8px);transform:translateY(-50%);white-space:nowrap;font-size:max(12px,calc(1.55cqh * max(var(--s),.75)));
+  font-weight:600;line-height:1.2;padding:.5em .85em;border-radius:999px;background:rgba(255,255,255,.72);
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.85);color:var(--ink);transition:background .3s,color .3s}
 .node.left .tag{left:auto;right:calc(var(--dw) / 2 + 8px)}
-.node.below .tag{left:0;top:calc(var(--dw) / 2 + 10px);transform:translateX(-50%)}
+.node.below .tag{left:0;top:calc(var(--dw) / 2 + 12px);transform:translateX(-50%)}
 .node:hover .dot{transform:translate(-50%,-50%) scale(1.08)}
 .node.done .dot{background:var(--red);border-color:var(--red);color:#fff}
 .node.now .dot{background:#fff;border-color:var(--red);border-width:3px}
 .node.now .dot::after{content:"";position:absolute;inset:-3px;border-radius:50%;border:2px solid var(--red);animation:pulse 1.8s ease-out infinite}
-.node.sel .tag{background:var(--ink);color:#fff;border-color:var(--ink);opacity:1}
+.node.sel .tag{background:var(--ink);color:#fff;border-color:var(--ink)}
 @keyframes pulse{from{transform:scale(1);opacity:.9}to{transform:scale(1.9);opacity:0}}
 .node{opacity:0;transition:opacity .5s ease var(--d,0s)}
 body.ready .node{opacity:1}
 
-.scene .player-slot{z-index:4;width:calc(30cqh * var(--s));height:calc(20cqh * var(--s));transform:translate(0,-100%);border-radius:calc(3cqh * var(--s))}
-.scene .player-slot span{font-size:max(11px,calc(1.4cqh * var(--s)))}
+.player-slot{right:3vw;bottom:3vh;height:38vh;width:57vh;z-index:4}
 
 /* карточка модуля */
-.card{position:fixed;z-index:10;left:clamp(20px,4.6vw,80px);top:clamp(96px,13vh,130px);bottom:clamp(20px,3.4vh,36px);width:min(34vw,470px);
-  display:flex;flex-direction:column;border-radius:28px;padding:26px 26px 22px;background:rgba(255,255,255,.6);border:1px solid rgba(255,255,255,.85);
+.card{position:fixed;z-index:10;left:clamp(24px,5vw,74px);top:72px;bottom:clamp(18px,3vh,32px);width:min(34vw,470px);
+  display:flex;flex-direction:column;border-radius:28px;padding:22px 26px 22px;background:rgba(255,255,255,.62);border:1px solid rgba(255,255,255,.85);
   backdrop-filter:blur(18px) saturate(1.1);-webkit-backdrop-filter:blur(18px) saturate(1.1);box-shadow:0 24px 60px rgba(27,47,69,.14);
-  opacity:0;transform:translateX(-24px);transition:opacity .6s ease .25s,transform .8s var(--ease) .25s}
+  opacity:0;transform:translateX(-24px);transition:opacity .6s ease .2s,transform .8s var(--ease) .2s}
 body.ready .card{opacity:1;transform:none}
-body.back .card{opacity:0;transform:translateX(-24px);transition-delay:0s}
-.back-link{align-self:flex-start;font-size:14px;color:var(--ink-2);text-decoration:none;display:inline-flex;gap:8px;align-items:center}
+body.back .card,body.go-lesson .card{opacity:0;transform:translateX(-24px);transition-delay:0s}
+.card .crumbs{text-shadow:none;font-size:12px;color:var(--ink-2)}
+.back-link{display:inline-flex;margin-top:14px;align-self:flex-start;font-size:13px;font-weight:700;color:var(--ink);text-decoration:none;gap:8px;align-items:center;
+  padding:7px 14px 7px 10px;border-radius:999px;background:rgba(255,255,255,.7)}
 .back-link:hover{color:var(--red)}
-.mnum{margin-top:18px;font-size:14px;color:var(--ink-2);display:flex;gap:10px;align-items:center}
-.mnum::before{content:"";width:24px;height:3px;border-radius:3px;background:var(--red)}
-.card h1{font-family:var(--display);font-weight:600;font-size:clamp(38px,3.6vw,60px);line-height:.95;margin:10px 0 6px}
-.card .ru{margin:0 0 16px;font-weight:500;font-size:17px}
+.card .kicker{margin-top:18px}
+.card h1{font-size:clamp(40px,3.8vw,64px);margin:10px 0 8px}
+.card .title-2{margin:0 0 14px;font-size:clamp(17px,1.4vw,22px)}
 .list{list-style:none;margin:0;padding:0;overflow:auto;flex:1;min-height:0}
-.list button{width:100%;display:grid;grid-template-columns:38px 1fr auto;gap:12px;align-items:center;text-align:left;border:0;background:none;
-  padding:9px 10px;border-radius:14px;cursor:pointer}
-.list button:hover{background:rgba(255,255,255,.55)}
-.list .c{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-family:var(--display);font-weight:600;font-size:14px;background:rgba(27,47,69,.07)}
-.list .e{font-size:15px;line-height:1.25}
+.list button{width:100%;display:grid;grid-template-columns:36px 1fr auto;gap:12px;align-items:center;text-align:left;border:0;background:none;
+  padding:8px 10px;border-radius:14px;cursor:pointer}
+.list button:hover{background:rgba(255,255,255,.6)}
+.list .c{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-weight:900;letter-spacing:-.04em;font-size:13px;background:rgba(36,55,77,.08)}
+.list .e{font-size:14px;font-weight:600;line-height:1.25}
 .list .p{font-size:12px;color:var(--mute)}
 .list li.done .c{background:var(--red);color:#fff}
 .list li.now .c{box-shadow:inset 0 0 0 2px var(--red);background:#fff}
 .list li.sel button{background:var(--ink);color:#fff}
 .list li.sel .p{color:rgba(255,255,255,.7)}
 .list li.sel .c{background:#fff;color:var(--ink)}
-.detail{border-top:1px solid rgba(27,47,69,.1);margin-top:12px;padding-top:16px}
-.detail p{margin:0 0 6px;font-size:15px;line-height:1.45;color:var(--ink)}
-.detail small{display:block;font-size:13px;color:var(--mute);margin-bottom:16px}
-.detail .go{padding:14px 22px;font-size:15px}
+.detail{border-top:1px solid rgba(36,55,77,.1);margin-top:10px;padding-top:14px}
+.detail p{margin:0 0 6px;font-size:14px;line-height:1.45;color:var(--ink)}
+.detail small{display:block;font-size:12px;color:var(--mute);margin-bottom:14px}
 
-@media (max-height:820px){.list button{padding:5px 10px}.list .c{width:30px;height:30px}.list .e{font-size:14px}.card h1{font-size:40px;margin:6px 0 4px}.card .ru{margin-bottom:10px}.mnum{margin-top:12px}.card{padding:20px 22px 18px;top:86px}.detail{margin-top:8px;padding-top:12px}.detail p{font-size:14px}.detail small{margin-bottom:12px}}
-@media (max-width:1200px){.card{width:min(37vw,420px)}}
+@media (max-height:820px){.list button{padding:5px 10px}.list .c{width:30px;height:30px}.card h1{font-size:40px;margin:6px 0 4px}.card .title-2{margin-bottom:8px}
+  .card .kicker{margin-top:12px}.card{padding:18px 22px 18px;top:64px}.detail{margin-top:8px;padding-top:10px}.detail small{margin-bottom:10px}}
+@media (max-width:1200px){.card{width:min(37vw,420px)}.player-slot{height:30vh;width:45vh}}
 </style></head>
-<body>
+<body class="arriving">
 <main class="stage">
   <div class="scene" id="scene">
     <img src="img/route_sky.webp" alt="">
     <div class="giant word" id="word">LIFESTYLES</div>
     <img src="img/route_fg.webp" alt="">
-    <div class="player-slot" id="slot" aria-hidden="true"><span>Место для хоккеиста</span></div>
   </div>
 </main>
+<div class="player-slot" aria-hidden="true"><span>Место для хоккеиста: подъезд и торможение</span></div>
 
-<header class="top" style="padding-left:calc(clamp(20px,4.6vw,80px) + min(34vw,470px) + 32px)">
-  <nav class="crumbs" aria-label="Где ты сейчас"><a href="index.html">Главная</a><i>/</i><a href="school.html" id="crumbSchool">Spotlight 7</a><i>/</i><span id="crumbMod">Модуль 1</span></nav>
-</header>
+<header class="top"><a class="brand" href="index.html">ICE <span>ENGLISH</span></a></header>
 
 <aside class="card">
-  <a class="back-link" href="school.html" id="back">‹ Все модули</a>
-  <div class="mnum" id="mnum">Модуль 1, учебник стр. 5–14</div>
-  <h1 id="title">Lifestyles</h1>
-  <p class="ru" id="ru">Образ жизни</p>
+  <nav class="crumbs" aria-label="Где ты сейчас"><a href="index.html">Главная</a><i>/</i><a href="school.html" class="to-school">Spotlight 7</a><i>/</i><span id="crumbMod">Модуль 1</span></nav>
+  <a class="back-link to-school" href="school.html">‹ Все модули</a>
+  <div class="kicker" id="mnum">Модуль 01, учебник стр. 5–14</div>
+  <h1 class="title" id="title">Lifestyles</h1>
+  <p class="title-2" id="ru">Образ жизни</p>
   <ol class="list" id="list"></ol>
   <div class="detail">
     <p id="dText"></p>
     <small id="dPages"></small>
-    <button class="go" id="start">Начать урок <b>›</b></button>
+    <button class="go" id="start"><span id="startText">Начать урок</span> <span>↗</span></button>
   </div>
 </aside>
 <div class="veil"></div>
@@ -99,33 +104,32 @@ body.back .card{opacity:0;transform:translateX(-24px);transition-delay:0s}
   const store = ICE_STORE.load();
   const n = Math.min(10, Math.max(1, +new URLSearchParams(location.search).get('m') || 1));
   const M = ICE_BOOK[n - 1];
+  const READY = { '1a': true };                 // уроки, у которых уже есть содержание
   store.module = n; ICE_STORE.save(store);
   document.title = `ICE ENGLISH · Модуль ${n} · ${M.en}`;
 
   // точки на красной линии (координаты в долях фото)
   const P = [[.512,.86],[.528,.672],[.585,.548],[.685,.483],[.80,.432],[.843,.396],[.775,.366]];
   const scaleAt = y => .36 + .64 * Math.max(0, (y - .34) / (.86 - .34));
-
-  const cur = Math.max(0, M.lessons.findIndex(l => !store.done[l.id]));
-  let sel = cur === -1 ? 0 : cur;
+  let cur = M.lessons.findIndex(l => !store.done[l.id]);
+  if (cur < 0) cur = M.lessons.length - 1;
+  let sel = cur;
 
   $('title').textContent = M.en; $('ru').textContent = M.ru;
-  $('mnum').textContent = `Модуль ${n}, учебник стр. ${M.pages}`;
+  $('mnum').textContent = `Модуль ${String(n).padStart(2, '0')}, учебник стр. ${M.pages}`;
   $('crumbMod').textContent = `Модуль ${n}`;
-  $('word').textContent = M.en.toUpperCase();
 
   const scene = $('scene'), nodes = [], items = [];
   M.lessons.forEach((l, i) => {
     const [x, y] = P[i], s = scaleAt(y);
     const b = document.createElement('button');
-    b.className = 'node' + (i === cur ? ' below' : (x > .8 || i === cur + 1) ? ' left' : '');
+    b.className = 'node' + (i === cur ? ' below' : '');
     b.style.left = x * 100 + '%'; b.style.top = y * 100 + '%';
     b.style.setProperty('--s', s.toFixed(3)); b.style.setProperty('--d', (.35 + i * .08) + 's');
     b.setAttribute('aria-label', `${l.code}: ${l.en}`);
-    b.innerHTML = `<span class="dot">${l.code.replace(/^\d+/, m => m)}</span><span class="tag">${l.en}</span>`;
+    b.innerHTML = `<span class="dot">${l.code}</span><span class="tag">${l.en}</span>`;
     b.onclick = () => select(i);
     scene.appendChild(b); nodes.push(b);
-
     const li = document.createElement('li');
     li.innerHTML = `<button><span class="c">${l.code}</span><span class="e">${l.en}</span><span class="p">стр. ${l.pages}</span></button>`;
     li.firstChild.onclick = () => select(i);
@@ -134,92 +138,71 @@ body.back .card{opacity:0;transform:translateX(-24px);transition-delay:0s}
 
   function select(i) {
     sel = i; const l = M.lessons[i];
-    nodes.forEach((b, k) => { b.classList.toggle('sel', k === i); b.classList.toggle('done', !!store.done[M.lessons[k].id]); b.classList.toggle('now', k === cur); });
-    items.forEach((li, k) => { li.classList.toggle('sel', k === i); li.classList.toggle('done', !!store.done[M.lessons[k].id]); li.classList.toggle('now', k === cur); });
+    [nodes, items].forEach(arr => arr.forEach((el, k) => {
+      el.classList.toggle('sel', k === i); el.classList.toggle('done', !!store.done[M.lessons[k].id]); el.classList.toggle('now', k === cur);
+    }));
     $('dText').textContent = l.ru;
     $('dPages').textContent = `Учебник, стр. ${l.pages}`;
-    $('start').firstChild.textContent = store.done[l.id] ? 'Повторить урок ' : 'Начать урок ';
+    $('startText').textContent = store.done[l.id] ? 'Повторить урок' : 'Начать урок';
   }
 
-  // место хоккеиста — у текущего урока, справа от линии
-  function placeSlot() {
-    const [x, y] = P[cur < 0 ? 0 : cur], s = scaleAt(y), slot = $('slot');
-    slot.style.setProperty('--s', s.toFixed(3));
-    slot.style.left = (x * 100 + (x > .8 ? -24 * s : 4.5 * s)) + '%';
-    slot.style.top = (y * 100 + 1.5 * s) + '%';
-  }
-
-  // подгоняем гигантское слово под ширину неба
+  const W = () => Math.max(innerWidth, innerHeight * 1.777);
+  // гигантское слово — в видимой части неба, справа от карточки
   function fitWord() {
-    // слово стоит в видимой части неба: от правого края карточки до правого края экрана
-    const w = $('word'), vw = innerWidth, vh = innerHeight;
-    const Ws = Math.max(vw, vh * 1.777), sx = parseFloat(scene.style.getPropertyValue('--sx')) || 0;
-    const sceneLeft = vw / 2 + sx - Ws / 2;
+    const w = $('word'), vw = innerWidth, Ws = W();
+    const sceneLeft = vw / 2 - Ws / 2;
     const cardR = document.querySelector('.card').getBoundingClientRect().right + 24;
     const x0 = (cardR - sceneLeft) / Ws, x1 = (vw - Math.max(24, vw * .03) - sceneLeft) / Ws;
-    w.textContent = M.en.toUpperCase();
-    w.style.setProperty('--fs', '20cqh');
+    w.textContent = M.en.toUpperCase(); w.style.setProperty('--fs', '20cqh');
     let cw = w.offsetWidth / Ws; const avail = x1 - x0;
-    // длинное название не помещается крупно — показываем номер модуля
     if (avail / cw < .75) { w.textContent = `MODULE ${n}`; cw = w.offsetWidth / Ws; }
     const k = Math.min(1, avail / cw);
     w.style.setProperty('--fs', (20 * k).toFixed(2) + 'cqh');
     w.style.setProperty('--wl', ((x1 - cw * k) * 100).toFixed(2) + '%');
   }
-
-  // на узких экранах сдвигаем сцену, чтобы маршрут не уходил за край
-  function frame() {
-    const vw = innerWidth, vh = innerHeight, Ws = Math.max(vw, vh * 1.777);
-    let sx = 0;
-    if (vw / vh < 1.25) {
-      const target = .72 * vw - vw / 2 - (.68 - .5) * Ws;
-      const lim = (Ws - vw) / 2; sx = Math.max(-lim, Math.min(lim, target));
-    }
-    scene.style.setProperty('--sx', sx + 'px');
-  }
-
-  const toast = $('toast');
-  $('start').onclick = () => {
-    toast.textContent = `Урок ${M.lessons[sel].code} соберём в следующем блоке`;
-    toast.classList.add('show'); clearTimeout(toast.t); toast.t = setTimeout(() => toast.classList.remove('show'), 2400);
-  };
-  const leave = e => {
-    e.preventDefault(); const href = `school.html?m=${n}`;
-    document.body.classList.add('back');
-    setTimeout(() => document.body.classList.add('leaving'), 250);
-    setTimeout(() => location.assign(href), 800);
-  };
-  $('back').onclick = leave; $('crumbSchool').onclick = leave;
-  addEventListener('keydown', e => {
-    if (e.key === 'ArrowDown' || e.key === 'ArrowRight') select(Math.min(M.lessons.length - 1, sel + 1));
-    if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') select(Math.max(0, sel - 1));
-    if (e.key === 'Escape') leave(e);
-  });
-  // подписи точек: если подпись залезает на карточку или за край экрана, переносим её на другую сторону
+  // подписи точек не должны залезать на карточку, за край экрана и на место хоккеиста
   function placeTags() {
-    const vw = innerWidth, vh = innerHeight, Ws = Math.max(vw, vh * 1.777);
-    const sx = parseFloat(scene.style.getPropertyValue('--sx')) || 0;
+    const vw = innerWidth, Ws = W();
     const cardR = document.querySelector('.card').getBoundingClientRect().right + 12;
+    const slot = document.querySelector('.player-slot').getBoundingClientRect();
     nodes.forEach((b, i) => {
-      if (i === cur) {
-        const x = vw / 2 + sx + (P[i][0] - .5) * Ws, t = b.querySelector('.tag'), tw = t.offsetWidth;
-        const shift = Math.max(0, cardR - (x - tw / 2));
-        t.style.transform = `translateX(calc(-50% + ${shift}px))`;
-        return;
-      }
-      const x = vw / 2 + sx + (P[i][0] - .5) * Ws, tw = b.querySelector('.tag').offsetWidth, dw = b.querySelector('.dot').offsetWidth / 2 + 8;
-      const fitsR = x + dw + tw < vw - 8, fitsL = x - dw - tw > cardR;
-      let left = P[i][0] > .8 || i === cur + 1;
-      if (left && !fitsL && fitsR) left = false;
+      const x = vw / 2 + (P[i][0] - .5) * Ws, y = innerHeight / 2 + (P[i][1] - .5) * (Ws / 1.777);
+      const t = b.querySelector('.tag'), tw = t.offsetWidth, dw = b.querySelector('.dot').offsetWidth / 2 + 8;
+      if (i === cur) { const shift = Math.max(0, cardR - (x - tw / 2)); t.style.transform = `translateX(calc(-50% + ${shift}px))`; return; }
+      const hitsSlot = y > slot.top - 10;
+      const fitsR = x + dw + tw < Math.min(vw - 8, hitsSlot ? slot.left - 6 : vw), fitsL = x - dw - tw > cardR;
+      let left = P[i][0] > .8 || hitsSlot;
+      if (left && !fitsL) left = false;
       if (!left && !fitsR && fitsL) left = true;
       b.classList.toggle('left', left);
     });
   }
-  addEventListener('resize', () => { frame(); fitWord(); placeTags(); });
 
-  select(sel); placeSlot(); frame(); fitWord(); placeTags();
+  const toast = $('toast');
+  const say = msg => { toast.textContent = msg; toast.classList.add('show'); clearTimeout(toast.t); toast.t = setTimeout(() => toast.classList.remove('show'), 2400); };
+  $('start').onclick = () => {
+    const l = M.lessons[sel];
+    if (!READY[l.id]) return say(`Урок ${l.code} пока в работе. Готов урок 1a`);
+    document.body.classList.add('go-lesson');
+    setTimeout(() => document.body.classList.add('leaving'), 300);
+    setTimeout(() => location.assign(`lesson.html?l=${l.id}`), 850);
+  };
+  document.querySelectorAll('.to-school').forEach(a => a.onclick = e => {
+    e.preventDefault();
+    document.body.classList.add('back');
+    setTimeout(() => document.body.classList.add('leaving'), 250);
+    setTimeout(() => location.assign(`school.html?m=${n}`), 800);
+  });
+  addEventListener('keydown', e => {
+    if (e.key === 'ArrowDown' || e.key === 'ArrowRight') select(Math.min(M.lessons.length - 1, sel + 1));
+    if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') select(Math.max(0, sel - 1));
+    if (e.key === 'Escape') document.querySelector('.back-link').click();
+  });
+  addEventListener('resize', () => { fitWord(); placeTags(); });
+
+  select(sel); fitWord(); placeTags();
   (document.fonts ? document.fonts.ready : Promise.resolve()).then(() => { fitWord(); placeTags(); });
-  requestAnimationFrame(() => setTimeout(() => document.body.classList.add('ready'), 60));
+  requestAnimationFrame(() => setTimeout(() => { document.body.classList.add('ready'); document.body.classList.remove('arriving'); }, 60));
 })();
 </script>
 </body></html>

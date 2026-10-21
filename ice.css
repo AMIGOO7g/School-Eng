@@ -1,65 +1,64 @@
-@font-face{font-family:"Oswald";font-style:normal;font-weight:500;font-display:swap;src:url(fonts/oswald-latin-500-normal.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+20AC,U+2122,U+2190-2199,U+2212}
-@font-face{font-family:"Oswald";font-style:normal;font-weight:500;font-display:swap;src:url(fonts/oswald-cyrillic-500-normal.woff2) format("woff2");unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
-@font-face{font-family:"Oswald";font-style:normal;font-weight:600;font-display:swap;src:url(fonts/oswald-latin-600-normal.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+20AC,U+2122,U+2190-2199,U+2212}
-@font-face{font-family:"Oswald";font-style:normal;font-weight:600;font-display:swap;src:url(fonts/oswald-cyrillic-600-normal.woff2) format("woff2");unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
-@font-face{font-family:"Oswald";font-style:normal;font-weight:700;font-display:swap;src:url(fonts/oswald-latin-700-normal.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+20AC,U+2122,U+2190-2199,U+2212}
-@font-face{font-family:"Oswald";font-style:normal;font-weight:700;font-display:swap;src:url(fonts/oswald-cyrillic-700-normal.woff2) format("woff2");unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
-@font-face{font-family:"Golos Text";font-style:normal;font-weight:400;font-display:swap;src:url(fonts/golos-text-latin-400-normal.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+20AC,U+2122,U+2190-2199,U+2212}
-@font-face{font-family:"Golos Text";font-style:normal;font-weight:400;font-display:swap;src:url(fonts/golos-text-cyrillic-400-normal.woff2) format("woff2");unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
-@font-face{font-family:"Golos Text";font-style:normal;font-weight:500;font-display:swap;src:url(fonts/golos-text-latin-500-normal.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+20AC,U+2122,U+2190-2199,U+2212}
-@font-face{font-family:"Golos Text";font-style:normal;font-weight:500;font-display:swap;src:url(fonts/golos-text-cyrillic-500-normal.woff2) format("woff2");unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
-@font-face{font-family:"Golos Text";font-style:normal;font-weight:600;font-display:swap;src:url(fonts/golos-text-latin-600-normal.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+20AC,U+2122,U+2190-2199,U+2212}
-@font-face{font-family:"Golos Text";font-style:normal;font-weight:600;font-display:swap;src:url(fonts/golos-text-cyrillic-600-normal.woff2) format("woff2");unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+/* Общие стили. Шрифт, цвета и размеры заголовков — как на стартовой странице */
 :root{
-  --ink:#1b2f45; --ink-2:#425a72; --mute:#6a7f93;
-  --red:#d3262e; --red-deep:#a51d24;
-  --glass:rgba(255,255,255,.52); --glass-strong:rgba(255,255,255,.78); --line:rgba(255,255,255,.7);
-  --display:"Oswald","Arial Narrow",Arial,sans-serif;
-  --text:"Golos Text","Segoe UI",Arial,sans-serif;
+  --ink:#24374d; --ink-2:#3d5368; --mute:#627a8d; --blue:#648ba5;
+  --red:#d3262e;
+  --glass:rgba(255,255,255,.66); --glass-strong:rgba(255,255,255,.88); --line:rgba(255,255,255,.8);
+  --font:Inter,Arial,sans-serif;
+  --ghost:rgba(37,75,112,.16);
+  --glow:0 0 1px rgba(255,255,255,.7),0 0 12px rgba(238,244,250,.95),0 0 26px rgba(238,244,250,.85);
   --ease:cubic-bezier(.22,.8,.2,1);
 }
 *{box-sizing:border-box}
-html,body{margin:0;height:100%;overflow:hidden;background:#dfe9f2;color:var(--ink);font-family:var(--text);-webkit-font-smoothing:antialiased}
+html,body{margin:0;height:100%;overflow:hidden;background:#dbe8f3;color:var(--ink);font-family:var(--font);-webkit-font-smoothing:antialiased}
 button{font:inherit;color:inherit}
 a{color:inherit}
 :focus-visible{outline:2px solid var(--red);outline-offset:3px}
 
-/* Сцена: фото неба, гигантская типографика, вырезанные горы. Блок сцены сохраняет пропорции фото и всегда накрывает экран */
+/* Сцена: небо, гигантская типографика, вырезанные горы */
 .stage{position:fixed;inset:0;overflow:hidden}
-.scene{position:absolute;left:50%;top:50%;width:max(100vw,177.7vh);height:max(100vh,56.28vw);
+.scene{position:absolute;left:50%;top:50%;width:max(100vw,177.7vh);height:max(100vh,56.28vw);container-type:size;
   transform:translate(calc(-50% + var(--sx,0px)),-50%) scale(var(--zoom,1.06)) translateX(var(--pan,0%));
   transition:transform 1.4s var(--ease);will-change:transform}
 .scene img{position:absolute;inset:0;width:100%;height:100%;display:block;user-select:none;pointer-events:none}
-.giant{position:absolute;pointer-events:none;font-family:var(--display);font-weight:700;line-height:.8;white-space:nowrap;
-  color:rgba(236,243,250,.82);text-shadow:0 0 40px rgba(255,255,255,.35);letter-spacing:-.01em}
+.giant{position:absolute;pointer-events:none;font-weight:900;line-height:.82;white-space:nowrap;color:var(--ghost);letter-spacing:-.09em}
 
-/* Верхняя панель */
-.top{position:fixed;z-index:20;top:0;left:0;right:0;display:flex;align-items:center;gap:28px;padding:26px clamp(24px,4.4vw,72px)}
-.brand{font-family:var(--display);font-weight:600;font-size:20px;line-height:.95;letter-spacing:.04em;text-decoration:none;color:var(--ink)}
-.brand span{display:block;font-weight:500}
-.crumbs{display:flex;gap:10px;align-items:center;font-size:14px;color:var(--ink-2)}
+/* Шапка — как на старте */
+.top{position:fixed;z-index:20;top:0;left:0;right:0;display:flex;align-items:center;gap:34px;padding:26px clamp(24px,5vw,74px);pointer-events:none}
+.top > *{pointer-events:auto}
+.brand{font-size:13px;letter-spacing:.23em;font-weight:900;text-decoration:none;color:var(--ink);white-space:nowrap}
+.brand span{font-weight:400}
+.crumbs{display:flex;gap:10px;align-items:center;font-size:13px;font-weight:600;color:var(--ink);text-shadow:var(--glow)}
 .crumbs a{text-decoration:none}.crumbs a:hover{color:var(--red)}
-.crumbs i{font-style:normal;opacity:.45}
+.crumbs i{font-style:normal;opacity:.4}
 .top .spacer{flex:1}
 
-/* Кнопка действия */
-.go{display:inline-flex;align-items:center;gap:14px;border:0;border-radius:999px;padding:16px 26px;background:var(--ink);color:#fff;
-  font-weight:600;font-size:16px;cursor:pointer;text-decoration:none;box-shadow:0 10px 30px rgba(27,47,69,.25);transition:background .25s,transform .25s var(--ease)}
-.go:hover{background:#27445f;transform:translateY(-2px)}
-.go b{width:28px;height:28px;border-radius:50%;background:var(--red);display:grid;place-items:center;font-weight:600}
+/* Подписи как на старте */
+.kicker{font-size:11px;letter-spacing:.23em;font-weight:800;color:var(--mute);text-transform:uppercase}
+.title{font-weight:900;letter-spacing:-.083em;line-height:.89;color:var(--ink);margin:0}
+.title-2{font-weight:900;letter-spacing:-.04em;color:var(--blue)}
+
+/* Кнопка действия — как на старте */
+.go{display:inline-flex;align-items:center;gap:17px;border:0;border-radius:30px;padding:15px 23px;background:#263c51;color:#fff;
+  font-weight:750;letter-spacing:.035em;font-size:13px;cursor:pointer;text-decoration:none;transition:background .25s,transform .25s var(--ease)}
+.go:hover{background:#42667e}
+.go:disabled{background:#9aabba;cursor:default}
+.go.light{background:rgba(255,255,255,.75);color:var(--ink);border:1px solid var(--line)}
+.go.light:hover{background:#fff}
 
 /* Место под будущее видео хоккеиста */
-.player-slot{position:absolute;z-index:6;pointer-events:none;border:1.5px dashed rgba(27,47,69,.35);border-radius:28px;
-  background:rgba(255,255,255,.12);display:flex;align-items:flex-end;justify-content:center;padding:14px}
-.player-slot span{font-size:12px;color:var(--ink-2);background:rgba(255,255,255,.65);padding:5px 10px;border-radius:999px}
+.player-slot{position:absolute;z-index:6;pointer-events:none;border:1.5px dashed rgba(36,55,77,.38);border-radius:28px;
+  background:rgba(255,255,255,.14);display:flex;align-items:flex-end;justify-content:center;padding:14px}
+.player-slot span{font-size:12px;color:var(--ink-2);background:rgba(255,255,255,.72);padding:5px 10px;border-radius:999px;white-space:nowrap}
 
-/* Переходы между экранами */
-.veil{position:fixed;inset:0;z-index:50;pointer-events:none;background:#eef4f9;opacity:0;transition:opacity .55s ease}
-body.leaving .veil{opacity:1}
-.entry{position:fixed;inset:0;z-index:60;display:grid;place-items:center;pointer-events:none;
+/* Переходы: при входе экран проявляется из светлой вуали, при уходе — растворяется в ней */
+.veil{position:fixed;inset:0;z-index:50;pointer-events:none;background:#e8f0f6;opacity:0;transition:opacity .6s ease}
+body.arriving .veil,body.leaving .veil{opacity:1}
+.entry{display:none;position:fixed;inset:0;z-index:60;place-items:center;pointer-events:none;
   background:radial-gradient(circle at 22% 20%,#bad9ee,transparent 60%),radial-gradient(circle at 79% 78%,#ffdfc9,transparent 60%),#e5ecf2;
   transition:opacity .9s ease .25s}
-.entry strong{font-family:Inter,Arial,sans-serif;font-size:clamp(70px,16vw,250px);letter-spacing:-.085em;color:#253d54;transition:transform 1s var(--ease),opacity .7s}
+body.from-home .entry{display:grid}
+body.from-home .veil{opacity:0}
+.entry strong{font-size:clamp(70px,16vw,250px);letter-spacing:-.085em;color:#253d54;transition:transform 1s var(--ease),opacity .7s}
 body.ready .entry{opacity:0}
 body.ready .entry strong{transform:translateY(-30px);opacity:0}
 
