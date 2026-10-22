@@ -1,41 +1,112 @@
 <!doctype html>
-<html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>ICE ENGLISH · Skate through levels</title>
-<link rel="stylesheet" href="fonts.css?v=29">
+<html lang="ru"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ICE ENGLISH · Карьера</title>
+<link rel="stylesheet" href="fonts.css?v=31"><link rel="stylesheet" href="ui2.css?v=31">
 <style>
-:root{--ink:#24374d;--blue:#648ba5;--panel:#ffffffad}
-*{box-sizing:border-box}html{scroll-behavior:auto}body{margin:0;background:#dbe8f3;color:var(--ink);font-family:Inter,Arial,sans-serif;overflow-x:hidden}
-.track{height:780vh}.stage{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;isolation:isolate}
-.bg,.grade,.travel,.skater,.top,.bottom{position:absolute}
-.bg{inset:-15%;z-index:-4;will-change:background,transform;background:radial-gradient(ellipse at 15% 21%,#b6d4f0,transparent 55%),radial-gradient(ellipse at 83% 76%,#ffe5ce,transparent 63%),#e8edf4}
-.bg:after{content:"";position:absolute;inset:-15%;background:radial-gradient(ellipse at 80% 18%,#f8d4cf,transparent 55%),radial-gradient(ellipse at 18% 80%,#bfdede,transparent 60%);opacity:.55;filter:blur(38px)}
-.grade{inset:0;z-index:-1;pointer-events:none}.grade-item{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;opacity:0;will-change:opacity,transform;pointer-events:none}
-.grade-center{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0;white-space:nowrap;transform:translateY(-13vh)}
-.grade-word{font-size:clamp(140px,32vw,520px);line-height:1;font-weight:900;letter-spacing:-.115em;color:#254b70;opacity:.13}.grade-item.school .grade-word{font-size:clamp(100px,20vw,350px);letter-spacing:-.08em}
-.grade-label{font-size:clamp(15px,1.75vw,27px);font-weight:800;letter-spacing:.38em;color:#355b7a;opacity:.13;margin-top:-.18em;padding-left:.38em}
-.travel{inset:0;z-index:2;pointer-events:none}.panel{position:absolute;left:0;top:0;height:100%;width:100%;will-change:transform,opacity;pointer-events:none}.panel-inner{position:absolute;left:clamp(24px,6.5vw,105px);top:49%;transform:translateY(-50%);width:min(39vw,600px)}
-.kicker{font-size:11px;letter-spacing:.23em;font-weight:800;color:#627a8d}.title{font-size:clamp(58px,7.8vw,122px);line-height:.89;font-weight:900;letter-spacing:-.083em;margin:16px 0}.title span{color:var(--blue)}.desc{max-width:350px;color:#4e6578;line-height:1.45;font-size:clamp(14px,1.3vw,18px);margin:15px 0 22px}
-.cta{pointer-events:auto;display:inline-flex;align-items:center;gap:17px;background:#263c51;color:#fff;border:0;border-radius:30px;padding:15px 23px;font-weight:750;letter-spacing:.035em;cursor:pointer;font-size:13px;text-decoration:none}.cta:hover{background:#42667e}
-.skater{z-index:5;left:51%;top:52%;width:clamp(440px,65vw,1080px);height:auto;aspect-ratio: 1.5;transform:translate(-50%,-50%);pointer-events:none;will-change:transform}.skater img{display:block;width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 8px 7px #17354d22)}
-.shadow{position:absolute;left:50%;bottom:22vh;width:min(30vw,420px);height:26px;transform:translateX(-7%);background:radial-gradient(ellipse at center,#27466038 0%,#27466018 36%,#27466000 72%);filter:blur(10px);z-index:3;pointer-events:none}
-.top{z-index:10;top:0;left:0;right:0;padding:26px clamp(24px,5vw,74px);display:flex;justify-content:space-between;align-items:center;pointer-events:none}.brand{font-size:13px;letter-spacing:.23em;font-weight:900}.brand span{font-weight:400}.counter{font-size:12px;color:#547086;letter-spacing:.17em;font-weight:700}
-.bottom{z-index:10;bottom:26px;left:clamp(24px,5vw,74px);right:clamp(24px,5vw,74px);display:flex;justify-content:space-between;color:#667d8c;font-weight:700;font-size:11px;letter-spacing:.18em;pointer-events:none}.bars{display:flex;gap:5px}.bars i{width:16px;height:3px;background:#2f54615c;border-radius:5px}.bars i.active{background:#253e55}.toast{position:fixed;bottom:75px;left:50%;transform:translateX(-50%);z-index:30;color:#fff;background:#294258;padding:11px 18px;border-radius:16px;font-size:13px;display:none;text-align:center}.alt{position:fixed;right:18px;bottom:17px;padding:9px 15px;border:1px solid #ffffffb5;border-radius:22px;background:#ffffff99;color:#425b70;z-index:20;cursor:pointer;backdrop-filter:blur(8px)}
-@media (max-width:900px){.panel-inner{top:50%;left:24px;width:min(72vw,420px)}.title{font-size:clamp(48px,14vw,90px)}.desc{max-width:280px}.grade-center{transform:translateY(-17vh)}.grade-word{font-size:clamp(120px,42vw,260px)}.grade-item.school .grade-word{font-size:clamp(90px,30vw,180px)}.skater{left:55%;top:48%;width:clamp(370px,110vw,680px);height:auto;aspect-ratio:1.5}.shadow{bottom:20vh;width:44vw;transform:translateX(-6%)}}
+html{scroll-snap-type:y mandatory;scroll-behavior:smooth}
+.snap{height:100vh;scroll-snap-align:start}
+/* текст сцены */
+.lead2{position:fixed;z-index:12;left:0;right:0;top:calc(var(--hz,50vh) - clamp(40px,6vh,64px))}
+.lead2 .box{max-width:480px;transition:opacity .35s ease,transform .5s var(--ease)}
+.lead2 .box.out{opacity:0;transform:translateY(14px)}
+.lead2 h1{font-size:clamp(46px,4.8vw,84px);margin:10px 0 12px}
+.lead2 p{font-size:clamp(15px,1.1vw,17px);line-height:1.5;color:var(--ink);font-weight:600;margin:0 0 20px;max-width:430px}
+.lead2 .req{display:flex;align-items:center;gap:10px;font-size:14px;font-weight:700;color:var(--ink-2);margin-top:12px}
+/* хоккеист */
+.skater{position:fixed;z-index:8;pointer-events:none;height:min(44vh,520px);right:max(var(--pad),calc((100vw - 1320px) / 2));top:calc(var(--hz,50vh) - min(26vh,300px));transition:transform .6s var(--ease)}
+.skater img{height:100%;display:block;filter:drop-shadow(0 30px 30px rgba(20,40,64,.18))}
+.skater .bob{height:100%;animation:bob 3.2s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(-6px)}}
+.skater.dash{animation:dash .7s var(--ease)}
+@keyframes dash{0%{transform:translateX(70px);opacity:.4}100%{transform:none;opacity:1}}
+/* лестница лиг */
+.ladder{position:fixed;z-index:12;left:0;right:0;bottom:clamp(18px,4vh,40px)}
+.ladder .row{display:grid;grid-template-columns:repeat(6,1fr);position:relative}
+.ladder .line{position:absolute;left:8.33%;right:8.33%;top:52px;height:4px;background:repeating-linear-gradient(90deg,rgba(31,50,72,.35) 0 10px,transparent 10px 18px)}
+.ladder .line i{position:absolute;left:0;top:0;bottom:0;background:var(--red);border-radius:3px;transition:width .8s var(--ease)}
+.lg{position:relative;display:flex;flex-direction:column;align-items:center;gap:8px;background:none;border:0;cursor:pointer;padding:0}
+.lg .tag{font-size:11px;font-weight:900;color:#fff;background:rgba(31,50,72,.55);padding:3px 8px;border-radius:6px}
+.lg img{width:clamp(58px,5.4vw,84px);height:auto;transition:transform .4s var(--ease),filter .4s}
+.lg .nm{font-family:var(--head);font-size:clamp(14px,1.2vw,19px);color:var(--ink)}
+.lg .lk{font-size:12px;opacity:.6;height:14px}
+.lg.lock img{filter:grayscale(.85) brightness(.85);opacity:.75}
+.lg.cur img{filter:drop-shadow(0 0 18px rgba(211,38,46,.7))}
+.lg.cur .tag{background:var(--red)}
+.lg.sel img{transform:scale(1.14)}
+.lg .prog{width:70%;height:4px;border-radius:4px;background:rgba(31,50,72,.15);overflow:hidden}.lg .prog i{display:block;height:100%;background:var(--red)}
+.count{position:fixed;z-index:12;right:var(--pad);bottom:calc(clamp(18px,4vh,40px) + 140px);font-family:var(--head);font-size:18px;color:var(--ink-2);letter-spacing:.1em}
+.hint{position:fixed;z-index:12;left:50%;transform:translateX(-50%);bottom:calc(clamp(18px,4vh,40px) + 150px);font-size:12px;letter-spacing:.3em;font-weight:800;color:var(--ink-2);text-transform:uppercase;transition:opacity .4s}
+@media (max-height:760px){.ladder .lg .nm{font-size:13px}.lead2 h1{font-size:52px}}
+</style></head>
+<body>
+<div id="stage"></div>
+<div class="skater" id="sk"><div class="bob"><img src="img/pl_skate.webp" alt="Хоккеист номер 7"></div></div>
+<section class="lead2"><div class="wrap"><div class="box" id="box"></div></div></section>
+<section class="ladder"><div class="wrap"><div class="row" id="lad"><div class="line"><i id="lineFill"></i></div></div></div></section>
+<div class="count" id="count">01 / 07</div>
+<div class="hint" id="hint">листай вниз ↓</div>
+<main id="snaps"></main>
+<div class="veil2"></div>
+<script src="data.js?v=31"></script><script src="ui2.js?v=31"></script>
+<script>
+(() => {
+  const $ = id => document.getElementById(id), P = UI2.profile(), cur = P.league.id;
+  UI2.header('career');
+  const DESC = {
+    1: ['Первый шаг', 'Здесь всё начинается. Школа: учебник Spotlight 7 — модули, домашка, тренировки и словарь.', 'Начать сезон', 'hub.html'],
+    2: ['Лига 2', 'Уверенные основы: прошедшие времена, рассказы о себе и о других, первые тексты.'],
+    3: ['Лига 3 · Молодёжка', 'Все времена, связный текст, письма и сочинения, аудирование.'],
+    4: ['Лига 4 · Вышка', 'Сложная грамматика, длинные тексты, эссе и дискуссии.'],
+    5: ['Лига 5', 'Свободная речь: фильмы, новости и книги на английском.'],
+    6: ['Вершина', 'Уровень носителя языка. Самый главный кубок.']
+  };
+  const S = [{ word: 'ICE ENGLISH', over: 'твоя карьера · сезон 2026/27' }].concat(UI2.LEAGUES.map(L => ({ word: L.name, over: `лига ${L.id} · ${L.lvl}${L.id === cur ? ' · ты здесь' : ''}`, L })));
+  const sc = UI2.scene($('stage'), { horizon: .5, size: .26, sink: .32 });
+  const setHz = () => document.documentElement.style.setProperty('--hz', sc.horizonPx() + 'px'); setHz(); addEventListener('resize', setHz);
+  S.forEach(() => { const s = document.createElement('section'); s.className = 'snap'; $('snaps').appendChild(s); });
 
-.scene-transition{position:fixed;inset:0;z-index:100;pointer-events:none;opacity:0;transition:opacity .52s ease;display:grid;place-items:center;background:radial-gradient(circle at 22% 20%,#bad9ee,transparent 60%),radial-gradient(circle at 79% 78%,#ffdfc9,transparent 60%),#e5ecf2}.scene-transition strong{font-size:clamp(70px,16vw,250px);letter-spacing:-.085em;color:#253d54;transform:translateY(25px);transition:transform .7s cubic-bezier(.2,.8,.2,1)}body.leaving .scene-transition{opacity:1}body.leaving .scene-transition strong{transform:translateY(0)}
-@media(max-width:700px){.skater{width:110vw;left:57%;top:45%}.grade-center{transform:translateY(-15vh)}}
-</style><style>.grade-center{transform:translateY(1.5vh)!important}.grade-label{opacity:.13!important}.panel-inner{top:53%!important}</style></head>
-<body><div id="track" class="track"><main id="stage" class="stage"><div id="bg" class="bg"></div><div id="grades" class="grade"></div><div id="travel" class="travel"></div><div class="shadow"></div><div id="skater" class="skater"><img id="hockeyFrame" src="frames/frame_000.webp" alt="Hockey player"></div><header class="top"><div class="brand">ICE <span>ENGLISH</span></div><div id="counter" class="counter">01 / 07</div></header><footer class="bottom"><div id="bars" class="bars"></div><div>SCROLL TO SKATE</div></footer></main></div><div id="toast" class="toast"></div><button id="restart" class="alt">В начало</button>
-<script>(()=>{const data=[
-{grade:'',k:'01 / ICE ENGLISH',title:'GLIDE<br><span>IN.</span>',desc:'Твой английский начинается здесь. Листай дальше и выбирай маршрут.'},
-{grade:'SCHOOL',kind:'school',k:'02 / ШКОЛЬНАЯ ПРОГРАММА',title:'SCHOOL.<br><span>YOUR WAY.</span>',desc:'Выбирай учебник, изучай текущую тему и закрепляй знания.',btn:'Выбрать учебник',href:'hub.html'},
-{grade:'A1',k:'03 / BEGINNER',title:'START<br><span>SMALL.</span>',desc:'Первые слова, предложения и уверенные шаги.',btn:'Уровень A1'},
-{grade:'A2',k:'04 / ELEMENTARY',title:'KEEP<br><span>GOING.</span>',desc:'Учись понимать и общаться в повседневных ситуациях.',btn:'Уровень A2'},
-{grade:'B1',k:'05 / INTERMEDIATE',title:'FIND<br><span>YOUR FLOW.</span>',desc:'Читай, разговаривай и выражай свои мысли.',btn:'Уровень B1'},
-{grade:'B2',k:'06 / UPPER INTERMEDIATE',title:'GO<br><span>FURTHER.</span>',desc:'Больше свободы, сложнее маршруты.',btn:'Уровень B2'},
-{grade:'C1',k:'07 / ADVANCED',title:'OWN<br><span>THE ICE.</span>',desc:'Английский без лишних ограничений.',btn:'Уровень C1'}];
-const track=document.getElementById('track'),stage=document.getElementById('stage'),travel=document.getElementById('travel'),grades=document.getElementById('grades'),bg=document.getElementById('bg'),counter=document.getElementById('counter'),bars=document.getElementById('bars'),toast=document.getElementById('toast');
-const clamp=(x,a,b)=>Math.max(a,Math.min(b,x));const panelEls=[],gradeEls=[];
-data.forEach((d,i)=>{let sec=document.createElement('section');sec.className='panel';sec.innerHTML=`<div class="panel-inner"><div class="kicker">${d.k}</div><h${i?'2':'1'} class="title">${d.title}</h${i?'2':'1'}><p class="desc">${d.desc}</p>${d.btn?`<a class="cta" ${d.href?`href="${d.href}"`:''} data-id="${i}">${d.btn} <span>↗</span></a>`:''}</div>`;travel.appendChild(sec);panelEls.push(sec);let g=document.createElement('div');g.className='grade-item '+(d.kind||'');g.innerHTML=d.grade?`<div class="grade-center"><span class="grade-word">${d.grade}</span>${d.kind==='school'?'<span class="grade-label" id="homeClass">CLASS 7</span>':i>0?'<span class="grade-label">LEVEL</span>':''}</div>`:'';grades.appendChild(g);gradeEls.push(g);let b=document.createElement('i');bars.appendChild(b)});
-let target=0,current=0;try{history.scrollRestoration='auto'}catch(e){}const sceneCount=data.length;let scrollTotal=1;function measure(){const r=track.getBoundingClientRect();scrollTotal=Math.max(1,r.height-innerHeight);target=clamp(-r.top/scrollTotal,0,1)}
-function tick(){current+=(target-current)*.24;if(Math.abs(target-current)<.000025)current=target;const p=current*(sceneCount-1),w=stage.clientWidth,mobile=w<740,start=w+20,anchor=mobile?24:Math.max(24,w*.065),span=start-anchor;panelEls.forEach((el,i)=>{const x=i===0?anchor-p*span:(i-p)*span+anchor;el.style.transform=`translate3d(${x-anchor}px,0,0)`;const ww=el.querySelector('.panel-inner').getBoundingClientRect().width;const visible=x+ww>0&&x<w;el.style.visibility=visible?'visible':'hidden';el.style.pointerEvents=visible?'auto':'none'});gradeEls.forEach((g,i)=>{let u=Math.abs(p-i);let opacity=clamp((.52-u)/.22,0,1);opacity=opacity*opacity*(3-2*opacity);g.style.opacity=String(opacity);g.style.transform=`translate3d(${(i-p)*w*.065}px,0,0)`});bg.style.transform=`translate3d(${(-p*1.15).toFixed(2)}%,${(Math.sin(p*.65)*1.8).toFixed(2)}%,0)`;bg.style.filter=`hue-rotate(${(p*12).toFixed(1)}deg)`;const frameCount=36;const num=Math.floor(current*sceneCount*frameCount*1.15)%frameCount;const f=document.getElementById('hockeyFrame');const next='frames/frame_'+String(num).padStart(3,'0')+'.webp';if(f.getAttribute('src')!==next)f.setAttribute('src',next);const idx=clamp(Math.round(p),0,sceneCount-1);counter.textContent=`0${idx+1} / 0${sceneCount}`;[...bars.children].forEach((b,i)=>b.classList.toggle('active',i===idx));requestAnimationFrame(tick)}
-for(let i=0;i<36;i++){const img=new Image();img.src='frames/frame_'+String(i).padStart(3,'0')+'.webp'}measure();addEventListener('scroll',measure,{passive:true});addEventListener('resize',measure);tick();document.getElementById('restart').onclick=()=>scrollTo({top:0,behavior:'smooth'});document.querySelectorAll('.cta').forEach(btn=>btn.onclick=(e)=>{if(btn.getAttribute('href')) return; e.preventDefault();toast.textContent=`${btn.textContent.trim()} — подключим к учебной панели на следующем этапе.`;toast.style.display='block';clearTimeout(window.__toast);window.__toast=setTimeout(()=>toast.style.display='none',2200)})})();</script><div class="scene-transition" aria-hidden="true"><strong>SCHOOL</strong></div><script>try{const save=JSON.parse(localStorage.getItem('ice_school_v22')||'{}');document.querySelectorAll('#homeClass').forEach(el=>el.textContent='CLASS '+(save.grade||7));}catch(e){}document.querySelectorAll('a[href="hub.html"]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();document.body.classList.add('leaving');setTimeout(()=>location.assign('hub.html?from=home'),520)}));</script></body></html>
+  // лестница лиг
+  const total1 = ICE_BOOK.flatMap(m => m.lessons).length;
+  UI2.LEAGUES.forEach(L => {
+    const b = document.createElement('button'); b.className = 'lg' + (L.id > cur ? ' lock' : '') + (L.id === cur ? ' cur' : '');
+    b.innerHTML = `<span class="tag">${L.lvl}</span><img src="img/${L.img}.webp" alt=""><span class="nm">${L.name}</span>` +
+      (L.id === cur ? `<span class="prog"><i style="width:${(P.done / total1 * 100).toFixed(1)}%"></i></span>` : `<span class="lk">${L.id > cur ? '🔒' : ''}</span>`);
+    b.onclick = () => scrollTo({ top: L.id * innerHeight, behavior: 'smooth' });
+    $('lad').appendChild(b);
+  });
+  $('lineFill').style.width = ((cur - 1) / 5 * 100 + P.done / total1 * (100 / 5)) + '%';
+
+  function box(i) {
+    const s = S[i];
+    if (!s.L) return `<div class="kick bar">Ice English · 7 класс</div><h1 class="h">Твоя карьера<br>в английском</h1>
+      <p>Шесть лиг — от детского хоккея до НХЛ. Каждая лига — новый уровень языка. Проходи матчи, зарабатывай награды и прокачивай игрока.</p>
+      <a class="btn" href="hub.html" data-go>Начать карьеру <span>→</span></a>`;
+    const L = s.L, d = DESC[L.id], open = L.id <= cur;
+    return `<div class="kick bar">${d[0]}</div><h1 class="h">${L.name.replace(' ', '<br>')}</h1><p>${d[1]}</p>` +
+      (open ? `<a class="btn" href="${d[3] || 'hub.html'}" data-go>${d[2] || 'Играть'} <span>→</span></a>`
+            : `<span class="btn lock">🔒 Закрыто</span><div class="req">Откроется после просмотра в лиге «${UI2.LEAGUES[L.id - 2].name}»</div>`);
+  }
+  let idx = -1;
+  function show(i, first) {
+    if (i === idx) return; idx = i;
+    sc.set(S[i].word, S[i].over, first); sc.pan(i * 14);
+    const b = $('box'); b.classList.add('out');
+    setTimeout(() => { b.innerHTML = box(i); b.classList.remove('out'); b.querySelectorAll('[data-go]').forEach(a => a.onclick = e => { e.preventDefault(); UI2.go(a.getAttribute('href')); }); }, first ? 0 : 300);
+    [...$('lad').querySelectorAll('.lg')].forEach((el, k) => el.classList.toggle('sel', k + 1 === i));
+    $('count').textContent = `${String(i + 1).padStart(2, '0')} / 07`;
+    $('hint').style.opacity = i === 0 ? 1 : 0;
+    if (!first) { const k = $('sk'); k.classList.remove('dash'); void k.offsetWidth; k.classList.add('dash'); }
+  }
+  addEventListener('scroll', () => show(Math.max(0, Math.min(S.length - 1, Math.round(scrollY / innerHeight)))), { passive: true });
+  addEventListener('keydown', e => { if (e.key === 'ArrowRight') scrollBy({ top: innerHeight }); if (e.key === 'ArrowLeft') scrollBy({ top: -innerHeight }); });
+  show(0, true); UI2.ready();
+  // пометка тренера у текущей лиги
+  setTimeout(() => {
+    const c = $('lad').querySelectorAll('.lg')[cur - 1].querySelector('img').getBoundingClientRect();
+    const host = document.body, n = UI2.note(host, 'ты здесь!', Math.max(8, c.left - 120), c.top - 46, { x: 60, y: 30, d: 'M10 10 C 40 20, 70 40, 112 58 M100 46 L112 58 L96 62' });
+    n.style.position = 'fixed'; n.style.zIndex = 13;
+  }, 900);
+})();
+</script>
+</body></html>
