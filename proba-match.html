@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ICE ENGLISH · Матч (проба)</title>
+<link rel="stylesheet" href="fonts.css?v=30"><link rel="stylesheet" href="proba.css?v=30">
+<style>
+/* табло как в хоккейной трансляции */
+.board{position:fixed;z-index:12;left:0;right:0;top:78px}
+.sb{display:flex;align-items:stretch;height:54px;border-radius:16px;overflow:hidden;background:#1d2e41;color:#fff;box-shadow:0 14px 34px rgba(20,40,64,.25);font-weight:800}
+.sb > div{display:flex;align-items:center;gap:10px;padding:0 18px;border-right:1px solid rgba(255,255,255,.08);white-space:nowrap}
+.sb .logo{background:var(--red);font-size:20px;font-weight:900;letter-spacing:-.04em;padding:0 16px}
+.sb .score{font-size:24px;letter-spacing:-.02em}
+.sb .score small{font-size:10px;letter-spacing:.18em;color:rgba(255,255,255,.55);font-weight:800}
+.sb .score b{display:inline-block;min-width:22px;text-align:center;transition:transform .4s var(--ease)}
+.sb .score b.bump{animation:bump .6s var(--ease)}
+@keyframes bump{30%{transform:scale(1.6);color:#ffd2d4}}
+.sb .per{gap:4px;padding:0 8px}
+.sb .per span{padding:7px 12px;border-radius:10px;font-size:12px;color:rgba(255,255,255,.55);cursor:pointer}
+.sb .per span.on{background:rgba(255,255,255,.12);color:#fff}
+.sb .per span b{color:var(--red);margin-right:6px}
+.sb .grow{flex:1;border-right:0}
+.pk{display:flex;gap:6px}
+.pk i{width:16px;height:16px;border-radius:50%;background:rgba(255,255,255,.14)}
+.pk i.ok{background:radial-gradient(circle at 34% 30%,#8a97a6 0 9%,#3a4654 32%,#141c25 64%);box-shadow:inset 0 0 0 1.5px #0d141b}
+.pk i.err{background:radial-gradient(circle at 34% 30%,#8a97a6 0 9%,#3a4654 32%,#141c25 64%);box-shadow:0 0 0 2px var(--red)}
+.pk i.now{box-shadow:0 0 0 2px #fff}
+.sb .penalty{color:#ff9aa0;font-size:12px;letter-spacing:.06em}
+
+/* поле игры */
+.arena{position:fixed;z-index:10;left:0;right:0;top:148px;bottom:clamp(14px,2.5vh,28px)}
+.arena .wrap{height:100%;display:grid;grid-template-columns:minmax(0,1fr) clamp(220px,26vw,400px);gap:24px}
+.task{position:relative;align-self:start;max-height:100%;min-height:min(520px,100%);display:flex;flex-direction:column;border-radius:26px;background:rgba(255,255,255,.82);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);box-shadow:0 18px 44px rgba(20,44,70,.13);overflow:hidden}
+.thead{padding:22px 28px 6px}
+.thead h2{font-size:clamp(24px,2.1vw,34px);margin:8px 0 0}
+.tbody{flex:1;min-height:0;overflow:auto;padding:16px 28px}
+.tfoot{display:flex;gap:10px;align-items:center;padding:14px 28px 20px;border-top:1px solid rgba(36,55,77,.08)}
+.tfoot .sp{flex:1}
+.q{font-size:clamp(20px,1.7vw,28px);font-weight:800;letter-spacing:-.02em;line-height:1.3;margin:4px 0 18px}
+.q u{text-decoration:none;display:inline-block;min-width:90px;border-bottom:3px solid var(--red)}
+.opts{display:grid;gap:10px}
+.opt{display:flex;align-items:center;gap:14px;text-align:left;border:1px solid rgba(36,55,77,.12);background:#fff;border-radius:16px;padding:13px 18px;font-size:16px;font-weight:700;cursor:pointer;transition:transform .2s,box-shadow .2s}
+.opt:hover{transform:translateX(4px);box-shadow:0 6px 18px rgba(27,47,69,.12)}
+.opt .puck{width:22px;height:22px;flex:none}
+.opt.right{background:var(--ink);color:#fff}
+.opt.wrong{color:var(--red);border-color:var(--red);animation:shake .4s}
+.opt:disabled{cursor:default}
+@keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.puck{border-radius:50%;background:radial-gradient(circle at 34% 30%,#8a97a6 0 9%,#3a4654 32%,#141c25 64%);box-shadow:inset 0 0 0 1.5px #0d141b,0 3px 6px rgba(10,20,30,.25)}
+.fly{position:fixed;z-index:40;width:24px;height:24px;pointer-events:none}
+.fb{margin-top:14px;border-radius:16px;padding:12px 16px;font-size:15px;line-height:1.45;display:none}
+.fb.show{display:block;animation:fin .4s var(--ease)}
+.fb.ok{background:var(--ink);color:#fff}.fb.bad{background:#fff;border:2px solid var(--red)}
+.fb b{display:block}
+@keyframes fin{from{opacity:0;transform:translateY(8px)}}
+/* пас: слова-шайбы и ячейки, между ячейками дорисовываются стрелки передач */
+.passzone{position:relative}
+.slots{display:flex;flex-wrap:wrap;gap:14px 30px;margin:6px 0 22px;min-height:56px}
+.slot2{min-width:84px;height:50px;border:2px dashed rgba(36,55,77,.25);border-radius:999px;display:flex;align-items:center;justify-content:center}
+.slot2.filled{border-color:transparent}
+.slot2.over{border-color:var(--red);background:rgba(211,38,46,.06)}
+.pool{display:flex;flex-wrap:wrap;gap:10px;padding:12px;border-radius:18px;background:rgba(37,75,112,.06);min-height:64px}
+.pool.over{background:rgba(211,38,46,.06)}
+.chip{display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(36,55,77,.15);background:#fff;border-radius:999px;padding:9px 16px 9px 9px;font-size:16px;font-weight:800;cursor:grab;user-select:none;touch-action:none;transition:transform .2s,box-shadow .2s}
+.chip .puck{width:22px;height:22px}
+.chip:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(27,47,69,.14)}
+.chip.lift{opacity:.25}.chip.pin{background:var(--ink);color:#fff;cursor:default}
+.ghost{position:fixed;z-index:60;pointer-events:none;transform:translate(-50%,-50%) rotate(-4deg);box-shadow:0 14px 30px rgba(27,47,69,.3)}
+.passes{position:absolute;inset:0;pointer-events:none;overflow:visible}
+.passes{z-index:2}
+.passes path{fill:none;stroke:var(--red);stroke-width:3;stroke-linecap:round;stroke-dasharray:var(--l);stroke-dashoffset:var(--l);animation:draw .45s var(--ease) forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+.how{display:inline-flex;gap:8px;font-size:13px;font-weight:700;color:var(--ink-2);background:rgba(37,75,112,.08);padding:7px 12px;border-radius:999px;margin-bottom:12px}
+
+/* плашка как в эфире: ГОЛ / ШТАНГА / КОНЕЦ ПЕРИОДА */
+.lower{position:fixed;z-index:45;left:50%;bottom:12vh;transform:translateX(-50%);display:flex;align-items:stretch;border-radius:16px;overflow:hidden;box-shadow:0 20px 50px rgba(10,20,30,.35);
+  clip-path:inset(0 100% 0 0);transition:clip-path .45s var(--ease);pointer-events:none}
+.lower.show{clip-path:inset(0 0 0 0)}
+.lower .l1{background:var(--red);color:#fff;font-weight:900;font-size:clamp(34px,4vw,64px);letter-spacing:-.06em;padding:10px 26px;line-height:1}
+.lower .l2{background:#1d2e41;color:#fff;font-weight:800;font-size:15px;padding:0 22px;display:flex;align-items:center;max-width:420px}
+.lower.post .l1{background:#1d2e41}.lower.post .l2{background:#fff;color:var(--ink)}
+
+.side{position:relative}
+.slot.big{left:0;right:0;bottom:0;height:min(48vh,520px)}
+.rule-pop{position:fixed;inset:0;z-index:70;background:rgba(20,36,54,.35);display:none;place-items:center}
+.rule-pop.show{display:grid}
+.rp{width:min(860px,92vw);max-height:82vh;overflow:auto;background:#f6f9fc;border-radius:24px;padding:22px 26px;box-shadow:0 30px 80px rgba(10,24,40,.35)}
+.rp .duo{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.rp .duo > div{background:var(--ink);color:#fff;border-radius:16px;padding:14px 16px}
+.rp .kicker{color:rgba(255,255,255,.6)}
+.rp mark{background:linear-gradient(transparent 58%,rgba(255,110,115,.45) 58%);color:#fff;font-weight:800}
+.rp .ex{display:inline-block;background:rgba(255,255,255,.12);padding:6px 12px;border-radius:12px;font-weight:600;margin:4px 0}
+.rp .tr{color:rgba(255,255,255,.65);font-size:14px}
+.rp .note{color:var(--ink-2);font-size:14px}
+@media (max-width:1100px){.arena .wrap{grid-template-columns:1fr}.side{display:none}.sb .per span:not(.on){display:none}}
+</style></head>
+<body>
+<div class="ps" id="stage"></div>
+<section class="board rise"><div class="wrap"><div class="sb">
+  <div class="logo">7</div>
+  <div class="score"><small>ТЫ</small><b id="sYou">0</b>:<b id="sMis">0</b><small>ОШИБКИ</small></div>
+  <div class="per" id="per"><span><b>1</b>Разобраться</span><span class="on"><b>2</b>Тренировка</span><span><b>3</b>Слова</span></div>
+  <div class="grow"><div class="pk" id="pk"></div></div>
+  <div class="penalty" id="pen">⏱ ШТРАФНАЯ: 0</div>
+</div></div></section>
+<section class="arena"><div class="wrap">
+  <div class="task rise" style="--i:1">
+    <div class="thead"><div class="kicker" id="tk"></div><h2 class="title" id="tt"></h2></div>
+    <div class="tbody" id="tb"></div>
+    <div class="tfoot"><button class="go light" id="ruleBtn">Правило</button><span class="sp"></span><button class="go" id="next" disabled>Дальше <span>↗</span></button></div>
+  </div>
+  <div class="side"><div class="slot big rise" style="--i:2"><span>Хоккеист: смотрит за курсором, празднует гол</span></div></div>
+</div></section>
+<div class="lower" id="lower"><div class="l1" id="l1">ГОЛ!</div><div class="l2" id="l2"></div></div>
+<div class="rule-pop" id="rp"></div>
+<div class="veil"></div>
+<script src="data.js?v=30"></script><script src="lessons/1a.js?v=30"></script><script src="proba-scene.js?v=30"></script><script src="proba-ui.js?v=30"></script>
+<script>
+(() => {
+  const $ = id => document.getElementById(id), L = ICE_LESSONS['1a'];
+  PUI.header('topics');
+  const wrapLeft = () => (innerWidth - Math.min(1320, innerWidth - 2 * Math.max(20, Math.min(64, innerWidth * .04)))) / 2;
+  PScene.mount($('stage'), { img: 'lesson', text: L.code, over: 'матч 1 · урок 1a', horizon: .4, size: .26, sink: .08,
+    x: () => { const s = document.querySelector('.side').getBoundingClientRect(); return s.width ? s.left - 10 : innerWidth * .62; } });
+  const TASKS = [0, 2, 3, 4].map(i => L.tasks[i]);
+  let qi = 0, you = 0, mis = 0, pen = 0, res = [];
+  const shuffle = a => a.map(v => [Math.random(), v]).sort((x, y) => x[0] - y[0]).map(x => x[1]);
+  const pucks = () => $('pk').innerHTML = TASKS.map((_, i) => `<i class="${res[i] === 1 ? 'ok' : res[i] === 0 ? 'err' : i === qi ? 'now' : ''}"></i>`).join('');
+  const bump = id => { const b = $(id); b.classList.remove('bump'); void b.offsetWidth; b.classList.add('bump'); };
+  function lower(kind, t1, t2) { const l = $('lower'); l.className = 'lower ' + kind; $('l1').textContent = t1; $('l2').textContent = t2;
+    requestAnimationFrame(() => l.classList.add('show')); clearTimeout(l.t); l.t = setTimeout(() => l.classList.remove('show'), 1700); }
+  function shot(fromEl, ok) {   // шайба летит от ответа за край экрана
+    const r = fromEl.getBoundingClientRect(), p = document.createElement('div'); p.className = 'fly puck';
+    p.style.left = r.left + 'px'; p.style.top = r.top + r.height / 2 - 12 + 'px'; document.body.appendChild(p);
+    const dx = innerWidth - r.left + 60, dy = ok ? -innerHeight * .25 : innerHeight * .05;
+    p.animate([{ transform: 'translate(0,0) scale(1)' }, { transform: `translate(${dx * .55}px,${dy * .6 - 40}px) scale(.9)` }, { transform: `translate(${dx}px,${dy}px) scale(.6)` }],
+      { duration: ok ? 650 : 520, easing: 'cubic-bezier(.3,.1,.4,1)' }).onfinish = () => p.remove();
+  }
+  function result(ok, el, why) {
+    const fb = $('fb');
+    if (res[qi] === undefined) { res[qi] = ok ? 1 : 0; if (ok) { you++; bump('sYou'); } else { mis++; pen++; bump('sMis'); $('pen').textContent = `⏱ ШТРАФНАЯ: ${pen}`; } }
+    $('sYou').textContent = you; $('sMis').textContent = mis; pucks();
+    if (ok) { shot(el, true); setTimeout(() => lower('', 'ГОЛ!', 'Верно — шайба в воротах'), 380); fb.className = 'fb show ok'; fb.innerHTML = `<b>Верно!</b>${why}`; $('next').disabled = false; }
+    else { lower('post', 'ШТАНГА', 'Задание уходит на штрафную — разберём ошибку'); fb.className = 'fb show bad'; fb.innerHTML = `<b>Не совсем.</b>${why} Попробуй ещё раз.`; }
+  }
+  function show() {
+    const t = TASKS[qi]; pucks(); $('next').disabled = true;
+    $('tk').textContent = `Период 2 · задание ${qi + 1} из ${TASKS.length}`; $('tt').textContent = t.prompt;
+    const b = $('tb'); b.innerHTML = '';
+    if (t.type === 'choice') {
+      b.insertAdjacentHTML('beforeend', `<p class="q">${t.text.replace('___', '<u>&nbsp;</u>')}</p><div class="opts" id="opts"></div><div class="fb" id="fb"></div>`);
+      let locked = false;
+      shuffle(t.options).forEach(o => { const x = document.createElement('button'); x.className = 'opt'; x.innerHTML = `<span class="puck"></span>${o.t}`;
+        x.onclick = () => { if (locked) return; if (o.ok || o.alt) { locked = true; x.classList.add('right'); document.querySelectorAll('.opt').forEach(z => z.disabled = true); result(true, x.querySelector('.puck'), o.why); }
+          else { x.classList.remove('wrong'); void x.offsetWidth; x.classList.add('wrong'); result(false, x, o.why); } };
+        $('opts').appendChild(x); });
+    } else if (t.type === 'build') { buildTask(t, b); }
+    b.querySelectorAll(':scope > *').forEach((e, i) => { e.style.animation = `fin .5s var(--ease) ${i * .06}s both`; });
+  }
+  // пас: перетащи слова-шайбы в ячейки; при верном порядке рисуются стрелки передач
+  function buildTask(t, b) {
+    const ans = t.answer.split(' ');
+    b.insertAdjacentHTML('beforeend', `<div class="how">👆 Перетащи слова-шайбы в ячейки по порядку. Нажатие ставит слово в первую свободную.</div>
+      <p style="margin:0 0 12px;color:var(--mute);font-size:14px">По-русски: ${t.hint}</p>
+      <div class="passzone"><svg class="passes" id="passes"></svg><div class="slots" id="slots">${ans.map((_, i) => `<div class="slot2" data-drop="slot" data-i="${i}"></div>`).join('')}</div></div>
+      <div class="pool" id="pool" data-drop="pool"></div><div style="margin-top:14px"><button class="go" id="chk" disabled>Проверить пас</button></div><div class="fb" id="fb"></div>`);
+    const S = [...document.querySelectorAll('.slot2')], pool = $('pool');
+    const sync = () => { S.forEach(s => s.classList.toggle('filled', !!s.firstChild)); $('chk').disabled = S.some(s => !s.firstChild); };
+    const place = (c, d) => { const from = c.parentNode; if (d === pool) pool.appendChild(c); else { const occ = d.firstChild; if (occ === c) return; if (occ) (from.classList.contains('slot2') ? from : pool).appendChild(occ); d.appendChild(c); } sync(); };
+    shuffle(t.words).forEach(w => {
+      const c = document.createElement('span'); c.className = 'chip'; c.innerHTML = `<span class="puck"></span>${w}`; c.dataset.w = w;
+      c.addEventListener('pointerdown', e => {
+        if (c.classList.contains('pin')) return; e.preventDefault(); c.setPointerCapture(e.pointerId);
+        const sx = e.clientX, sy = e.clientY; let g = null, over = null;
+        const mv = ev => { if (!g && Math.hypot(ev.clientX - sx, ev.clientY - sy) > 6) { g = c.cloneNode(true); g.classList.add('ghost'); document.body.appendChild(g); c.classList.add('lift'); }
+          if (!g) return; g.style.left = ev.clientX + 'px'; g.style.top = ev.clientY + 'px';
+          const d = document.elementFromPoint(ev.clientX, ev.clientY)?.closest('[data-drop]'); if (over && over !== d) over.classList.remove('over'); if (d) d.classList.add('over'); over = d; };
+        const up = ev => { c.removeEventListener('pointermove', mv); c.removeEventListener('pointerup', up); if (over) over.classList.remove('over');
+          if (g) { g.remove(); c.classList.remove('lift'); const d = document.elementFromPoint(ev.clientX, ev.clientY)?.closest('[data-drop]'); if (d) place(c, d.dataset.drop === 'pool' ? pool : d); }
+          else { if (c.parentNode === pool) { const e2 = S.find(s => !s.firstChild); if (e2) place(c, e2); } else place(c, pool); } };
+        c.addEventListener('pointermove', mv); c.addEventListener('pointerup', up);
+      });
+      pool.appendChild(c);
+    });
+    $('chk').onclick = () => {
+      const said = S.map(s => s.firstChild.dataset.w).join(' ');
+      if ([t.answer, ...(t.alt || [])].some(a => a.toLowerCase() === said.toLowerCase())) {
+        S.forEach(s => s.firstChild.classList.add('pin')); $('chk').remove(); drawPasses(S);
+        setTimeout(() => result(true, S[S.length - 1].firstChild.querySelector('.puck'), `${t.answer}.`), 120 * S.length);
+      } else result(false, $('chk'), t.why);
+    };
+  }
+  function drawPasses(S) {
+    const svg = $('passes'), R = svg.getBoundingClientRect(); let h = '';
+    for (let i = 0; i < S.length - 1; i++) {
+      const a = S[i].getBoundingClientRect(), b = S[i + 1].getBoundingClientRect();
+      if (Math.abs(a.top - b.top) > 10) continue;   // перенос строки — стрелку не рисуем
+      const x1 = a.right - R.left - 4, y1 = a.top - R.top + a.height / 2, x2 = b.left - R.left + 4, y2 = b.top - R.top + b.height / 2, mx = (x1 + x2) / 2, my = y1 - 14;
+      h += `<path style="animation-delay:${i * .12}s" d="M${x1} ${y1} Q${mx} ${my} ${x2} ${y2}"/>`;
+    }
+    svg.innerHTML = h; svg.querySelectorAll('path').forEach(p => p.style.setProperty('--l', p.getTotalLength() + 1));
+  }
+  $('next').onclick = () => { if (qi < TASKS.length - 1) { qi++; show(); } else end(); };
+  function end() {
+    const win = you >= Math.ceil(TASKS.length * .75);
+    lower(win ? '' : 'post', win ? 'ГОЛ!' : 'КОНЕЦ ПЕРИОДА', win ? `Период выигран ${you}:${mis}` : `Счёт ${you}:${mis} — отбудь штраф и попробуй снова`);
+    $('tk').textContent = 'Конец периода'; $('tt').textContent = win ? 'Период выигран!' : 'Почти получилось';
+    $('tb').innerHTML = `<p class="q">Счёт ${you} : ${mis}</p><p>${pen ? `На штрафной ${pen} — эти задания попадут в «Штрафную», там можно отыграться.` : 'Ни одного штрафа — чистая игра!'}</p><p style="color:var(--mute)">Это проба: в полном уроке здесь 10 заданий и три периода.</p>`;
+    $('next').textContent = 'Обратно'; $('next').disabled = false; $('next').onclick = () => PUI.go('proba-hub.html');
+  }
+  // правило поверх задания
+  $('ruleBtn').onclick = () => { const c = L.theory[0], c2 = L.theory[1]; $('rp').innerHTML = `<div class="rp"><div class="kicker" style="color:var(--mute)">Правило урока</div><h2 class="title" style="font-size:30px;margin:6px 0 14px">${c.title}</h2>${c.html}<h2 class="title" style="font-size:24px;margin:18px 0 10px">${c2.title}</h2>${c2.html}<div style="margin-top:16px"><button class="go" id="rpx">Понятно</button></div></div>`;
+    $('rp').classList.add('show'); $('rpx').onclick = () => $('rp').classList.remove('show'); };
+  $('rp').onclick = e => { if (e.target === $('rp')) $('rp').classList.remove('show'); };
+  addEventListener('keydown', e => { const n = +e.key; if (n >= 1 && n <= 4) { const o = [...document.querySelectorAll('.opt')].filter(x => !x.disabled)[n - 1]; o && o.click(); } if (e.key === 'Enter' && !$('next').disabled) $('next').click(); });
+  show(); PUI.ready();
+  setTimeout(() => { const r = $('ruleBtn').getBoundingClientRect();
+    const n = PUI.note('забыл правило? жми сюда', { x: r.left + 20, y: r.top - 70 }, { x: r.left + r.width * .5, y: r.top - 6 }, { from: 'bottom', bend: .2, delay: 300 });
+    // пометка тренера живёт до первого действия или 7 секунд
+    const off = () => { n.remove(); removeEventListener('pointerdown', off); }; setTimeout(off, 7000); addEventListener('pointerdown', off);
+  }, 1500);
+})();
+</script>
+</body></html>

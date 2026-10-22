@@ -1,0 +1,63 @@
+/* ПРОБА нового оформления: колонка по центру, без увеличения интерфейса, три плана глубины, пометки тренера */
+@font-face{font-family:"Caveat";font-weight:500;font-display:swap;src:url(fonts/caveat-cyrillic-500-normal.woff2) format("woff2");unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:"Caveat";font-weight:500;font-display:swap;src:url(fonts/caveat-latin-500-normal.woff2) format("woff2");unicode-range:U+0000-00FF,U+2000-206F}
+@font-face{font-family:"Caveat";font-weight:700;font-display:swap;src:url(fonts/caveat-cyrillic-700-normal.woff2) format("woff2");unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:"Caveat";font-weight:700;font-display:swap;src:url(fonts/caveat-latin-700-normal.woff2) format("woff2");unicode-range:U+0000-00FF,U+2000-206F}
+:root{--ink:#24374d;--ink-2:#3d5368;--mute:#627a8d;--blue:#648ba5;--red:#d3262e;--font:Inter,Arial,sans-serif;--hand:Caveat,"Comic Sans MS",cursive;
+  --pad:clamp(20px,4vw,64px);--wrap:min(1320px,calc(100vw - var(--pad) * 2));--ease:cubic-bezier(.22,.8,.2,1)}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;overflow:hidden;color:var(--ink);font-family:var(--font);-webkit-font-smoothing:antialiased;background:#e8edf4}
+button{font:inherit;color:inherit}
+.wrap{width:var(--wrap);margin:0 auto;position:relative}
+
+/* сцена */
+.ps{position:fixed;inset:0;overflow:hidden;z-index:0}
+.ps-grad{position:absolute;inset:-15%;background:radial-gradient(ellipse at 15% 21%,#b6d4f0,transparent 55%),radial-gradient(ellipse at 83% 76%,#ffe5ce,transparent 63%),#e8edf4;animation:drift 38s ease-in-out infinite alternate}
+.ps-grad::after{content:"";position:absolute;inset:-15%;background:radial-gradient(ellipse at 80% 18%,#f8d4cf,transparent 55%),radial-gradient(ellipse at 18% 80%,#bfdede,transparent 60%);opacity:.55;filter:blur(38px)}
+@keyframes drift{0%{transform:translate3d(0,0,0);filter:hue-rotate(0)}50%{transform:translate3d(-4%,1.5%,0);filter:hue-rotate(12deg)}100%{transform:translate3d(-7%,-1%,0);filter:hue-rotate(-8deg)}}
+.ps-box{position:absolute;pointer-events:none}
+.ps-box img{position:absolute;left:0;width:100%;display:block;filter:saturate(.82) brightness(1.06) contrast(.94)}
+.ps-sky{top:0;-webkit-mask-image:linear-gradient(to bottom,transparent 0,#000 30%);mask-image:linear-gradient(to bottom,transparent 0,#000 30%)}
+.ps-ice{opacity:.85;-webkit-mask-image:linear-gradient(to bottom,#000 0,rgba(0,0,0,.55) 9%,transparent 30%);mask-image:linear-gradient(to bottom,#000 0,rgba(0,0,0,.55) 9%,transparent 30%)}
+.ps-tint{position:absolute;inset:0;mix-blend-mode:soft-light;opacity:.55;background:radial-gradient(ellipse at 15% 21%,#b6d4f0,transparent 55%),radial-gradient(ellipse at 83% 76%,#ffe5ce,transparent 63%)}
+.ps-giant{position:absolute;display:flex;flex-direction:column;align-items:flex-start;white-space:nowrap}
+.ps-over{font-size:clamp(11px,.95vw,15px);letter-spacing:.42em;font-weight:800;color:#254b70;opacity:.55;margin:0 0 .5em .35em;text-transform:uppercase}
+.ps-word{font-weight:900;letter-spacing:-.085em;line-height:.78;color:#254b70;opacity:.2;margin-left:-.04em}
+
+/* шапка: компактная, в колонке */
+.pbar{position:fixed;z-index:20;top:0;left:0;right:0;height:72px;display:flex;align-items:center}
+.pbar .wrap{display:flex;align-items:center;gap:22px}
+.brand{font-size:13px;letter-spacing:.23em;font-weight:900;text-decoration:none;color:var(--ink);white-space:nowrap}.brand span{font-weight:400}
+.modes{display:flex;gap:2px;padding:4px;border-radius:14px;background:rgba(255,255,255,.55);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.modes a{padding:8px 14px;border-radius:10px;font-size:13px;font-weight:800;text-decoration:none;color:var(--ink)}
+.modes a.on{background:var(--ink);color:#fff}
+.pbar .sp{flex:1}
+.plink{font-size:13px;font-weight:700;text-decoration:none;color:var(--ink-2)}
+.cont{display:inline-flex;align-items:center;gap:10px;padding:9px 10px 9px 16px;border-radius:30px;background:#263c51;color:#fff;text-decoration:none;font-size:13px;font-weight:800}
+.cont i{font-style:normal;width:24px;height:24px;border-radius:50%;background:var(--red);display:grid;place-items:center;font-size:12px}
+
+.kicker{font-size:11px;letter-spacing:.23em;font-weight:800;color:var(--mute);text-transform:uppercase}
+.title{font-weight:900;letter-spacing:-.07em;line-height:.92;margin:0}
+.go{display:inline-flex;align-items:center;gap:14px;border:0;border-radius:30px;padding:13px 20px;background:#263c51;color:#fff;font-weight:800;font-size:13px;letter-spacing:.02em;cursor:pointer;text-decoration:none;transition:background .25s,transform .25s var(--ease)}
+.go:hover{background:#42667e;transform:translateY(-1px)}
+.go.red{background:var(--red)}.go.red:hover{background:#b81f26}
+.go.light{background:rgba(255,255,255,.85);color:var(--ink)}
+.go:disabled{background:#a3b2bf;cursor:default;transform:none}
+
+/* пометки тренера: рукописный текст и маркерная стрелка, которая дорисовывается */
+.hand{position:absolute;z-index:15;font-family:var(--hand);font-weight:700;color:var(--red);font-size:clamp(22px,1.9vw,32px);line-height:1;transform:rotate(-5deg);white-space:nowrap;pointer-events:none;opacity:0;transition:opacity .4s ease}
+.hand.show{opacity:1}
+.hand-svg{position:absolute;z-index:15;overflow:visible;pointer-events:none}
+.hand-svg path{fill:none;stroke:var(--red);stroke-width:3;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:var(--l);stroke-dashoffset:var(--l);transition:stroke-dashoffset 1s var(--ease)}
+.hand-svg.show path{stroke-dashoffset:0}
+.hand-svg path.head{transition-delay:.9s;transition-duration:.25s}
+
+/* место под видео хоккеиста */
+.slot{position:absolute;border:1.5px dashed rgba(36,55,77,.3);border-radius:24px;background:rgba(255,255,255,.12);display:flex;align-items:flex-end;justify-content:center;padding:12px}
+.slot span{font-size:11px;font-weight:700;color:var(--ink-2);background:rgba(255,255,255,.75);padding:5px 10px;border-radius:999px}
+
+/* появление */
+.rise{opacity:0;transform:translateY(22px);transition:opacity .7s ease,transform .9s var(--ease);transition-delay:calc(var(--i,0) * 90ms + .15s)}
+body.ready .rise{opacity:1;transform:none}
+.veil{position:fixed;inset:0;z-index:50;background:#e8eef5;pointer-events:none;opacity:1;transition:opacity .6s}
+body.ready .veil{opacity:0}body.leaving .veil{opacity:1}

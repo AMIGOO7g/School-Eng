@@ -96,5 +96,5 @@ window.ICE_STORE = {
 /* Загрузить содержание готовых уроков (все или перечисленные) */
 window.ICE_LOAD = (ids) => Promise.all((ids || Object.keys(window.ICE_READY)).map(id => new Promise(res => {
   if (window.ICE_LESSONS && window.ICE_LESSONS[id]) return res();
-  const s = document.createElement('script'); s.src = `lessons/${id}.js`; s.onload = res; s.onerror = res; document.head.appendChild(s);
+  const s = document.createElement('script'); s.src = `lessons/${id}.js?v=29`; s.onload = res; s.onerror = res; document.head.appendChild(s);
 })));
