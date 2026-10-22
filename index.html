@@ -2,111 +2,172 @@
 <html lang="ru"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>ICE ENGLISH · Карьера</title>
-<link rel="stylesheet" href="fonts.css?v=31"><link rel="stylesheet" href="ui2.css?v=31">
+<link rel="stylesheet" href="fonts.css?v=32"><link rel="stylesheet" href="ui2.css?v=32">
 <style>
-html{scroll-snap-type:y mandatory;scroll-behavior:smooth}
-.snap{height:100vh;scroll-snap-align:start}
-/* текст сцены */
-.lead2{position:fixed;z-index:12;left:0;right:0;top:calc(var(--hz,50vh) - clamp(40px,6vh,64px))}
-.lead2 .box{max-width:480px;transition:opacity .35s ease,transform .5s var(--ease)}
-.lead2 .box.out{opacity:0;transform:translateY(14px)}
-.lead2 h1{font-size:clamp(46px,4.8vw,84px);margin:10px 0 12px}
-.lead2 p{font-size:clamp(15px,1.1vw,17px);line-height:1.5;color:var(--ink);font-weight:600;margin:0 0 20px;max-width:430px}
-.lead2 .req{display:flex;align-items:center;gap:10px;font-size:14px;font-weight:700;color:var(--ink-2);margin-top:12px}
+/* непрерывный проезд вправо: прокрутка двигает мир, хоккеист едет на месте */
+.world{position:fixed;inset:0;overflow:hidden;z-index:0}
+.world .grad{position:absolute;inset:-15%;background:radial-gradient(ellipse at 15% 21%,#b6d4f0,transparent 55%),radial-gradient(ellipse at 83% 76%,#ffe5ce,transparent 63%),#e8edf4;animation:sdrift 38s ease-in-out infinite alternate}
+.lay{position:absolute;left:0;right:0;overflow:hidden}
+.lay .strip{position:absolute;left:0;top:0;height:100%;background-repeat:repeat-x;background-size:auto 100%;will-change:transform}
+.lay.sky{-webkit-mask-image:linear-gradient(to bottom,transparent 0,#000 30%);mask-image:linear-gradient(to bottom,transparent 0,#000 30%)}
+.lay.ice{-webkit-mask-image:linear-gradient(to bottom,#000 0,rgba(0,0,0,.6) 14%,transparent 50%);mask-image:linear-gradient(to bottom,#000 0,rgba(0,0,0,.6) 14%,transparent 50%);opacity:.9}
+.words{position:absolute;inset:0}
+.gw{position:absolute;white-space:nowrap;display:flex;flex-direction:column;align-items:flex-start;will-change:transform,opacity}
+.gw .o{font-size:clamp(12px,1vw,16px);letter-spacing:.42em;font-weight:800;color:#1f3e5e;opacity:.8;margin:0 0 .6em .2em;text-transform:uppercase}
+.gw .w{font-family:var(--head);line-height:.78;color:#264a6f;opacity:.42;text-transform:uppercase}
+/* текстовые блоки стоят вдоль пути и проезжают мимо */
+.track{position:fixed;inset:0;z-index:12;pointer-events:none}
+.pan{position:absolute;width:min(480px,40vw);pointer-events:auto;will-change:transform}
+.pan::before{content:"";position:absolute;z-index:-1;left:-70px;right:-90px;top:-60px;bottom:-60px;border-radius:50%;
+  background:radial-gradient(closest-side,rgba(244,248,252,.94),rgba(244,248,252,.75) 55%,rgba(244,248,252,0))}
+.pan h1{font-size:clamp(46px,4.8vw,84px);margin:10px 0 12px}
+.pan p{font-size:clamp(15px,1.1vw,17px);line-height:1.5;color:var(--ink);font-weight:600;margin:0 0 20px}
+.pan .row2{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.pan .req{font-size:13px;font-weight:700;color:var(--ink-2);margin-top:12px;line-height:1.4}
+.btn.ghost{background:rgba(255,255,255,.85);color:var(--ink);box-shadow:none}
 /* хоккеист */
-.skater{position:fixed;z-index:8;pointer-events:none;height:min(44vh,520px);right:max(var(--pad),calc((100vw - 1320px) / 2));top:calc(var(--hz,50vh) - min(26vh,300px));transition:transform .6s var(--ease)}
-.skater img{height:100%;display:block;filter:drop-shadow(0 30px 30px rgba(20,40,64,.18))}
-.skater .bob{height:100%;animation:bob 3.2s ease-in-out infinite}
+.skater{position:fixed;z-index:8;pointer-events:none;height:min(44vh,520px);right:max(var(--pad),calc((100vw - 1320px) / 2));top:calc(var(--hz,50vh) - min(26vh,300px))}
+.skater .lean{height:100%;transition:transform .5s var(--ease)}
+.skater img{height:100%;display:block;filter:drop-shadow(0 30px 30px rgba(20,40,64,.18));animation:bob 3.2s ease-in-out infinite}
 @keyframes bob{50%{transform:translateY(-6px)}}
-.skater.dash{animation:dash .7s var(--ease)}
-@keyframes dash{0%{transform:translateX(70px);opacity:.4}100%{transform:none;opacity:1}}
-/* лестница лиг */
-.ladder{position:fixed;z-index:12;left:0;right:0;bottom:clamp(18px,4vh,40px)}
+/* лестница лиг: полоска-дорожка под эмблемой, по центру замок */
+.ladder{position:fixed;z-index:14;left:0;right:0;bottom:clamp(16px,3.6vh,38px)}
 .ladder .row{display:grid;grid-template-columns:repeat(6,1fr);position:relative}
-.ladder .line{position:absolute;left:8.33%;right:8.33%;top:52px;height:4px;background:repeating-linear-gradient(90deg,rgba(31,50,72,.35) 0 10px,transparent 10px 18px)}
-.ladder .line i{position:absolute;left:0;top:0;bottom:0;background:var(--red);border-radius:3px;transition:width .8s var(--ease)}
+.ladder .line{position:absolute;left:8.33%;right:8.33%;top:58px;height:4px;background:repeating-linear-gradient(90deg,rgba(31,50,72,.35) 0 10px,transparent 10px 18px)}
+.ladder .line i{position:absolute;left:0;top:0;bottom:0;background:var(--red);border-radius:3px}
 .lg{position:relative;display:flex;flex-direction:column;align-items:center;gap:8px;background:none;border:0;cursor:pointer;padding:0}
-.lg .tag{font-size:11px;font-weight:900;color:#fff;background:rgba(31,50,72,.55);padding:3px 8px;border-radius:6px}
-.lg img{width:clamp(58px,5.4vw,84px);height:auto;transition:transform .4s var(--ease),filter .4s}
+.lg .tag{font-size:11px;font-weight:900;color:#fff;background:rgba(31,50,72,.6);padding:3px 8px;border-radius:6px}
+.lg img{width:clamp(60px,5.4vw,86px);height:auto;transition:transform .4s var(--ease),filter .4s}
 .lg .nm{font-family:var(--head);font-size:clamp(14px,1.2vw,19px);color:var(--ink)}
-.lg .lk{font-size:12px;opacity:.6;height:14px}
-.lg.lock img{filter:grayscale(.85) brightness(.85);opacity:.75}
-.lg.cur img{filter:drop-shadow(0 0 18px rgba(211,38,46,.7))}
+.lg .trk{position:relative;width:62%;height:5px;border-radius:5px;background:rgba(31,50,72,.18);margin-top:4px}
+.lg .trk i{position:absolute;left:0;top:0;bottom:0;border-radius:5px;background:var(--red)}
+.lg .trk .lock{position:absolute;left:50%;top:50%;width:30px;height:30px;transform:translate(-50%,-50%);border-radius:50%;background:#fff;box-shadow:0 4px 12px rgba(20,40,64,.22);display:grid;place-items:center}
+.lg .trk .lock svg{width:15px;height:15px}
+.lg.lock img{filter:grayscale(1) brightness(.9);opacity:.8}
+.lg.cur img{filter:drop-shadow(0 0 18px rgba(211,38,46,.75))}
 .lg.cur .tag{background:var(--red)}
+.lg.skip .tag{background:#5b7a96}
 .lg.sel img{transform:scale(1.14)}
-.lg .prog{width:70%;height:4px;border-radius:4px;background:rgba(31,50,72,.15);overflow:hidden}.lg .prog i{display:block;height:100%;background:var(--red)}
-.count{position:fixed;z-index:12;right:var(--pad);bottom:calc(clamp(18px,4vh,40px) + 140px);font-family:var(--head);font-size:18px;color:var(--ink-2);letter-spacing:.1em}
-.hint{position:fixed;z-index:12;left:50%;transform:translateX(-50%);bottom:calc(clamp(18px,4vh,40px) + 150px);font-size:12px;letter-spacing:.3em;font-weight:800;color:var(--ink-2);text-transform:uppercase;transition:opacity .4s}
-@media (max-height:760px){.ladder .lg .nm{font-size:13px}.lead2 h1{font-size:52px}}
+.count{position:fixed;z-index:12;right:clamp(16px,2.2vw,36px);bottom:calc(clamp(16px,3.6vh,38px) + 150px);font-family:var(--head);font-size:18px;color:var(--ink-2);letter-spacing:.1em}
+.hint{position:fixed;z-index:12;left:50%;transform:translateX(-50%);bottom:calc(clamp(16px,3.6vh,38px) + 160px);font-size:12px;letter-spacing:.3em;font-weight:800;color:var(--ink-2);text-transform:uppercase;transition:opacity .4s}
+.toast2{position:fixed;z-index:70;left:50%;bottom:30px;transform:translate(-50%,20px);opacity:0;background:var(--ink);color:#fff;padding:13px 20px;border-radius:14px;font-size:14px;font-weight:600;transition:opacity .3s,transform .3s}
+.toast2.show{opacity:1;transform:translate(-50%,0)}
+@media (max-height:760px){.lg .nm{font-size:13px}.pan h1{font-size:50px}}
 </style></head>
 <body>
-<div id="stage"></div>
-<div class="skater" id="sk"><div class="bob"><img src="img/pl_skate.webp" alt="Хоккеист номер 7"></div></div>
-<section class="lead2"><div class="wrap"><div class="box" id="box"></div></div></section>
+<div class="world" id="world"><div class="grad"></div></div>
+<div class="skater" id="sk"><div class="lean" id="lean"><img src="img/pl_skate.webp" alt="Хоккеист номер 7"></div></div>
+<div class="track" id="track"></div>
 <section class="ladder"><div class="wrap"><div class="row" id="lad"><div class="line"><i id="lineFill"></i></div></div></div></section>
 <div class="count" id="count">01 / 07</div>
-<div class="hint" id="hint">листай вниз ↓</div>
-<main id="snaps"></main>
+<div class="hint" id="hint">листай вниз — поехали →</div>
+<div class="toast2" id="toast"></div>
+<div style="height:700vh"></div>
 <div class="veil2"></div>
-<script src="data.js?v=31"></script><script src="ui2.js?v=31"></script>
+<script src="data.js?v=32"></script><script src="ui2.js?v=32"></script>
 <script>
 (() => {
-  const $ = id => document.getElementById(id), P = UI2.profile(), cur = P.league.id;
+  const $ = id => document.getElementById(id), P = UI2.profile(), cur = P.league.id, N = 7;
   UI2.header('career');
-  const DESC = {
-    1: ['Первый шаг', 'Здесь всё начинается. Школа: учебник Spotlight 7 — модули, домашка, тренировки и словарь.', 'Начать сезон', 'hub.html'],
-    2: ['Лига 2', 'Уверенные основы: прошедшие времена, рассказы о себе и о других, первые тексты.'],
-    3: ['Лига 3 · Молодёжка', 'Все времена, связный текст, письма и сочинения, аудирование.'],
-    4: ['Лига 4 · Вышка', 'Сложная грамматика, длинные тексты, эссе и дискуссии.'],
-    5: ['Лига 5', 'Свободная речь: фильмы, новости и книги на английском.'],
-    6: ['Вершина', 'Уровень носителя языка. Самый главный кубок.']
-  };
-  const S = [{ word: 'ICE ENGLISH', over: 'твоя карьера · сезон 2026/27' }].concat(UI2.LEAGUES.map(L => ({ word: L.name, over: `лига ${L.id} · ${L.lvl}${L.id === cur ? ' · ты здесь' : ''}`, L })));
-  const sc = UI2.scene($('stage'), { horizon: .5, size: .26, sink: .32 });
-  const setHz = () => document.documentElement.style.setProperty('--hz', sc.horizonPx() + 'px'); setHz(); addEventListener('resize', setHz);
-  S.forEach(() => { const s = document.createElement('section'); s.className = 'snap'; $('snaps').appendChild(s); });
+  // фоны: у каждой лиги своё время суток; небо и горы отдельными слоями, лёд общий
+  const BG = { cr: { hz: .3872, top: .1853, ridge: .2686 }, day: { hz: .3324, top: .1249, ridge: .2096 }, peak: { hz: .3144, top: .0673, ridge: .195 },
+               sunset: { hz: .3574, top: .1686, ridge: .2609 }, gold: { hz: .3387, top: .1325, ridge: .2221 }, night: { hz: .3969, top: .238, ridge: .2935 } };
+  const SCENE_BG = ['cr', 'cr', 'day', 'peak', 'sunset', 'gold', 'night'];
+  const KEYS = Object.keys(BG), world = $('world');
+  const sky = {}, mtn = {};
+  const mk = (cls, src) => { const d = document.createElement('div'); d.className = 'lay ' + cls; const st = document.createElement('div'); st.className = 'strip'; st.style.backgroundImage = `url(${src})`;
+    d.appendChild(st); d.strip = st; d.ar = 3.55; const im = new Image(); im.onload = () => { d.ar = im.naturalWidth / im.naturalHeight; layout(); }; im.src = src; world.appendChild(d); return d; };
+  KEYS.forEach(k => { sky[k] = mk('sky', `img/t_${k}_sky.webp`); });
+  const words = Object.assign(document.createElement('div'), { className: 'words' }); world.appendChild(words);
+  KEYS.forEach(k => { mtn[k] = mk('mtn', `img/t_${k}_mtn.webp`); });
+  const ice = mk('ice', 'img/t_ice.webp');
+
+  const L = UI2.LEAGUES;
+  const S = [{ word: 'ICE ENGLISH', over: 'твоя карьера · сезон 2026/27' }].concat(L.map(l => ({ word: l.name, over: `лига ${l.id} · ${l.lvl}${l.id === cur ? ' · ты здесь' : ''}`, l })));
+  S.forEach(s => { const g = document.createElement('div'); g.className = 'gw'; g.innerHTML = `<span class="o">${s.over}</span><span class="w">${s.word}</span>`; words.appendChild(g); s.g = g; });
+
+  const lock = '<svg viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="11" rx="2.5" fill="#111"/><path d="M8 10V7.5a4 4 0 0 1 8 0V10" fill="none" stroke="#111" stroke-width="2.4"/></svg>';
+  const PANEL = [
+    `<div class="kick bar">Ice English · 7 класс</div><h1 class="h">Твоя карьера<br>в английском</h1><p>Шесть лиг — от детского хоккея до НХЛ. Каждая лига — новый уровень языка. Проходи матчи, зарабатывай награды и прокачивай игрока.</p><div class="row2"><button class="btn" data-act="go2">Поехали <span>→</span></button></div>`,
+    `<div class="kick bar">Лига 1 · основы</div><h1 class="h">Детский<br>хоккей</h1><p>Алфавит и чтение, to be, have got, can, Present Simple и 600 первых слов. Знаешь основы — сдай просмотр и сразу переходи дальше.</p><div class="row2"><button class="btn dark" data-act="test">Сдать просмотр <span>→</span></button><button class="btn ghost" data-act="soon">Пройти основы</button></div>`,
+    `<div class="kick bar">Лига 2 · ты здесь</div><h1 class="h">Юношеская<br>лига</h1><p>Твой текущий сезон — школа: учебник Spotlight 7. Модули, домашка, тренировки и словарь.</p><div class="row2"><button class="btn" data-act="hub">Начать сезон <span>→</span></button></div>`
+  ];
+  const DESC = { 3: ['Лига 3 · молодёжка', 'Все времена, связный текст, письма и сочинения, аудирование.'], 4: ['Лига 4 · вышка', 'Сложная грамматика, длинные тексты, эссе и дискуссии.'],
+                 5: ['Лига 5', 'Свободная речь: фильмы, новости и книги на английском.'], 6: ['Лига 6 · вершина', 'Уровень носителя языка. Самый главный кубок.'] };
+  for (let i = 3; i <= 6; i++) PANEL[i] = `<div class="kick bar">${DESC[i][0]}</div><h1 class="h">${L[i - 1].name.replace(' ', '<br>')}</h1><p>${DESC[i][1]}</p>
+    <div class="row2"><span class="btn lock">${lock.replace('#111', '#555').replace('#111', '#555')} Закрыто</span></div>
+    <div class="req">Чтобы перейти, сдай просмотр в лиге «${L[i - 2].name}»: письменная работа, аудирование, произношение и чтение с переводом.</div>`;
+  const track = $('track');
+  PANEL.forEach((h, i) => { const d = document.createElement('div'); d.className = 'pan'; d.innerHTML = h; track.appendChild(d); S[i].pan = d; });
+  const toast = m => { const t = $('toast'); t.textContent = m; t.classList.add('show'); clearTimeout(t.t); t.t = setTimeout(() => t.classList.remove('show'), 2400); };
+  track.addEventListener('click', e => { const b = e.target.closest('[data-act]'); if (!b) return; const a = b.dataset.act;
+    if (a === 'go2') scrollTo({ top: (document.documentElement.scrollHeight - innerHeight) * 2 / 6, behavior: 'smooth' });
+    if (a === 'hub') UI2.go('hub.html');
+    if (a === 'test') toast('Просмотр по основам скоро появится: письменно, на слух, произношение и чтение.');
+    if (a === 'soon') toast('Уроки основ (A1) появятся позже. Сейчас твой сезон — Юношеская лига.'); });
 
   // лестница лиг
-  const total1 = ICE_BOOK.flatMap(m => m.lessons).length;
-  UI2.LEAGUES.forEach(L => {
-    const b = document.createElement('button'); b.className = 'lg' + (L.id > cur ? ' lock' : '') + (L.id === cur ? ' cur' : '');
-    b.innerHTML = `<span class="tag">${L.lvl}</span><img src="img/${L.img}.webp" alt=""><span class="nm">${L.name}</span>` +
-      (L.id === cur ? `<span class="prog"><i style="width:${(P.done / total1 * 100).toFixed(1)}%"></i></span>` : `<span class="lk">${L.id > cur ? '🔒' : ''}</span>`);
-    b.onclick = () => scrollTo({ top: L.id * innerHeight, behavior: 'smooth' });
+  const total = ICE_BOOK.flatMap(m => m.lessons).length;
+  L.forEach(l => {
+    const b = document.createElement('button'), st = l.id < cur ? 'skip' : l.id === cur ? 'cur' : 'lock';
+    b.className = 'lg ' + st;
+    b.innerHTML = `<span class="tag">${l.lvl}</span><img src="img/${l.img}.webp" alt=""><span class="nm">${l.name}</span>
+      <span class="trk">${st === 'cur' ? `<i style="width:${Math.max(3, P.done / total * 100).toFixed(1)}%"></i>` : st === 'lock' ? `<span class="lock">${lock}</span>` : ''}</span>`;
+    b.onclick = () => scrollTo({ top: (document.documentElement.scrollHeight - innerHeight) * l.id / 6, behavior: 'smooth' });
     $('lad').appendChild(b);
   });
-  $('lineFill').style.width = ((cur - 1) / 5 * 100 + P.done / total1 * (100 / 5)) + '%';
+  $('lineFill').style.width = ((cur - 1) / 5 * 100) + '%';
 
-  function box(i) {
-    const s = S[i];
-    if (!s.L) return `<div class="kick bar">Ice English · 7 класс</div><h1 class="h">Твоя карьера<br>в английском</h1>
-      <p>Шесть лиг — от детского хоккея до НХЛ. Каждая лига — новый уровень языка. Проходи матчи, зарабатывай награды и прокачивай игрока.</p>
-      <a class="btn" href="hub.html" data-go>Начать карьеру <span>→</span></a>`;
-    const L = s.L, d = DESC[L.id], open = L.id <= cur;
-    return `<div class="kick bar">${d[0]}</div><h1 class="h">${L.name.replace(' ', '<br>')}</h1><p>${d[1]}</p>` +
-      (open ? `<a class="btn" href="${d[3] || 'hub.html'}" data-go>${d[2] || 'Играть'} <span>→</span></a>`
-            : `<span class="btn lock">🔒 Закрыто</span><div class="req">Откроется после просмотра в лиге «${UI2.LEAGUES[L.id - 2].name}»</div>`);
+  // раскладка по высоте: линия льда на 50% экрана
+  let H = 0, hzY = 0, vw = 0, wl = 0;
+  function layout() {
+    vw = innerWidth; const vh = innerHeight; H = Math.max(vh * .66, vw * 1.12 * 941 / 1672); hzY = vh * .5;
+    wl = (vw - Math.min(1320, vw - 2 * Math.max(20, Math.min(64, vw * .04)))) / 2;
+    document.documentElement.style.setProperty('--hz', hzY + 'px');
+    KEYS.forEach(k => { const c = BG[k], t = hzY - c.hz * H;
+      Object.assign(sky[k].style, { top: t + 'px', height: (c.hz + .004) * H + 'px' });
+      Object.assign(mtn[k].style, { top: t + c.top * H + 'px', height: (c.hz - c.top + .002) * H + 'px' }); });
+    Object.assign(ice.style, { top: hzY - 2 + 'px', height: (1 - BG.cr.hz) * H + 'px' });
+    [...Object.values(sky), ...Object.values(mtn), ice].forEach(d => { d.tw = parseFloat(d.style.height) * d.ar; d.strip.style.width = (d.tw * 2 + vw) + 'px'; });
+    S.forEach(s => { s.g.querySelector('.w').style.fontSize = H * .27 + 'px'; s.pan.style.left = wl + 'px'; s.pan.style.top = (hzY - Math.min(60, vh * .06)) + 'px'; });
+    frame(true);
   }
-  let idx = -1;
-  function show(i, first) {
-    if (i === idx) return; idx = i;
-    sc.set(S[i].word, S[i].over, first); sc.pan(i * 14);
-    const b = $('box'); b.classList.add('out');
-    setTimeout(() => { b.innerHTML = box(i); b.classList.remove('out'); b.querySelectorAll('[data-go]').forEach(a => a.onclick = e => { e.preventDefault(); UI2.go(a.getAttribute('href')); }); }, first ? 0 : 300);
-    [...$('lad').querySelectorAll('.lg')].forEach((el, k) => el.classList.toggle('sel', k + 1 === i));
-    $('count').textContent = `${String(i + 1).padStart(2, '0')} / 07`;
-    $('hint').style.opacity = i === 0 ? 1 : 0;
-    if (!first) { const k = $('sk'); k.classList.remove('dash'); void k.offsetWidth; k.classList.add('dash'); }
+  // кадр: позиция пути и скорости слоёв
+  let X = 0, tx = 0, lastIdx = -1, vel = 0;
+  function frame(force) {
+    const max = document.documentElement.scrollHeight - innerHeight, p = max > 0 ? scrollY / max : 0;
+    tx = p * (N - 1) * vw;
+    const dx = tx - X; X += dx * (force ? 1 : .16); if (Math.abs(dx) < .5) X = tx; vel += (dx - vel) * .1;
+    const s = X / vw;
+    KEYS.forEach(k => {   // плавная смена времени суток между лигами
+      let w = 0; SCENE_BG.forEach((b, i) => { if (b === k) w = Math.max(w, 1 - Math.min(1, Math.abs(s - i))); });
+      [sky[k], mtn[k]].forEach((d, j) => { d.style.opacity = w; d.style.visibility = w > .002 ? 'visible' : 'hidden';
+        if (w > .002) d.strip.style.transform = `translate3d(${-((X * (j ? .32 : .1)) % d.tw)}px,0,0)`; }); });
+    ice.strip.style.transform = `translate3d(${-(X % ice.tw)}px,0,0)`;
+    S.forEach((sc, i) => {
+      const d = s - i, o = Math.max(0, 1 - Math.abs(d) * 1.25);
+      const c = BG[SCENE_BG[i]], gy = hzY - c.hz * H + c.ridge * H;
+      sc.g.style.opacity = o; sc.g.style.transform = `translate(${wl - d * vw * .42}px, ${gy - sc.g.offsetHeight + sc.g.querySelector('.w').offsetHeight * .3}px)`;
+      sc.pan.style.transform = `translateX(${i * vw - X}px)`;
+      sc.pan.style.opacity = Math.max(0, 1 - Math.abs(d) * 1.6);
+    });
+    $('lean').style.transform = `rotate(${Math.max(-4, Math.min(4, vel * .02))}deg) translateX(${Math.max(-20, Math.min(20, -vel * .08))}px)`;
+    const idx = Math.max(0, Math.min(N - 1, Math.round(s)));
+    if (idx !== lastIdx) { lastIdx = idx; $('count').textContent = `${String(idx + 1).padStart(2, '0')} / 07`; $('hint').style.opacity = idx === 0 ? 1 : 0;
+      [...$('lad').querySelectorAll('.lg')].forEach((el, k) => el.classList.toggle('sel', k + 1 === idx)); }
   }
-  addEventListener('scroll', () => show(Math.max(0, Math.min(S.length - 1, Math.round(scrollY / innerHeight)))), { passive: true });
-  addEventListener('keydown', e => { if (e.key === 'ArrowRight') scrollBy({ top: innerHeight }); if (e.key === 'ArrowLeft') scrollBy({ top: -innerHeight }); });
-  show(0, true); UI2.ready();
-  // пометка тренера у текущей лиги
+  (function loop() { frame(false); requestAnimationFrame(loop); })();
+  addEventListener('resize', layout); document.fonts && document.fonts.ready.then(layout);
+  // после остановки — мягко доезжаем до ближайшей лиги
+  let st; addEventListener('scroll', () => { clearTimeout(st); st = setTimeout(() => {
+    const max = document.documentElement.scrollHeight - innerHeight, k = Math.round(scrollY / max * 6); scrollTo({ top: max * k / 6, behavior: 'smooth' }); }, 220); }, { passive: true });
+  layout(); UI2.ready();
+  // «ты здесь!» — стрелка останавливается у края эмблемы
   setTimeout(() => {
     const c = $('lad').querySelectorAll('.lg')[cur - 1].querySelector('img').getBoundingClientRect();
-    const host = document.body, n = UI2.note(host, 'ты здесь!', Math.max(8, c.left - 120), c.top - 46, { x: 60, y: 30, d: 'M10 10 C 40 20, 70 40, 112 58 M100 46 L112 58 L96 62' });
-    n.style.position = 'fixed'; n.style.zIndex = 13;
-  }, 900);
+    const n = UI2.note(document.body, 'ты здесь!', c.left - 150, c.top - 54, { x: 92, y: 26, d: 'M6 6 C 26 10, 44 22, 56 36 M44 30 L57 37 L52 23' });
+    n.style.position = 'fixed'; n.style.zIndex = 15;
+  }, 1000);
 })();
 </script>
 </body></html>

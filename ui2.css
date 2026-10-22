@@ -29,21 +29,19 @@ button{font:inherit;color:inherit}
 .sc-word{font-family:var(--head);line-height:.78;color:#264a6f;opacity:.4;text-transform:uppercase}
 .sc-haze{position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 48% 42% at 16% 68%,rgba(242,247,251,.92),rgba(242,247,251,.55) 45%,rgba(242,247,251,0) 75%)}
 
-/* шапка */
-.top2{position:fixed;z-index:30;top:0;left:0;right:0;height:84px;display:flex;align-items:center}
-.top2 .wrap{display:flex;align-items:center;gap:20px}
-.logo{font-family:var(--head);font-size:30px;color:var(--ink);text-decoration:none;white-space:nowrap;letter-spacing:.01em}
+/* шапка: логотип у левого края экрана, игрок у правого, меню по центру без подложки, с бегающей красной плашкой */
+.top2{position:fixed;z-index:30;top:0;left:0;right:0;height:88px;display:flex;align-items:center;padding:0 clamp(16px,2.2vw,36px)}
+.logo{font-family:var(--head);font-size:30px;color:var(--ink);text-decoration:none;white-space:nowrap;letter-spacing:.01em;flex:none}
 .logo b{color:var(--red);font-weight:400;margin-right:6px}
-.nav2{display:flex;gap:2px;padding:5px;border-radius:999px;background:rgba(255,255,255,.72);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);box-shadow:0 8px 24px rgba(20,44,70,.1);margin:0 auto}
-.nav2 a{padding:9px 16px;border-radius:999px;font-size:13px;font-weight:800;text-decoration:none;color:var(--ink);white-space:nowrap}
-.nav2 a:hover{background:rgba(31,50,72,.07)}
-.nav2 a.on{background:var(--red);color:#fff}
-.nav2 a.soon{opacity:.45;pointer-events:none}
-.me{display:flex;align-items:center;gap:12px;padding:8px 14px 8px 8px;border-radius:18px;background:rgba(255,255,255,.8);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);box-shadow:0 8px 24px rgba(20,44,70,.1);text-decoration:none;color:var(--ink)}
-.me img{width:44px;height:44px;border-radius:50%;object-fit:cover;background:#c9d6e3}
+.nav2{position:absolute;left:50%;transform:translateX(-50%);display:flex;gap:4px}
+.nav2 a{position:relative;z-index:1;padding:10px 18px;border-radius:999px;font-size:14px;font-weight:800;text-decoration:none;color:var(--ink);white-space:nowrap;transition:color .3s}
+.nav2 a.on,.nav2 a.hot{color:#fff}
+.nav2 .pill{position:absolute;z-index:0;top:0;height:100%;border-radius:999px;background:var(--red);box-shadow:0 8px 20px rgba(211,38,46,.35);transition:left .45s var(--ease),width .45s var(--ease),opacity .3s}
+.me{margin-left:auto;flex:none;display:flex;align-items:center;gap:12px;padding:8px 16px 8px 8px;border-radius:18px;background:rgba(255,255,255,.82);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);box-shadow:0 8px 24px rgba(20,44,70,.12);text-decoration:none;color:var(--ink)}
+.me img{width:46px;height:46px;border-radius:50%;object-fit:cover;background:#c9d6e3}
 .me .n{font-weight:800;font-size:13px;line-height:1.2}.me .n small{display:block;font-weight:600;color:var(--mute);font-size:11px}
-.me .bar{height:4px;width:90px;border-radius:4px;background:rgba(31,50,72,.12);margin-top:5px;overflow:hidden}.me .bar i{display:block;height:100%;background:var(--red)}
-.me .r{font-family:var(--head);font-size:32px;line-height:1}
+.me .bar{height:4px;width:96px;border-radius:4px;background:rgba(31,50,72,.12);margin-top:5px;overflow:hidden}.me .bar i{display:block;height:100%;background:var(--red)}
+.me .r{font-family:var(--head);font-size:34px;line-height:1}
 
 .btn{display:inline-flex;align-items:center;gap:14px;border:0;border-radius:14px;padding:16px 26px;background:var(--red);color:#fff;font-family:var(--head);font-size:20px;letter-spacing:.04em;cursor:pointer;text-decoration:none;box-shadow:0 12px 28px rgba(211,38,46,.3);transition:background .25s,transform .25s var(--ease)}
 .btn:hover{background:var(--red-2);transform:translateY(-2px)}
@@ -55,4 +53,4 @@ button{font:inherit;color:inherit}
 .hand path{fill:none;stroke:var(--red);stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
 .veil2{position:fixed;inset:0;z-index:60;background:#e8eef5;pointer-events:none;opacity:1;transition:opacity .6s}
 body.ready .veil2{opacity:0}body.leaving .veil2{opacity:1}
-@media (max-width:1100px){.nav2 a{padding:8px 10px;font-size:12px}.me .n,.me .bar{display:none}}
+@media (max-width:1180px){.nav2 a{padding:9px 11px;font-size:12px}.me .n,.me .bar{display:none}.logo{font-size:24px}}

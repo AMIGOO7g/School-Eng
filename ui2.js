@@ -10,16 +10,24 @@ window.UI2 = (() => {
     const done = lessons.filter(l => st.done[l.id]).length;
     const best = Object.values(st.lp || {}).reduce((a, x) => a + (x.best || 0), 0);
     const rating = Math.min(99, 50 + done * 2 + Math.round(best / 5));
-    return { st, name: st.name || 'Игрок 7', league: LEAGUES[(st.league || 1) - 1], rating, done, total: lessons.length, awards: (st.awards || []).length };
+    return { st, name: st.name || 'Игрок 7', league: LEAGUES[(st.league || 2) - 1], rating, done, total: lessons.length, awards: (st.awards || []).length };
   }
   function header(active) {
     const p = profile();
     const L = [['hub', 'Раздевалка', 'hub.html'], ['hw', 'Домашка', 'homework.html'], ['season', 'Сезон', 'school.html'], ['career', 'Карьера', 'index.html'], ['pen', 'Штрафная', 'lesson.html?mode=review']];
     const h = document.createElement('header'); h.className = 'top2';
-    h.innerHTML = `<div class="wrap"><a class="logo" href="index.html"><b>/</b>ICE ENGLISH</a>
-      <nav class="nav2">${L.map(([k, t, href]) => `<a href="${href}" class="${k === active ? 'on' : ''}">${t}</a>`).join('')}</nav>
-      <a class="me" href="index.html" title="Карьера"><img src="img/pl_avatar.webp" alt=""><span class="n">${p.name}<small>${p.league.name}</small><span class="bar"><i style="width:${(p.done / p.total * 100).toFixed(1)}%"></i></span></span><span class="r">${p.rating}</span></a></div>`;
+    h.innerHTML = `<a class="logo" href="index.html"><b>/</b>ICE ENGLISH</a>
+      <nav class="nav2"><span class="pill"></span>${L.map(([k, t, href]) => `<a href="${href}" class="${k === active ? 'on' : ''}">${t}</a>`).join('')}</nav>
+      <a class="me" href="index.html" title="Карьера"><img src="img/pl_avatar.webp" alt=""><span class="n">${p.name}<small>${p.league.name}</small><span class="bar"><i style="width:${(p.done / p.total * 100).toFixed(1)}%"></i></span></span><span class="r">${p.rating}</span></a>`;
     document.body.prepend(h);
+    // красная плашка переезжает к пункту под курсором и возвращается к активному
+    const nav = h.querySelector('.nav2'), pill = nav.querySelector('.pill'), links = [...nav.querySelectorAll('a')];
+    const moveTo = a => { if (!a) { pill.style.opacity = 0; return; } pill.style.opacity = 1; pill.style.left = a.offsetLeft + 'px'; pill.style.width = a.offsetWidth + 'px';
+      links.forEach(x => x.classList.toggle('hot', x === a)); };
+    const act = links.find(a => a.classList.contains('on'));
+    links.forEach(a => a.addEventListener('mouseenter', () => moveTo(a)));
+    nav.addEventListener('mouseleave', () => moveTo(act));
+    (document.fonts ? document.fonts.ready : Promise.resolve()).then(() => moveTo(act)); moveTo(act);
     h.querySelectorAll('a[href]').forEach(a => a.addEventListener('click', e => { if (a.getAttribute('href') === location.pathname.split('/').pop()) return; e.preventDefault(); go(a.getAttribute('href')); }));
     return h;
   }
