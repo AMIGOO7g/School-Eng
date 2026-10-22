@@ -13,13 +13,13 @@ window.ICE_LESSON = {
     ['the hustle and bustle', 'суета большого города'], ['employment', 'работа, занятость'], ['unemployment', 'безработица']
   ],
   homework: [
-    { ex: 'Упр. 3a, стр. 6', task: 'Прочитай текст «Teenage Life Swap» на стр. 7 и отметь утверждения: T — верно, F — неверно, NS — в тексте не сказано. Потом объясни слова, выделенные жирным.',
-      rule: 'Найди в тексте место, о котором говорится в утверждении, и сравни. NS ставим, только если в тексте об этом вообще ничего нет. Если сказано обратное — это F.',
+    { type: 'tfns', ex: 'Упр. 3a, стр. 6', task: 'Прочитай текст «Teenage Life Swap» на стр. 7. Для каждого утверждения выбери: T — верно, F — неверно, NS — в тексте не сказано.',
+      rule: 'Найди в тексте место, о котором говорится в утверждении, и сравни. Сказано то же самое — T. Сказано обратное — F. Об этом в тексте вообще нет — NS.',
       items: [
-        { t: '1. Annabel doesn’t like staying in bed.', hint: 'Найди Day 2 у Аннабель на ферме. Что она делает, когда мама Сары приносит ей чай в постель?' },
-        { t: '2. Sarah can’t sleep well.', hint: 'Найди у Сары место про ночь в Лондоне. Сказано ли прямо, как она спит, или только что ей слышно?' },
-        { t: '3. Sarah’s new school has lots of facilities.', hint: 'Day 4 у Сары: что она пишет про школу Аннабель и что ей нравится больше всего?' },
-        { t: '4. Annabel travels five miles to reach the school.', hint: 'Day 4 у Аннабель: куда именно они едут пять миль — до школы или до чего-то другого?' }],
+        { t: '1. Annabel doesn’t like staying in bed.', a: 'F', hint: 'Найди Day 2 у Аннабель на ферме. Что она делает, когда мама Сары приносит ей чай в постель?', why: 'Аннабель снова засыпает, когда ей приносят чай, — значит, поваляться в постели она как раз любит.' },
+        { t: '2. Sarah can’t sleep well.', a: 'NS', hint: 'Найди у Сары место про ночь в Лондоне. Там сказано, что ей слышно, — но сказано ли, как она спит?', why: 'Сара пишет, что ночью слышен транспорт, но не пишет, что плохо спит. Об этом в тексте нет.' },
+        { t: '3. Sarah’s new school has lots of facilities.', a: 'T', hint: 'Day 4 у Сары: что она пишет про школу Аннабель и что ей нравится больше всего?', why: 'Сара пишет, что больше всего любит facilities — компьютерный класс и бассейн.' },
+        { t: '4. Annabel travels five miles to reach the school.', a: 'F', hint: 'Day 4 у Аннабель: куда именно они едут пять миль — до школы или до чего-то другого?', why: 'Пять миль они едут до школьного автобуса, а не до самой школы.' }],
       practice: { q: 'Похожее утверждение: «Sarah loves the swimming pool.» По тексту Day 4 Сары это…', options: [
         { t: 'T — верно', ok: true, why: 'В конце Day 4 Сара называет своими любимыми местами компьютерный класс и бассейн.' },
         { t: 'F — неверно', why: 'Перечитай последнее предложение Day 4 у Сары: какие места она называет любимыми?' },
@@ -27,10 +27,10 @@ window.ICE_LESSON = {
     { ex: 'Упр. 6, стр. 7', task: 'Поставь глаголы в скобках в Present Simple или Present Continuous и объясни, почему выбрал это время.',
       rule: 'Спроси себя: это происходит сейчас, временно или уже договорено → Present Continuous. Это обычно, по расписанию или это мнение → Present Simple. Жалоба на надоедливую привычку → is always + -ing.',
       items: [
-        { t: '1. Why … (you/be) in such a hurry? — I’m worried. My exam … (start) in ten minutes.', hint: 'be — глагол состояния, в -ing его обычно не ставят. А экзамен начинается по расписанию.' },
-        { t: '2. I … (think) of changing school. — I … (not/think) it’s a good idea.', hint: 'Одно think значит «обдумываю» (процесс), другое — «считаю» (мнение). Какое где?' },
-        { t: '3. Why … (you/be) angry? — My sister … (always/take) my clothes.', hint: 'Вторая часть — жалоба на надоедливую привычку. Вспомни хитрый случай с always из объяснения.' },
-        { t: '4. Why … (you/leave) now? — My train … (leave) in an hour.', hint: 'Первый leave — то, что происходит прямо сейчас. Второй — поезд, который ходит по расписанию.' }],
+        { t: '1. Why … (you/be) in such a hurry? — I’m worried. My exam … (start) in ten minutes.', hint: 'be — глагол состояния, в -ing его обычно не ставят. А экзамен начинается по расписанию.', opts: [{ t: 'are you … starts', ok: true, why: 'be обычно не ставят в -ing, а экзамен идёт по расписанию.' },{ t: 'are you being … is starting', ok: false, why: 'be — глагол состояния, «are you being» здесь не подходит. А экзамен — по расписанию: starts.' },{ t: 'do you be … start', ok: false, why: 'С be вопрос строится без do: are you. И exam — он, нужно starts.' }], ans: 'are you … starts' },
+        { t: '2. I … (think) of changing school. — I … (not/think) it’s a good idea.', hint: 'Одно think значит «обдумываю» (процесс), другое — «считаю» (мнение). Какое где?', opts: [{ t: 'am thinking … don’t think', ok: true, why: 'Первое think — «обдумываю» (процесс), второе — «считаю» (мнение).' },{ t: 'think … am not thinking', ok: false, why: 'Наоборот: обдумываю — процесс (am thinking), считаю — мнение (don’t think).' },{ t: 'am thinking … am not thinking', ok: false, why: 'Во второй части think значит «считаю» — это мнение, его не ставят в -ing: don’t think.' }], ans: 'am thinking … don’t think' },
+        { t: '3. Why … (you/be) angry? — My sister … (always/take) my clothes.', hint: 'Вторая часть — жалоба на надоедливую привычку. Вспомни хитрый случай с always из объяснения.', opts: [{ t: 'are you … is always taking', ok: true, why: 'Жалоба на надоедливую привычку — is always + -ing.' },{ t: 'are you … always takes', alt: true, why: 'Так тоже говорят, и это не ошибка. Но в учебнике для жалобы нужно is always taking — в школе пиши так.' },{ t: 'do you be … is always taking', ok: false, why: 'С be вопрос строится без do: Why are you angry?' }], ans: 'are you … is always taking' },
+        { t: '4. Why … (you/leave) now? — My train … (leave) in an hour.', hint: 'Первый leave — то, что происходит прямо сейчас. Второй — поезд, который ходит по расписанию.', opts: [{ t: 'are you leaving … leaves', ok: true, why: 'Уходишь прямо сейчас — Continuous; поезд по расписанию — Simple.' },{ t: 'are you leaving … is leaving', alt: true, why: 'В жизни так тоже говорят о конкретном поезде. Но учебник учит правилу расписаний: My train leaves — в школе пиши так.' },{ t: 'do you leave … is leaving', ok: false, why: 'now — значит, прямо сейчас: are you leaving.' }], ans: 'are you leaving … leaves' }],
       practice: { q: 'Похожий пример: Why ___ (you/laugh)? Look at this funny video!', options: [
         { t: 'are you laughing', ok: true, why: 'Смеются прямо сейчас, на наших глазах — Present Continuous.' },
         { t: 'do you laugh', why: 'Вопрос о том, что происходит в эту минуту, — нужен Present Continuous: are you laughing.' }] } },
@@ -112,7 +112,9 @@ window.ICE_LESSON = {
           <li><mark>Глаголы состояния</mark> обычно не ставим в -ing: like, love, hate, want, need, know, understand, think (= считаю).
             <p class="ex" data-say="I don't think it's a good idea.">I <b>don’t think</b> it’s a good idea. <span class="tr">— Я не считаю…</span></p>
             <p class="ex" data-say="I am thinking of changing school.">I <b>am thinking</b> of changing school. <span class="tr">— Я обдумываю… (это процесс)</span></p></li>
-        </ul>`,
+        </ul>
+        <div class="life"><span class="kicker">В жизни говорят и так</span><p>My train <b>is leaving</b> in an hour — так тоже говорят о конкретном поезде, это не ошибка. My sister <b>always takes</b> my clothes — тоже правильно, просто спокойнее. В школе пиши по правилу учебника: расписание — Present Simple, жалоба — is always + -ing.</p></div>`,
+      life: 'Про расписание в разговоре часто говорят и в Continuous: <i>My train is leaving in an hour</i> — это не ошибка. А про надоедливые привычки можно и нейтрально: <i>My sister always takes my clothes</i>. В школе отвечай так, как в правилах учебника.',
       check: { q: 'Tonight I ___ my friends. We have tickets for the cinema.', options: [
         { t: 'am meeting', ok: true, why: 'Верно: встреча уже договорена на сегодня вечером — это Present Continuous.' },
         { t: 'meet', why: 'Когда о встрече уже договорились на ближайшее время (tonight), используем Present Continuous: am meeting.' }] }
@@ -161,7 +163,7 @@ window.ICE_LESSON = {
       why: 'Порядок такой: кто (I) → am → глагол с -ing (studying) → как (really hard) → когда (at the moment).' },
     { type: 'choice', prompt: 'Выбери правильную форму', text: 'The school bus ___ at 7 am every morning.', options: [
       { t: 'leaves', ok: true, why: 'Это расписание автобуса, оно повторяется каждое утро: Present Simple, bus → leaves.' },
-      { t: 'is leaving', why: 'every morning и расписание — это Present Simple: The bus leaves at 7 am.' },
+      { t: 'is leaving', alt: true, why: 'В разговоре про сегодняшний автобус так скажут: The bus is leaving at 7 — это не ошибка. Но every morning и расписание по учебнику — Present Simple: leaves.' },
       { t: 'leave', why: 'bus — это «он» (it), значит нужно окончание -s: leaves.' }] },
     { type: 'choice', prompt: 'Выбери правильную форму', text: 'Tonight I ___ my friends at the cinema. We bought the tickets yesterday.', options: [
       { t: 'am meeting', ok: true, why: 'Встреча уже договорена на сегодня (билеты куплены): Present Continuous.' },
@@ -173,7 +175,7 @@ window.ICE_LESSON = {
       miss: 'Это слово стоит правильно. Подумай: можно ли «знать» как процесс, который идёт прямо сейчас?' },
     { type: 'choice', prompt: 'Выбери правильную форму', text: 'My sister ___ my clothes without asking! It’s so annoying!', options: [
       { t: 'is always taking', ok: true, why: 'Жалуемся на надоедливую привычку — is always + -ing, как в упр. 6 на стр. 7.' },
-      { t: 'always takes', why: 'Когда раздражает, что кто-то постоянно что-то делает, в учебнике используют is always + -ing: is always taking.' },
+      { t: 'always takes', alt: true, why: 'Так тоже говорят, и это не ошибка. Но по учебнику для жалобы нужно is always taking — в школе выбирай его.' },
       { t: 'is taking always', why: 'always стоит между is и глаголом: is always taking.' }] },
     { type: 'match', prompt: 'Соедини слово и перевод', pairs: [
       ['heavy traffic', 'плотное движение'], ['fresh air', 'свежий воздух'], ['peace and quiet', 'тишина и покой'],
@@ -189,3 +191,4 @@ window.ICE_LESSON = {
       { t: 'Annabel’s mum is make breakfast now.', why: 'is make — так не бывает. После is нужен глагол с -ing: is making.' }] }
   ]
 };
+(window.ICE_LESSONS = window.ICE_LESSONS || {})[window.ICE_LESSON.id] = window.ICE_LESSON;

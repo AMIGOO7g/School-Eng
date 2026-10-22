@@ -35,7 +35,8 @@ window.ICE_LESSON = {
             <p>После <span class="f">did</span> и <span class="f">didn’t</span> пишем <mark>use to</mark> — без -d!</p>
             <p class="ex" data-say="I didn't use to wake up late in the mornings.">I <b>didn’t use to</b> wake up late.</p></div>
         </div>
-        <p class="note">Часто used to можно заменить простым прошедшим: When he was a child, he <b>used to spend</b> / he <b>spent</b> his holidays in Sochi — смысл почти не меняется.</p>`,
+        <div class="life"><span class="kicker">В жизни говорят и так</span><p>When he was a child, he <b>spent</b> his holidays in Sochi — без used to тоже правильно, смысл почти тот же. Англичане часто говорят и <b>would</b>: My grandad would tell me stories. Но в упражнениях этого урока нужен used to — его и пиши.</p></div>`,
+      life: 'О повторявшихся действиях в прошлом говорят и через <b>would</b>: <i>My grandad would tell me stories</i>. Но для состояний (жить, любить, быть) would не подходит — только used to: <i>I used to live in Moscow</i>. В школе в этом уроке ответ — used to.',
       check: { q: 'I ___ like milk, but now I love it.', options: [
         { t: 'didn’t use to', ok: true, why: 'Верно: раньше не любил, а теперь любит. После didn’t — use to без -d.' },
         { t: 'didn’t used to', why: 'Частая ошибка! После didn’t глагол в начальной форме: didn’t use to.' },
@@ -90,7 +91,8 @@ window.ICE_LESSON = {
     { type: 'choice', prompt: 'Выбери правильную форму', text: 'My grandad ___ me stories when I was young.', options: [
       { t: 'used to tell', ok: true, why: 'Так было раньше регулярно: used to tell.' },
       { t: 'was used to tell', why: 'Лишнее was. Правильно: My grandad used to tell me stories.' },
-      { t: 'use to tell', why: 'В утверждении пишем used to, с -d.' }] },
+      { t: 'use to tell', why: 'В утверждении пишем used to, с -d.' },
+      { t: 'would tell', alt: true, why: 'My grandad would tell me stories — так тоже говорят о повторявшихся действиях в прошлом. Но в этом уроке тема — used to, поэтому по учебнику: used to tell.' }] },
     { type: 'choice', prompt: 'Выбери правильную форму', text: 'I ___ wake up late in the mornings.', options: [
       { t: 'didn’t use to', ok: true, why: 'После didn’t — use to без -d.' },
       { t: 'didn’t used to', why: 'Частая ошибка: после didn’t глагол в начальной форме — use to.' },
@@ -139,12 +141,13 @@ window.ICE_LESSON = {
     { type: 'hints', ex: 'Упр. 6, стр. 19', task: 'Соедини два предложения в одно с помощью слова в скобках.',
       rule: 'as soon as — как только, when — когда, after — после того как, until — пока не. Слово-связку можно поставить в начало или в середину, второе подлежащее часто заменяем на they.',
       items: [
-        { t: '1. Otto and Axel found a message. They decided to go on a dangerous journey. (as soon as)', hint: 'Что произошло сразу после чего? Начни с As soon as Otto and Axel…' },
-        { t: '2. They looked around. They heard a noise. (until)', hint: 'Одно действие длилось, пока не случилось другое. until ставим между частями.' },
-        { t: '3. They hid behind some bushes. They heard the noise. (when)', hint: 'Сначала услышали, потом спрятались. when ставим перед тем действием, что было первым.' },
-        { t: '4. They went to meet Hans. Axel found an old knife. (after)', hint: 'Внимание: что было раньше — нашёл нож или пошли к Хансу? after ставим перед действием, которое было первым.' }],
+        { t: '1. Otto and Axel found a message. They decided to go on a dangerous journey. (as soon as)', hint: 'Что произошло сразу после чего? Начни с As soon as Otto and Axel…', opts: [{ t: 'As soon as Otto and Axel found a message, they decided to go on a dangerous journey.', ok: true, why: 'Как только нашли послание — сразу решили отправиться в путь.' },{ t: 'As soon as they decided to go on a dangerous journey, Otto and Axel found a message.', ok: false, why: 'Порядок событий перепутан: сначала нашли послание, потом решили ехать.' }], ans: 'As soon as Otto and Axel found a message, they decided to go on a dangerous journey.' },
+        { t: '2. They looked around. They heard a noise. (until)', hint: 'Одно действие длилось, пока не случилось другое. until ставим между частями.', opts: [{ t: 'They looked around until they heard a noise.', ok: true, why: 'Осматривались, пока не услышали шум.' },{ t: 'They heard a noise until they looked around.', ok: false, why: 'Шум не длился «пока не осмотрелись». Длилось осматривание — until ставим перед шумом.' }], ans: 'They looked around until they heard a noise.' },
+        { t: '3. They hid behind some bushes. They heard the noise. (when)', hint: 'Сначала услышали, потом спрятались. when ставим перед тем действием, что было первым.', opts: [{ t: 'They hid behind some bushes when they heard the noise.', ok: true, why: 'Спрятались, когда услышали шум.' },{ t: 'When they heard the noise, they hid behind some bushes.', alt: true, why: 'Тоже правильно! When можно поставить в начало — смысл тот же. Оба варианта годятся для тетради.' },{ t: 'They heard the noise when they hid behind some bushes.', ok: false, why: 'Получилось, что шум услышали в момент, когда прятались. А спрятались из-за шума — when ставим перед heard the noise.' }], ans: 'They hid behind some bushes when they heard the noise.' },
+        { t: '4. They went to meet Hans. Axel found an old knife. (after)', hint: 'Внимание: что было раньше — нашёл нож или пошли к Хансу? after ставим перед действием, которое было первым.', opts: [{ t: 'They went to meet Hans after Axel found an old knife.', ok: true, why: 'Сначала нашёл нож, потом пошли к Хансу: after ставим перед тем, что было первым.' },{ t: 'Axel found an old knife after they went to meet Hans.', ok: false, why: 'По сюжету нож нашли до того, как пошли к Хансу. after — перед первым действием.' }], ans: 'They went to meet Hans after Axel found an old knife.' }],
       practice: { q: 'Похожий пример: ___ the bell rang, the students ran out of the classroom.', options: [
         { t: 'As soon as', ok: true, why: 'Как только прозвенел звонок — выбежали. Сразу одно за другим.' },
         { t: 'Until', why: 'until — «пока не». А здесь сначала звонок, потом выбежали — нужно As soon as или When.' }] } }
   ]
 };
+(window.ICE_LESSONS = window.ICE_LESSONS || {})[window.ICE_LESSON.id] = window.ICE_LESSON;

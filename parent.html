@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>ICE ENGLISH · Для родителя</title>
+<link rel="stylesheet" href="fonts.css">
+<link rel="stylesheet" href="ice.css">
+<style>
+html,body{overflow:auto}
+.stage{position:fixed}
+.wrap{position:relative;z-index:10;padding:calc(var(--low,46vh) + 10px) clamp(24px,5vw,74px) 60px;max-width:1500px}
+.wrap h1{font-size:clamp(42px,4.6vw,86px);margin:6px 0 6px}
+.wrap .title-2{font-size:clamp(17px,1.5vw,24px);margin:0 0 24px}
+.sum{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:18px}
+.box{background:rgba(255,255,255,.8);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-radius:24px;padding:20px 22px;box-shadow:0 14px 36px rgba(20,44,70,.1)}
+.sum .box b{display:block;font-size:clamp(34px,3vw,52px);font-weight:900;letter-spacing:-.06em;line-height:1}
+.sum .box span{font-size:13px;color:var(--ink-2);font-weight:600}
+.grid2{display:grid;grid-template-columns:1.2fr 1fr;gap:14px;margin-bottom:18px}
+.box h3{margin:0 0 12px;font-size:20px;font-weight:900;letter-spacing:-.04em}
+.bars{display:flex;align-items:flex-end;gap:10px;height:150px;padding-top:10px}
+.bars div{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;font-size:11px;color:var(--mute);font-weight:700}
+.bars i{display:block;width:100%;max-width:46px;border-radius:10px 10px 4px 4px;background:var(--ink);min-height:3px}
+.bars div.today i{background:var(--red)}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th{text-align:left;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--mute);padding:8px 8px 8px 0;border-bottom:1px solid rgba(36,55,77,.12)}
+td{padding:9px 8px 9px 0;border-bottom:1px solid rgba(36,55,77,.07);vertical-align:top}
+td .c{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:50%;background:rgba(36,55,77,.08);font-weight:900;font-size:12px}
+td .c.done{background:var(--red);color:#fff}
+.tag{display:inline-block;font-size:11px;font-weight:800;padding:3px 8px;border-radius:999px;background:rgba(36,55,77,.08);margin:0 4px 4px 0}
+.tag.on{background:var(--ink);color:#fff}
+.soon{color:var(--mute)}
+.mis li{margin-bottom:6px}
+.reset{margin-top:12px;border:0;background:none;color:var(--mute);font-weight:700;cursor:pointer;text-decoration:underline}
+@media (max-width:1100px){.sum{grid-template-columns:repeat(2,1fr)}.grid2{grid-template-columns:1fr}}
+</style></head>
+<body class="arriving">
+<main class="stage" id="stage"></main>
+<div class="wrap">
+  <div class="kicker">Учебник Spotlight 7, 7 класс</div>
+  <h1 class="title">Для родителя</h1>
+  <p class="title-2">Что пройдено, сколько времени и где чаще всего ошибки. Данные хранятся только в этом браузере.</p>
+  <div class="sum" id="sum"></div>
+  <div class="grid2"><div class="box"><h3>Время занятий за 14 дней</h3><div class="bars" id="bars"></div></div>
+    <div class="box"><h3>Ошибки сейчас</h3><div id="mis"></div></div></div>
+  <div class="box"><h3>Уроки</h3><div style="overflow:auto"><table id="tbl"></table></div>
+    <button class="reset" id="reset">Сбросить весь прогресс</button></div>
+</div>
+<div class="veil"></div>
+<script src="data.js"></script><script src="ice-scene.js"></script><script src="ice-ui.js"></script>
+<script>
+(() => {
+  const $ = id => document.getElementById(id), st = ICE_STORE.load();
+  IceUI.header({ active: null, crumbs: [{ t: 'Главная', href: 'index.html' }, { t: 'Для родителя' }] });
+  const bg = IceScene.mount($('stage'), { img: 'modules', text: 'ПРОГРЕСС', over: 'SPOTLIGHT 7', size: 24, x: .5 });
+  const setLow = () => document.documentElement.style.setProperty('--low', bg.footPx().toFixed(0) + 'px');
+  setLow(); addEventListener('resize', setLow);
+  ICE_LOAD().then(() => {
+    const LS = window.ICE_LESSONS || {}, time = st.time || {}, mins = s => Math.round((s || 0) / 60);
+    const days = [...Array(14)].map((_, i) => { const d = new Date(Date.now() - (13 - i) * 864e5); return d.toISOString().slice(0, 10); });
+    const total7 = days.slice(7).reduce((a, d) => a + (time[d] || 0), 0);
+    const allLessons = ICE_BOOK.flatMap(m => m.lessons.map(l => ({ m, l })));
+    const done = allLessons.filter(x => st.done[x.l.id]).length, ms = st.mistakes || [];
+    $('sum').innerHTML = [[mins(total7) + ' мин', 'занимался за последние 7 дней'], [done + ' из ' + allLessons.length, 'уроков пройдено с голом'],
+      [ms.length, 'заданий с ошибками ждут повторения'], [Object.keys(time).filter(d => time[d] > 0).length, 'дней с занятиями всего']]
+      .map(([b, s]) => `<div class="box"><b>${b}</b><span>${s}</span></div>`).join('');
+    const mx = Math.max(60, ...days.map(d => time[d] || 0)), today = days[13];
+    $('bars').innerHTML = days.map(d => `<div class="${d === today ? 'today' : ''}"><span>${mins(time[d])}</span><i style="height:${((time[d] || 0) / mx * 110).toFixed(0)}px"></i><span>${d.slice(8)}.${d.slice(5, 7)}</span></div>`).join('');
+    $('mis').innerHTML = ms.length ? `<ul class="mis">${ms.map(m => { const t = (LS[m.l] || {}).tasks?.[m.i]; return t ? `<li><b>${m.l}</b>: ${t.prompt}${t.text ? ' — ' + t.text.replace('___', '…') : ''}</li>` : ''; }).join('')}</ul>`
+      : '<p class="soon">Сейчас ошибок нет.</p>';
+    let rows = '<tr><th>Урок</th><th>Название</th><th>Лучший результат</th><th>Разделы</th><th>Ошибки</th></tr>';
+    allLessons.forEach(({ m, l }) => {
+      const lp = st.lp[l.id] || {}, ready = ICE_READY[l.id], e = ms.filter(x => x.l === l.id).length;
+      if (!ready && !lp.best) return;
+      rows += `<tr><td><span class="c ${st.done[l.id] ? 'done' : ''}">${l.code}</span></td><td>Модуль ${m.n}. ${l.en}<br><span class="soon">стр. ${l.pages}</span></td>
+        <td>${lp.best != null ? `<b>${lp.best}</b> из ${(LS[l.id] || {}).tasks?.length || 10}` : '<span class="soon">ещё не тренировался</span>'}</td>
+        <td><span class="tag ${lp.theory ? 'on' : ''}">правило</span><span class="tag ${lp.best != null ? 'on' : ''}">тренировка</span><span class="tag ${lp.words ? 'on' : ''}">слова</span><span class="tag ${lp.hw ? 'on' : ''}">домашка</span></td>
+        <td>${e || '—'}</td></tr>`;
+    });
+    $('tbl').innerHTML = rows + `<tr><td colspan="5" class="soon">Остальные уроки появятся здесь, когда будут готовы.</td></tr>`;
+  });
+  $('reset').onclick = () => { if (confirm('Стереть весь прогресс, ошибки и время? Это нельзя отменить.')) { localStorage.removeItem(ICE_STORE.key); location.reload(); } };
+  IceUI.ready();
+})();
+</script>
+</body></html>

@@ -1,14 +1,94 @@
-<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ICE ENGLISH · Домашнее задание</title><link rel="stylesheet" href="style.css"></head><body><div class="wrap"><header class="head"><a href="index.html" class="brand">ICE <span>ENGLISH</span></a><a href="lesson.html" class="pill">← К уроку</a></header><section class="hero"><span class="small">SPOTLIGHT 7 / MODULE 2 / УРОК 2B · ПОМОЩЬ С ДОМАШНЕЙ РАБОТОЙ</span><h1>ДОМАШКА<br><em>БЕЗ ПАНИКИ</em></h1><p>Два задания учителя. Мы разбираем слова и конструкции, но ответ пишешь ты сам.</p><div class="watermark">HW</div></section><nav class="seg"><a href="lesson.html">Обзор урока</a><a href="explain.html">Объяснения</a><a href="textbook.html">Каталог учебника</a><a href="practice.html">Тренировка</a></nav><div class="mainGrid"><section class="sheet"><div class="small">ТВОЯ ДОМАШНЯЯ РАБОТА</div><h2>Что задано</h2><div class="studyCard"><b>Стр. 18</b> · перевести выделенный текст, начиная со второго предложения.<br><small>Урок 2b — A classic read. Текст по книге Journey to the Centre of the Earth.</small></div><div class="studyCard"><b>Стр. 19 · упражнение 5b</b> · составить предложения о том, что умел или не умел делать в шесть лет, используя данные в учебнике действия.</div><p class="fact"><strong>Почему это два разных умения?</strong> Первое проверяет понимание связного рассказа; второе — использование конструкции <b>used to</b> для привычек прошлого. Содержание нужно проверить по самому учебнику.</p><div class="seg"><button onclick="switchHW(0)">01 / Перевод</button><button onclick="switchHW(1)">02 / Упражнение 5b</button></div><div id="task"></div><div class="controls"><button class="btn" id="back" onclick="backStep()">← Шаг назад</button><button class="btn primary" id="forward" onclick="advance()">Далее →</button></div></section><aside class="panel dark"><span class="small">ПОМОЩНИК</span><h2 id="asideTitle">Сначала пойми задачу</h2><p class="subtle" id="asideText">Перевод начинается с понимания смысла. Не переводи каждое английское слово отдельно, не прочитав предложение целиком.</p><div class="summary"><b>ПРОГРЕСС</b><span id="progressLabel">Шаг 1 из 4</span></div><div class="simpleProgress"><i id="bar" style="width:25%"></i></div></aside></div></div><script>
-const steps=[[
-{title:'Найди начало перевода',body:'Открой стр. 18 бумажного учебника, текст «A classic read». Найди выделенную часть и начни со второго предложения, как указал учитель. Прочитай предложение целиком и определи, кто действует и что происходит.'},
-{title:'Проверь главные слова',body:'journey — путешествие; mysterious — загадочный; message — сообщение; professor — профессор; centre — центр; earth — Земля; adventure — приключение. Эти слова помогут понять сюжет, но переводить надо весь смысл предложения.'},
-{title:'Разбери конструкцию',body:'Определи подлежащее, глагол и дополнение. Если встречается Past Simple, помни, что действие произошло в прошлом. Не придумывай перевод: сверяй каждую смысловую часть с оригиналом.'},
-{title:'Напиши свой перевод',body:'Запиши перевод второго предложения и продолжай по заданию учителя. Кнопка ниже сохранит черновик на этом устройстве.'}
-],[
-{title:'Что требует упражнение?',body:'На стр. 19, № 5b нужно составлять предложения о возрасте шести лет. Сравни, что ты делал или не делал тогда, с тем, что делаешь сейчас. Посмотри слова-подсказки в учебнике.'},
-{title:'Пойми used to',body:'I used to play outside. — Раньше я играл на улице (это было привычным действием). I didn’t use to ride a bike. — Раньше я не катался на велосипеде. После did not форма — use to, без -d.'},
-{title:'Сравни с русским',body:'По-русски говорим «Раньше я часто…», а по-английски конструкция used to помогает показать привычку или состояние в прошлом. Не путай её с can / could («могу / мог»): если в задании нужна именно used to, используй её.'},
-{title:'Составь собственные предложения',body:'Напиши 2–4 предложения о своих привычках в шесть лет, выбирая действия из упражнения. Проверь: I used to + глагол, I didn’t use to + глагол.'}
-]];
-let active=0,step=0;const $=id=>document.getElementById(id);function key(){return 'ice_homework_v23_'+active}function render(){const item=steps[active][step];$('task').innerHTML=`<div class="studyCard"><span class="tag">${String(step+1).padStart(2,'0')} / 04</span><h3>${item.title}</h3><p>${item.body}</p>${step===3?'<label class="hwform"><span>Мой ответ</span><textarea id="draft" placeholder="Напиши своими словами…"></textarea></label><button class="checkAnswer" onclick="saveDraft()">Сохранить черновик</button><p id="saveStatus" class="subtle"></p>':''}</div>`;if(step===3){$('draft').value=localStorage.getItem(key())||''}$('asideTitle').textContent=active===0?'Переводим по смыслу':'Привычки в прошлом';$('asideText').textContent=active===0?'Это помощь к стр. 18. Приложение не подставляет готовый перевод, пока ты сам не попробуешь.':'В упражнении 5b важно не угадать слово, а грамотно построить своё предложение.';$('progressLabel').textContent=`Шаг ${step+1} из 4`;$('bar').style.width=((step+1)/4*100)+'%';$('back').disabled=step===0;$('forward').textContent=step===3?'Вернуться к уроку →':'Далее →'}function switchHW(n){active=n;step=0;render()}function backStep(){step=Math.max(0,step-1);render()}function advance(){if(step<3){step++;render()}else location.href='lesson.html'}function saveDraft(){localStorage.setItem(key(),$('draft').value);$('saveStatus').textContent='Черновик сохранён на этом устройстве. Сверь его с текстом учебника и покажи учителю.'}render();
-</script></body></html>
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>ICE ENGLISH · Домашка</title>
+<link rel="stylesheet" href="fonts.css">
+<link rel="stylesheet" href="ice.css">
+<style>
+.lead{position:fixed;z-index:10;left:clamp(24px,5vw,74px);right:clamp(24px,5vw,74px);top:calc(var(--low,40vh) / var(--z));bottom:24px;display:grid;grid-template-columns:minmax(320px,440px) 1fr;gap:22px;align-items:start}
+.lead h1{font-size:clamp(40px,4.4vw,80px);margin:8px 0 6px;grid-column:1/-1}
+.panel{background:rgba(255,255,255,.8);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-radius:26px;padding:22px 24px;box-shadow:0 18px 44px rgba(20,44,70,.12);max-height:calc(100vh - var(--low,40vh) - 140px);overflow:auto}
+.panel h3{margin:0 0 10px;font-size:20px;font-weight:900;letter-spacing:-.04em}
+.page-in{display:flex;gap:10px;align-items:center}
+.page-in input{width:150px;font:inherit;font-size:34px;font-weight:900;letter-spacing:-.04em;padding:10px 16px;border-radius:18px;border:2px solid rgba(36,55,77,.18);background:#fff;color:var(--ink)}
+.page-in input:focus{outline:none;border-color:var(--red)}
+.hint2{font-size:13px;color:var(--mute);margin:10px 0 0}
+.mods{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 12px}
+.mods button{border:1px solid rgba(36,55,77,.15);background:#fff;border-radius:12px;padding:8px 12px;font-weight:800;cursor:pointer}
+.mods button.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.ls{display:grid;gap:6px}
+.ls button{display:grid;grid-template-columns:42px 1fr auto;gap:10px;align-items:center;text-align:left;border:0;background:rgba(37,75,112,.06);border-radius:14px;padding:9px 12px;cursor:pointer}
+.ls button.on{background:var(--ink);color:#fff}
+.ls .c{font-weight:900}
+.ls small{font-size:12px;opacity:.7}
+.res .kicker{display:block;margin-bottom:6px}
+.res h2{font-size:clamp(26px,2.4vw,40px);margin:0 0 8px}
+.exs{display:grid;gap:10px;margin-top:14px}
+.ex{display:flex;gap:14px;align-items:center;text-align:left;border:0;background:#fff;border-radius:18px;padding:16px 18px;cursor:pointer;box-shadow:0 8px 20px rgba(20,44,70,.08);transition:transform .25s var(--ease)}
+.ex:hover{transform:translateY(-2px)}
+.ex b{display:block;font-size:17px;font-weight:900}
+.ex span{font-size:14px;color:var(--ink-2)}
+.ex i{margin-left:auto;font-style:normal;width:34px;height:34px;border-radius:50%;background:var(--red);color:#fff;display:grid;place-items:center;flex:none}
+.empty{color:var(--ink-2);font-size:15px;line-height:1.5}
+</style></head>
+<body class="arriving">
+<main class="stage" id="stage"></main>
+<section class="lead">
+  <h1 class="title">Что задали?</h1>
+  <div class="panel">
+    <h3>Введи страницу учебника</h3>
+    <div class="page-in"><input id="pg" type="number" min="5" max="104" placeholder="18" autofocus><span class="kicker">страница</span></div>
+    <p class="hint2">Номер страницы — как в дневнике: «стр. 18», «стр. 19 упр. 5b».</p>
+    <h3 style="margin-top:22px">или выбери модуль и урок</h3>
+    <div class="mods" id="mods"></div>
+    <div class="ls" id="ls"></div>
+  </div>
+  <div class="panel res" id="res"><p class="empty">Здесь появятся упражнения выбранного урока. Нажимаешь на упражнение — открывается объяснение правила, само задание с проверкой и подсказками, а в конце — что переписать в тетрадь.</p></div>
+</section>
+<div class="veil"></div>
+<script src="data.js"></script><script src="ice-scene.js"></script><script src="ice-ui.js"></script>
+<script>
+(async () => {
+  const $ = id => document.getElementById(id);
+  const store = ICE_STORE.load();
+  IceUI.header({ active: 'hw', crumbs: [{ t: 'Главная', href: 'index.html' }, { t: 'Spotlight 7', href: 'hub.html' }, { t: 'Домашка' }] });
+  const sc = IceScene.mount($('stage'), { img: 'route_sunset', text: 'HOMEWORK', over: 'SPOTLIGHT 7', x: .5, size: 24, sink: .03 });
+  const low = () => document.documentElement.style.setProperty('--low', Math.max(sc.footPx() + 10, innerHeight * .3) + 'px');
+  low(); addEventListener('resize', low);
+  await ICE_LOAD();
+  let mod = store.module || 1;
+  const show = (m, l, pg) => {
+    [...$('ls').children].forEach(b => b.classList.toggle('on', b.dataset.id === l.id));
+    const L = (window.ICE_LESSONS || {})[l.id], box = $('res');
+    if (!L) { box.innerHTML = `<span class="kicker">Модуль ${m.n}, стр. ${l.pages}</span><h2 class="title">${l.code} · ${l.en}</h2>
+      <p class="empty">Этот урок пока готовится. Можно открыть маршрут модуля и посмотреть, что в нём будет.</p>
+      <button class="go light" id="toMod">Маршрут модуля <span>↗</span></button>`; $('toMod').onclick = () => IceUI.go(`module.html?m=${m.n}&l=${l.id}`); return; }
+    const list = L.homework.map((h, i) => ({ h, i })).filter(x => !pg || x.h.ex.includes(String(pg)) || !/стр\./i.test(x.h.ex));
+    box.innerHTML = `<span class="kicker">Модуль ${m.n}, стр. ${l.pages}</span><h2 class="title">${l.code} · ${l.en}</h2>
+      <p class="empty">${L.ru}. Выбери упражнение — сначала короткое правило, потом задание с проверкой.</p><div class="exs" id="exs"></div>`;
+    (list.length ? list : L.homework.map((h, i) => ({ h, i }))).forEach(({ h, i }) => {
+      const b = document.createElement('button'); b.className = 'ex';
+      b.innerHTML = `<div><b>${h.ex}</b><span>${h.task}</span></div><i>↗</i>`;
+      b.onclick = () => IceUI.go(`lesson.html?l=${l.id}&v=hw&ex=${i}`);
+      $('exs').appendChild(b);
+    });
+  };
+  const lessonsOf = m => {
+    $('ls').innerHTML = '';
+    m.lessons.forEach(l => { const b = document.createElement('button'); b.dataset.id = l.id;
+      b.innerHTML = `<span class="c">${l.code}</span><span>${l.en}<br><small>стр. ${l.pages}${ICE_READY[l.id] ? '' : ' · скоро'}</small></span><span>›</span>`;
+      b.onclick = () => show(m, l); $('ls').appendChild(b); });
+  };
+  ICE_BOOK.forEach(m => { const b = document.createElement('button'); b.textContent = m.n; b.title = m.en;
+    b.onclick = () => { mod = m.n; [...$('mods').children].forEach(x => x.classList.toggle('on', x === b)); lessonsOf(m); }; $('mods').appendChild(b); });
+  $('mods').children[mod - 1].click();
+  $('pg').oninput = () => {
+    const pg = +$('pg').value; if (!pg) return;
+    for (const m of ICE_BOOK) for (const l of m.lessons) { const [a, b] = l.pages.split('–').map(Number); if (pg >= a && pg <= (b || a)) {
+      $('mods').children[m.n - 1].click(); show(m, l, pg); return; } }
+    $('res').innerHTML = `<p class="empty">Страница ${pg} не входит в уроки модулей. Уроки идут со стр. 6 по стр. 104.</p>`;
+  };
+  IceUI.track(); IceUI.ready();
+})();
+</script>
+</body></html>

@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>ICE ENGLISH · Что будем делать</title>
+<link rel="stylesheet" href="fonts.css">
+<link rel="stylesheet" href="ice.css">
+<style>
+.lead{position:fixed;z-index:10;left:clamp(24px,5vw,74px);right:clamp(24px,5vw,74px);top:calc(var(--low,48vh) / var(--z))}
+.lead h1{font-size:clamp(44px,5vw,92px);margin:8px 0 6px}
+.lead .title-2{font-size:clamp(18px,1.6vw,28px);margin:0 0 28px}
+.modes3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;max-width:1500px}
+.mode{position:relative;text-align:left;border:0;border-radius:26px;padding:26px 26px 22px;cursor:pointer;background:rgba(255,255,255,.78);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:0 18px 44px rgba(20,44,70,.14);display:flex;flex-direction:column;gap:8px;min-height:200px;
+  transition:transform .35s var(--ease),box-shadow .35s;opacity:0;transform:translateY(26px)}
+body.ready .mode{opacity:1;transform:none;transition:transform .7s var(--ease) calc(var(--i) * 90ms + .2s),opacity .6s ease calc(var(--i) * 90ms + .2s),box-shadow .35s}
+.mode:hover{transform:translateY(-4px);box-shadow:0 26px 56px rgba(20,44,70,.2)}
+.mode .k{font-size:11px;letter-spacing:.22em;font-weight:800;color:var(--mute);text-transform:uppercase}
+.mode b{font-size:clamp(26px,2.2vw,40px);font-weight:900;letter-spacing:-.06em;line-height:1}
+.mode span.d{font-size:15px;color:var(--ink-2);line-height:1.45}
+.mode .go{margin-top:auto;align-self:flex-start}
+.mode.main{background:var(--ink);color:#fff}
+.mode.main .k,.mode.main span.d{color:rgba(255,255,255,.72)}
+.mode.main .go{background:var(--red)}
+.mode .num{position:absolute;right:22px;top:14px;font-size:84px;font-weight:900;letter-spacing:-.08em;opacity:.08;line-height:1}
+@media (max-width:1100px){.modes3{gap:12px}.mode{min-height:170px;padding:20px}}
+</style></head>
+<body class="arriving">
+<script>if (/from=home/.test(location.search)) document.body.classList.add('from-home');</script>
+<div class="entry" aria-hidden="true"><strong>SCHOOL</strong></div>
+<main class="stage" id="stage"></main>
+<section class="lead">
+  <div class="kicker">Учебник Spotlight 7, «Английский в фокусе»</div>
+  <h1 class="title">Что будем делать?</h1>
+  <p class="title-2">Выбери, с чего начать. Прогресс сохраняется сам.</p>
+  <div class="modes3" id="modes"></div>
+</section>
+<div class="veil"></div>
+<script src="data.js"></script><script src="ice-scene.js"></script><script src="ice-ui.js"></script>
+<script>
+(() => {
+  const store = ICE_STORE.load(), nx = ICE_NEXT(store);
+  IceUI.header({ active: null, crumbs: [{ t: 'Главная', href: 'index.html' }, { t: 'Spotlight 7' }] });
+  const sc = IceScene.mount(document.getElementById('stage'), { img: 'route_day', text: 'SPOTLIGHT', over: '7 КЛАСС', x: .5, size: 26, sink: .03 });
+  const low = () => document.documentElement.style.setProperty('--low', Math.max(sc.footPx() + 22, innerHeight * .3) + 'px');
+  low(); addEventListener('resize', low);
+  const mist = (store.mistakes || []).length;
+  const M = [
+    ['hw', 'Задали в школе', 'Сделать домашку', 'Введи страницу учебника или выбери упражнение — получишь правило, подсказки и проверку.', 'homework.html', 'Открыть домашку'],
+    ['topics', 'Учиться по порядку', 'Изучить тему', `Модули и уроки учебника: объяснение, тренировка, слова. Сейчас: модуль ${nx.m.n}, урок ${nx.l.code}.`, 'school.html', 'К модулям'],
+    ['review', 'Закрепить', 'Повторить', mist ? `Задания, где были ошибки: ${mist}. Повтори их, пока не станет легко.` : 'Здесь соберутся задания, где ты ошибался. Пока ошибок нет — отлично!', 'lesson.html?mode=review', 'Повторить']
+  ];
+  M.forEach(([id, k, b, d, href, cta], i) => {
+    const el = document.createElement('button'); el.className = 'mode' + (i === 0 ? ' main' : ''); el.style.setProperty('--i', i);
+    el.innerHTML = `<span class="num">${i + 1}</span><span class="k">${k}</span><b>${b}</b><span class="d">${d}</span><span class="go">${cta} <span>↗</span></span>`;
+    el.onclick = () => IceUI.go(href);
+    if (id === 'review' && !mist) el.style.opacity = '';
+    document.getElementById('modes').appendChild(el);
+  });
+  IceUI.track(); IceUI.ready();
+})();
+</script>
+</body></html>

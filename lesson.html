@@ -2,12 +2,13 @@
 <html lang="ru"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>ICE ENGLISH · Урок</title>
+<link rel="stylesheet" href="fonts.css">
 <link rel="stylesheet" href="ice.css">
 <style>
 :root{--left:clamp(24px,5vw,74px);--cardw:clamp(560px,40vw,1000px)}
 .stage{transition:transform 1.2s var(--ease)}
 body.leaving .stage{transform:scale(1.06)}
-.stage .ibg-svg{transition:transform 1.4s var(--ease);transform:translateX(var(--pan,0px))}
+.stage .hs{transition:translate 1.4s var(--ease);translate:var(--pan,0px) 0}
 .stage .ibg-giant-wrap{transform:none;opacity:1;transition:transform 1.2s var(--ease),opacity .8s ease}
 .stage .ibg-giant-wrap.hidden{transform:translateY(20vh);opacity:0;transition:transform .55s cubic-bezier(.6,0,.8,.4),opacity .45s}
 
@@ -149,6 +150,26 @@ mark{background:linear-gradient(transparent 58%,rgba(211,38,46,.26) 58%);color:i
 .fc .b{background:var(--ink);color:#fff;transform:rotateY(180deg);font-size:16px;font-weight:700}
 
 /* домашка */
+.tf{display:flex;gap:8px;margin:8px 0 4px}
+.hw-item .tfb{margin:0;border:1px solid rgba(36,55,77,.18);background:#fff;color:var(--ink);border-radius:12px;min-width:56px;padding:9px 14px;font-size:14px;font-weight:900;cursor:pointer}
+.hw-item .tfb:hover{border-color:var(--ink)}
+.hw-item .tfb.right{background:var(--ink);color:#fff;border-color:var(--ink)}
+.hw-item .tfb.wrong{color:var(--red);border-color:var(--red);animation:shake .35s}
+.hw-item .h.ok,.hw-item .h.bad{display:block}
+.hw-item .h.bad{background:#fff;border:2px solid var(--red)}
+.notebook{margin-top:10px;padding:12px 14px;border-radius:14px;background:#fffdf3;border:1px dashed #c9b98a;font-family:var(--font)}
+.notebook .kicker{color:#8a7a4a}.notebook p{margin:6px 0 0;font-weight:700;line-height:1.6}
+.life{margin-top:14px;padding:12px 16px;border-radius:16px;background:#eef6f2;border-left:4px solid #3f9a78;font-size:14px;color:var(--ink)}
+.life .kicker{display:block;color:#2f7b5f;margin-bottom:4px}
+.fb.life{background:#eef6f2;border:2px solid #3f9a78;color:var(--ink)}
+.opt.alt{border-color:#3f9a78;color:#2f7b5f}
+.rule-pop{position:fixed;inset:0;z-index:90;background:rgba(20,36,54,.35);display:none;place-items:center}
+.rule-pop.show{display:grid}
+.rp-card{width:min(880px,92vw);max-height:84vh;display:flex;flex-direction:column;background:#f6f9fc;border-radius:26px;box-shadow:0 30px 80px rgba(10,24,40,.35);overflow:hidden}
+.rp-head{display:flex;gap:10px;align-items:center;padding:16px 18px;border-bottom:1px solid rgba(36,55,77,.08)}
+.rp-head .seg{flex:1;overflow:auto}
+.rp-x{border:0;background:#fff;width:36px;height:36px;border-radius:50%;cursor:pointer;font-size:16px}
+.rp-body{padding:18px 24px 22px;overflow:auto;font-size:15px;line-height:1.5}
 .gloss{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}
 .gloss span{font-size:13px;background:rgba(37,75,112,.07);padding:5px 10px;border-radius:999px;color:var(--ink-2)}
 .gloss b{color:var(--ink);cursor:pointer}
@@ -181,14 +202,6 @@ mark{background:linear-gradient(transparent 58%,rgba(211,38,46,.26) 58%);color:i
 .shotpuck{position:fixed;z-index:7;width:26px;height:26px;border-radius:50%;left:0;top:0;opacity:0;
   background:radial-gradient(circle at 34% 30%,#6b7785 0 8%,#2a3440 30%,#111820 62%,#0a0f15);box-shadow:0 0 0 2px #1c2530 inset,0 6px 14px rgba(10,20,30,.35)}
 .shotpuck.go{opacity:1;transition:transform .5s cubic-bezier(.35,.1,.6,1),opacity .1s}
-.lamp{position:fixed;z-index:9;width:110px;height:128px;transform:translateX(-120%);transition:transform .7s var(--ease);pointer-events:none}
-.lamp img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}
-.lamp .lit{opacity:0}
-.lamp.on .lit{animation:blink .45s steps(1) 5}
-.lamp .glow{position:absolute;left:50%;top:32%;width:260%;aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(circle,rgba(255,60,50,.5),rgba(255,60,50,0) 62%);opacity:0}
-.lamp.on .glow{animation:blink .45s steps(1) 5}
-.lamp.out{transform:translateX(128px)}
-@keyframes blink{0%{opacity:1}50%{opacity:0}}
 .flash{position:fixed;z-index:30;left:var(--fx,70%);top:38%;transform:translate(-50%,-50%) scale(.6);font-size:min(16vw,240px);font-weight:900;letter-spacing:-.083em;color:var(--red);opacity:0;pointer-events:none}
 .flash.show{animation:flash 1.6s var(--ease) forwards}
 @keyframes flash{0%{opacity:0;transform:translate(-50%,-50%) scale(.6)}20%{opacity:1;transform:translate(-50%,-50%) scale(1)}75%{opacity:1}100%{opacity:0;transform:translate(-50%,-60%) scale(1.04)}}
@@ -198,11 +211,6 @@ mark{background:linear-gradient(transparent 58%,rgba(211,38,46,.26) 58%);color:i
 </style></head>
 <body class="arriving">
 <main class="stage" id="stage"></main>
-<header class="top" style="padding-left:calc(var(--left) + var(--cardw) + 28px)">
-  <nav class="crumbs" aria-label="Где ты сейчас"><a href="index.html">Главная</a><i>/</i><a href="school.html" class="nav-out">Spotlight 7</a><i>/</i><a href="module.html?m=1" class="nav-out" id="crumbMod">Модуль 1</a><i>/</i><span id="crumbL">Урок 1a</span><i>/</i><span id="crumbV">Обзор</span></nav>
-</header>
-<a class="brand" href="index.html" style="position:fixed;z-index:21;top:26px;left:var(--left)">ICE <span>ENGLISH</span></a>
-
 <section class="card" aria-live="polite">
   <div class="chead"><div class="seg" id="tabs"></div><div class="pucks" id="pucks"></div></div>
   <div class="ptitle" id="ptitle"><div class="kicker" id="pk"></div><h2 class="title" id="pt"></h2></div>
@@ -212,19 +220,32 @@ mark{background:linear-gradient(transparent 58%,rgba(211,38,46,.26) 58%);color:i
 
 <div class="player-slot" id="player"><span>Хоккеист: следит за курсором, бросает шайбу</span></div>
 <div class="shotpuck" id="puck"></div>
-<div class="lamp" id="lamp"><div class="glow"></div><img src="img/lamp_off.webp" alt=""><img class="lit" src="img/lamp_lit.webp" alt=""></div>
+<div class="rule-pop" id="rulePop"></div>
+<div class="toast" id="toast"></div>
 <div class="flash" id="flash">ГОЛ!</div>
 <div class="veil"></div>
 
 <script src="data.js"></script>
-<script src="ice-bg.js"></script>
+<script src="ice-scene.js"></script><script src="ice-ui.js"></script>
 <script>
 (() => {
-  const id = new URLSearchParams(location.search).get('l') || '1a';
-  const sc = document.createElement('script'); sc.src = `lessons/${ICE_READY[id] ? id : '1a'}.js`; sc.onload = run; document.head.appendChild(sc);
+  const q = new URLSearchParams(location.search);
+  if (q.get('mode') === 'review') { ICE_LOAD().then(() => run(buildReview())); return; }
+  const id = ICE_READY[q.get('l')] ? q.get('l') : '1a';
+  ICE_LOAD([id]).then(() => run(ICE_LESSONS[id]));
 })();
-function run() {
-  const L = ICE_LESSON, store = ICE_STORE.load();
+/* «Повторить»: задания, где были ошибки, из всех уроков */
+function buildReview() {
+  const st = ICE_STORE.load(), LS = window.ICE_LESSONS || {};
+  const ms = (st.mistakes || []).filter(m => LS[m.l] && LS[m.l].tasks[m.i]);
+  const passed = Object.keys(LS).filter(id => st.lp[id]);
+  return { id: 'review', review: true, module: st.module || 1, code: '↺', en: 'Повторить', ru: 'Задания, в которых были ошибки, из всех уроков',
+    minutes: 10, pages: '', learn: [], theory: [], homework: [],
+    words: [].concat(...(passed.length ? passed : Object.keys(LS)).map(id => LS[id].words || [])),
+    tasks: ms.map(m => Object.assign({ _src: m }, LS[m.l].tasks[m.i])), srcTheory: id => (LS[id] || {}).theory || [] };
+}
+function run(L) {
+  const store = ICE_STORE.load();
   const lp = store.lp[L.id] = store.lp[L.id] || {};
   const save = () => ICE_STORE.save(store);
   const $ = id => document.getElementById(id);
@@ -233,12 +254,17 @@ function run() {
   const btn = (html, cls, on) => { const b = el('button', cls, html); b.onclick = on; return b; };
   const spacer = () => el('span', 'sp');
   document.title = `ICE ENGLISH · Урок ${L.code}`;
-  const bg = IceBG.mount($('stage'), { text: L.code, giantBehind: 2, horizon: .46, seed: 21, giantSize: .34, giantLift: .01,
-    onText: t => { const cr = document.querySelector('.card').getBoundingClientRect().right; t.setAttribute('x', (cr + innerWidth) / 2); } });
-  const gwrap = () => document.querySelector('.ibg-giant-wrap');
-  $('crumbMod').textContent = `Модуль ${L.module}`; $('crumbMod').href = `module.html?m=${L.module}`;
-  $('crumbL').textContent = `Урок ${L.code}`;
-  store.module = L.module; save();
+  const qs = new URLSearchParams(location.search);
+  const bg = IceScene.mount($('stage'), { img: 'lesson', text: L.review ? 'REVIEW' : L.code, over: L.review ? 'SPOTLIGHT 7' : `SPOTLIGHT 7 / МОДУЛЬ ${L.module}`, size: L.review ? 22 : 34,
+    x: () => { const hs = document.querySelector('.hs').getBoundingClientRect(), cr = document.querySelector('.card').getBoundingClientRect().right; return ((cr + innerWidth) / 2 - hs.left) / hs.width; },
+    fit: () => { const hs = document.querySelector('.hs').getBoundingClientRect(), cr = document.querySelector('.card').getBoundingClientRect().right; return innerWidth - cr - 60; } });
+  const gwrap = () => bg.giant;
+  const head = IceUI.header({ active: qs.get('v') === 'hw' ? 'hw' : L.review ? 'review' : 'topics',
+    crumbs: L.review ? [{ t: 'Главная', href: 'index.html' }, { t: 'Повторить' }] :
+      [{ t: 'Главная', href: 'index.html' }, { t: 'Spotlight 7', href: 'school.html' }, { t: `Модуль ${L.module}`, href: `module.html?m=${L.module}` }, { t: `Урок ${L.code}` }, { t: 'Обзор' }] });
+  const crumbV = head.querySelector('.crumbs > span:last-child');
+  if (!L.review) { store.module = L.module; save(); }
+  IceUI.track();
 
   /* озвучка — встроенный синтез речи браузера */
   let voice = null;
@@ -248,16 +274,17 @@ function run() {
   document.addEventListener('click', e => { const s = e.target.closest('[data-say]'); if (s) speak(s.dataset.say); });
 
   /* ---------- разделы и переходы «по одному льду» ---------- */
-  const VIEWS = [['hub', 'Обзор'], ['theory', 'Разобраться'], ['practice', 'Тренироваться'], ['words', 'Слова'], ['hw', 'Домашка']];
+  const VIEWS_ALL = [['hub', 'Обзор'], ['theory', 'Разобраться'], ['practice', 'Тренироваться'], ['words', 'Слова'], ['hw', 'Домашка']];
+  const VIEWS = L.review ? VIEWS_ALL.filter(v => ['hub', 'practice', 'words'].includes(v[0])) : VIEWS_ALL;
   const PAN = { hub: 1.6, theory: .6, practice: -.6, words: -1.6, hw: -2.6 };
   let view = null;
   VIEWS.forEach(([v, name]) => $('tabs').appendChild(btn(name, '', () => go(v))));
   function go(v, arg) {
     const changed = v !== view; view = v;
     [...$('tabs').children].forEach((b, i) => b.classList.toggle('on', VIEWS[i][0] === v));
-    $('crumbV').textContent = VIEWS.find(x => x[0] === v)[1];
+    if (crumbV && !L.review) crumbV.textContent = VIEWS.find(x => x[0] === v)[1];
     $('stage').style.setProperty('--pan', (PAN[v] * innerWidth / 160).toFixed(0) + 'px');
-    if (changed) { const g = gwrap(); if (g) { g.classList.add('hidden'); clearTimeout(g.t); g.t = setTimeout(() => g.classList.remove('hidden'), 650); } }
+    if (changed) { const g = gwrap(); g.classList.add('down'); clearTimeout(g.t); g.t = setTimeout(() => { g.classList.remove('down'); g.classList.add('pre'); void g.offsetWidth; g.classList.remove('pre'); }, 560); }
     ({ hub: showHub, theory: () => showTheory(arg || 0), practice: () => startPractice(true), words: showWords, hw: showHw })[v]();
   }
   // смена содержимого карточки
@@ -291,8 +318,13 @@ function run() {
       const b = btn(o.t, 'opt', () => {
         if (locked) return;
         if (o.ok) { locked = true; b.classList.add('right'); box.querySelectorAll('.opt').forEach(x => x.disabled = true); feedback(fb, true, o.why); onRight && onRight(); }
+        else if (o.alt) {   // верно в живом языке, но в школе нужен ответ из учебника — не ошибка
+          locked = true; b.classList.add('alt'); box.querySelectorAll('.opt').forEach(x => { x.disabled = true; if (x.dataset.ok) x.classList.add('right'); });
+          fb.className = 'fb show life'; fb.innerHTML = `<b>Так тоже говорят!</b>${o.why}`; onRight && onRight();
+        }
         else { b.classList.remove('wrong'); void b.offsetWidth; b.classList.add('wrong'); feedback(fb, false, o.why); onWrong && onWrong(); }
       });
+      if (o.ok) b.dataset.ok = 1;
       box.appendChild(b);
     });
     return box;
@@ -328,6 +360,7 @@ function run() {
 
   /* ---------- ОБЗОР УРОКА ---------- */
   function showHub() {
+    if (L.review) return showReviewHub();
     const st = {
       theory: lp.theory ? 'Пройдено' : `${L.theory.length} коротких карточек`,
       practice: lp.best != null ? `Лучший результат: ${lp.best} из ${L.tasks.length}` : `${L.tasks.length} заданий и бросок`,
@@ -353,6 +386,23 @@ function run() {
     moveTo(0, true); resetGoal();
   }
 
+  function showReviewHub() {
+    const LS = window.ICE_LESSONS || {}, groups = {};
+    L.tasks.forEach(t => { (groups[t._src.l] = groups[t._src.l] || []).push(t); });
+    const body = el('div');
+    if (!L.tasks.length) {
+      body.appendChild(el('p', 'meta', 'Сейчас ошибок нет — отлично! Здесь будут собираться задания, в которых ты ошибся с первой попытки. А пока можно повторить слова пройденных уроков.'));
+      frame('Повторить', 'Ошибок нет', body, [spacer(), btn('Повторить слова <span>↗</span>', 'go', () => go('words'))]); return;
+    }
+    body.appendChild(el('p', 'meta', `Здесь собраны задания, в которых ты ошибся с первой попытки: ${L.tasks.length}. Решишь верно — задание уйдёт из списка.`));
+    Object.keys(groups).forEach(id => {
+      const box = el('div', 'hw'); box.appendChild(el('div', 'hw-top', `<span class="kicker">Урок ${id}</span><p>${(LS[id] || {}).en || ''}</p>`));
+      const items = el('div', 'hw-items'); groups[id].forEach(t => items.appendChild(el('div', 'hw-item', `<p>${t.prompt}${t.text ? ': ' + t.text.replace('___', '…') : ''}</p>`)));
+      box.appendChild(items); body.appendChild(box);
+    });
+    frame('Повторить', 'Работа над ошибками', body, [btn('Слова', 'go light', () => go('words')), spacer(), btn('Начать <span>↗</span>', 'go', () => go('practice'))]);
+  }
+
   /* ---------- РАЗОБРАТЬСЯ ---------- */
   function showTheory(i) {
     const c = L.theory[i];
@@ -362,6 +412,7 @@ function run() {
     const last = i === L.theory.length - 1;
     const next = btn(last ? 'К тренировке <span>↗</span>' : 'Дальше <span>↗</span>', 'go', () => { if (last) { lp.theory = true; save(); go('practice'); } else showTheory(i + 1); });
     next.disabled = true;
+    if (c.life) body.appendChild(el('div', 'life', `<span class="kicker">В жизни говорят и так</span>${c.life}`));
     ck.appendChild(choice(c.check.options, fb, () => next.disabled = false)); ck.appendChild(fb); body.appendChild(ck);
     const prev = btn('‹ Назад', 'go light', () => i ? showTheory(i - 1) : go('hub'));
     const skip = btn('Пропустить вопрос', 'go light', () => next.disabled = false); skip.style.opacity = '.7';
@@ -372,19 +423,33 @@ function run() {
   /* ---------- ТРЕНИРОВАТЬСЯ ---------- */
   let queue = [], qi = 0, round = 1, first = {}, solved = 0;
   function startPractice(fresh) {
+    if (!L.tasks.length) { showHub(); return; }
+    if (fresh && !L.review && lp.pq && lp.pq.qi > 0) {   // продолжаем с того места, где остановились
+      ({ queue, qi, first, round, solved } = lp.pq); toast(`Продолжаем с задания ${qi + 1}`); showTask(); return;
+    }
     if (fresh) { queue = L.tasks.map((_, i) => i); first = {}; round = 1; }
     qi = 0; solved = 0; moveTo(0, true); resetGoal(); showTask();
   }
-  function markResult(idx, ok) { if (!(idx in first)) first[idx] = ok; renderPucks(); }
+  function markResult(idx, ok) {
+    if (!(idx in first)) {
+      first[idx] = ok;
+      const src = L.tasks[idx]._src || { l: L.id, i: idx };
+      store.mistakes = (store.mistakes || []).filter(m => !(m.l === src.l && m.i === src.i));
+      if (!ok) store.mistakes.push(src);
+      save();
+    }
+    renderPucks();
+  }
   function showTask() {
+    if (!L.review) { lp.pq = { queue, qi, first, round, solved }; save(); }
     const idx = queue[qi], t = L.tasks[idx], fb = fbBox();
-    const next = btn(qi < queue.length - 1 ? 'Следующее задание <span>↗</span>' : 'Бросок по воротам <span>↗</span>', 'go', () => { if (qi < queue.length - 1) { qi++; showTask(); } else shoot(); });
+    const next = btn(qi < queue.length - 1 ? 'Дальше <span>↗</span>' : 'Бросок <span>↗</span>', 'go', () => { if (qi < queue.length - 1) { qi++; showTask(); } else shoot(); });
     next.disabled = true;
     const right = () => { markResult(idx, true); solved++; moveTo(solved / queue.length); next.disabled = false; };
     const wrong = () => markResult(idx, false);
     const body = el('div'); body.appendChild(RENDER[t.type](t, fb, right, wrong, idx)); body.appendChild(fb);
     $('stage').style.setProperty('--pan', ((PAN.practice - qi * .08) * innerWidth / 160).toFixed(0) + 'px');
-    frame(`${round > 1 ? 'Работа над ошибками' : 'Тренироваться'}, задание ${qi + 1} из ${queue.length}`, t.prompt, body, [btn('‹ Обзор урока', 'go light', () => go('hub')), spacer(), next]);
+    frame(`${round > 1 ? 'Работа над ошибками' : L.review ? 'Повторить' : 'Тренироваться'}, задание ${qi + 1} из ${queue.length}`, t.prompt, body, [btn('‹ Обзор', 'go light', () => go('hub')), btn('Правило', 'go light', () => rulePop(t._src ? L.srcTheory(t._src.l) : L.theory)), spacer(), next]);
   }
   const RENDER = {
     choice(t, fb, right, wrong) { const d = el('div'); d.appendChild(q(t.text)); d.appendChild(choice(t.options, fb, right, wrong)); return d; },
@@ -530,15 +595,19 @@ function run() {
   }
 
   /* ---------- ДОМАШКА ---------- */
+  let hwOnly = qs.has('ex') ? +qs.get('ex') : null;
   function showHw() {
     lp.hw = true; save();
     const body = el('div'); body.appendChild(el('p', 'meta', 'Здесь нет готовых ответов: подсказка показывает, где искать и какое правило нужно. Сначала попробуй сам, подсказку открывай, если застрял.'));
     lp.tr = lp.tr || {}; lp.wr = lp.wr || {};
+    if (hwOnly != null) body.appendChild(btn('Все упражнения урока', 'go light', () => { hwOnly = null; showHw(); }));
     L.homework.forEach((h, hi) => {
+      if (hwOnly != null && hi !== hwOnly) return;
       const box = el('div', 'hw');
       box.appendChild(el('div', 'hw-top', `<span class="kicker">${h.ex}</span><p>${h.task}</p>`));
       box.appendChild(el('div', 'hw-rule', `<b>Как делать.</b> ${h.rule}`));
-      if (h.type === 'translate') box.appendChild(translateBox(h, hi));
+      if (h.type === 'tfns') box.appendChild(tfnsBox(h));
+      else if (h.type === 'translate') box.appendChild(translateBox(h, hi));
       else if (h.type === 'write') box.appendChild(writeBox(h, hi));
       else {
         const items = el('div', 'hw-items');
@@ -555,11 +624,49 @@ function run() {
     frame('Домашка', `Помощь с упражнениями, стр. ${L.pages}`, body, [btn('‹ Обзор урока', 'go light', () => go('hub')), spacer()]);
   }
 
+  /* карточки правила поверх задания */
+  function rulePop(cards) {
+    const box = $('rulePop'); if (!cards.length) return;
+    box.innerHTML = `<div class="rp-card"><div class="rp-head"><div class="seg">${cards.map((c, i) => `<button data-i="${i}">${i + 1}. ${c.title}</button>`).join('')}</div><button class="rp-x" aria-label="Закрыть">✕</button></div><div class="rp-body"></div></div>`;
+    const show = i => { box.querySelectorAll('.seg button').forEach((b, k) => b.classList.toggle('on', k === i)); const c = cards[i];
+      box.querySelector('.rp-body').innerHTML = c.html + (c.life ? `<div class="life"><span class="kicker">В жизни говорят и так</span>${c.life}</div>` : ''); };
+    box.querySelectorAll('.seg button').forEach(b => b.onclick = () => show(+b.dataset.i));
+    const close = () => box.classList.remove('show');
+    box.querySelector('.rp-x').onclick = close; box.onclick = e => { if (e.target === box) close(); };
+    show(0); box.classList.add('show');
+  }
+  function toast(m) { const t = $('toast'); t.textContent = m; t.classList.add('show'); clearTimeout(t.t); t.t = setTimeout(() => t.classList.remove('show'), 2200); }
+  /* клавиши: 1–4 — вариант ответа, Enter — дальше, Esc — закрыть правило */
+  addEventListener('keydown', e => {
+    if (e.target.matches('textarea, input')) return;
+    if ($('rulePop').classList.contains('show')) { if (e.key === 'Escape') $('rulePop').classList.remove('show'); return; }
+    const n = +e.key; if (n >= 1 && n <= 4) { const o = [...document.querySelectorAll('#pb .opt')].filter(x => !x.disabled)[n - 1]; if (o) o.click(); }
+    if (e.key === 'Enter') { const b = [...document.querySelectorAll('#pf .go')].pop(); if (b && !b.disabled) b.click(); }
+  });
+
+  /* T / F / NS: ребёнок отвечает сам, при ошибке — где искать в тексте, при верном ответе — почему */
+  function tfnsBox(h) {
+    const wrap = el('div', 'hw-items'), got = {};
+    const note = el('div', 'notebook');
+    const upd = () => { const done = h.items.every((_, i) => got[i]);
+      note.innerHTML = done ? `<span class="kicker">Перепиши в тетрадь</span><p>${h.ex.split(',')[0]}: ${h.items.map((it, i) => `${i + 1} — ${it.a}`).join(', ')}</p>` : ''; note.style.display = done ? '' : 'none'; };
+    h.items.forEach((it, i) => {
+      const row = el('div', 'hw-item', `<p>${it.t}</p>`), bs = el('div', 'tf'), fb = el('div', 'h');
+      ['T', 'F', 'NS'].forEach(k => bs.appendChild(btn(k, 'tfb', () => {
+        if (got[i]) return;
+        if (k === it.a) { got[i] = 1; bs.querySelectorAll('.tfb').forEach(x => x.classList.toggle('right', x.textContent === k)); fb.className = 'h ok'; fb.innerHTML = `<b>Верно.</b> ${it.why}`; upd(); }
+        else { const b = [...bs.children].find(x => x.textContent === k); b.classList.remove('wrong'); void b.offsetWidth; b.classList.add('wrong'); fb.className = 'h bad'; fb.innerHTML = `<b>Не совсем.</b> ${it.hint}`; }
+      })));
+      row.append(bs, fb); wrap.appendChild(row);
+    });
+    upd(); wrap.appendChild(note); return wrap;
+  }
+
   /* перевод по кускам: словарик к каждому куску, подсказка, своё поле; готового перевода нет */
   function translateBox(h, hi) {
     const wrap = el('div', 'hw-items'), key = L.id + ':' + hi, saved = lp.tr[key] || [];
     const all = el('div', 'tr-all');
-    const update = () => { all.innerHTML = `<span class="kicker">Мой перевод целиком</span><p>${saved.filter(Boolean).join(' ') || '<i>Здесь соберётся твой перевод.</i>'}</p>`; };
+    const update = () => { all.innerHTML = `<span class="kicker">Мой перевод — перепиши в тетрадь</span><p>${saved.filter(Boolean).join(' ') || '<i>Здесь соберётся твой перевод.</i>'}</p>`; };
     h.chunks.forEach((c, ci) => {
       const row = el('div', 'hw-item tr-chunk');
       row.appendChild(el('p', 'tr-en', `<span class="tr-n">${ci + 1}</span> <span data-say="${c.en.replace(/["…]/g, '')}" style="cursor:pointer">${c.en}</span>`));
@@ -594,6 +701,8 @@ function run() {
         else msg = 'Не вижу used to / didn’t use to. Пример: When I was six, I used to watch cartoons.';
         return `<p class="${ok ? 'ok' : 'bad'}">${ok ? '✓' : '!'} ${t}${msg ? `<small>${msg}</small>` : ''}</p>`;
       }).join('');
+      const good = lines.filter(t => !/didn'?t used to|used to \w+ing\b/i.test(t.replace(/’/g, "'")) && /(used to|use to) \w+/i.test(t));
+      if (good.length) out.innerHTML += `<div class="notebook"><span class="kicker">Перепиши в тетрадь</span><p>${h.ex.split(',')[0]}<br>${good.join('<br>')}</p></div>`;
     };
     ta.oninput = check; check();
     wrap.append(ta, out);
@@ -602,15 +711,14 @@ function run() {
 
   /* ---------- лёд: игрок едет по красной линии к воротам ---------- */
   /* бросок: шайба улетает за край экрана, из-за карточки выезжает лампа, мигает и уезжает обратно */
-  const player = $('player'), puck = $('puck'), lamp = $('lamp');
+  const player = $('player'), puck = $('puck');
   let pos = 0;
   function layoutRink() {
     const c = document.querySelector('.card').getBoundingClientRect();
     document.documentElement.style.setProperty('--fx', ((c.right + innerWidth) / 2) + 'px');
-    lamp.style.left = (c.right - 110) + 'px'; lamp.style.top = (c.top + c.height * .22) + 'px';
   }
   function moveTo(f) { pos = f; }
-  function resetGoal() { lamp.classList.remove('out', 'on'); }
+  function resetGoal() {}
   addEventListener('resize', layoutRink);
   function shoot() {
     const got = queue.filter(i => first[i]).length, need = Math.ceil(queue.length * .8), win = got >= need;
@@ -622,12 +730,11 @@ function run() {
       puck.classList.add('go');
       puck.style.transform = win ? `translate(${innerWidth + 80}px, ${y0 - innerHeight * .28}px) scale(.5)` : `translate(${innerWidth + 80}px, ${y0 + 40}px) scale(.5)`;
       if (win) {
-        store.done[L.id] = true;
-        setTimeout(() => { lamp.classList.add('out'); setTimeout(() => lamp.classList.add('on'), 450);
-          const f = $('flash'); f.classList.remove('show'); void f.offsetWidth; f.classList.add('show');
-          setTimeout(() => lamp.classList.remove('out', 'on'), 3000); }, 380);
+        if (!L.review) store.done[L.id] = true;
+        setTimeout(() => { const f = $('flash'); f.classList.remove('show'); void f.offsetWidth; f.classList.add('show'); }, 380);
       }
-      if (round === 1) lp.best = Math.max(lp.best || 0, got);
+      delete lp.pq;
+      if (round === 1 && !L.review) lp.best = Math.max(lp.best || 0, got);
       save();
       setTimeout(() => { puck.classList.remove('go'); showResult(got, need, win); }, win ? 1500 : 900);
     }, 250);

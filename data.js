@@ -92,3 +92,9 @@ window.ICE_STORE = {
   load() { let s; try { s = JSON.parse(localStorage.getItem(this.key)); } catch (e) {} s = s || {}; s.done = s.done || {}; s.lp = s.lp || {}; s.module = s.module || 1; return s; },
   save(s) { try { localStorage.setItem(this.key, JSON.stringify(s)); } catch (e) {} }
 };
+
+/* Загрузить содержание готовых уроков (все или перечисленные) */
+window.ICE_LOAD = (ids) => Promise.all((ids || Object.keys(window.ICE_READY)).map(id => new Promise(res => {
+  if (window.ICE_LESSONS && window.ICE_LESSONS[id]) return res();
+  const s = document.createElement('script'); s.src = `lessons/${id}.js`; s.onload = res; s.onerror = res; document.head.appendChild(s);
+})));
