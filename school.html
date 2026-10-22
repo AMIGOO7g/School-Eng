@@ -1,129 +1,116 @@
 <!doctype html>
 <html lang="ru"><head><meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>ICE ENGLISH · Темы · Spotlight 7</title>
-<link rel="stylesheet" href="fonts.css?v=29">
-<link rel="stylesheet" href="ice.css?v=29">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ICE ENGLISH · Сезон</title>
+<link rel="stylesheet" href="fonts.css?v=33"><link rel="stylesheet" href="ui2.css?v=33">
 <style>
-.info{position:fixed;z-index:10;left:clamp(24px,5vw,74px);top:calc(var(--low,46vh) / var(--z));width:min(62vw,980px);display:grid;grid-template-columns:minmax(300px,1fr) minmax(280px,.9fr);gap:10px 40px}
-.info .col1 h1{font-size:clamp(44px,5vw,100px);margin:8px 0 6px}
-.info .title-2{font-size:clamp(18px,1.7vw,30px);margin:0 0 14px}
-.facts{font-size:15px;line-height:1.45;font-weight:600;margin:0 0 18px}
-.facts .kicker{display:block;margin-bottom:4px}
-.swap{transition:opacity .35s ease,transform .5s var(--ease)}
-.swap.hide{opacity:0;transform:translateY(10px)}
-.ls{list-style:none;margin:6px 0 0;padding:0;display:grid;gap:4px}
-.ls li{display:grid;grid-template-columns:34px 1fr auto;gap:10px;align-items:center;font-size:14px;font-weight:700;padding:6px 10px;border-radius:12px;background:rgba(255,255,255,.55)}
-.ls li .c{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-weight:900;font-size:12px;background:#fff}
-.ls li.done .c{background:var(--red);color:#fff}
-.ls li.now{background:#fff;box-shadow:inset 0 0 0 2px var(--red)}
-.ls li small{font-size:11px;color:var(--mute);font-weight:700}
-/* красная линия через все модули — как на льду */
-.road{position:fixed;z-index:9;left:0;right:0;bottom:0;height:var(--rh,28vh);pointer-events:none}
-.road svg{width:100%;height:100%;overflow:visible}
-.road .stop{pointer-events:auto;cursor:pointer}
-.road .stop:hover circle.b{stroke:#24374d}
-.roadhead{position:fixed;z-index:10;left:clamp(24px,5vw,74px);right:clamp(24px,5vw,74px);bottom:calc(var(--rh,28vh) - 26px);display:flex;align-items:center;gap:12px;pointer-events:none}
-.roadhead > *{pointer-events:auto}
-.roadhead .line{flex:1}
-.arrow{width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:rgba(255,255,255,.8);cursor:pointer;font-size:18px;display:grid;place-items:center}
-.arrow:disabled{opacity:.4;cursor:default}
-.player-slot{right:clamp(24px,5vw,74px);top:calc(var(--low,46vh) - 20px);height:min(36vh,420px);width:min(36vh,420px)}
-body.opening .stage{transform:scale(1.06);transition:transform .9s var(--ease)}
-body.opening .info,body.opening .road,body.opening .roadhead{opacity:0;transition:opacity .4s}
-@media (max-width:1100px),(max-height:800px){.ls li{padding:3px 8px;font-size:13px}.ls li .c{width:24px;height:24px}.ls li span small{display:none}.info .col1 h1{font-size:46px}}
-@media (max-width:1250px){.player-slot{display:none}.info{width:auto;right:clamp(24px,5vw,74px)}}
-@media (min-width:1900px){.info{zoom:1.12}}
+html,body{height:100%;overflow:hidden}
+.player{position:fixed;z-index:9;pointer-events:none;height:min(84vh,900px);right:clamp(10px,3vw,60px);bottom:0}
+.player img{height:100%;display:block;filter:drop-shadow(0 30px 30px rgba(20,40,64,.2))}
+.area{position:fixed;z-index:12;left:0;right:0;top:calc(var(--hz,40vh) - clamp(40px,6vh,64px));bottom:clamp(14px,2.6vh,28px)}
+.area .wrap{height:100%;display:flex;flex-direction:column;gap:clamp(12px,2vh,20px)}
+.col{max-width:calc(100% - clamp(220px,22vw,360px))}
+/* расписание сезона: 10 матчей */
+.fx-head{display:flex;align-items:center;gap:12px}
+.fx{display:grid;grid-template-columns:repeat(10,minmax(0,1fr));gap:10px}
+.mc{position:relative;border:0;border-radius:16px;padding:10px 8px 10px;background:rgba(255,255,255,.82);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);box-shadow:0 10px 24px rgba(20,44,70,.12);
+  display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;text-align:center;transition:transform .3s var(--ease),box-shadow .3s,opacity .3s;opacity:0;translate:0 16px}
+body.ready .mc{opacity:1;translate:0 0;transition:transform .3s var(--ease),box-shadow .3s,opacity .5s ease calc(var(--i) * 50ms + .15s),translate .7s var(--ease) calc(var(--i) * 50ms + .15s)}
+.mc:hover{transform:translateY(-4px);box-shadow:0 16px 32px rgba(20,44,70,.18)}
+.mc .no{position:absolute;left:10px;top:8px;font-family:var(--head);font-size:13px;color:var(--ink-2)}
+.mc img{width:clamp(36px,3.4vw,56px);height:auto;margin-top:8px}
+.mc .nm{font-size:11px;font-weight:800;line-height:1.2;color:var(--ink);min-height:2.4em}
+.mc .nm small{display:block;font-weight:600;color:var(--mute)}
+.mc .st{font-family:var(--head);font-size:clamp(16px,1.4vw,22px);line-height:1}
+.mc .tg{font-size:9px;font-weight:900;letter-spacing:.12em;padding:3px 7px;border-radius:999px;color:#fff;background:#2aa860}
+.mc.now{background:#fff;box-shadow:0 0 0 2px var(--red),0 16px 34px rgba(211,38,46,.22)}
+.mc.now .tg{background:var(--red)}
+.mc.later{opacity:.72}
+body.ready .mc.later{opacity:.72}
+.mc.later img{filter:grayscale(.6)}
+.mc.sel{transform:translateY(-6px)}
+/* нижняя часть: карточка матча и уроки-периоды */
+.low{flex:1;min-height:0;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:16px}
+.panel{position:relative;border-radius:24px;background:rgba(255,255,255,.86);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:0 16px 38px rgba(20,44,70,.13);padding:clamp(16px,2.4vh,26px) clamp(18px,1.8vw,28px);overflow:hidden;display:flex;flex-direction:column;min-height:0}
+.match h2{font-size:clamp(44px,4.4vw,78px);margin:8px 0 2px}
+.match h3{font-family:var(--head);font-weight:400;font-size:clamp(20px,1.8vw,30px);margin:0 0 10px;text-transform:uppercase;color:var(--ink)}
+.match .g{font-size:10px;letter-spacing:.24em;font-weight:800;color:var(--mute);text-transform:uppercase;border-top:1px solid rgba(31,50,72,.1);padding-top:10px}
+.match .gt{font-weight:800;font-size:clamp(15px,1.2vw,19px);margin:4px 0 6px}
+.match p{font-size:14px;line-height:1.45;color:var(--ink-2);margin:0 0 12px}
+.match .btn{margin-top:auto;justify-content:center;font-size:22px}
+.match .mascot{position:absolute;right:-30px;top:-20px;width:clamp(150px,13vw,220px);opacity:.12;pointer-events:none}
+.lessons .lh{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.lessons .lh small{font-size:10px;letter-spacing:.22em;font-weight:800;color:var(--mute)}
+.ll{list-style:none;margin:0;padding:0;overflow:auto;min-height:0;display:grid;gap:6px}
+.ll button{width:100%;display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:center;text-align:left;border:1px solid transparent;background:rgba(31,50,72,.04);border-radius:14px;padding:7px 12px;cursor:pointer;transition:background .2s,border-color .2s}
+.ll button:hover{background:rgba(31,50,72,.08)}
+.ll .pr{display:block;font-size:9px;letter-spacing:.22em;font-weight:900;color:var(--mute)}
+.ll .t{font-weight:800;font-size:14px;line-height:1.25}.ll .t small{display:block;font-weight:600;font-size:12px;color:var(--mute)}
+.ll .go2{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;font-weight:900;background:rgba(31,50,72,.08)}
+.ll .soon{font-size:10px;font-weight:900;letter-spacing:.12em;color:var(--mute)}
+.ll li.next button{border-color:var(--red);background:#fff}
+.ll li.next .go2{background:var(--red);color:#fff}
+.ll .puck3d{width:clamp(30px,2.4vw,40px);height:auto}
+@media (max-width:1100px){.col{max-width:100%}.player{display:none}.fx{grid-template-columns:repeat(10,92px);overflow-x:auto;padding:6px 2px 8px}.mc .nm{display:none}}
+@media (max-height:820px){.match h2{font-size:48px}.ll button{padding:5px 10px}.mc .nm{display:none}}
 </style></head>
-<body class="arriving">
-<main class="stage" id="stage"></main>
-<div class="player-slot" aria-hidden="true"><span>Место для хоккеиста</span></div>
-<section class="info" aria-live="polite">
-  <div class="col1 swap" id="s1">
-    <div class="kicker" id="count">Модуль 01 из 10</div>
-    <h1 class="title" id="title">Lifestyles</h1>
-    <p class="title-2" id="ru">Образ жизни</p>
-    <div class="facts"><span class="kicker">Грамматика модуля</span><span id="gram"></span></div>
-    <a class="go" id="open" href="#"><span id="openText">Открыть модуль</span> <span>↗</span></a>
+<body>
+<div id="stage"></div>
+<div class="player"><img src="img/pl_stand.webp" alt="Хоккеист номер 7"></div>
+<section class="area"><div class="wrap">
+  <div class="col"><div class="fx-head"><span class="kick bar">Расписание сезона · Spotlight 7</span></div></div>
+  <div class="col"><div class="fx" id="fx"></div></div>
+  <div class="col low">
+    <div class="panel match" id="match"></div>
+    <div class="panel lessons" id="lessons"></div>
   </div>
-  <div class="swap" id="s2"><span class="kicker" id="lsTitle">Уроки модуля</span><ul class="ls" id="ls"></ul></div>
-</section>
-<div class="roadhead"><span class="kicker">10 модулей учебника</span><span class="line"></span><small class="kicker" style="letter-spacing:.1em">колесо мыши или стрелки</small><button class="arrow" id="prev">‹</button><button class="arrow" id="next">›</button></div>
-<div class="road"><svg id="road"></svg></div>
-<div class="coach" id="coach"></div>
-<div class="veil"></div>
-<script src="data.js?v=29"></script><script src="ice-scene.js?v=29"></script><script src="ice-ui.js?v=29"></script>
+</div></section>
+<div class="veil2"></div>
+<script src="data.js?v=33"></script><script src="ui2.js?v=33"></script>
 <script>
 (() => {
-  const B = ICE_BOOK, store = ICE_STORE.load(), $ = id => document.getElementById(id);
-  const qs = new URLSearchParams(location.search);
-  let cur = Math.min(10, Math.max(1, +(qs.get('m') || store.module || 1)));
-  const pad = n => String(n).padStart(2, '0');
-  const doneIn = m => m.lessons.filter(l => store.done[l.id]).length;
-  IceUI.header({ active: 'topics', crumbs: [{ t: 'Главная', href: 'index.html' }, { t: 'Spotlight 7', href: 'hub.html' }, { t: 'Темы' }] });
-  const sc = IceScene.mount($('stage'), { img: 'modules', text: pad(cur), over: 'SPOTLIGHT 7', x: .5, size: 30, sink: .035 });
-  const layout = () => {
-    document.documentElement.style.setProperty('--low', Math.max(sc.footPx() + 14, innerHeight * .28) + 'px');
-    document.documentElement.style.setProperty('--rh', Math.max(150, innerHeight * .22) + 'px');
-    road();
-  };
-  function fill() {
-    const m = B[cur - 1], d = doneIn(m), nx = ICE_NEXT(store);
-    $('count').textContent = `Модуль ${pad(m.n)} из 10`;
-    $('title').textContent = m.en; $('ru').textContent = m.ru; $('gram').textContent = m.grammar;
-    $('openText').textContent = d ? 'Продолжить модуль' : 'Открыть модуль';
-    $('lsTitle').textContent = `Уроки модуля, стр. ${m.pages}. Пройдено ${d} из ${m.lessons.length}`;
-    $('ls').innerHTML = m.lessons.map(l => `<li class="${store.done[l.id] ? 'done' : ''} ${nx.l.id === l.id ? 'now' : ''}"><span class="c">${l.code}</span><span>${l.en}${l.kind ? ` <small>${l.kind}</small>` : ''}</span><small>${ICE_READY[l.id] ? 'стр. ' + l.pages : 'скоро'}</small></li>`).join('');
-    $('prev').disabled = cur === 1; $('next').disabled = cur === 10;
-  }
-  // дорога модулей: плавная красная кривая с остановками; пройденное — сплошное, впереди — пунктир
-  function road() {
-    const svg = $('road'), W = innerWidth, H = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--rh')) || 180;
-    svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
-    const L0 = Math.max(40, W * .06), R0 = W - Math.max(40, W * .06), k = Math.max(1, W / 1600);
-    const P = B.map((m, i) => { const t = i / 9; return [L0 + t * (R0 - L0), H * (.52 + Math.sin(t * Math.PI * 2.2 + .6) * .2)]; });
-    const path = pts => pts.reduce((d, p, i, a) => { if (!i) return `M${p[0]} ${p[1]}`; const q = a[i - 1], cx = (q[0] + p[0]) / 2; return d + ` C${cx} ${q[1]} ${cx} ${p[1]} ${p[0]} ${p[1]}`; }, '');
-    let last = -1; B.forEach((m, i) => { if (doneIn(m) === m.lessons.length) last = i; });
-    const nx = ICE_NEXT(store).m.n - 1, doneTo = Math.max(last, nx - 1);
-    let g = `<path d="${path(P)}" fill="none" stroke="#ffffff" stroke-width="10" stroke-linecap="round" opacity=".55"/>
-      <path d="${path(P)}" fill="none" stroke="#24374d" stroke-opacity=".35" stroke-width="2.5" stroke-dasharray="2 9" stroke-linecap="round"/>`;
-    if (nx > 0) g += `<path d="${path(P.slice(0, nx + 1))}" fill="none" stroke="#d3262e" stroke-width="7" stroke-linecap="round"/>`;
-    B.forEach((m, i) => {
-      const [x, y] = P[i], on = i + 1 === cur, done = doneIn(m) === m.lessons.length, r = (on ? 22 : 16) * k;
-      g += `<g class="stop" data-n="${m.n}">
-        <circle cx="${x}" cy="${y + 3}" r="${r}" fill="#1b2f45" opacity=".12"/>
-        <circle class="b" cx="${x}" cy="${y}" r="${r}" fill="${done ? '#d3262e' : on ? '#24374d' : '#ffffff'}" stroke="${on ? '#ffffff' : '#24374d'}" stroke-opacity="${on ? 1 : .2}" stroke-width="${on ? 3 : 1.5}"/>
-        <text x="${x}" y="${y + (on ? 7 : 5) * k}" text-anchor="middle" font-family="Inter,Arial" font-weight="900" font-size="${(on ? 18 : 14) * k}" fill="${done || on ? '#fff' : '#24374d'}">${m.n}</text>
-        <text x="${x}" y="${y + r + 18 * k}" text-anchor="middle" font-family="Inter,Arial" font-weight="${on ? 800 : 700}" font-size="${(on ? 14 : 12) * k}" fill="#24374d" opacity="${on ? 1 : .75}">${m.en.length > 18 ? m.en.slice(0, 17) + '…' : m.en}</text>
-        <circle cx="${x}" cy="${y}" r="30" fill="transparent"/></g>`;
+  const $ = id => document.getElementById(id), P = UI2.profile(), st = P.st, B = ICE_BOOK;
+  const TEAMS = ['wolf', 'bear', 'eagle', 'fox', 'lynx', 'deer', 'lion', 'owl', 'shark', 'tiger'];
+  const TEAMRU = ['Волки', 'Медведи', 'Орлы', 'Лисы', 'Рыси', 'Олени', 'Львы', 'Совы', 'Акулы', 'Тигры'];
+  UI2.header('season');
+  const sc = UI2.scene($('stage'), { horizon: .4, size: .24, sink: .2 });
+  const setHz = () => document.documentElement.style.setProperty('--hz', sc.horizonPx() + 'px'); setHz(); addEventListener('resize', setHz);
+  const doneIn = m => m.lessons.filter(l => st.done[l.id]).length;
+  const nx = ICE_NEXT(st), curM = nx.m.n;
+  let sel = +(new URLSearchParams(location.search).get('m')) || curM;
+  B.forEach((m, i) => {
+    const d = doneIn(m), all = d === m.lessons.length, now = m.n === curM && !all;
+    const b = document.createElement('button'); b.className = 'mc ' + (all ? 'won' : now ? 'now' : 'later'); b.style.setProperty('--i', i);
+    b.innerHTML = `<span class="no">${String(m.n).padStart(2, '0')}</span><img src="img/team_${TEAMS[i]}.webp" alt=""><span class="nm">Матч ${m.n}<small>${m.en}</small></span>
+      ${all ? `<span class="st">${d} : 0</span><span class="tg">ПОБЕДА</span>` : now ? `<span class="st">${d} : ${m.lessons.length - d}</span><span class="tg">СЕГОДНЯ</span>` : `<span class="st" style="opacity:.5">— : —</span><span class="tg" style="background:#9aaabb">ВПЕРЕДИ</span>`}`;
+    b.onclick = () => select(m.n); $('fx').appendChild(b);
+  });
+  function select(n) {
+    sel = n; const m = B[n - 1], i = n - 1, d = doneIn(m);
+    [...$('fx').children].forEach((b, k) => b.classList.toggle('sel', k === i));
+    sc.set(String(n).padStart(2, '0'), `spotlight 7 · матч ${n} · соперник: ${TEAMRU[i]}`, false);
+    const next = m.lessons.find(l => !st.done[l.id]) || m.lessons[0];
+    const href = ICE_READY[next.id] ? `lesson.html?l=${next.id}` : `module.html?m=${n}&l=${next.id}`;
+    $('match').innerHTML = `<img class="mascot" src="img/team_${TEAMS[i]}.webp" alt=""><span class="kick bar">Spotlight 7 · модуль ${n}</span><h2 class="h">Матч ${n}</h2><h3>${m.en} <span style="color:var(--mute)">· ${m.ru}</span></h3>
+      <div class="g">Грамматическая тема</div><div class="gt">${m.grammar}</div><p>${d ? `Сыграно уроков: ${d} из ${m.lessons.length}. ` : ''}Учебник, стр. ${m.pages}.</p>
+      <a class="btn" href="${href}" data-go>На лёд <span>→</span></a>`;
+    $('lessons').innerHTML = `<div class="lh"><span class="kick bar">Уроки матча ${n}</span><small>${m.lessons.length} уроков</small></div><ul class="ll" id="ll"></ul>`;
+    m.lessons.forEach((l, k) => {
+      const dn = !!st.done[l.id], isNext = l === next && !dn, ready = ICE_READY[l.id];
+      const li = document.createElement('li'); if (isNext) li.className = 'next';
+      li.innerHTML = `<button>${UI2.puck(36, dn ? 'done' : isNext ? 'next' : 'off')}<span><span class="pr">${k + 1} период · ${l.code}${l.kind ? ' · ' + l.kind : ''}</span><span class="t">${l.en}<small>${l.ru}</small></span></span>
+        ${ready ? '<span class="go2">›</span>' : '<span class="soon">СКОРО</span>'}</button>`;
+      li.firstChild.onclick = () => UI2.go(ready ? `lesson.html?l=${l.id}` : `module.html?m=${n}&l=${l.id}`);
+      $('ll').appendChild(li);
     });
-    // фишка «7» — где ты сейчас
-    const [tx, ty] = P[nx];
-    g += `<g transform="translate(${tx + 18} ${ty - 22})"><circle r="13" fill="#d3262e" stroke="#fff" stroke-width="2.5"/><text y="5" text-anchor="middle" font-family="Inter,Arial" font-weight="900" font-size="13" fill="#fff">7</text></g>`;
-    svg.innerHTML = g;
-    svg.querySelectorAll('.stop').forEach(s => s.onclick = () => +s.dataset.n === cur ? open() : go(+s.dataset.n));
+    document.querySelectorAll('[data-go]').forEach(a => a.onclick = e => { e.preventDefault(); UI2.go(a.getAttribute('href')); });
+    // «следующий урок» — пометка тренера
+    document.querySelectorAll('.hand.nx').forEach(x => x.remove());
+    setTimeout(() => { const r = document.querySelector('.ll li.next'); if (!r) return; const b = r.getBoundingClientRect();
+      const nn = UI2.note(document.body, 'следующий урок', b.right - 210, b.top - 40, { x: -30, y: 14, d: 'M24 4 C 10 10, 2 20, 0 32 M-8 22 L0 33 L9 24' }); nn.classList.add('nx'); nn.style.position = 'fixed'; nn.style.zIndex = 15; }, 700);
   }
-  function paint(first) {
-    road();
-    if (first) { fill(); return; }
-    [$('s1'), $('s2')].forEach(x => x.classList.add('hide'));
-    setTimeout(() => { fill(); [$('s1'), $('s2')].forEach(x => x.classList.remove('hide')); }, 300);
-    const g = sc.giant; g.classList.add('down'); clearTimeout(g.t);
-    g.t = setTimeout(() => { sc.setText(pad(cur)); g.classList.remove('down'); g.classList.add('pre'); void g.offsetWidth; g.classList.remove('pre'); }, 500);
-    store.module = cur; ICE_STORE.save(store);
-  }
-  function go(n) { if (n < 1 || n > 10 || n === cur) return; cur = n; paint(false); }
-  function open() { document.body.classList.add('opening'); setTimeout(() => IceUI.go(`module.html?m=${cur}`), 300); }
-  $('open').onclick = e => { e.preventDefault(); open(); };
-  $('prev').onclick = () => go(cur - 1); $('next').onclick = () => go(cur + 1);
-  addEventListener('keydown', e => { if (e.key === 'ArrowRight') go(cur + 1); else if (e.key === 'ArrowLeft') go(cur - 1); else if (e.key === 'Enter') open(); });
-  let acc = 0, lock = 0;
-  addEventListener('wheel', e => { const now = Date.now(); if (now < lock) return; acc += Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
-    if (Math.abs(acc) > 60) { go(cur + Math.sign(acc)); acc = 0; lock = now + 700; } }, { passive: true });
-  layout(); addEventListener('resize', layout);
-  paint(true);
-  sc.giant.classList.add('pre'); setTimeout(() => sc.giant.classList.remove('pre'), 300);
-  IceUI.track(); IceUI.ready();
+  sc.set('01', '', true); select(sel);
+  UI2.ready();
 })();
 </script>
 </body></html>

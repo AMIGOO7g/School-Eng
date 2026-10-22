@@ -25,14 +25,20 @@ button{font:inherit;color:inherit}
 .sc-giant{position:absolute;display:flex;flex-direction:column;align-items:flex-start;white-space:nowrap;transition:opacity .5s ease,translate .9s var(--ease)}
 .sc-giant.down{opacity:0;translate:0 14vh;transition:opacity .35s ease,translate .45s cubic-bezier(.6,0,.8,.4)}
 .sc-giant.pre{opacity:0;translate:0 16vh;transition:none}
-.sc-over{font-size:clamp(12px,1vw,16px);letter-spacing:.42em;font-weight:800;color:#1f3e5e;opacity:.75;margin:0 0 .6em .2em;text-transform:uppercase}
+.sc-over{font-size:clamp(12px,1vw,16px);letter-spacing:.42em;font-weight:800;color:#fff;opacity:.75;text-shadow:0 1px 8px rgba(20,40,64,.25);margin:0 0 .6em .2em;text-transform:uppercase}
 .sc-word{font-family:var(--head);line-height:.78;color:#264a6f;opacity:.4;text-transform:uppercase}
 .sc-haze{position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 48% 42% at 16% 68%,rgba(242,247,251,.92),rgba(242,247,251,.55) 45%,rgba(242,247,251,0) 75%)}
 
 /* шапка: логотип у левого края экрана, игрок у правого, меню по центру без подложки, с бегающей красной плашкой */
 .top2{position:fixed;z-index:30;top:0;left:0;right:0;height:88px;display:flex;align-items:center;padding:0 clamp(16px,2.2vw,36px)}
-.logo{font-family:var(--head);font-size:30px;color:var(--ink);text-decoration:none;white-space:nowrap;letter-spacing:.01em;flex:none}
-.logo b{color:var(--red);font-weight:400;margin-right:6px}
+.logo{display:flex;align-items:baseline;gap:10px;color:#fff;text-decoration:none;white-space:nowrap;flex:none;text-shadow:0 2px 14px rgba(20,40,64,.25)}
+.logo b{font-family:var(--head);font-size:32px;color:var(--red);font-weight:400;margin-right:-4px;text-shadow:none}
+.logo .ice{font-family:var(--head);font-size:32px;line-height:1}
+.logo .eng{font-family:var(--font);font-weight:400;font-size:15px;letter-spacing:.4em}
+.top2.dark .logo{color:var(--ink);text-shadow:none}
+.logo .eng{font-family:var(--font);font-weight:300;font-size:.46em;letter-spacing:.32em;margin-left:.5em;vertical-align:.3em}
+.top2.light .logo{color:#fff;text-shadow:0 2px 14px rgba(20,40,64,.25)}
+.top2.light .nav2 a:not(.on):not(.hot){color:#fff;text-shadow:0 1px 10px rgba(20,40,64,.35)}
 .nav2{position:absolute;left:50%;transform:translateX(-50%);display:flex;gap:4px}
 .nav2 a{position:relative;z-index:1;padding:10px 18px;border-radius:999px;font-size:14px;font-weight:800;text-decoration:none;color:var(--ink);white-space:nowrap;transition:color .3s}
 .nav2 a.on,.nav2 a.hot{color:#fff}
@@ -54,3 +60,15 @@ button{font:inherit;color:inherit}
 .veil2{position:fixed;inset:0;z-index:60;background:#e8eef5;pointer-events:none;opacity:1;transition:opacity .6s}
 body.ready .veil2{opacity:0}body.leaving .veil2{opacity:1}
 @media (max-width:1180px){.nav2 a{padding:9px 11px;font-size:12px}.me .n,.me .bar{display:none}.logo{font-size:24px}}
+
+.puck3d{display:block;flex:none}
+
+/* объёмная шайба: чёрный цилиндр в лёгком ракурсе, рифлёный бортик, блик сверху */
+.puck3{position:relative;display:inline-block;width:var(--d,24px);height:calc(var(--d,24px) * .68);flex:none}
+.puck3::before{content:"";position:absolute;left:0;right:0;bottom:0;height:62%;border-radius:0 0 50% 50% / 0 0 60% 60%;
+  background:repeating-linear-gradient(90deg,#0b1016 0 2px,#1c252f 2px 4px),#111;box-shadow:0 3px 6px rgba(10,20,30,.35)}
+.puck3::after{content:"";position:absolute;left:0;right:0;top:0;height:76%;border-radius:50%;
+  background:radial-gradient(ellipse at 38% 35%,#6c7886 0 8%,#2b3542 30%,#141b23 62%,#0c1117);box-shadow:inset 0 0 0 1.5px #0a0f14}
+.puck3.off{opacity:.25}
+.puck3.ring::after{background:radial-gradient(ellipse at 50% 50%,#141b23 0 30%,#d3262e 31% 43%,#141b23 44% 62%,#0c1117)}
+.puck3.check::after{background:radial-gradient(ellipse at 38% 35%,#6c7886 0 8%,#2b3542 30%,#141b23 62%,#0c1117)}

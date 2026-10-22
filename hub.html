@@ -7,29 +7,38 @@
 html,body{height:100%;overflow:hidden}
 .lead3{position:fixed;z-index:12;left:0;right:0;top:calc(var(--hz,50vh) - clamp(30px,4vh,50px))}
 .lead3 .head{position:relative;max-width:640px;margin-bottom:clamp(16px,2.6vh,26px)}
-.lead3 .head::before{content:"";position:absolute;z-index:-1;left:-80px;right:-100px;top:-90px;bottom:-50px;border-radius:50%;background:radial-gradient(closest-side,rgba(244,248,252,.94),rgba(244,248,252,.7) 55%,rgba(244,248,252,0))}
+.lead3 .head::before{content:"";position:absolute;z-index:-1;left:-110px;right:-120px;top:-110px;bottom:-60px;border-radius:50%;background:radial-gradient(closest-side,rgba(244,248,252,.98),rgba(244,248,252,.88) 50%,rgba(244,248,252,.4) 75%,rgba(244,248,252,0));filter:blur(6px)}
 .lead3 h1{font-size:clamp(46px,4.6vw,80px);margin:10px 0 10px}
 .lead3 .sub{font-size:clamp(15px,1.1vw,17px);font-weight:600;color:var(--ink);margin:0;line-height:1.5}
-.cards3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;max-width:min(1060px,calc(100% - min(30vw,380px)))}
-.cd{position:relative;text-align:left;border:0;border-radius:24px;padding:20px 22px;display:flex;flex-direction:column;gap:8px;min-height:clamp(180px,24vh,230px);cursor:pointer;
+.cards3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;max-width:min(1180px,calc(100% - min(26vw,360px)))}
+.cd{position:relative;text-align:left;border:0;border-radius:26px;padding:24px 26px;display:flex;flex-direction:column;gap:8px;min-height:clamp(220px,29vh,290px);padding:24px 26px;cursor:pointer;
   background:rgba(255,255,255,.86);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:0 16px 38px rgba(20,44,70,.14);overflow:hidden;
   transition:transform .35s var(--ease),box-shadow .35s;opacity:0;translate:0 22px}
 body.ready .cd{opacity:1;translate:0 0;transition:transform .35s var(--ease),box-shadow .35s,opacity .6s ease calc(var(--i) * 90ms + .2s),translate .8s var(--ease) calc(var(--i) * 90ms + .2s)}
 .cd:hover{transform:translateY(-4px);box-shadow:0 24px 50px rgba(20,44,70,.2)}
 .cd .ic{width:30px;height:30px}
 .cd .k{font-size:10px;letter-spacing:.28em;font-weight:800;color:var(--mute);text-transform:uppercase}
-.cd b{font-family:var(--head);font-weight:400;font-size:clamp(22px,1.8vw,30px);line-height:1;text-transform:uppercase}
-.cd .d{font-size:13.5px;line-height:1.45;color:var(--ink-2)}
+.cd b{font-family:var(--head);font-weight:400;font-size:clamp(26px,2.3vw,38px);line-height:1;text-transform:uppercase}
+.cd .d{font-size:15px;line-height:1.45;color:var(--ink-2)}
 .cd .arr{position:absolute;right:16px;top:16px;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:rgba(31,50,72,.08);font-weight:900}
-.cd .act{margin-top:auto;align-self:flex-start;font-family:var(--head);font-size:17px;letter-spacing:.04em;background:var(--red);color:#fff;padding:11px 18px;border-radius:12px}
+.cd .act{margin-top:auto;align-self:stretch;text-align:center;font-family:var(--head);font-size:20px;letter-spacing:.05em;background:var(--red);color:#fff;padding:14px 18px;border-radius:14px;box-shadow:0 10px 24px rgba(211,38,46,.35)}
 .cd.dark{background:linear-gradient(160deg,#22364d,#16263a);color:#fff}
 .cd.dark .k,.cd.dark .d{color:rgba(255,255,255,.7)}.cd.dark .arr{background:rgba(255,255,255,.12)}
-.pk{display:flex;gap:5px;margin-top:2px}
-.pk i{width:18px;height:18px;border-radius:50%;background:radial-gradient(circle at 34% 30%,#8a97a6 0 9%,#3a4654 32%,#141c25 64%);box-shadow:inset 0 0 0 1.5px #0d141b;opacity:.22}
-.pk i.on{opacity:1}
+.pk{display:flex;gap:2px;margin-top:4px;flex-wrap:nowrap}
+.pk .puck3d{width:clamp(16px,1.55vw,24px);height:auto}
+@media (min-width:1700px){.cards3{max-width:min(1060px,calc(100% - 300px))}}
 .pk-line{display:flex;justify-content:space-between;font-size:12px;font-weight:700;color:var(--ink-2)}
 .big{display:flex;align-items:center;gap:10px}.big span{font-family:var(--head);font-size:52px;line-height:.9;color:var(--red)}.big small{font-size:12px;font-weight:700;color:var(--ink-2);line-height:1.3}
-.player{position:fixed;z-index:9;pointer-events:none;height:min(66vh,720px);right:max(var(--pad),calc((100vw - 1320px) / 2) + 10px);bottom:clamp(10px,3vh,30px)}
+.player{position:fixed;z-index:9;pointer-events:none;height:min(84vh,900px);right:clamp(10px,3vw,60px);bottom:0}
+.stats{display:flex;align-items:center;gap:0;margin-top:18px;width:max-content;border-radius:14px;overflow:hidden;background:#1d2e41;color:#fff;box-shadow:0 12px 28px rgba(20,40,64,.22)}
+.stats > *{padding:10px 16px;display:flex;align-items:center;gap:10px;border-right:1px solid rgba(255,255,255,.08);font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;white-space:nowrap}
+.stats .t{background:var(--red);font-family:var(--head);font-size:20px;letter-spacing:0}
+.stats .sc{font-family:var(--head);font-size:24px;letter-spacing:.02em}
+.stats small{color:rgba(255,255,255,.55);font-size:10px}
+.stats .k2{color:rgba(255,255,255,.55);font-size:10px;letter-spacing:.22em}
+.stats .tm{font-family:var(--head);font-size:16px;background:var(--red);padding:3px 9px;border-radius:6px;letter-spacing:0}
+.stats .sc2{font-family:var(--head);font-size:24px;letter-spacing:.02em}.stats .sc2 b{color:var(--red);font-weight:400}
+.stats > div{display:flex;align-items:center;gap:10px}
 .player img{height:100%;display:block;filter:drop-shadow(0 30px 30px rgba(20,40,64,.2))}
 @media (max-width:1100px){.cards3{max-width:100%}.player{opacity:.25}}
 </style></head>
@@ -39,13 +48,14 @@ body.ready .cd{opacity:1;translate:0 0;transition:transform .35s var(--ease),box
 <section class="lead3"><div class="wrap">
   <div class="head"><div class="kick bar">Юношеская лига · твой сезон</div><h1 class="h">Что будем делать?</h1><p class="sub">Учись, развивайся, выходи на новый уровень.<br>Твой английский — как большая игра.</p></div>
   <div class="cards3" id="cards"></div>
+  <div class="stats" id="strip"></div>
 </div></section>
 <div class="veil2"></div>
 <script src="data.js?v=32"></script><script src="ui2.js?v=32"></script>
 <script>
 (() => {
   const $ = id => document.getElementById(id), P = UI2.profile(), st = P.st, nx = ICE_NEXT(st), ms = (st.mistakes || []).length;
-  UI2.header('hub');
+  UI2.header('hub', { light: true });
   const sc = UI2.scene($('stage'), { horizon: .44, size: .24, sink: .3 }); sc.set('SPOTLIGHT', '7 класс · сезон 2026/27', true);
   const setHz = () => document.documentElement.style.setProperty('--hz', sc.horizonPx() + 'px'); setHz(); addEventListener('resize', setHz);
   const done = ICE_BOOK.map(m => m.lessons.every(l => st.done[l.id]));
@@ -55,7 +65,7 @@ body.ready .cd{opacity:1;translate:0 0;transition:transform .35s var(--ease),box
       k: 'Домашнее задание', b: 'Сделать домашку', d: 'Введи страницу учебника — получишь правило, подсказки и проверку.', act: 'Сделать домашку →', href: 'homework.html' },
     { ic: '<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="#d3262e" stroke-width="1.8"><path d="M3 5.5c3-1.5 6-1.5 9 .5 3-2 6-2 9-.5v13c-3-1.5-6-1.5-9 .5-3-2-6-2-9-.5z"/><path d="M12 6v13"/></svg>',
       k: 'Текущая тема', b: 'Изучить тему', d: `Матч ${nx.m.n}: ${nx.m.en}. Следующий урок — ${nx.l.code}.`, href: 'school.html',
-      extra: `<div class="pk">${done.map(x => `<i class="${x ? 'on' : ''}"></i>`).join('')}</div><div class="pk-line"><span>Сезон: ${nDone} из 10 матчей</span><span>${nDone * 10}%</span></div>` },
+      extra: `<div class="pk">${done.map(x => UI2.puck(28, x ? 'on' : 'off')).join('')}</div><div class="pk-line"><span>Сезон: ${nDone} из 10 матчей</span><span>${nDone * 10}%</span></div>` },
     { ic: '<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="#d3262e" stroke-width="1.8"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2M10 2.5h4"/></svg>',
       k: 'Штрафная скамейка', b: 'Штрафная', d: ms ? 'Здесь ждут задания с ошибками. Отыграйся!' : 'Сейчас на скамейке пусто — отличная игра!', href: 'lesson.html?mode=review',
       extra: `<div class="big"><span>${ms}</span><small>заданий<br>на скамейке</small></div>` }
@@ -65,6 +75,12 @@ body.ready .cd{opacity:1;translate:0 0;transition:transform .35s var(--ease),box
     el.innerHTML = `<span class="arr">›</span>${c.ic}<span class="k">${c.k}</span><b>${c.b}</b><span class="d">${c.d}</span>${c.extra || ''}${c.act ? `<span class="act">${c.act}</span>` : ''}`;
     el.onclick = () => UI2.go(c.href); $('cards').appendChild(el);
   });
+  // итоги, как табло в трансляции: последний матч и сезон
+  const playedL = Object.entries(st.lp || {}).filter(([, v]) => v.best != null);
+  const last = playedL[playedL.length - 1];
+  $('strip').innerHTML = `<div><span class="k2">ICE ENGLISH LEAGUE</span></div>` +
+    (last ? `<div><span class="k2">ПОСЛЕДНИЙ МАТЧ</span><span class="tm">${last[0]}</span><span class="sc2">${last[1].best}<b> : </b>${10 - last[1].best}</span></div>` : `<div><span class="k2">ПОСЛЕДНИЙ МАТЧ</span>ещё не сыгран</div>`) +
+    `<div><span class="k2">СЕЗОН</span>${nDone} из 10 матчей</div><div><span class="k2">ШТРАФНАЯ</span>${ms}</div>`;
   UI2.ready();
   // «начни отсюда!» — к рекомендованной карточке: если есть ошибки — штрафная, иначе тема
   setTimeout(() => {

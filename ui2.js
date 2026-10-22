@@ -12,11 +12,12 @@ window.UI2 = (() => {
     const rating = Math.min(99, 50 + done * 2 + Math.round(best / 5));
     return { st, name: st.name || 'Игрок 7', league: LEAGUES[(st.league || 2) - 1], rating, done, total: lessons.length, awards: (st.awards || []).length };
   }
-  function header(active) {
+  function header(active, opt = {}) {
     const p = profile();
     const L = [['hub', 'Раздевалка', 'hub.html'], ['hw', 'Домашка', 'homework.html'], ['season', 'Сезон', 'school.html'], ['career', 'Карьера', 'index.html'], ['pen', 'Штрафная', 'lesson.html?mode=review']];
-    const h = document.createElement('header'); h.className = 'top2';
-    h.innerHTML = `<a class="logo" href="index.html"><b>/</b>ICE ENGLISH</a>
+    const h = document.createElement('header'); h.className = 'top2' + (opt.dark ? ' dark' : '');
+    if (opt && opt.light) h.classList.add('light');
+    h.innerHTML = `<a class="logo" href="index.html"><b>/</b><span class="ice">ICE</span><span class="eng">ENGLISH</span></a>
       <nav class="nav2"><span class="pill"></span>${L.map(([k, t, href]) => `<a href="${href}" class="${k === active ? 'on' : ''}">${t}</a>`).join('')}</nav>
       <a class="me" href="index.html" title="Карьера"><img src="img/pl_avatar.webp" alt=""><span class="n">${p.name}<small>${p.league.name}</small><span class="bar"><i style="width:${(p.done / p.total * 100).toFixed(1)}%"></i></span></span><span class="r">${p.rating}</span></a>`;
     document.body.prepend(h);
@@ -81,7 +82,21 @@ window.UI2 = (() => {
       const p = n.querySelector('path'); requestAnimationFrame(() => { const L = p.getTotalLength(); p.style.strokeDasharray = L; p.style.strokeDashoffset = L; p.style.transition = 'stroke-dashoffset .9s cubic-bezier(.22,.8,.2,1) .4s'; requestAnimationFrame(() => p.style.strokeDashoffset = 0); }); }
     parent.appendChild(n); return n;
   }
+  // объёмная шайба: верхняя грань, рифлёный бортик, блик
+  function puck(w, state) {
+    const h = w * .62, id = 'pk' + Math.random().toString(36).slice(2, 7);
+    const op = state === 'off' ? .38 : 1, ring = state === 'next' ? '<ellipse cx="50" cy="24" rx="27" ry="11" fill="none" stroke="#d3262e" stroke-width="5"/>' : '';
+    const check = state === 'done' ? '<path d="M38 24 l8 6 l16 -12" fill="none" stroke="#3ccf6e" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>' : '';
+    return `<svg class="puck3d" width="${w}" height="${h}" viewBox="0 0 100 62" style="opacity:${op}"><defs>
+      <linearGradient id="${id}s" x1="0" x2="1"><stop offset="0" stop-color="#05080c"/><stop offset=".45" stop-color="#2b333d"/><stop offset=".6" stop-color="#3a434e"/><stop offset="1" stop-color="#06090d"/></linearGradient>
+      <radialGradient id="${id}t" cx=".38" cy=".3" r=".8"><stop offset="0" stop-color="#4a5562"/><stop offset=".55" stop-color="#1b222b"/><stop offset="1" stop-color="#0b0f14"/></radialGradient></defs>
+      <ellipse cx="50" cy="50" rx="46" ry="11" fill="rgba(10,20,30,.28)"/>
+      <path d="M4 24 v16 a46 18 0 0 0 92 0 v-16z" fill="url(#${id}s)"/>
+      <g stroke="rgba(255,255,255,.08)" stroke-width="1">${[...Array(18)].map((_, i) => { const x = 6 + i * 5.1; return `<line x1="${x}" y1="${30 + Math.sin(i / 17 * Math.PI) * 9}" x2="${x}" y2="${39 + Math.sin(i / 17 * Math.PI) * 13}"/>`; }).join('')}</g>
+      <ellipse cx="50" cy="24" rx="46" ry="18" fill="url(#${id}t)"/>
+      <ellipse cx="38" cy="17" rx="18" ry="5" fill="rgba(255,255,255,.18)"/>${ring}${check}</svg>`;
+  }
   function go(href) { document.body.classList.add('leaving'); setTimeout(() => location.assign(href), 520); }
   function ready() { requestAnimationFrame(() => setTimeout(() => document.body.classList.add('ready'), 60)); }
-  return { LEAGUES, profile, header, scene, note, go, ready };
+  return { LEAGUES, profile, header, scene, note, go, ready, puck };
 })();
