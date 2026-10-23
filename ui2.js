@@ -96,7 +96,11 @@ window.UI2 = (() => {
       <ellipse cx="50" cy="24" rx="46" ry="18" fill="url(#${id}t)"/>
       <ellipse cx="38" cy="17" rx="18" ry="5" fill="rgba(255,255,255,.18)"/>${ring}${check}</svg>`;
   }
+  // крупный заголовок переливается между русским и английским, чтобы глаз привыкал к языку
+  function flip(el, texts, ms = 6500) {
+    let i = 0; setInterval(() => { el.classList.add('out'); setTimeout(() => { i = (i + 1) % texts.length; el.textContent = texts[i]; el.classList.remove('out'); }, 450); }, ms);
+  }
   function go(href) { document.body.classList.add('leaving'); setTimeout(() => location.assign(href), 520); }
   function ready() { requestAnimationFrame(() => setTimeout(() => document.body.classList.add('ready'), 60)); }
-  return { LEAGUES, profile, header, scene, note, go, ready, puck };
+  return { LEAGUES, profile, header, scene, note, go, ready, puck, flip };
 })();

@@ -72,3 +72,5 @@ body.ready .veil2{opacity:0}body.leaving .veil2{opacity:1}
 .puck3.off{opacity:.25}
 .puck3.ring::after{background:radial-gradient(ellipse at 50% 50%,#141b23 0 30%,#d3262e 31% 43%,#141b23 44% 62%,#0c1117)}
 .puck3.check::after{background:radial-gradient(ellipse at 38% 35%,#6c7886 0 8%,#2b3542 30%,#141b23 62%,#0c1117)}
+.flip{display:inline-block;transition:opacity .45s ease,transform .6s var(--ease)}
+.flip.out{opacity:0;transform:translateY(10px)}

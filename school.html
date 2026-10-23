@@ -2,24 +2,29 @@
 <html lang="ru"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>ICE ENGLISH · Сезон</title>
-<link rel="stylesheet" href="fonts.css?v=33"><link rel="stylesheet" href="ui2.css?v=33">
+<link rel="stylesheet" href="fonts.css?v=34"><link rel="stylesheet" href="ui2.css?v=34">
 <style>
 html,body{height:100%;overflow:hidden}
-.player{position:fixed;z-index:9;pointer-events:none;height:min(84vh,900px);right:clamp(10px,3vw,60px);bottom:0}
+.player{position:fixed;z-index:9;pointer-events:none;height:min(27vh,300px);right:max(16px,calc((100vw - 1320px) / 2));top:96px}
 .player img{height:100%;display:block;filter:drop-shadow(0 30px 30px rgba(20,40,64,.2))}
-.area{position:fixed;z-index:12;left:0;right:0;top:calc(var(--hz,40vh) - clamp(40px,6vh,64px));bottom:clamp(14px,2.6vh,28px)}
-.area .wrap{height:100%;display:flex;flex-direction:column;gap:clamp(12px,2vh,20px)}
-.col{max-width:calc(100% - clamp(220px,22vw,360px))}
+.area{position:fixed;z-index:12;left:0;right:0;top:calc(var(--hz,40vh) - clamp(54px,7vh,80px));bottom:clamp(18px,3.4vh,36px)}
+.area .wrap{height:100%;display:flex;flex-direction:column;gap:clamp(14px,2.4vh,26px)}
+.fx-head .kick{position:relative}
+.fx-head .kick::before{content:""}
+.fx-head{position:relative}
+.fx-head::after{content:"";position:absolute;z-index:-1;left:-60px;width:520px;top:-30px;bottom:-30px;border-radius:50%;background:radial-gradient(closest-side,rgba(245,249,252,.95),rgba(245,249,252,.6) 60%,rgba(245,249,252,0))}
+.col{max-width:100%}
+.low{max-width:calc(100% - clamp(150px,13vw,230px))}
 /* расписание сезона: 10 матчей */
 .fx-head{display:flex;align-items:center;gap:12px}
 .fx{display:grid;grid-template-columns:repeat(10,minmax(0,1fr));gap:10px}
-.mc{position:relative;border:0;border-radius:16px;padding:10px 8px 10px;background:rgba(255,255,255,.82);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);box-shadow:0 10px 24px rgba(20,44,70,.12);
+.mc{position:relative;border:0;border-radius:18px;padding:12px 8px 12px;background:rgba(255,255,255,.82);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);box-shadow:0 10px 24px rgba(20,44,70,.12);
   display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;text-align:center;transition:transform .3s var(--ease),box-shadow .3s,opacity .3s;opacity:0;translate:0 16px}
 body.ready .mc{opacity:1;translate:0 0;transition:transform .3s var(--ease),box-shadow .3s,opacity .5s ease calc(var(--i) * 50ms + .15s),translate .7s var(--ease) calc(var(--i) * 50ms + .15s)}
 .mc:hover{transform:translateY(-4px);box-shadow:0 16px 32px rgba(20,44,70,.18)}
 .mc .no{position:absolute;left:10px;top:8px;font-family:var(--head);font-size:13px;color:var(--ink-2)}
-.mc img{width:clamp(36px,3.4vw,56px);height:auto;margin-top:8px}
-.mc .nm{font-size:11px;font-weight:800;line-height:1.2;color:var(--ink);min-height:2.4em}
+.mc img{width:clamp(40px,3.8vw,62px);height:auto;margin-top:8px}
+.mc .nm{font-size:12px;font-weight:800;line-height:1.2;color:var(--ink);min-height:2.4em}
 .mc .nm small{display:block;font-weight:600;color:var(--mute)}
 .mc .st{font-family:var(--head);font-size:clamp(16px,1.4vw,22px);line-height:1}
 .mc .tg{font-size:9px;font-weight:900;letter-spacing:.12em;padding:3px 7px;border-radius:999px;color:#fff;background:#2aa860}
@@ -32,11 +37,16 @@ body.ready .mc.later{opacity:.72}
 /* нижняя часть: карточка матча и уроки-периоды */
 .low{flex:1;min-height:0;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:16px}
 .panel{position:relative;border-radius:24px;background:rgba(255,255,255,.86);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:0 16px 38px rgba(20,44,70,.13);padding:clamp(16px,2.4vh,26px) clamp(18px,1.8vw,28px);overflow:hidden;display:flex;flex-direction:column;min-height:0}
-.match h2{font-size:clamp(44px,4.4vw,78px);margin:8px 0 2px}
-.match h3{font-family:var(--head);font-weight:400;font-size:clamp(20px,1.8vw,30px);margin:0 0 10px;text-transform:uppercase;color:var(--ink)}
+.match h2{font-size:clamp(40px,3.6vw,64px);margin:6px 0 2px}
+.vs{display:flex;align-items:center;gap:10px;margin:2px 0 10px;flex-wrap:wrap}
+.vs .me2{font-family:var(--head);font-size:clamp(16px,1.3vw,20px);background:var(--red);color:#fff;padding:5px 10px;border-radius:8px}
+.vs .x{font-family:var(--head);font-size:16px;color:var(--mute)}
+.vs .op{font-family:var(--head);font-size:clamp(16px,1.3vw,20px);background:var(--ink);color:#fff;padding:5px 10px;border-radius:8px}
+.match h3{font-family:var(--head);font-weight:400;font-size:clamp(18px,1.5vw,24px);margin:0 0 8px;text-transform:uppercase;color:var(--ink)}
 .match .g{font-size:10px;letter-spacing:.24em;font-weight:800;color:var(--mute);text-transform:uppercase;border-top:1px solid rgba(31,50,72,.1);padding-top:10px}
 .match .gt{font-weight:800;font-size:clamp(15px,1.2vw,19px);margin:4px 0 6px}
-.match p{font-size:14px;line-height:1.45;color:var(--ink-2);margin:0 0 12px}
+.match p{font-size:13px;line-height:1.4;color:var(--mute);margin:0 0 10px}
+.match .btn{flex:none}
 .match .btn{margin-top:auto;justify-content:center;font-size:22px}
 .match .mascot{position:absolute;right:-30px;top:-20px;width:clamp(150px,13vw,220px);opacity:.12;pointer-events:none}
 .lessons .lh{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
@@ -52,11 +62,12 @@ body.ready .mc.later{opacity:.72}
 .ll li.next .go2{background:var(--red);color:#fff}
 .ll .puck3d{width:clamp(30px,2.4vw,40px);height:auto}
 @media (max-width:1100px){.col{max-width:100%}.player{display:none}.fx{grid-template-columns:repeat(10,92px);overflow-x:auto;padding:6px 2px 8px}.mc .nm{display:none}}
-@media (max-height:820px){.match h2{font-size:48px}.ll button{padding:5px 10px}.mc .nm{display:none}}
+@media (max-height:920px){.mc .nm{display:none}.mc img{width:46px;margin-top:10px}.match .g{display:none}.match h3{margin-bottom:4px}}
+@media (max-height:820px){.match h2{font-size:40px}.match h3,.match .gt{display:none}.ll button{padding:5px 10px}.mc .nm{display:none}}
 </style></head>
 <body>
 <div id="stage"></div>
-<div class="player"><img src="img/pl_stand.webp" alt="Хоккеист номер 7"></div>
+<div class="player"><img src="img/pl_skate.webp" alt="Хоккеист номер 7" style="transform:scaleX(-1)"></div>
 <section class="area"><div class="wrap">
   <div class="col"><div class="fx-head"><span class="kick bar">Расписание сезона · Spotlight 7</span></div></div>
   <div class="col"><div class="fx" id="fx"></div></div>
@@ -66,14 +77,14 @@ body.ready .mc.later{opacity:.72}
   </div>
 </div></section>
 <div class="veil2"></div>
-<script src="data.js?v=33"></script><script src="ui2.js?v=33"></script>
+<script src="data.js?v=34"></script><script src="ui2.js?v=34"></script>
 <script>
 (() => {
   const $ = id => document.getElementById(id), P = UI2.profile(), st = P.st, B = ICE_BOOK;
   const TEAMS = ['wolf', 'bear', 'eagle', 'fox', 'lynx', 'deer', 'lion', 'owl', 'shark', 'tiger'];
   const TEAMRU = ['Волки', 'Медведи', 'Орлы', 'Лисы', 'Рыси', 'Олени', 'Львы', 'Совы', 'Акулы', 'Тигры'];
   UI2.header('season');
-  const sc = UI2.scene($('stage'), { horizon: .4, size: .24, sink: .2 });
+  const sc = UI2.scene($('stage'), { horizon: .42, size: .28, sink: .3 });
   const setHz = () => document.documentElement.style.setProperty('--hz', sc.horizonPx() + 'px'); setHz(); addEventListener('resize', setHz);
   const doneIn = m => m.lessons.filter(l => st.done[l.id]).length;
   const nx = ICE_NEXT(st), curM = nx.m.n;
@@ -86,13 +97,13 @@ body.ready .mc.later{opacity:.72}
     b.onclick = () => select(m.n); $('fx').appendChild(b);
   });
   function select(n) {
-    sel = n; const m = B[n - 1], i = n - 1, d = doneIn(m);
+    sel = n; const m = B[n - 1], i = n - 1, d = doneIn(m); clearInterval(window.__mf);
     [...$('fx').children].forEach((b, k) => b.classList.toggle('sel', k === i));
     sc.set(String(n).padStart(2, '0'), `spotlight 7 · матч ${n} · соперник: ${TEAMRU[i]}`, false);
     const next = m.lessons.find(l => !st.done[l.id]) || m.lessons[0];
     const href = ICE_READY[next.id] ? `lesson.html?l=${next.id}` : `module.html?m=${n}&l=${next.id}`;
-    $('match').innerHTML = `<img class="mascot" src="img/team_${TEAMS[i]}.webp" alt=""><span class="kick bar">Spotlight 7 · модуль ${n}</span><h2 class="h">Матч ${n}</h2><h3>${m.en} <span style="color:var(--mute)">· ${m.ru}</span></h3>
-      <div class="g">Грамматическая тема</div><div class="gt">${m.grammar}</div><p>${d ? `Сыграно уроков: ${d} из ${m.lessons.length}. ` : ''}Учебник, стр. ${m.pages}.</p>
+    $('match').innerHTML = `<img class="mascot" src="img/team_${TEAMS[i]}.webp" alt=""><span class="kick bar">Spotlight 7 · модуль ${n}</span><h2 class="h"><span class="flip" id="mt">Матч ${n}</span></h2><div class="vs"><span class="me2">${P.name} · №7</span><span class="x">против</span><span class="op">${m.grammar.split(',')[0]}</span></div><h3>${m.en} <span style="color:var(--mute)">· ${m.ru}</span></h3>
+      <div class="g">Соперники в этом матче — темы</div><div class="gt">${m.grammar}</div><p>Учебник, стр. ${m.pages}${d ? ` · сыграно уроков: ${d} из ${m.lessons.length}` : ''}</p>
       <a class="btn" href="${href}" data-go>На лёд <span>→</span></a>`;
     $('lessons').innerHTML = `<div class="lh"><span class="kick bar">Уроки матча ${n}</span><small>${m.lessons.length} уроков</small></div><ul class="ll" id="ll"></ul>`;
     m.lessons.forEach((l, k) => {
@@ -104,12 +115,17 @@ body.ready .mc.later{opacity:.72}
       $('ll').appendChild(li);
     });
     document.querySelectorAll('[data-go]').forEach(a => a.onclick = e => { e.preventDefault(); UI2.go(a.getAttribute('href')); });
+    let fl = 0; window.__mf = setInterval(() => { const e = $('mt'); if (!e) return; e.classList.add('out'); setTimeout(() => { fl ^= 1; e.textContent = fl ? `Game ${n}` : `Матч ${n}`; e.classList.remove('out'); }, 450); }, 6500);
     // «следующий урок» — пометка тренера
     document.querySelectorAll('.hand.nx').forEach(x => x.remove());
-    setTimeout(() => { const r = document.querySelector('.ll li.next'); if (!r) return; const b = r.getBoundingClientRect();
-      const nn = UI2.note(document.body, 'следующий урок', b.right - 210, b.top - 40, { x: -30, y: 14, d: 'M24 4 C 10 10, 2 20, 0 32 M-8 22 L0 33 L9 24' }); nn.classList.add('nx'); nn.style.position = 'fixed'; nn.style.zIndex = 15; }, 700);
+    setTimeout(() => { const r = document.querySelector('.ll li.next'); if (!r) return; const b = r.getBoundingClientRect(), pn = $('lessons').getBoundingClientRect();
+      const room = innerWidth - pn.right > 170;
+      const nn = room ? UI2.note(document.body, 'следующий<br>урок', pn.right + 26, b.top - 34, { x: -44, y: 30, d: 'M30 4 C 14 6, 2 12, -18 20 M-8 12 L-19 20 L-7 27' })
+                      : UI2.note(document.body, 'следующий урок', pn.right - 260, pn.top - 46, { x: 170, y: 20, d: 'M4 4 C 20 10, 30 20, 34 34 M26 26 L34 35 L39 24' }); nn.classList.add('nx'); nn.style.position = 'fixed'; nn.style.zIndex = 15; nn.style.textAlign = 'left'; }, 700);
   }
   sc.set('01', '', true); select(sel);
+  // рукописная пометка тренера справа вверху
+  const tn = UI2.note(document.body, 'английский —<br>как большая игра', 0, 0); tn.style.position = 'fixed'; tn.style.right = 'clamp(380px,36vw,620px)'; tn.style.left = 'auto'; tn.style.top = '120px'; tn.style.zIndex = 11; tn.style.textAlign = 'center';
   UI2.ready();
 })();
 </script>

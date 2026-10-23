@@ -27,13 +27,15 @@
 .grade-word{font-family:MachineC,Impact,sans-serif!important;font-weight:400!important;letter-spacing:0!important;white-space:nowrap;text-transform:uppercase}
 .title{font-family:MachineC,Impact,sans-serif;font-weight:400;letter-spacing:0;text-transform:uppercase;line-height:.92}
 .top{display:none!important}.bottom{display:none!important}
-.skater{width:clamp(380px,50vw,880px)!important;top:42%!important;left:58%!important}
-.panel-inner{top:40%!important}
+.skater{width:clamp(380px,48vw,860px)!important;top:50%!important;left:58%!important}
+.panel-inner{top:33%!important}
+.grade-center{transform:translateY(-22vh)!important}
+.shadow{bottom:21vh!important}
 .title{font-size:clamp(50px,6vw,104px)!important}
 .shadow{bottom:30vh!important}
 #restart{bottom:auto;top:96px}
 .counter2{position:fixed;z-index:12;right:clamp(16px,2.2vw,36px);bottom:calc(clamp(16px,3.4vh,34px) + 160px);font-family:MachineC,Impact,sans-serif;font-size:18px;color:#3d5368;letter-spacing:.1em}
-.hint2{position:fixed;z-index:12;left:50%;transform:translateX(-50%);bottom:calc(clamp(16px,3.4vh,34px) + 176px);font-size:12px;letter-spacing:.3em;font-weight:800;color:#3d5368;text-transform:uppercase;transition:opacity .4s}
+.hint2{position:fixed;z-index:12;left:50%;transform:translateX(-50%);bottom:calc(clamp(16px,3.4vh,34px) + 196px);font-size:12px;letter-spacing:.3em;font-weight:800;color:#3d5368;text-transform:uppercase;transition:opacity .4s}
 /* лестница лиг — передний план, эффект Dock */
 .ladder{position:fixed;z-index:14;left:0;right:0;bottom:clamp(16px,3.4vh,34px);will-change:transform}
 .ladder .row{display:grid;grid-template-columns:repeat(6,1fr);position:relative;align-items:end}
@@ -52,7 +54,12 @@
 .lg.lock .em img{filter:grayscale(1) brightness(.92);opacity:.82}
 .lg.done .em img{filter:saturate(.5);opacity:.8}
 .lg.done .tag{background:#7f97ad}
-.lg.cur .em img{filter:drop-shadow(0 0 18px rgba(211,38,46,.75))}
+.lg.cur .em{border-radius:50%;box-shadow:0 0 0 3px #d3262e,0 0 26px rgba(211,38,46,.65)}
+.lg .em{border-radius:50%;transition:transform .18s ease-out,box-shadow .3s}
+.lg:hover .em{box-shadow:0 0 0 3px rgba(211,38,46,.7),0 0 20px rgba(211,38,46,.45)}
+.lg .view{position:absolute;bottom:calc(100% + 4px);left:50%;transform:translate(-50%,6px);font-size:10px;font-weight:900;letter-spacing:.16em;color:#fff;background:#1f3248;padding:4px 9px;border-radius:999px;white-space:nowrap;opacity:0;transition:opacity .3s,transform .3s}
+.lg.sel .view{opacity:1;transform:translate(-50%,0)}
+.lg.cur.sel .view{background:#d3262e}
 .lg.cur .tag{background:#d3262e}
 </style><style>.grade-center{transform:translateY(1.5vh)!important}.grade-label{opacity:.13!important}.panel-inner{top:53%!important}</style></head>
 <body><div id="track" class="track"><main id="stage" class="stage"><div id="bg" class="bg"></div><div id="grades" class="grade"></div><div id="travel" class="travel"></div><div class="shadow"></div><div id="skater" class="skater"><img id="hockeyFrame" src="frames/frame_000.webp" alt="Hockey player"></div><header class="top"><div class="brand">ICE <span>ENGLISH</span></div><div id="counter" class="counter">01 / 07</div></header><footer class="bottom"><div id="bars" class="bars"></div><div>SCROLL TO SKATE</div></footer></main></div><div id="toast" class="toast"></div>
@@ -71,7 +78,7 @@ const clamp=(x,a,b)=>Math.max(a,Math.min(b,x));const panelEls=[],gradeEls=[];
 data.forEach((d,i)=>{let sec=document.createElement('section');sec.className='panel';sec.innerHTML=`<div class="panel-inner"><div class="kicker">${d.k}</div><h${i?'2':'1'} class="title">${d.title}</h${i?'2':'1'}><p class="desc">${d.desc}</p>${d.btn?`<a class="cta" ${d.href?`href="${d.href}"`:''} data-id="${i}">${d.btn} <span>↗</span></a>`:''}</div>`;travel.appendChild(sec);panelEls.push(sec);let g=document.createElement('div');g.className='grade-item '+(d.kind||'');g.innerHTML=d.grade?`<div class="grade-center"><span class="grade-word">${d.grade}</span>${d.lab?`<span class="grade-label">${d.lab}</span>`:''}</div>`:'';grades.appendChild(g);gradeEls.push(g);let b=document.createElement('i');bars.appendChild(b)});
 let target=0,current=0;try{history.scrollRestoration='auto'}catch(e){}const sceneCount=data.length;let scrollTotal=1;function measure(){const r=track.getBoundingClientRect();scrollTotal=Math.max(1,r.height-innerHeight);target=clamp(-r.top/scrollTotal,0,1)}
 function tick(){current+=(target-current)*.24;if(Math.abs(target-current)<.000025)current=target;const p=current*(sceneCount-1),w=stage.clientWidth,mobile=w<740,start=w+20,anchor=mobile?24:Math.max(24,w*.065),span=start-anchor;panelEls.forEach((el,i)=>{const x=i===0?anchor-p*span:(i-p)*span+anchor;el.style.transform=`translate3d(${x-anchor}px,0,0)`;const ww=el.querySelector('.panel-inner').getBoundingClientRect().width;const visible=x+ww>0&&x<w;el.style.visibility=visible?'visible':'hidden';el.style.pointerEvents=visible?'auto':'none'});gradeEls.forEach((g,i)=>{let u=Math.abs(p-i);let opacity=clamp((.52-u)/.22,0,1);opacity=opacity*opacity*(3-2*opacity);g.style.opacity=String(opacity);g.style.transform=`translate3d(${(i-p)*w*.065}px,0,0)`});bg.style.transform=`translate3d(${(-p*1.15).toFixed(2)}%,${(Math.sin(p*.65)*1.8).toFixed(2)}%,0)`;bg.style.filter=`hue-rotate(${(p*12).toFixed(1)}deg)`;const frameCount=36;const num=Math.floor(current*sceneCount*frameCount*1.15)%frameCount;const f=document.getElementById('hockeyFrame');const next='frames/frame_'+String(num).padStart(3,'0')+'.webp';if(f.getAttribute('src')!==next)f.setAttribute('src',next);const idx=clamp(Math.round(p),0,sceneCount-1);counter.textContent=`0${idx+1} / 0${sceneCount}`;window.__ladder&&window.__ladder(current,idx);[...bars.children].forEach((b,i)=>b.classList.toggle('active',i===idx));requestAnimationFrame(tick)}
-for(let i=0;i<36;i++){const img=new Image();img.src='frames/frame_'+String(i).padStart(3,'0')+'.webp'}function fitWords(){document.querySelectorAll('.grade-word').forEach(w=>{w.style.fontSize='';const mw=innerWidth*.94;if(w.offsetWidth>mw)w.style.fontSize=(parseFloat(getComputedStyle(w).fontSize)*mw/w.offsetWidth)+'px'})}fitWords();addEventListener('resize',fitWords);document.fonts&&document.fonts.ready.then(fitWords);measure();addEventListener('scroll',measure,{passive:true});addEventListener('resize',measure);tick();document.getElementById('restart').onclick=()=>scrollTo({top:0,behavior:'smooth'});document.querySelectorAll('.cta').forEach(btn=>btn.onclick=(e)=>{if(btn.getAttribute('href')) return; e.preventDefault();toast.textContent=(data[+btn.dataset.id]||{}).msg||'Скоро';toast.style.display='block';clearTimeout(window.__toast);window.__toast=setTimeout(()=>toast.style.display='none',2200)})})();</script><div class="scene-transition" aria-hidden="true"><strong>SCHOOL</strong></div><script>try{const save=JSON.parse(localStorage.getItem('ice_school_v22')||'{}');document.querySelectorAll('#homeClass').forEach(el=>el.textContent='CLASS '+(save.grade||7));}catch(e){}document.querySelectorAll('a[href="hub.html"]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();document.body.classList.add('leaving');setTimeout(()=>location.assign('hub.html?from=home'),520)}));</script>
+for(let i=0;i<36;i++){const img=new Image();img.src='frames/frame_'+String(i).padStart(3,'0')+'.webp'}function fitWords(){document.querySelectorAll('.grade-word').forEach(w=>{w.style.fontSize='';const mw=innerWidth*.94;if(w.offsetWidth>mw)w.style.fontSize=(parseFloat(getComputedStyle(w).fontSize)*mw/w.offsetWidth)+'px'})}fitWords();addEventListener('resize',fitWords);document.fonts&&document.fonts.ready.then(fitWords);measure();addEventListener('scroll',measure,{passive:true});addEventListener('resize',measure);tick();document.getElementById('restart').onclick=()=>scrollTo({top:0,behavior:'smooth'});document.querySelectorAll('.cta').forEach(btn=>btn.onclick=(e)=>{if(btn.getAttribute('href')) return; e.preventDefault();toast.textContent=(data[+btn.dataset.id]||{}).msg||'Скоро';toast.style.display='block';clearTimeout(window.__toast);window.__toast=setTimeout(()=>toast.style.display='none',2200)})})();</script><div class="scene-transition" aria-hidden="true"><div style="text-align:center"><div style="font:800 14px Inter,Arial;letter-spacing:.42em;color:#3d5368;margin-bottom:10px">ЮНОШЕСКАЯ ЛИГА · ТВОЙ СЕЗОН</div><strong style="font-family:MachineC,Impact,sans-serif;font-weight:400;letter-spacing:0">SPOTLIGHT 7</strong></div></div><script>try{const save=JSON.parse(localStorage.getItem('ice_school_v22')||'{}');document.querySelectorAll('#homeClass').forEach(el=>el.textContent='CLASS '+(save.grade||7));}catch(e){}document.querySelectorAll('a[href="hub.html"]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();document.body.classList.add('leaving');setTimeout(()=>location.assign('hub.html?from=home'),1150)}));</script>
 <script src="data.js?v=33"></script><script src="ui2.js?v=33"></script>
 <script>
 (() => {
@@ -82,7 +89,7 @@ for(let i=0;i<36;i++){const img=new Image();img.src='frames/frame_'+String(i).pa
   const items = UI2.LEAGUES.map(l => {
     const st = l.id < cur ? 'done' : l.id === cur ? 'cur' : 'lock';
     const b = document.createElement('button'); b.className = 'lg ' + st; b.base = st === 'cur' ? 1.16 : st === 'lock' ? .88 : .94;
-    b.innerHTML = `<span class="tag">${l.lvl}</span><span class="em"><img src="img/${l.img}.webp" alt=""></span><span class="nm">${l.name}</span>
+    b.innerHTML = `${st === 'cur' ? '' : '<span class="view">СМОТРИШЬ</span>'}<span class="tag">${l.lvl}</span><span class="em"><img src="img/${l.img}.webp" alt=""></span><span class="nm">${l.name}</span>
       <span class="trk">${st === 'done' ? '<i style="width:100%"></i>' : st === 'cur' ? `<i style="width:${Math.max(3, P.done / total * 100).toFixed(1)}%"></i>` : `<span class="lock">${lock}</span>`}</span>`;
     b.onclick = () => { const tr = document.getElementById('track'); const max = tr.getBoundingClientRect().height - innerHeight; scrollTo({ top: max * l.id / 6, behavior: 'smooth' }); };
     $('lad').appendChild(b); return b; });
@@ -97,13 +104,13 @@ for(let i=0;i<36;i++){const img=new Image();img.src='frames/frame_'+String(i).pa
   }
   // эффект Dock: эмблемы рядом с курсором увеличиваются и приподнимаются
   const lad = $('ladder');
-  lad.addEventListener('mousemove', e => items.forEach(b => { const r = b.getBoundingClientRect(), d = Math.abs(e.clientX - (r.left + r.width / 2)); setScale(b, b.base + .42 * Math.max(0, 1 - d / 190)); }));
+  lad.addEventListener('mousemove', e => items.forEach(b => { const r = b.getBoundingClientRect(), d = Math.abs(e.clientX - (r.left + r.width / 2)); setScale(b, b.base + .2 * Math.max(0, 1 - d / 170)); }));
   lad.addEventListener('mouseleave', () => items.forEach(b => setScale(b, b.base)));
   setTimeout(dashes, 300); addEventListener('resize', dashes);
-  window.__ladder = (p, idx) => { lad.style.transform = `translateX(${(.5 - p) * 24}px)`; $('c2').textContent = `0${idx + 1} / 07`; $('hint2').style.opacity = idx === 0 ? 1 : 0;
+  window.__ladder = (p, idx) => { $('c2').textContent = `0${idx + 1} / 07`; $('hint2').style.opacity = idx === 0 ? 1 : 0;
     items.forEach((b, k) => b.classList.toggle('sel', k + 1 === idx)); };
-  setTimeout(() => { const c = items[cur - 1].querySelector('img').getBoundingClientRect();
-    const n = UI2.note(document.body, 'ты здесь!', c.left - 150, c.top - 54, { x: 92, y: 26, d: 'M6 6 C 26 10, 44 22, 56 36 M44 30 L57 37 L52 23' }); n.style.position = 'fixed'; n.style.zIndex = 15; }, 1100);
+  setTimeout(() => { const host = items[cur - 1], c = host.querySelector('img').getBoundingClientRect(), h = host.getBoundingClientRect();
+    const n = UI2.note(host, 'ты здесь!', c.left - h.left - 150, c.top - h.top - 54, { x: 92, y: 26, d: 'M6 6 C 26 10, 44 22, 56 36 M44 30 L57 37 L52 23' }); n.style.zIndex = 15; }, 1100);
   UI2.ready();
 })();
 </script></body></html>
