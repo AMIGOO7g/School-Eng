@@ -9,17 +9,17 @@ window.UI2 = (() => {
     const st = ICE_STORE.load(), lessons = ICE_BOOK.flatMap(m => m.lessons);
     const done = lessons.filter(l => st.done[l.id]).length;
     const best = Object.values(st.lp || {}).reduce((a, x) => a + (x.best || 0), 0);
-    const rating = Math.min(99, 50 + done * 2 + Math.round(best / 5));
+    const sk = st.skills, rating = done && sk ? Math.round((sk.shot + sk.skate + sk.vision + sk.pass) / 4) : '—';   // рейтинг — после первого выигранного урока
     return { st, name: st.name || 'Игрок 7', league: LEAGUES[(st.league || 2) - 1], rating, done, total: lessons.length, awards: (st.awards || []).length };
   }
   function header(active, opt = {}) {
     const p = profile();
-    const L = [['hub', 'Раздевалка', 'hub.html'], ['hw', 'Домашка', 'homework.html'], ['season', 'Сезон', 'school.html'], ['career', 'Карьера', 'index.html'], ['pen', 'Штрафная', 'lesson.html?mode=review']];
+    const L = [['hub', 'Раздевалка', 'hub.html'], ['hw', 'Домашка', 'homework.html'], ['season', 'Сезон', 'school.html'], ['career', 'Карьера', 'career.html'], ['pen', 'Штрафная', 'penalty.html']];
     const h = document.createElement('header'); h.className = 'top2' + (opt.dark ? ' dark' : '');
     if (opt && opt.light) h.classList.add('light');
     h.innerHTML = `<a class="logo" href="index.html"><b>/</b><span class="ice">ICE</span><span class="eng">ENGLISH</span></a>
       <nav class="nav2"><span class="pill"></span>${L.map(([k, t, href]) => `<a href="${href}" class="${k === active ? 'on' : ''}">${t}</a>`).join('')}</nav>
-      <a class="me" href="index.html" title="Карьера"><img src="img/pl_avatar.webp" alt=""><span class="n">${p.name}<small>${p.league.name}</small><span class="bar"><i style="width:${(p.done / p.total * 100).toFixed(1)}%"></i></span></span><span class="r">${p.rating}<small>рейтинг</small></span></a>`;
+      <a class="me" href="career.html" title="Карьера"><img src="img/pl_avatar.webp" alt=""><span class="n">${p.name}<small>${p.league.name}</small><span class="bar"><i style="width:${(p.done / p.total * 100).toFixed(1)}%"></i></span></span><span class="r">${p.rating}<small>рейтинг</small></span></a>`;
     document.body.prepend(h);
     // красная плашка переезжает к пункту под курсором и возвращается к активному
     const nav = h.querySelector('.nav2'), pill = nav.querySelector('.pill'), links = [...nav.querySelectorAll('a')];

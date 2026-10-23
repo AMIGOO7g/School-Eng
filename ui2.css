@@ -34,7 +34,7 @@ button{font:inherit;color:inherit}
 .logo{display:flex;align-items:baseline;gap:10px;color:#fff;text-decoration:none;white-space:nowrap;flex:none;text-shadow:0 2px 14px rgba(20,40,64,.25)}
 .logo b{font-family:var(--head);font-size:32px;color:var(--red);font-weight:400;margin-right:-4px;text-shadow:none}
 .logo .ice{font-family:var(--head);font-size:32px;line-height:1}
-.logo .eng{font-family:var(--font);font-weight:400;font-size:15px;letter-spacing:.4em}
+.logo .eng{font-family:var(--font);font-weight:700;font-size:19px;letter-spacing:.3em}
 .top2.dark .logo{color:var(--ink);text-shadow:none}
 .logo .eng{font-family:var(--font);font-weight:300;font-size:.46em;letter-spacing:.32em;margin-left:.5em;vertical-align:.3em}
 .top2.light .logo{color:#fff;text-shadow:0 2px 14px rgba(20,40,64,.25)}

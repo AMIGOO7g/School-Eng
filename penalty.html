@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ICE ENGLISH · Штрафная</title>
+<link rel="stylesheet" href="fonts.css?v=36"><link rel="stylesheet" href="ui2.css?v=36">
+<style>
+html,body{height:100%;overflow:hidden}
+.sc-over{font-size:clamp(14px,1.2vw,20px)!important;letter-spacing:.6em!important;opacity:.9!important;color:var(--ink-2)!important}
+.who{position:fixed;z-index:9;pointer-events:none;bottom:5vh}
+.who img{height:100%;display:block;filter:drop-shadow(0 30px 30px rgba(20,40,64,.22))}
+.who.bench{left:59.5vw;height:min(56vh,620px)}
+.who.stand{left:58.5vw;height:min(66vh,720px)}
+/* табло штрафа */
+.timer{position:fixed;z-index:13;left:8.6vw;top:calc(var(--hz,52vh) - 21vh);display:flex;transform:skewX(-12deg);border-radius:8px;overflow:hidden;box-shadow:0 18px 40px rgba(10,20,34,.3);animation:tin .6s var(--ease) both .2s}
+@keyframes tin{from{opacity:0;transform:skewX(-12deg) translateX(-30px)}}
+.timer > *{transform:skewX(12deg);display:flex;align-items:center;font-family:var(--head);color:#fff}
+.timer .tm{background:linear-gradient(135deg,#e63a42,#b51c24);font-size:clamp(40px,4vw,70px);padding:4px 28px;font-style:italic;line-height:1}
+.timer .tx{background:linear-gradient(135deg,#1d3048,#0f1c2b);font-size:clamp(22px,2vw,36px);padding:0 34px}
+/* список ошибок */
+.pan{position:fixed;z-index:12;left:8.4vw;width:min(49vw,980px);top:calc(var(--hz,52vh) - 13vh);max-height:calc(100vh - var(--hz,52vh) + 13vh - 8vh);border-radius:26px;background:rgba(255,255,255,.88);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:0 20px 50px rgba(20,44,70,.15);padding:clamp(18px,2.6vh,30px) clamp(22px,2.2vw,40px);display:flex;flex-direction:column;animation:pin .7s var(--ease) both .1s}
+@keyframes pin{from{opacity:0;transform:translateY(20px)}}
+.rows{list-style:none;margin:12px 0 0;padding:0;overflow:auto;min-height:0}
+.rows li{display:grid;grid-template-columns:auto 1fr auto;gap:clamp(14px,1.4vw,24px);align-items:center;padding:clamp(10px,1.6vh,18px) 0;border-bottom:1px solid rgba(31,50,72,.1)}
+.rows li:last-child{border-bottom:0}
+.num{position:relative;width:clamp(58px,5vw,84px)}
+.num .puck3d{width:100%;height:auto;display:block}
+.num b{position:absolute;left:0;right:0;top:20%;text-align:center;font-family:var(--head);font-weight:400;font-size:clamp(20px,1.8vw,30px);color:#fff;font-style:italic}
+.rows .lb{font-size:11px;font-weight:800;letter-spacing:.14em;color:var(--mute)}
+.rows .tt{font-weight:800;font-size:clamp(16px,1.3vw,21px);margin:3px 0}
+.rows .tx2{font-size:clamp(13px,1vw,16px);color:var(--ink-2)}
+.pill{border:0;border-radius:999px;background:var(--red);color:#fff;font-weight:900;font-size:13px;letter-spacing:.08em;padding:12px 24px;cursor:pointer;text-decoration:none;box-shadow:0 8px 20px rgba(211,38,46,.3);transition:translate .25s var(--ease)}
+.pill:hover{translate:0 -2px}
+.pan .btn{margin-top:14px;align-self:center;width:min(100%,560px);justify-content:center;font-size:22px;border-radius:999px}
+/* скамейка пуста */
+.empty{position:fixed;z-index:12;left:20vw;width:min(33vw,620px);top:calc(var(--hz,52vh) - 9vh);border-radius:28px;background:rgba(255,255,255,.86);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:0 20px 50px rgba(20,44,70,.15);padding:clamp(22px,3vh,40px);text-align:center;display:flex;flex-direction:column;align-items:center;gap:10px;animation:pin .7s var(--ease) both .1s}
+.empty .ok{width:clamp(80px,7vw,120px)}
+.empty h2{font-size:clamp(36px,3.4vw,60px)}
+.empty p{margin:0 0 8px;font-size:clamp(15px,1.2vw,20px);font-weight:600}
+.empty .btn{border-radius:999px;padding:16px 40px}
+@media (max-width:1100px){.pan{width:88vw}.who{display:none}.empty{left:8vw;width:84vw}}
+</style></head>
+<body>
+<div id="stage"></div>
+<div id="root"></div>
+<div class="veil2"></div>
+<script src="data.js?v=36"></script><script src="ui2.js?v=36"></script>
+<script>
+(() => {
+  const $ = id => document.getElementById(id), st = ICE_STORE.load(), ms = st.mistakes || [];
+  UI2.header('pen');
+  const sc = UI2.scene($('stage'), { horizon: .52, size: .3, sink: .22, fitW: .69, left: () => innerWidth * .085 });
+  sc.set('ШТРАФНАЯ', 'зона', true);
+  const setHz = () => document.documentElement.style.setProperty('--hz', sc.horizonPx() + 'px'); setHz(); addEventListener('resize', setHz);
+  const root = $('root');
+  const plural = n => n % 10 === 1 && n % 100 !== 11 ? 'задание' : [2, 3, 4].includes(n % 10) && ![12, 13, 14].includes(n % 100) ? 'задания' : 'заданий';
+  if (!ms.length) {
+    root.innerHTML = `<div class="who stand"><img src="img/pl_stand.webp" alt=""></div>
+      <div class="empty"><svg class="ok" viewBox="0 0 120 84"><defs><radialGradient id="pt" cx="40%" cy="35%" r="70%"><stop offset="0" stop-color="#5b6673"/><stop offset=".55" stop-color="#1a222b"/><stop offset="1" stop-color="#0b1016"/></radialGradient></defs>
+        <path d="M6 34v16c0 14 24 26 54 26s54-12 54-26V34" fill="#10161d"/><ellipse cx="60" cy="34" rx="54" ry="26" fill="url(#pt)"/><path d="M40 33l14 12 28-22" fill="none" stroke="#3ee07a" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" style="filter:drop-shadow(0 0 8px #3ee07a)"/></svg>
+        <h2 class="h">Скамейка пуста</h2><p>Ни одного штрафа — чистая игра!</p><a class="btn" href="school.html" data-go>На лёд <span>→</span></a></div>`;
+  } else {
+    const ids = [...new Set(ms.map(m => m.l))];
+    root.innerHTML = `<div class="who bench"><img src="img/pl_bench.webp" alt=""></div>
+      <div class="timer"><span class="tm">${ms.length * 2}:00</span><span class="tx">Штраф · ${ms.length} ${plural(ms.length)}</span></div>
+      <div class="pan"><span class="kick bar">На скамейке</span><ul class="rows" id="rows"></ul><a class="btn" href="lesson.html?mode=review" data-go>Отыграться все <span>→</span></a></div>`;
+    ICE_LOAD(ids).then(() => {
+      const LS = window.ICE_LESSONS || {}, B = ICE_BOOK.flatMap(m => m.lessons.map(l => ({ ...l, m: m.n })));
+      $('rows').innerHTML = ms.map((m, k) => {
+        const t = (LS[m.l] || {}).tasks?.[m.i], l = B.find(x => x.id === m.l) || {};
+        if (!t) return '';
+        const line = (t.text || t.hint || '').replace('___', '…');
+        return `<li><span class="num">${UI2.puck(80, 'next')}<b>${k + 1}</b></span><span><span class="lb">МАТЧ ${l.m || '?'} · УРОК ${(l.code || m.l).toUpperCase()}</span><div class="tt">${t.prompt}</div><div class="tx2">${line ? 'задание: ' + line : 'перерешай задание'}</div></span>
+          <a class="pill" href="lesson.html?mode=review&only=${m.l}:${m.i}" data-go>ОТЫГРАТЬ</a></li>`;
+      }).join('');
+      bind();
+      setTimeout(() => { const r = document.querySelector('.rows li'); if (!r) return; const b = r.getBoundingClientRect(), p = document.querySelector('.pan').getBoundingClientRect();
+        const n = UI2.note(document.body, 'реши верно —<br>и выйдешь на лёд!', p.right - 190, p.top - 64, { x: -40, y: 50, d: 'M40 6 C 20 14, 6 28, 0 48 M-8 38 L0 49 L9 40' }); n.style.position = 'fixed'; n.style.zIndex = 15; }, 900);
+    });
+  }
+  function bind() { document.querySelectorAll('[data-go]').forEach(a => a.onclick = e => { e.preventDefault(); UI2.go(a.getAttribute('href')); }); }
+  bind(); UI2.ready();
+})();
+</script>
+</body></html>
