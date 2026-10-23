@@ -2,13 +2,14 @@
 <html lang="ru"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>ICE ENGLISH · Карьера</title>
-<link rel="stylesheet" href="fonts.css?v=36"><link rel="stylesheet" href="ui2.css?v=36">
+<link rel="stylesheet" href="fonts.css?v=36"><link rel="stylesheet" href="ui2.css?v=38">
 <style>
 html,body{height:100%;overflow:hidden}
 .sc-over{font-size:12px!important;letter-spacing:.42em!important;opacity:.9!important;color:var(--ink-2)!important}
-.grid{position:fixed;z-index:12;left:8.8vw;right:8.8vw;top:25vh;height:51vh;display:grid;grid-template-columns:24vw 1fr 25vw;gap:1.6vw}
+.grid{position:fixed;z-index:12;left:8.8vw;right:8.8vw;top:24vh;height:50vh;display:grid;grid-template-columns:22vw 1fr 24vw;gap:1.4vw;align-items:end}
+.rt,.lad{height:82%}
 /* карточка игрока, как коллекционная хоккейная */
-.pc{position:relative;border-radius:22px;overflow:hidden;background:linear-gradient(160deg,#2a1216,#7a1a20 45%,#16263a);box-shadow:0 0 0 4px #c9d3dd,0 0 0 6px #8a99a8,0 24px 50px rgba(10,20,34,.35);animation:pcin .8s var(--ease) both}
+.pc{position:relative;height:100%;border-radius:22px;overflow:hidden;background:linear-gradient(160deg,#2a1216,#7a1a20 45%,#16263a);box-shadow:0 0 0 4px #c9d3dd,0 0 0 6px #8a99a8,0 24px 50px rgba(10,20,34,.35);animation:pcin .8s var(--ease) both}
 @keyframes pcin{from{opacity:0;transform:rotateY(-25deg) translateY(20px)}}
 .pc::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(120deg,transparent 0 40px,rgba(255,255,255,.05) 40px 46px),linear-gradient(115deg,transparent 40%,rgba(211,38,46,.65) 40% 52%,transparent 52%)}
 .pc img{position:absolute;left:50%;bottom:0;height:88%;transform:translateX(-50%)}
@@ -19,7 +20,7 @@ html,body{height:100%;overflow:hidden}
 .pc .nm{position:absolute;left:0;right:0;bottom:0;padding:40px 20px 16px;background:linear-gradient(transparent,rgba(10,16,24,.85));color:#fff;font-family:var(--head);font-size:clamp(26px,2.4vw,40px);line-height:1}
 .pc .nm small{display:block;font-family:var(--font);font-size:11px;font-weight:800;letter-spacing:.22em;margin-top:4px;opacity:.8}
 /* рейтинг и навыки */
-.rt{border-radius:24px;background:rgba(255,255,255,.9);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:0 18px 44px rgba(20,44,70,.14);padding:clamp(18px,2.6vh,30px) clamp(18px,1.8vw,30px);display:flex;flex-direction:column;gap:10px;animation:pcin .8s var(--ease) both .1s}
+.rt{border-radius:24px;background:rgba(255,255,255,.62);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:0 18px 44px rgba(20,44,70,.14);padding:clamp(18px,2.6vh,30px) clamp(18px,1.8vw,30px);display:flex;flex-direction:column;gap:10px;animation:pcin .8s var(--ease) both .1s}
 .rt .top3{display:grid;grid-template-columns:auto 1fr;gap:18px;align-items:center}
 .rt .big{font-family:var(--head);font-size:clamp(70px,7vw,120px);line-height:.85;position:relative}
 .rt .big::after{content:"";position:absolute;left:0;right:-30px;bottom:-8px;height:6px;border-radius:6px;background:linear-gradient(90deg,var(--red),transparent);transform:rotate(-2deg)}
@@ -31,7 +32,7 @@ html,body{height:100%;overflow:hidden}
 .skl .bar{height:8px;border-radius:8px;background:rgba(31,50,72,.12);overflow:hidden;margin-top:6px}.skl .bar i{display:block;height:100%;width:0;border-radius:8px;background:linear-gradient(90deg,#e63a42,#b51c24);transition:width 1.2s var(--ease) .4s}
 .skl .v{font-family:var(--head);font-size:26px;text-align:right}
 /* лестница лиг */
-.lad{border-radius:24px;background:linear-gradient(160deg,rgba(30,48,70,.92),rgba(16,28,44,.94));color:#fff;padding:18px 18px;display:flex;flex-direction:column;justify-content:space-between;position:relative;animation:pcin .8s var(--ease) both .2s}
+.lad{border-radius:24px;background:linear-gradient(160deg,rgba(30,48,70,.72),rgba(16,28,44,.8));backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);color:#fff;padding:18px 18px;display:flex;flex-direction:column;justify-content:space-between;position:relative;animation:pcin .8s var(--ease) both .2s}
 .lad::before{content:"";position:absolute;left:34px;top:30px;bottom:30px;width:2px;background:rgba(255,255,255,.2)}
 .lr{position:relative;display:grid;grid-template-columns:32px 44px 1fr auto;gap:12px;align-items:center;padding:6px 12px;border-radius:12px}
 .lr .dot{width:16px;height:16px;border-radius:50%;border:2px solid rgba(255,255,255,.6);background:#16263a;justify-self:center}
@@ -42,15 +43,16 @@ html,body{height:100%;overflow:hidden}
 .lr.cur .dot{border-color:#fff;background:#fff;box-shadow:0 0 0 4px rgba(255,255,255,.3)}
 .lr.done{opacity:.75}.lr.done .dot{background:var(--red);border-color:var(--red)}
 /* полка достижений */
-.shelf{position:fixed;z-index:12;left:6vw;right:6vw;bottom:3vh;height:17vh}
-.shelf .hd{display:flex;align-items:center;gap:10px;margin:0 0 6px 2.8vw}
+.shelf{position:fixed;z-index:12;left:8.8vw;right:8.8vw;bottom:3vh;height:22vh}
+.shelf .hd{position:relative;z-index:2;display:flex;align-items:center;gap:10px;margin:0 0 6vh 2.8vw}
 .shelf .hd b{font-family:var(--head);font-weight:400;font-size:22px}
 .shelf .hd span{font-size:11px;font-weight:800;color:#fff;background:var(--ink);border-radius:999px;padding:3px 10px}
-.board3{height:calc(100% - 30px);border-radius:16px;background:linear-gradient(180deg,#24384f,#122133);box-shadow:0 18px 40px rgba(10,20,34,.3),inset 0 2px 0 rgba(255,255,255,.12);display:grid;grid-template-columns:repeat(8,1fr);align-items:end;padding:0 2vw 10px}
+.board3{height:calc(100% - 30px - 6vh);border-radius:16px;background:linear-gradient(180deg,rgba(36,56,79,.85),rgba(18,33,51,.9));backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);box-shadow:0 18px 40px rgba(10,20,34,.3),inset 0 2px 0 rgba(255,255,255,.12);display:grid;grid-template-columns:repeat(8,1fr);align-items:end;padding:0 2vw 10px}
 .aw2{display:flex;flex-direction:column;align-items:center;gap:4px;transition:translate .3s var(--ease)}
 .aw2:hover{translate:0 -6px}
-.aw2 img{height:clamp(56px,10vh,110px);margin-top:-5vh;filter:drop-shadow(0 10px 16px rgba(0,0,0,.4))}
-.aw2.lock img{filter:grayscale(1) brightness(.45) drop-shadow(0 10px 16px rgba(0,0,0,.4))}
+.aw2 img{height:clamp(64px,12vh,150px);margin-top:-4.5vh;filter:drop-shadow(0 10px 16px rgba(0,0,0,.4))}
+.aw2.lock img{filter:grayscale(.85) brightness(.72) drop-shadow(0 10px 16px rgba(0,0,0,.4))}
+.aw2:not(.lock) img{filter:drop-shadow(0 0 22px rgba(255,200,90,.6)) drop-shadow(0 10px 16px rgba(0,0,0,.4))}
 .aw2 b{font-family:var(--head);font-weight:400;font-size:clamp(12px,1vw,16px);color:#fff;text-align:center;line-height:1}
 .aw2 small{font-size:9px;font-weight:800;letter-spacing:.16em;color:rgba(255,255,255,.6)}
 .aw2.lock .lkk{position:relative;margin-top:-28px;margin-bottom:6px;width:26px;height:26px;border-radius:50%;background:#fff;display:grid;place-items:center;font-size:12px}
@@ -66,7 +68,7 @@ html,body{height:100%;overflow:hidden}
 </section>
 <section class="shelf"><div class="hd"><b>МОИ ДОСТИЖЕНИЯ</b><span id="cnt"></span></div><div class="board3" id="shelf"></div></section>
 <div class="veil2"></div>
-<script src="data.js?v=36"></script><script src="ui2.js?v=36"></script>
+<script src="data.js?v=36"></script><script src="ui2.js?v=38"></script>
 <script>
 (() => {
   const $ = id => document.getElementById(id), P = UI2.profile(), st = P.st, cur = P.league.id;
@@ -93,7 +95,9 @@ html,body{height:100%;overflow:hidden}
     return `<div class="aw2 ${ok ? '' : 'lock'}"><img src="img/badge_${id}.webp" alt="">${ok ? '' : '<span class="lkk">🔒</span>'}<b>${n}</b><small>${ok ? 'СДЕЛАНО' : d.toUpperCase()}</small></div>`; }).join('');
   UI2.ready();
   setTimeout(() => { const r = document.querySelector('.lr.cur'); if (!r) return; const b = r.getBoundingClientRect(), nx = UI2.LEAGUES[cur];
-    if (!nx) return; const n = UI2.note(document.body, `следующая лига —<br>${nx.name}`, b.left - 200, b.top - 96, { x: 150, y: 46, d: 'M4 4 C 24 10, 38 22, 44 40 M34 32 L45 41 L48 28' }); n.style.position = 'fixed'; n.style.zIndex = 15; }, 900);
+    if (!nx) return; const n = (() => { const lr = document.querySelector('.lad').getBoundingClientRect(), room = innerWidth - lr.right > 210;
+      return room ? UI2.note(document.body, `следующая лига —<br>${nx.name}`, lr.right + 14, b.top - 110, { x: -20, y: 60, d: 'M30 4 C 20 20, 8 36, -6 52 M-10 40 L-7 53 L5 47' })
+                  : UI2.note(document.body, `следующая лига — ${nx.name}`, lr.right - 300, lr.top - 52, { x: 120, y: 26, d: 'M4 4 C 16 10, 24 18, 28 30 M20 22 L28 31 L33 20' }); })(); n.style.position = 'fixed'; n.style.zIndex = 15; }, 900);
 })();
 </script>
 </body></html>

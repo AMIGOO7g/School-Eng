@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>ICE ENGLISH · Skate through levels</title>
-<link rel="stylesheet" href="fonts.css?v=36"><link rel="stylesheet" href="ui2.css?v=36">
+<link rel="stylesheet" href="fonts.css?v=36"><link rel="stylesheet" href="ui2.css?v=38">
 <style>
 :root{--ink:#24374d;--blue:#648ba5;--panel:#ffffffad}
 *{box-sizing:border-box}html{scroll-behavior:auto}body{margin:0;background:#dbe8f3;color:var(--ink);font-family:Inter,Arial,sans-serif;overflow-x:hidden}
@@ -61,6 +61,11 @@
 .lg.sel .view{opacity:1;transform:translate(-50%,0)}
 .lg.cur.sel .view{background:#d3262e}
 .lg.cur .tag{background:#d3262e}
+html{scrollbar-width:none}html::-webkit-scrollbar,body::-webkit-scrollbar{display:none}
+.lg.cur .em{box-shadow:none!important}.lg .em{box-shadow:none!important}
+.lg .em{position:relative}.lg .em::after{content:"";position:absolute;left:var(--rx,8%);top:var(--ry,8%);width:var(--rw,84%);height:var(--rw,84%);border-radius:50%;pointer-events:none;transition:box-shadow .3s}
+.lg.cur .em::after{box-shadow:0 0 0 3px #d3262e,0 0 26px rgba(211,38,46,.65)}
+.lg:hover .em::after{box-shadow:0 0 0 3px rgba(211,38,46,.7),0 0 20px rgba(211,38,46,.45)}
 </style><style>.grade-center{transform:translateY(1.5vh)!important}.grade-label{opacity:.13!important}.panel-inner{top:53%!important}</style></head>
 <body><div id="track" class="track"><main id="stage" class="stage"><div id="bg" class="bg"></div><div id="grades" class="grade"></div><div id="travel" class="travel"></div><div class="shadow"></div><div id="skater" class="skater"><img id="hockeyFrame" src="frames/frame_000.webp" alt="Hockey player"></div><header class="top"><div class="brand">ICE <span>ENGLISH</span></div><div id="counter" class="counter">01 / 07</div></header><footer class="bottom"><div id="bars" class="bars"></div><div>SCROLL TO SKATE</div></footer></main></div><div id="toast" class="toast"></div>
 <section class="ladder" id="ladder"><div class="wrap"><div class="row" id="lad"><span class="dash g" id="dg"></span><span class="dash r" id="dr"></span></div></div></section>
@@ -68,7 +73,7 @@
 <script>(()=>{const data=[
 {grade:'',k:'01 / ICE ENGLISH',title:'GLIDE<br><span>IN.</span>',desc:'Твой английский начинается здесь. Листай дальше — путь от детского хоккея до НХЛ.'},
 {grade:'ДЕТСКИЙ ХОККЕЙ',lab:'ЛИГА 1 · A1 · ПРОЙДЕНА',k:'02 / ЛИГА 1 · ОСНОВЫ',title:'ДЕТСКИЙ<br><span>ХОККЕЙ.</span>',desc:'Основы: алфавит и чтение, to be, have got, can, Present Simple. Лига пройдена — основы можно повторить.',btn:'Повторить основы',msg:'Уроки основ (A1) появятся позже.'},
-{grade:'ЮНОШЕСКАЯ ЛИГА',lab:'ЛИГА 2 · A2 · ТЫ ЗДЕСЬ',kind:'school',k:'03 / ЛИГА 2 · ТВОЙ СЕЗОН',title:'ЮНОШЕСКАЯ<br><span>ЛИГА.</span>',desc:'Твой сезон — школа: учебник Spotlight 7. Модули, домашка, тренировки и словарь.',btn:'Начать сезон',href:'hub.html'},
+{grade:'ЮНОШЕСКАЯ ЛИГА',lab:'ЛИГА 2 · A2 · ТЫ ЗДЕСЬ',kind:'school',k:'03 / ЛИГА 2 · ТВОЙ СЕЗОН',title:'ЮНОШЕСКАЯ<br><span>ЛИГА.</span>',desc:'Твой сезон — школа: учебник Spotlight 7. Цели сезона: 10 матчей-модулей, 300+ новых слов, времена Present и Past. В конце — просмотр для перехода в МХЛ.',btn:'Начать сезон',href:'hub.html'},
 {grade:'МХЛ',lab:'ЛИГА 3 · B1',k:'04 / ЛИГА 3 · МОЛОДЁЖКА',title:'МХЛ.<br><span>FIND YOUR FLOW.</span>',desc:'Все времена, связный текст, письма и сочинения, аудирование.',btn:'Закрыто',msg:'Чтобы перейти, сдай просмотр в Юношеской лиге: письменно, на слух, произношение, чтение с переводом.'},
 {grade:'ВХЛ',lab:'ЛИГА 4 · B2',k:'05 / ЛИГА 4 · ВЫШКА',title:'ВХЛ.<br><span>GO FURTHER.</span>',desc:'Сложная грамматика, длинные тексты, эссе и дискуссии.',btn:'Закрыто',msg:'Откроется после просмотра в МХЛ.'},
 {grade:'КХЛ',lab:'ЛИГА 5 · C1',k:'06 / ЛИГА 5',title:'КХЛ.<br><span>OWN THE ICE.</span>',desc:'Свободная речь: фильмы, новости и книги на английском.',btn:'Закрыто',msg:'Откроется после просмотра в ВХЛ.'},
@@ -79,7 +84,7 @@ data.forEach((d,i)=>{let sec=document.createElement('section');sec.className='pa
 let target=0,current=0;try{history.scrollRestoration='auto'}catch(e){}const sceneCount=data.length;let scrollTotal=1;function measure(){const r=track.getBoundingClientRect();scrollTotal=Math.max(1,r.height-innerHeight);target=clamp(-r.top/scrollTotal,0,1)}
 function tick(){current+=(target-current)*.24;if(Math.abs(target-current)<.000025)current=target;const p=current*(sceneCount-1),w=stage.clientWidth,mobile=w<740,start=w+20,anchor=mobile?24:Math.max(24,w*.065),span=start-anchor;panelEls.forEach((el,i)=>{const x=i===0?anchor-p*span:(i-p)*span+anchor;el.style.transform=`translate3d(${x-anchor}px,0,0)`;const ww=el.querySelector('.panel-inner').getBoundingClientRect().width;const visible=x+ww>0&&x<w;el.style.visibility=visible?'visible':'hidden';el.style.pointerEvents=visible?'auto':'none'});gradeEls.forEach((g,i)=>{let u=Math.abs(p-i);let opacity=clamp((.52-u)/.22,0,1);opacity=opacity*opacity*(3-2*opacity);g.style.opacity=String(opacity);g.style.transform=`translate3d(${(i-p)*w*.065}px,0,0)`});bg.style.transform=`translate3d(${(-p*1.15).toFixed(2)}%,${(Math.sin(p*.65)*1.8).toFixed(2)}%,0)`;bg.style.filter=`hue-rotate(${(p*12).toFixed(1)}deg)`;const frameCount=36;const num=Math.floor(current*sceneCount*frameCount*1.15)%frameCount;const f=document.getElementById('hockeyFrame');const next='frames/frame_'+String(num).padStart(3,'0')+'.webp';if(f.getAttribute('src')!==next)f.setAttribute('src',next);const idx=clamp(Math.round(p),0,sceneCount-1);counter.textContent=`0${idx+1} / 0${sceneCount}`;window.__ladder&&window.__ladder(current,idx);[...bars.children].forEach((b,i)=>b.classList.toggle('active',i===idx));requestAnimationFrame(tick)}
 for(let i=0;i<36;i++){const img=new Image();img.src='frames/frame_'+String(i).padStart(3,'0')+'.webp'}function fitWords(){document.querySelectorAll('.grade-word').forEach(w=>{w.style.fontSize='';const mw=innerWidth*.94;if(w.offsetWidth>mw)w.style.fontSize=(parseFloat(getComputedStyle(w).fontSize)*mw/w.offsetWidth)+'px'})}fitWords();addEventListener('resize',fitWords);document.fonts&&document.fonts.ready.then(fitWords);measure();addEventListener('scroll',measure,{passive:true});addEventListener('resize',measure);tick();document.getElementById('restart').onclick=()=>scrollTo({top:0,behavior:'smooth'});document.querySelectorAll('.cta').forEach(btn=>btn.onclick=(e)=>{if(btn.getAttribute('href')) return; e.preventDefault();toast.textContent=(data[+btn.dataset.id]||{}).msg||'Скоро';toast.style.display='block';clearTimeout(window.__toast);window.__toast=setTimeout(()=>toast.style.display='none',2200)})})();</script><div class="scene-transition" aria-hidden="true"><div style="text-align:center"><div style="font:800 14px Inter,Arial;letter-spacing:.42em;color:#3d5368;margin-bottom:10px">ЮНОШЕСКАЯ ЛИГА · ТВОЙ СЕЗОН</div><strong style="font-family:MachineC,Impact,sans-serif;font-weight:400;letter-spacing:0">SPOTLIGHT 7</strong></div></div><script>try{const save=JSON.parse(localStorage.getItem('ice_school_v22')||'{}');document.querySelectorAll('#homeClass').forEach(el=>el.textContent='CLASS '+(save.grade||7));}catch(e){}document.querySelectorAll('a[href="hub.html"]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();document.body.classList.add('leaving');setTimeout(()=>location.assign('hub.html?from=home'),1150)}));</script>
-<script src="data.js?v=36"></script><script src="ui2.js?v=36"></script>
+<script src="data.js?v=36"></script><script src="ui2.js?v=38"></script>
 <script>
 (() => {
   const $ = id => document.getElementById(id), P = UI2.profile(), cur = P.league.id;
@@ -97,6 +102,11 @@ for(let i=0;i<36;i++){const img=new Image();img.src='frames/frame_'+String(i).pa
   const setScale = (b, s) => { const lift = (s - b.base) * 26; em(b).style.transform = `translateY(${-lift}px) scale(${s})`;
     const h = em(b).offsetHeight || 70; b.querySelector('.tag').style.transform = `translateY(${-(lift + (s - 1) * h)}px)`; b.querySelector('.view') && (b.querySelector('.view').style.marginBottom = (lift + (s - 1) * h) + 'px'); };
   items.forEach(b => setScale(b, b.base));
+  items.forEach(b => { const im = b.querySelector('img'), fit = () => { const c = document.createElement('canvas'), W = 120, H = Math.round(120 * im.naturalHeight / im.naturalWidth); c.width = W; c.height = H;
+    const x = c.getContext('2d'); x.drawImage(im, 0, 0, W, H); const d = x.getImageData(0, 0, W, H).data; let x0 = W, x1 = 0, y0 = H, y1 = 0;
+    for (let y = 0; y < H; y++) for (let i = 0; i < W; i++) if (d[(y * W + i) * 4 + 3] > 200) { if (i < x0) x0 = i; if (i > x1) x1 = i; if (y < y0) y0 = y; if (y > y1) y1 = y; }
+    const e = b.querySelector('.em'), sz = Math.min(x1 - x0, y1 - y0); e.style.setProperty('--rx', (x0 + (x1 - x0 - sz) / 2) / W * 100 + '%'); e.style.setProperty('--ry', (y0 + (y1 - y0 - sz) / 2) / H * (H / W) * 100 + '%'); e.style.setProperty('--rw', sz / W * 100 + '%'); };
+    im.complete ? fit() : im.addEventListener('load', fit); });
   // пунктир по центру эмблем: пройденная часть — красная
   function dashes() {
     const R = $('lad').getBoundingClientRect(), c = items.map(b => { const r = b.querySelector('img').getBoundingClientRect(); return { x: r.left + r.width / 2 - R.left, y: r.top + r.height / 2 - R.top }; });

@@ -19,8 +19,10 @@ window.UI2 = (() => {
     if (opt && opt.light) h.classList.add('light');
     h.innerHTML = `<a class="logo" href="index.html"><b>/</b><span class="ice">ICE</span><span class="eng">ENGLISH</span></a>
       <nav class="nav2"><span class="pill"></span>${L.map(([k, t, href]) => `<a href="${href}" class="${k === active ? 'on' : ''}">${t}</a>`).join('')}</nav>
+      <button class="snd" title="Звук">${localStorage.getItem('ice_mute') === '1' ? '🔇' : '🔊'}</button>
       <a class="me" href="career.html" title="Карьера"><img src="img/pl_avatar.webp" alt=""><span class="n">${p.name}<small>${p.league.name}</small><span class="bar"><i style="width:${(p.done / p.total * 100).toFixed(1)}%"></i></span></span><span class="r">${p.rating}<small>рейтинг</small></span></a>`;
     document.body.prepend(h);
+    h.querySelector('.snd').onclick = e => { e.currentTarget.textContent = SFX.toggle() ? '🔇' : '🔊'; };
     // красная плашка переезжает к пункту под курсором и возвращается к активному
     const nav = h.querySelector('.nav2'), pill = nav.querySelector('.pill'), links = [...nav.querySelectorAll('a')];
     const moveTo = a => { if (!a) { pill.style.opacity = 0; return; } pill.style.opacity = 1; pill.style.left = a.offsetLeft + 'px'; pill.style.width = a.offsetWidth + 'px';
@@ -55,6 +57,7 @@ window.UI2 = (() => {
       const fs = H * (o.size ?? .2); w.style.fontSize = fs + 'px';
       if (o.fitW) w.style.fontSize = fs * vw * o.fitW / w.offsetWidth + 'px';   // слово на заданную долю ширины экрана
       else { const maxW = Math.min(1320, vw - 80); if (w.offsetWidth > maxW) w.style.fontSize = fs * maxW / w.offsetWidth + 'px'; }
+      if (o.center) g.style.left = ((vw - w.offsetWidth) / 2 - (vw - W) / 2) + 'px';   // слово по центру экрана
       g.style.top = (H * C.ridge + w.offsetHeight * (o.sink ?? .3) - g.offsetHeight) + 'px';
     }
     place(); addEventListener('resize', place); document.fonts && document.fonts.ready.then(place);
@@ -67,7 +70,7 @@ window.UI2 = (() => {
       ice.style.transform = `translateX(${-cp * 1.2}px)`;
       requestAnimationFrame(loop); })();
     return {
-      place, horizonPx: () => top + C.hz * H,
+      place, horizonPx: () => top + C.hz * H, wordLeft: () => w.getBoundingClientRect().left,
       set(word, over, instant) { // слово уходит за горы и поднимается новое
         if (instant) { w.textContent = word; ov.textContent = over; place(); return; }
         g.classList.add('down'); clearTimeout(g.t);
@@ -101,7 +104,22 @@ window.UI2 = (() => {
   function flip(el, texts, ms = 6500) {
     let i = 0; setInterval(() => { el.classList.add('out'); setTimeout(() => { i = (i + 1) % texts.length; el.textContent = texts[i]; el.classList.remove('out'); }, 450); }, ms);
   }
+  // звук арены: синтез прямо в браузере, файлов нет; выключается кнопкой в шапке
+  const SFX = (() => {
+    let ctx = null; const muted = () => localStorage.getItem('ice_mute') === '1';
+    const ac = () => (ctx = ctx || new (window.AudioContext || window.webkitAudioContext)());
+    function tone(type, f0, f1, t0, dur, vol, filt) { const c = ac(), o = c.createOscillator(), g = c.createGain(); o.type = type;
+      o.frequency.setValueAtTime(f0, c.currentTime + t0); if (f1) o.frequency.exponentialRampToValueAtTime(f1, c.currentTime + t0 + dur);
+      g.gain.setValueAtTime(0.0001, c.currentTime + t0); g.gain.exponentialRampToValueAtTime(vol, c.currentTime + t0 + .03); g.gain.exponentialRampToValueAtTime(0.0001, c.currentTime + t0 + dur);
+      let n = o; if (filt) { const f = c.createBiquadFilter(); f.type = 'lowpass'; f.frequency.value = filt; o.connect(f); n = f; } n.connect(g); g.connect(c.destination); o.start(c.currentTime + t0); o.stop(c.currentTime + t0 + dur + .05); }
+    return {
+      goal() { if (muted()) return; [[196, 0], [247, 0], [294, 0]].forEach(([f]) => tone('sawtooth', f, 0, 0, 1.1, .08, 1400)); tone('sine', 600, 1100, .1, .9, .05); tone('sine', 1100, 600, 1, .8, .04); },
+      post() { if (muted()) return; tone('triangle', 2400, 1800, 0, .35, .12); tone('triangle', 3300, 2900, 0, .25, .06); tone('square', 180, 90, 0, .08, .05, 900); },
+      horn() { if (muted()) return; [[147, 0], [185, 0], [220, 0]].forEach(([f]) => tone('sawtooth', f, 0, 0, 1.8, .09, 1200)); tone('sine', 500, 1200, .2, 1.4, .05); },
+      muted, toggle() { localStorage.setItem('ice_mute', muted() ? '0' : '1'); return muted(); }
+    };
+  })();
   function go(href) { document.body.classList.add('leaving'); setTimeout(() => location.assign(href), 520); }
   function ready() { requestAnimationFrame(() => setTimeout(() => document.body.classList.add('ready'), 60)); }
-  return { LEAGUES, profile, header, scene, note, go, ready, puck, flip };
+  return { LEAGUES, profile, header, scene, note, go, ready, puck, flip, SFX };
 })();

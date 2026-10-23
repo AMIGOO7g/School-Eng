@@ -3,7 +3,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>ICE ENGLISH · Урок</title>
 <link rel="stylesheet" href="fonts.css?v=29">
-<link rel="stylesheet" href="ice.css?v=35"><link rel="stylesheet" href="ui2.css?v=35">
+<link rel="stylesheet" href="ice.css?v=35"><link rel="stylesheet" href="ui2.css?v=38">
 <style>
 :root{--left:clamp(24px,4.9vw,120px);--cardw:clamp(560px,47vw,1200px)}
 .stage{transition:transform 1.2s var(--ease)}
@@ -269,16 +269,41 @@ mark{background:linear-gradient(transparent 58%,rgba(211,38,46,.26) 58%);color:i
 .rew .acts{grid-column:1 / -1;display:flex;gap:12px;flex-wrap:wrap}
 .rew .acts .btn{flex:1;justify-content:center}
 @media (max-width:1100px){.rew .who{opacity:.25}.rew .pn{width:92vw;margin:0 auto;grid-template-columns:1fr}.aw{border:0;padding:0}.per2 button:not(.on){display:none}}
+
+.sb2{display:grid!important;grid-template-columns:1fr auto 1fr;height:64px!important}
+.sb2 > *{border-right:0!important}
+.side2{display:flex;align-items:center;gap:14px;padding:0!important}
+.side2.r{justify-content:flex-end}
+.lg2{align-self:stretch;display:flex;align-items:center;background:linear-gradient(135deg,#e63a42,#b51c24);font-family:var(--head);font-size:36px;padding:0 22px}
+.nm2{font-family:var(--head);font-size:clamp(18px,1.5vw,26px);letter-spacing:.04em}
+#opImg{height:46px;width:auto;filter:drop-shadow(0 4px 8px rgba(0,0,0,.4))}
+.mid2{display:flex;align-items:center;gap:14px;padding:0 30px!important;background:rgba(255,255,255,.06)}
+.mid2 b{font-family:var(--head);font-weight:400;font-size:46px;display:inline-block;min-width:34px;text-align:center}
+.mid2 b.bump{animation:bump2 .6s var(--ease)}
+.mid2 i{font-style:normal;font-family:var(--head);font-size:40px;color:#ff5a62}
+.pen2{align-self:stretch;display:flex;align-items:center;padding:0 18px;font-size:15px!important}
+.sub2{display:flex!important;justify-content:center!important;align-items:center;gap:22px;margin-top:10px;width:100%}
+.sub2 > *{margin:0!important;flex:none!important}
+.sub2 .per2{background:rgba(16,30,48,.88);border-radius:12px;padding:5px!important;display:flex;gap:4px;box-shadow:0 10px 24px rgba(10,20,34,.22)}
+.sub2 .per2 button.ok b::after{content:" ✓";color:#3ee07a}
+.sub2 .pucks{background:rgba(16,30,48,.88);border-radius:12px;padding:9px 14px;box-shadow:0 10px 24px rgba(10,20,34,.22)}
+.sub2 .pucks:empty{display:none}
+#tabs{display:none!important}
+.card{top:calc(12.8vh + 130px)!important;bottom:15vh!important}
+@media (max-height:820px){.card{top:calc(12.8vh + 120px)!important;bottom:13vh!important}}
+.lower2{bottom:2.5vh!important}
+.how2{display:flex;gap:10px;align-items:flex-start;font-size:14px;line-height:1.4;color:var(--ink-2);background:rgba(37,75,112,.07);border-radius:12px;padding:9px 13px;margin:0 0 12px}
+.how2 b{color:var(--ink)}
+.rec2{display:inline-block;margin-left:12px;font-family:var(--head);font-size:18px;color:#fff;background:linear-gradient(135deg,#f2b33d,#d98a12);padding:4px 12px;border-radius:8px;vertical-align:middle;animation:pop2 .7s var(--ease) .4s both}
+.ot{font-family:var(--head);font-size:22px;color:var(--red)}
 </style></head>
 <body class="arriving">
 <main class="stage" id="stage"></main>
 <section class="board2" id="board2"><div class="sb2">
-  <div class="lg2">7</div>
-  <div class="sco"><small>ТЫ</small><b id="sYou">0</b><i>:</i><b id="sMis">0</b><small>ОШИБКИ</small></div>
-  <div class="per2" id="per2"><button data-v="theory"><b>1</b>Разобраться</button><button data-v="practice"><b>2</b>Тренировка</button><button data-v="words"><b>3</b>Слова</button></div>
-  <div class="grow2"><div class="pucks" id="pucks"></div></div>
-  <div class="pen2" id="pen2">ШТРАФНАЯ: 0</div>
-</div></section>
+  <div class="side2"><span class="lg2">7</span><span class="nm2" id="nm2">ИГРОК</span></div>
+  <div class="mid2"><b id="sYou">0</b><i>:</i><b id="sMis">0</b></div>
+  <div class="side2 r"><span class="nm2" id="op2">СОПЕРНИК</span><img id="opImg" alt=""><span class="pen2" id="pen2">НА СКАМЕЙКЕ: 0</span></div>
+</div><div class="sub2"><div class="per2" id="per2"><button data-v="theory"><b>1</b>Разобраться</button><button data-v="practice"><b>2</b>Тренировка</button><button data-v="words"><b>3</b>Слова</button></div><div class="pucks" id="pucks"></div></div></section>
 <section class="card" aria-live="polite">
   <div class="chead"><div class="seg" id="tabs"></div></div>
   <div class="ptitle" id="ptitle"><div class="kicker" id="pk"></div><h2 class="title" id="pt"></h2></div>
@@ -296,7 +321,7 @@ mark{background:linear-gradient(transparent 58%,rgba(211,38,46,.26) 58%);color:i
 <div class="veil"></div>
 
 <script src="data.js?v=35"></script>
-<script src="ice-ui.js?v=35"></script><script src="ui2.js?v=35"></script>
+<script src="ice-ui.js?v=35"></script><script src="ui2.js?v=38"></script>
 <script>
 (() => {
   const q = new URLSearchParams(location.search);
@@ -506,6 +531,8 @@ function run(L) {
       store.mistakes = (store.mistakes || []).filter(m => !(m.l === src.l && m.i === src.i));
       if (!ok) store.mistakes.push(src);
       save();
+      ok ? UI2.SFX.goal() : UI2.SFX.post();
+      if (!ok && !store.penTip) { store.penTip = 1; save(); setTimeout(() => { const r = $('pen2').getBoundingClientRect(); const n = UI2.note(document.body, 'это задание ушло<br>на штрафную', r.left - 60, r.bottom + 46, { x: 120, y: -30, d: 'M4 30 C 20 22, 34 12, 44 -6 M34 0 L45 -7 L46 6' }); n.style.position = 'fixed'; n.style.zIndex = 25; setTimeout(() => n.remove(), 6000); }, 400); }
       lower2(ok ? '' : 'post', ok ? 'ГОЛ!' : 'ШТАНГА', ok ? ['Новые знания ведут к победам', 'Шайба в воротах!', 'Точный бросок!'][Object.keys(first).length % 3] : 'Задание уходит на штрафную — разберём ошибку');
     }
     renderPucks();
@@ -517,10 +544,20 @@ function run(L) {
     next.disabled = true;
     const right = () => { markResult(idx, true); solved++; moveTo(solved / queue.length); next.disabled = false; };
     const wrong = () => markResult(idx, false);
-    const body = el('div'); body.appendChild(RENDER[t.type](t, fb, right, wrong, idx)); body.appendChild(fb);
+    const body = el('div'); if (HOW[t.type]) { const h = document.createElement('div'); h.className = 'how2'; h.innerHTML = '💡 ' + HOW[t.type]; body.appendChild(h); }
+    body.appendChild(RENDER[t.type](t, fb, right, wrong, idx)); body.appendChild(fb);
     $('stage').style.setProperty('--pan', ((PAN.practice - qi * .08) * innerWidth / 160).toFixed(0) + 'px');
     frame(`${round > 1 ? 'Работа над ошибками' : L.review ? 'Повторить' : 'Тренироваться'}, задание ${qi + 1} из ${queue.length}`, t.prompt, body, [btn('‹ Обзор', 'go light', () => go('hub')), btn('Правило', 'go light', () => rulePop(t._src ? L.srcTheory(t._src.l) : L.theory)), spacer(), next]);
   }
+  const HOW = {
+    choice: '<b>Как делать:</b> нажми верный вариант. Можно клавишами 1–4.',
+    listen: '<b>Как делать:</b> нажми ▶, послушай фразу и выбери, что услышал.',
+    sort: '<b>Как делать:</b> перетащи каждое слово в нужную корзину. Или нажми слово, потом корзину.',
+    build: '<b>Как делать:</b> перетащи слова в ячейки по порядку. Нажатие на слово ставит его в первую свободную ячейку.',
+    error: '<b>Как делать:</b> в предложении одна ошибка — нажми на неверное слово.',
+    match: '<b>Как делать:</b> соедини пары: нажми слово слева, потом его перевод справа.',
+    tfns: '<b>Как делать:</b> T — так сказано в тексте, F — сказано обратное, NS — об этом в тексте нет.'
+  };
   const RENDER = {
     choice(t, fb, right, wrong) { const d = el('div'); d.appendChild(q(t.text)); d.appendChild(choice(t.options, fb, right, wrong)); return d; },
     listen(t, fb, right, wrong) {
@@ -631,16 +668,20 @@ function run(L) {
       cols.append(A, B); d.appendChild(cols); return d;
     }
   };
+  const TEAMS = ['wolf', 'bear', 'eagle', 'fox', 'lynx', 'deer', 'lion', 'owl', 'shark', 'tiger'], TEAMRU = ['ВОЛКИ', 'МЕДВЕДИ', 'ОРЛЫ', 'ЛИСЫ', 'РЫСИ', 'ОЛЕНИ', 'ЛЬВЫ', 'СОВЫ', 'АКУЛЫ', 'ТИГРЫ'];
+  $('nm2').textContent = (store.name || 'Игрок 7').toUpperCase();
+  { const mi = Math.max(0, (L.module || 1) - 1); $('op2').textContent = L.review ? 'ОШИБКИ' : TEAMRU[mi]; $('opImg').src = `img/team_${TEAMS[mi]}.webp`; if (L.review) $('opImg').style.display = 'none'; }
   function lower2(kind, t1, t2) { const l = $('lower2'); l.className = 'lower2 ' + kind; $('l1').textContent = t1; $('l2').textContent = t2;
-    requestAnimationFrame(() => l.classList.add('show')); clearTimeout(l.t); l.t = setTimeout(() => l.classList.remove('show'), 1600); }
+    requestAnimationFrame(() => l.classList.add('show')); clearTimeout(l.t); l.t = setTimeout(() => l.classList.remove('show'), 2900); }
   document.querySelectorAll('#per2 button').forEach(b => b.onclick = () => go(b.dataset.v));
   function renderPucks() {
     const box = $('pucks');
     const vals = Object.values(first), y = vals.filter(Boolean).length, m = vals.length - y;
     if ($('sYou').textContent != y) { $('sYou').textContent = y; $('sYou').classList.remove('bump'); void $('sYou').offsetWidth; $('sYou').classList.add('bump'); }
     if ($('sMis').textContent != m) { $('sMis').textContent = m; $('sMis').classList.remove('bump'); void $('sMis').offsetWidth; $('sMis').classList.add('bump'); }
-    $('pen2').textContent = `ШТРАФНАЯ: ${(store.mistakes || []).length}`;
-    document.querySelectorAll('#per2 button').forEach(b => b.classList.toggle('on', b.dataset.v === view));
+    $('pen2').textContent = `НА СКАМЕЙКЕ: ${(store.mistakes || []).length}`;
+    document.querySelectorAll('#per2 button').forEach(b => { b.classList.toggle('on', b.dataset.v === view);
+      b.classList.toggle('ok', b.dataset.v === 'theory' ? !!lp.theory : b.dataset.v === 'practice' ? !!store.done[L.id] : !!lp.words); });
     if (view !== 'practice') { box.innerHTML = queue.length ? box.innerHTML : ''; return; }
     box.innerHTML = queue.map((idx, k) => `<i class="${idx in first ? (first[idx] ? 'ok' : 'err') : ''} ${k === qi ? 'now' : ''}"></i>`).join('');
   }
@@ -798,8 +839,21 @@ function run(L) {
   function moveTo(f) { pos = f; }
   function resetGoal() {}
   addEventListener('resize', layoutRink);
+  let otUsed = false, newRec = false;
+  function overtime(need) {   // проиграл в один гол — одно задание за победу
+    otUsed = true; const idx = queue.find(i => !first[i]), t = L.tasks[idx], fb = fbBox(); let once = false;
+    lower2('post', 'ОВЕРТАЙМ', 'Одно задание — и победа твоя!'); UI2.SFX.horn();
+    const body = el('div'); const h = document.createElement('div'); h.className = 'how2'; h.innerHTML = '🔥 <b>Овертайм.</b> Не хватило одного гола. Реши это задание верно — и матч твой.'; body.appendChild(h);
+    body.appendChild(RENDER[t.type](t, fb, () => { if (once) return; once = true; first[idx] = true; store.mistakes = (store.mistakes || []).filter(m => !(m.l === L.id && m.i === idx)); save(); UI2.SFX.goal(); lower2('', 'ГОЛ!', 'Победа в овертайме!'); setTimeout(shoot, 1400); },
+      () => { if (once) return; once = true; UI2.SFX.post(); lower2('post', 'ШТАНГА', 'Овертайм не получился — перерешай ошибки'); setTimeout(shoot, 1400); }, idx));
+    body.appendChild(fb);
+    frame('Овертайм', t.prompt, body, [], true);
+  }
   function shoot() {
     const got = queue.filter(i => first[i]).length, need = Math.ceil(queue.length * .8), win = got >= need;
+    if (!win && !otUsed && round === 1 && !L.review && got === need - 1) { overtime(need); return; }
+    if (win) UI2.SFX.horn();
+    newRec = round === 1 && !L.review && lp.best != null && got > lp.best;
     frame('Бросок', 'Шайба летит…', el('div'), [], true);
     const pr = player.getBoundingClientRect();
     const x0 = pr.left + pr.width * .55, y0 = pr.bottom - pr.height * .12;
@@ -837,11 +891,11 @@ function run(L) {
     save();
     const SK = [['shot', 'Бросок', 'грамматика'], ['skate', 'Катание', 'слова'], ['vision', 'Видение поля', 'чтение и слух'], ['pass', 'Пас', 'письмо']];
     const nx = ICE_NEXT(store), nextHref = ICE_READY[nx.l.id] ? `lesson.html?l=${nx.l.id}` : `school.html?m=${nx.m.n}`;
-    const r = $('rew');
+    const r = $('rew'), allDone = win && !!lp.theory && !!lp.words, left = [!lp.theory && ['theory', '1 период: Разобраться'], !lp.words && ['words', '3 период: Слова']].filter(Boolean);
     r.innerHTML = `<img class="who" src="img/${win ? 'pl_celebrate' : 'pl_stand'}.webp" alt="">
       <div class="pn"><div>
         <span class="kick bar">Spotlight 7 · матч ${L.module} · урок ${L.code}</span>
-        <h2>${win ? 'Период выигран' : 'Штанга!'}</h2>
+        <h2>${win ? (allDone ? 'Матч выигран' : 'Период выигран') : 'Штанга!'}${newRec ? '<span class="rec2">НОВЫЙ РЕКОРД</span>' : ''}</h2>${win && !allDone ? `<div class="ot">Чтобы выиграть матч, пройди: ${left.map(x => x[1].split(': ')[1]).join(', ')}</div>` : ''}
         <div class="bigsc"><span class="y">${got}</span><span class="c">:</span><span class="c">${errs.length}</span><small>ТЫ : ОШИБКИ</small></div>
         <div class="sk">${SK.map(([k, n, d]) => `<div class="row"><span><b>${n}</b><small>${d.toUpperCase()}</small></span><span class="bar"><i data-w="${store.skills[k]}"></i></span><span class="pl">${win && round === 1 && add[k] ? '+' + add[k] : store.skills[k]}</span></div>`).join('')}</div>
       </div>
@@ -849,12 +903,13 @@ function run(L) {
         : win ? `<span class="kick">Так держать</span><p>Ты разобрался с темой. Следующий урок — ${nx.l.code}.</p>`
               : `<span class="kick">Почти</span><p>Чтобы забить, нужно ${need} из ${queue.length} с первой попытки. Перерешай ошибки и бросай снова.</p>`}</div>
       <div class="acts">${errs.length ? '<button class="btn dark" data-a="redo">Перерешать ошибки</button>' : ''}
-        ${win ? '<button class="btn" data-a="next">Следующий матч →</button>' : ''}<button class="btn ghost" data-a="hub" style="background:#fff;color:var(--ink);box-shadow:none">В раздевалку</button></div></div>`;
+        ${win && !allDone ? left.map(([v, t]) => `<button class="btn" data-a="${v}">${t} →</button>`).join('') : ''}${allDone ? '<button class="btn" data-a="next">Следующий матч →</button>' : ''}<button class="btn ghost" data-a="hub" style="background:#fff;color:var(--ink);box-shadow:none">В раздевалку</button></div></div>`;
     r.classList.add('show');
     setTimeout(() => r.querySelectorAll('.sk .bar i').forEach(i => { void i.offsetWidth; i.style.setProperty('width', i.dataset.w + '%', 'important'); }), 250);
     r.onclick = e => { const a = e.target.closest('[data-a]'); if (!a) return; const k = a.dataset.a;
       if (k === 'redo') { r.classList.remove('show'); queue = errs; first = {}; round++; startPractice(false); }
       if (k === 'next') leave(nextHref);
+      if (k === 'words' || k === 'theory') { r.classList.remove('show'); go(k); }
       if (k === 'hub') leave('hub.html'); };
     frame('Результат', win ? 'Гол!' : 'Штанга!', `<div class="score">${got}<small> из ${queue.length} с первой попытки</small></div>`, [btn('Итоги матча', 'go', () => r.classList.add('show'))], true);
   }

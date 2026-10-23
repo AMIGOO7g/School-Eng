@@ -2,18 +2,18 @@
 <html lang="ru"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>ICE ENGLISH · Сезон</title>
-<link rel="stylesheet" href="fonts.css?v=36"><link rel="stylesheet" href="ui2.css?v=36">
+<link rel="stylesheet" href="fonts.css?v=36"><link rel="stylesheet" href="ui2.css?v=38">
 <style>
 html,body{height:100%;overflow:hidden}
 .sc-over{font-size:12px!important;letter-spacing:.32em!important;opacity:.85!important}
-.player{position:fixed;z-index:9;pointer-events:none;height:min(74vh,820px);right:max(1vw,calc((100vw - 1500px) / 2));bottom:2vh}
+.player{position:fixed;z-index:9;pointer-events:none;height:68vh;right:1.2vw;bottom:3vh}
 .player img{height:100%;display:block;filter:drop-shadow(0 30px 30px rgba(20,40,64,.2))}
 /* колонка контента от левого края, справа место хоккеисту — как в генерации */
-.area{position:fixed;z-index:12;left:4.5vw;width:74vw;top:calc(var(--hz,40vh) - clamp(96px,12vh,140px));bottom:4vh;display:flex;flex-direction:column;gap:clamp(12px,2vh,22px)}
+.area{position:fixed;z-index:12;left:4.5vw;width:70vw;top:calc(var(--hz,40vh) - clamp(96px,12vh,140px));bottom:4vh;display:flex;flex-direction:column;gap:clamp(12px,2vh,22px)}
 .area::before{content:"";position:absolute;z-index:-1;left:-140px;width:min(1100px,80vw);top:-90px;height:320px;border-radius:50%;background:radial-gradient(closest-side,rgba(246,249,252,.95),rgba(246,249,252,.6) 60%,rgba(246,249,252,0))}
-.fxs{position:relative;overflow-x:auto;overflow-y:visible;padding:8px 4px 10px;margin:-8px -4px -10px;scrollbar-width:none;-webkit-mask-image:linear-gradient(90deg,#000 90%,transparent);mask-image:linear-gradient(90deg,#000 90%,transparent)}
+.fxs{position:relative}
 .fxs::-webkit-scrollbar{display:none}
-.fx{display:grid;grid-auto-flow:column;grid-auto-columns:clamp(112px,8.3vw,160px);gap:12px;padding-right:60px}
+.fx{display:grid;grid-template-columns:repeat(10,minmax(0,1fr));gap:10px}
 .mc{position:relative;border:0;border-radius:18px;padding:12px 10px;background:rgba(255,255,255,.88);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);box-shadow:0 10px 24px rgba(20,44,70,.12);
   display:grid;grid-template-rows:auto 58px 2.6em auto auto;justify-items:center;align-items:center;gap:4px;cursor:pointer;text-align:center;transition:translate .3s var(--ease),box-shadow .3s;animation:cin .6s var(--ease) both;animation-delay:calc(var(--i) * 45ms + .15s)}
 @keyframes cin{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
@@ -34,12 +34,10 @@ html,body{height:100%;overflow:hidden}
 .vs{display:flex;align-items:center;gap:12px;white-space:nowrap}
 .vs .me2,.vs .op{font-family:var(--head);font-size:clamp(17px,1.35vw,22px);color:#fff;padding:7px 14px;border-radius:9px}
 .vs .me2{background:linear-gradient(135deg,#e63a42,#b51c24)}.vs .op{background:linear-gradient(135deg,#2c4560,#16263a);overflow:hidden;text-overflow:ellipsis}
-.vs .x{position:relative;width:46px;height:46px;flex:none;display:grid;place-items:center;font-family:var(--head);font-size:24px;color:#fff;font-style:italic}
-.vs .x::before{content:"";position:absolute;inset:4px;transform:rotate(45deg);border-radius:8px;background:linear-gradient(135deg,#e63a42 50%,#1d3048 50%);box-shadow:0 6px 16px rgba(20,40,64,.3)}
-.vs .x span{position:relative}
-.opp{flex:1;min-height:70px;display:flex;align-items:center;justify-content:center;gap:16px;padding:6px 0}
-.opp img{height:100%;max-height:150px;min-height:0;filter:drop-shadow(0 12px 22px rgba(20,40,64,.25))}
-.opp .on{font-family:var(--head);font-size:clamp(22px,2vw,32px);line-height:1;color:var(--ink)}.opp .on small{display:block;font-family:var(--font);font-size:10px;font-weight:800;letter-spacing:.24em;color:var(--mute)}
+.vs .x{flex:none;font-family:var(--head);font-size:clamp(40px,3.4vw,58px);line-height:.8;transform:skewX(-14deg) rotate(-6deg);background:linear-gradient(180deg,#ff6a6f,#d3262e 55%,#8e1218);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-stroke:1.5px #fff;filter:drop-shadow(0 4px 0 #1d3048) drop-shadow(0 8px 14px rgba(20,40,64,.35));padding:0 4px}
+.opp{position:relative;flex:1;min-height:56px;display:flex;align-items:center;justify-content:center}
+.opp img{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);height:min(130%,300px);opacity:.2;filter:grayscale(.2)}
+.opp .on{position:relative;text-align:center;font-family:var(--head);font-size:clamp(22px,2vw,32px);line-height:1;color:var(--ink)}.opp .on small{display:block;font-family:var(--font);font-size:10px;font-weight:800;letter-spacing:.24em;color:var(--mute)}
 .mblock{padding-top:12px;border-top:1px solid rgba(31,50,72,.1)}
 .mblock h3{font-family:var(--head);font-weight:400;font-size:clamp(18px,1.5vw,24px);margin:0 0 4px;text-transform:uppercase}
 .mblock .g{font-size:10px;letter-spacing:.24em;font-weight:800;color:var(--mute);text-transform:uppercase}
@@ -70,14 +68,14 @@ html,body{height:100%;overflow:hidden}
   <div class="low"><div class="panel match" id="match"></div><div class="panel lessons" id="lessons"></div></div>
 </section>
 <div class="veil2"></div>
-<script src="data.js?v=36"></script><script src="ui2.js?v=36"></script>
+<script src="data.js?v=36"></script><script src="ui2.js?v=38"></script>
 <script>
 (() => {
   const $ = id => document.getElementById(id), P = UI2.profile(), st = P.st, B = ICE_BOOK;
   const TEAMS = ['wolf', 'bear', 'eagle', 'fox', 'lynx', 'deer', 'lion', 'owl', 'shark', 'tiger'];
   const TEAMRU = ['Волки', 'Медведи', 'Орлы', 'Лисы', 'Рыси', 'Олени', 'Львы', 'Совы', 'Акулы', 'Тигры'];
   UI2.header('season');
-  const sc = UI2.scene($('stage'), { horizon: .42, size: .28, sink: .3, left: () => innerWidth * .06 });
+  const sc = UI2.scene($('stage'), { horizon: .42, size: .28, sink: .3, center: true });
   const setHz = () => document.documentElement.style.setProperty('--hz', sc.horizonPx() + 'px'); setHz(); addEventListener('resize', setHz);
   const doneIn = m => m.lessons.filter(l => st.done[l.id]).length;
   const nx = ICE_NEXT(st), curM = nx.m.n;
@@ -98,7 +96,7 @@ html,body{height:100%;overflow:hidden}
     const href = ICE_READY[next.id] ? `lesson.html?l=${next.id}` : `module.html?m=${n}&l=${next.id}`;
     const topic = m.grammar.split(',')[0].replace(/ и Present /, ' / ').replace(/ и /, ' / ');
     $('match').innerHTML = `<span class="kick bar">Spotlight 7 · модуль ${n}</span><h2 class="h"><span class="flip" id="mt">Матч ${n}</span></h2>
-      <div class="vs"><span class="me2">${P.name} · №7</span><span class="x"><span>VS</span></span><span class="op" title="${m.grammar}">${topic}</span></div>
+      <div class="vs"><span class="me2">${P.name} · №7</span><span class="x">VS</span><span class="op" title="${m.grammar}">${topic}</span></div>
       <div class="opp"><img src="img/team_${TEAMS[i]}.webp" alt=""><span class="on"><small>СОПЕРНИК</small>${TEAMRU[i]}</span></div>
       <div class="mblock"><h3>${m.en} <span style="color:var(--mute)">· ${m.ru}</span></h3><div class="g">Темы матча</div><div class="gt">${m.grammar}</div><p>Учебник, стр. ${m.pages}${d ? ` · сыграно уроков: ${d} из ${m.lessons.length}` : ''}</p></div>
       <a class="btn" href="${href}" data-go>На лёд <span>→</span></a>`;
@@ -106,7 +104,7 @@ html,body{height:100%;overflow:hidden}
     m.lessons.forEach((l, k) => {
       const dn = !!st.done[l.id], isNext = l === next && !dn, ready = ICE_READY[l.id];
       const li = document.createElement('li'); if (isNext) li.className = 'next';
-      li.innerHTML = `<button>${UI2.puck(36, dn ? 'done' : isNext ? 'next' : 'off')}<span><span class="pr">${k + 1} период · ${l.code}${l.kind ? ' · ' + l.kind : ''}</span><span class="t">${l.en}<small>${l.ru}</small></span></span>
+      li.innerHTML = `<button>${UI2.puck(36, dn ? 'done' : isNext ? 'next' : 'off')}<span><span class="pr">${k + 1} период · ${l.code}${l.kind ? ' · ' + l.kind : ''}</span><span class="t">${l.en}<small>${l.ru}${st.lp[l.id] && st.lp[l.id].best != null ? ` · <b style="color:var(--red)">рекорд ${st.lp[l.id].best} из 10</b>` : ''}</small></span></span>
         ${ready ? '<span class="go2">›</span>' : '<span class="soon">СКОРО</span>'}</button>`;
       li.firstChild.onclick = () => UI2.go(ready ? `lesson.html?l=${l.id}` : `module.html?m=${n}&l=${l.id}`);
       $('ll').appendChild(li);
