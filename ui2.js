@@ -19,7 +19,7 @@ window.UI2 = (() => {
     if (opt && opt.light) h.classList.add('light');
     h.innerHTML = `<a class="logo" href="index.html"><b>/</b><span class="ice">ICE</span><span class="eng">ENGLISH</span></a>
       <nav class="nav2"><span class="pill"></span>${L.map(([k, t, href]) => `<a href="${href}" class="${k === active ? 'on' : ''}">${t}</a>`).join('')}</nav>
-      <a class="me" href="index.html" title="Карьера"><img src="img/pl_avatar.webp" alt=""><span class="n">${p.name}<small>${p.league.name}</small><span class="bar"><i style="width:${(p.done / p.total * 100).toFixed(1)}%"></i></span></span><span class="r">${p.rating}</span></a>`;
+      <a class="me" href="index.html" title="Карьера"><img src="img/pl_avatar.webp" alt=""><span class="n">${p.name}<small>${p.league.name}</small><span class="bar"><i style="width:${(p.done / p.total * 100).toFixed(1)}%"></i></span></span><span class="r">${p.rating}<small>рейтинг</small></span></a>`;
     document.body.prepend(h);
     // красная плашка переезжает к пункту под курсором и возвращается к активному
     const nav = h.querySelector('.nav2'), pill = nav.querySelector('.pill'), links = [...nav.querySelectorAll('a')];
@@ -50,10 +50,11 @@ window.UI2 = (() => {
       sky.style.height = (C.hz * 100 + .3) + '%';
       Object.assign(mtn.style, { top: C.mtnTop * 100 + '%', height: (C.hz - C.mtnTop) * 100 + '%' });
       Object.assign(ice.style, { top: (C.hz * 100 - .15) + '%', height: (100 - C.hz * 100 + .15) + '%' });
-      const left = (vw - Math.min(1320, vw - 2 * Math.max(20, Math.min(64, vw * .04)))) / 2 - (vw - W) / 2;
+      const left = (o.left ? o.left() : (vw - Math.min(1320, vw - 2 * Math.max(20, Math.min(64, vw * .04)))) / 2) - (vw - W) / 2;
       g.style.left = left + 'px';
       const fs = H * (o.size ?? .2); w.style.fontSize = fs + 'px';
-      const maxW = Math.min(1320, vw - 80); if (w.offsetWidth > maxW) w.style.fontSize = fs * maxW / w.offsetWidth + 'px';
+      if (o.fitW) w.style.fontSize = fs * vw * o.fitW / w.offsetWidth + 'px';   // слово на заданную долю ширины экрана
+      else { const maxW = Math.min(1320, vw - 80); if (w.offsetWidth > maxW) w.style.fontSize = fs * maxW / w.offsetWidth + 'px'; }
       g.style.top = (H * C.ridge + w.offsetHeight * (o.sink ?? .3) - g.offsetHeight) + 'px';
     }
     place(); addEventListener('resize', place); document.fonts && document.fonts.ready.then(place);

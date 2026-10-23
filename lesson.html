@@ -3,9 +3,9 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>ICE ENGLISH · Урок</title>
 <link rel="stylesheet" href="fonts.css?v=29">
-<link rel="stylesheet" href="ice.css?v=29">
+<link rel="stylesheet" href="ice.css?v=35"><link rel="stylesheet" href="ui2.css?v=35">
 <style>
-:root{--left:clamp(24px,5vw,74px);--cardw:clamp(560px,40vw,1000px)}
+:root{--left:clamp(24px,4.9vw,120px);--cardw:clamp(560px,47vw,1200px)}
 .stage{transition:transform 1.2s var(--ease)}
 body.leaving .stage{transform:scale(1.06)}
 .stage .hs{transition:translate 1.4s var(--ease);translate:var(--pan,0px) 0}
@@ -208,25 +208,93 @@ mark{background:linear-gradient(transparent 58%,rgba(211,38,46,.26) 58%);color:i
 
 @media (max-width:1200px){:root{--cardw:58vw}}
 @media (max-height:800px){.ptitle{padding-top:12px}.ptitle h2{font-size:28px}.q{margin-bottom:12px}.opt{padding:11px 16px}.tile{min-height:118px;padding:14px}}
+
+/* ---------- новое оформление матча ---------- */
+.board2{position:fixed;z-index:20;left:var(--left);right:var(--left);top:92px}
+.sb2{display:flex;align-items:stretch;height:58px;border-radius:14px;overflow:hidden;background:linear-gradient(135deg,#1d3048,#0f1c2b);color:#fff;box-shadow:0 16px 34px rgba(10,20,34,.3);transform:skewX(-8deg)}
+.sb2 > *{transform:skewX(8deg);display:flex;align-items:center;gap:10px;padding:0 18px;border-right:1px solid rgba(255,255,255,.08);white-space:nowrap}
+.sb2 .lg2{background:linear-gradient(135deg,#e63a42,#b51c24);font-family:var(--head);font-size:34px;padding:0 22px}
+.sb2 .sco b{font-family:var(--head);font-weight:400;font-size:34px;display:inline-block}
+.sb2 .sco i{font-style:normal;font-family:var(--head);font-size:30px;color:#ff5a62}
+.sb2 .sco small{font-size:10px;letter-spacing:.2em;font-weight:800;color:rgba(255,255,255,.6)}
+.sb2 .sco b.bump{animation:bump2 .6s var(--ease)}
+@keyframes bump2{30%{transform:scale(1.5);color:#ffd2d4}}
+.per2{gap:4px!important;padding:0 8px!important}
+.per2 button{border:0;background:none;color:rgba(255,255,255,.6);font-weight:800;font-size:13px;padding:8px 14px;border-radius:9px;cursor:pointer}
+.per2 button b{color:var(--red);font-family:var(--head);font-weight:400;font-size:18px;margin-right:8px}
+.per2 button.on{background:#fff;color:var(--ink)}
+.grow2{flex:1}
+.pen2{background:linear-gradient(135deg,#e63a42,#b51c24);font-family:var(--head);font-size:20px;letter-spacing:.04em}
+.board2 .pucks{display:flex;gap:6px}
+.board2 .pucks i{width:20px;height:20px;border-radius:50%;background:rgba(255,255,255,.14);box-shadow:none}
+.board2 .pucks i.ok{background:radial-gradient(circle at 34% 30%,#8a97a6 0 9%,#3a4654 32%,#141c25 64%);box-shadow:inset 0 0 0 1.5px #000,0 0 0 2px rgba(255,255,255,.35)}
+.board2 .pucks i.err{background:radial-gradient(circle at 34% 30%,#8a97a6 0 9%,#3a4654 32%,#141c25 64%);box-shadow:0 0 0 2.5px var(--red)}
+.board2 .pucks i.now{box-shadow:0 0 0 2px #fff}
+.card{top:168px!important;background:rgba(255,255,255,.9)!important}
+.ptitle h2{font-family:var(--head)!important;font-weight:400!important;letter-spacing:0!important;text-transform:uppercase}
+.player-slot{border:0!important;background:none!important;padding:0!important;width:min(46vw,calc((100vh - 200px) * 1.87))!important;height:auto!important;right:1.5vw!important;bottom:clamp(30px,8vh,90px)!important;z-index:6}
+.player-slot img{width:100%;display:block;filter:drop-shadow(0 30px 30px rgba(20,40,64,.22))}
+/* плашка как в эфире */
+.lower2{position:fixed;z-index:45;left:50%;bottom:9vh;transform:translateX(-50%) skewX(-12deg);display:flex;align-items:stretch;border-radius:10px;overflow:hidden;box-shadow:0 22px 50px rgba(10,20,30,.35);
+  clip-path:inset(0 100% 0 0);transition:clip-path .45s var(--ease);pointer-events:none}
+.lower2.show{clip-path:inset(0 0 0 0)}
+.lower2 > div{transform:skewX(12deg)}
+.lower2 .l1{background:linear-gradient(135deg,#e63a42,#b51c24);color:#fff;font-family:var(--head);font-size:clamp(44px,4.6vw,76px);padding:6px 32px;line-height:1;font-style:italic}
+.lower2 .l2{background:linear-gradient(135deg,#1d3048,#0f1c2b);color:#fff;font-family:var(--head);font-size:clamp(18px,1.5vw,24px);padding:0 30px;display:flex;align-items:center;max-width:460px;line-height:1.1;font-style:italic}
+.lower2.post .l1{background:linear-gradient(135deg,#2c4560,#1d3048)}
+.lower2.post .l2{background:#fff;color:var(--ink)}
+/* экран наград */
+.rew{position:fixed;inset:0;z-index:60;display:none;align-items:center;justify-content:flex-end;background:rgba(232,238,245,.55);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.rew.show{display:flex;animation:fin2 .5s ease}
+@keyframes fin2{from{opacity:0}}
+.rew .who{position:absolute;z-index:0;left:max(0px,calc((100vw - 1320px) / 2 - 40px));bottom:0;height:min(80vh,860px);pointer-events:none;animation:rise2 .8s var(--ease)}
+@keyframes rise2{from{transform:translateY(40px);opacity:0}}
+.rew .pn{position:relative;z-index:1;margin-right:max(var(--left),calc((100vw - 1320px) / 2));width:min(900px,62vw);display:grid;grid-template-columns:1.25fr .9fr;gap:24px;background:rgba(255,255,255,.92);border-radius:30px;padding:30px 34px;box-shadow:0 30px 80px rgba(10,24,40,.25);animation:rise2 .7s var(--ease) .1s both}
+.rew h2{font-family:var(--head);font-weight:400;font-size:clamp(40px,3.8vw,64px);margin:6px 0 4px;line-height:.95}
+.rew .bigsc{font-family:var(--head);font-size:clamp(70px,7vw,120px);line-height:.9;display:flex;gap:16px;align-items:baseline}
+.rew .bigsc .y{color:var(--red)}.rew .bigsc .c{color:var(--ink)}
+.rew .bigsc small{font-family:var(--font);font-size:11px;letter-spacing:.24em;font-weight:800;color:var(--mute)}
+.sk{display:grid;gap:8px;margin-top:10px}
+.sk .row{display:grid;grid-template-columns:150px 1fr 44px;align-items:center;gap:12px;background:rgba(31,50,72,.05);border-radius:14px;padding:9px 14px}
+.sk .row b{font-family:var(--head);font-weight:400;font-size:20px;display:block;line-height:1}.sk .row small{font-size:10px;letter-spacing:.2em;font-weight:800;color:var(--mute)}
+.sk .bar{height:9px;border-radius:9px;background:rgba(31,50,72,.12);overflow:hidden}.sk .bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#e63a42,#b51c24);border-radius:9px;transition:width 1.2s var(--ease) .4s}
+.sk .pl{font-family:var(--head);font-size:20px;color:var(--red);text-align:right}
+.aw{text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;border-left:1px solid rgba(31,50,72,.1);padding-left:24px}
+.aw img{width:min(190px,14vw);filter:drop-shadow(0 0 30px rgba(255,200,90,.55));animation:pop2 .8s var(--ease) .5s both}
+@keyframes pop2{from{transform:scale(.4) rotate(-20deg);opacity:0}}
+.aw b{font-family:var(--head);font-weight:400;font-size:28px;line-height:1}
+.aw p{margin:0;font-size:13px;color:var(--ink-2)}
+.rew .acts{grid-column:1 / -1;display:flex;gap:12px;flex-wrap:wrap}
+.rew .acts .btn{flex:1;justify-content:center}
+@media (max-width:1100px){.rew .who{opacity:.25}.rew .pn{width:92vw;margin:0 auto;grid-template-columns:1fr}.aw{border:0;padding:0}.per2 button:not(.on){display:none}}
 </style></head>
 <body class="arriving">
 <main class="stage" id="stage"></main>
+<section class="board2" id="board2"><div class="sb2">
+  <div class="lg2">7</div>
+  <div class="sco"><small>ТЫ</small><b id="sYou">0</b><i>:</i><b id="sMis">0</b><small>ОШИБКИ</small></div>
+  <div class="per2" id="per2"><button data-v="theory"><b>1</b>Разобраться</button><button data-v="practice"><b>2</b>Тренировка</button><button data-v="words"><b>3</b>Слова</button></div>
+  <div class="grow2"><div class="pucks" id="pucks"></div></div>
+  <div class="pen2" id="pen2">ШТРАФНАЯ: 0</div>
+</div></section>
 <section class="card" aria-live="polite">
-  <div class="chead"><div class="seg" id="tabs"></div><div class="pucks" id="pucks"></div></div>
+  <div class="chead"><div class="seg" id="tabs"></div></div>
   <div class="ptitle" id="ptitle"><div class="kicker" id="pk"></div><h2 class="title" id="pt"></h2></div>
   <div class="pbody" id="pb"></div>
   <div class="pfoot" id="pf"></div>
 </section>
 
-<div class="player-slot" id="player"><span>Хоккеист: следит за курсором, бросает шайбу</span></div>
+<div class="player-slot" id="player"><img src="img/pl_shot.webp" alt="Хоккеист номер 7"></div>
+<div class="lower2" id="lower2"><div class="l1" id="l1">ГОЛ!</div><div class="l2" id="l2"></div></div>
+<div class="rew" id="rew"></div>
 <div class="shotpuck" id="puck"></div>
 <div class="rule-pop" id="rulePop"></div>
 <div class="toast" id="toast"></div>
 <div class="flash" id="flash">ГОЛ!</div>
 <div class="veil"></div>
 
-<script src="data.js?v=29"></script>
-<script src="ice-scene.js?v=29"></script><script src="ice-ui.js?v=29"></script>
+<script src="data.js?v=35"></script>
+<script src="ice-ui.js?v=35"></script><script src="ui2.js?v=35"></script>
 <script>
 (() => {
   const q = new URLSearchParams(location.search);
@@ -255,14 +323,11 @@ function run(L) {
   const spacer = () => el('span', 'sp');
   document.title = `ICE ENGLISH · Урок ${L.code}`;
   const qs = new URLSearchParams(location.search);
-  const bg = IceScene.mount($('stage'), { img: 'lesson', text: L.review ? 'REVIEW' : L.code, over: L.review ? 'SPOTLIGHT 7' : `SPOTLIGHT 7 / МОДУЛЬ ${L.module}`, size: L.review ? 22 : 34,
-    x: () => { const hs = document.querySelector('.hs').getBoundingClientRect(), cr = document.querySelector('.card').getBoundingClientRect().right; return ((cr + innerWidth) / 2 - hs.left) / hs.width; },
-    fit: () => { const hs = document.querySelector('.hs').getBoundingClientRect(), cr = document.querySelector('.card').getBoundingClientRect().right; return innerWidth - cr - 60; } });
-  const gwrap = () => bg.giant;
-  const head = IceUI.header({ active: qs.get('v') === 'hw' ? 'hw' : L.review ? 'review' : 'topics',
-    crumbs: L.review ? [{ t: 'Главная', href: 'index.html' }, { t: 'Повторить' }] :
-      [{ t: 'Главная', href: 'index.html' }, { t: 'Spotlight 7', href: 'school.html' }, { t: `Модуль ${L.module}`, href: `module.html?m=${L.module}` }, { t: `Урок ${L.code}` }, { t: 'Обзор' }] });
-  const crumbV = head.querySelector('.crumbs > span:last-child');
+  const bgs = UI2.scene($('stage'), { horizon: .44, size: .26, sink: .2, fitW: .4, left: () => innerWidth * .049 + Math.min(innerWidth * .47, 1200) + 30 });
+  bgs.set(L.review ? 'REVIEW' : 'MATCH', L.review ? 'штрафная скамейка' : `spotlight 7 · матч ${L.module} · урок ${L.code}`, true);
+  const gwrap = () => document.querySelector('.sc-giant');
+  UI2.header(qs.get('v') === 'hw' ? 'hw' : L.review ? 'pen' : 'season');
+  const crumbV = null;
   if (!L.review) { store.module = L.module; save(); }
   IceUI.track();
 
@@ -437,6 +502,7 @@ function run(L) {
       store.mistakes = (store.mistakes || []).filter(m => !(m.l === src.l && m.i === src.i));
       if (!ok) store.mistakes.push(src);
       save();
+      lower2(ok ? '' : 'post', ok ? 'ГОЛ!' : 'ШТАНГА', ok ? ['Новые знания ведут к победам', 'Шайба в воротах!', 'Точный бросок!'][Object.keys(first).length % 3] : 'Задание уходит на штрафную — разберём ошибку');
     }
     renderPucks();
   }
@@ -561,9 +627,17 @@ function run(L) {
       cols.append(A, B); d.appendChild(cols); return d;
     }
   };
+  function lower2(kind, t1, t2) { const l = $('lower2'); l.className = 'lower2 ' + kind; $('l1').textContent = t1; $('l2').textContent = t2;
+    requestAnimationFrame(() => l.classList.add('show')); clearTimeout(l.t); l.t = setTimeout(() => l.classList.remove('show'), 1600); }
+  document.querySelectorAll('#per2 button').forEach(b => b.onclick = () => go(b.dataset.v));
   function renderPucks() {
     const box = $('pucks');
-    if (view !== 'practice') { box.innerHTML = ''; return; }
+    const vals = Object.values(first), y = vals.filter(Boolean).length, m = vals.length - y;
+    if ($('sYou').textContent != y) { $('sYou').textContent = y; $('sYou').classList.remove('bump'); void $('sYou').offsetWidth; $('sYou').classList.add('bump'); }
+    if ($('sMis').textContent != m) { $('sMis').textContent = m; $('sMis').classList.remove('bump'); void $('sMis').offsetWidth; $('sMis').classList.add('bump'); }
+    $('pen2').textContent = `ШТРАФНАЯ: ${(store.mistakes || []).length}`;
+    document.querySelectorAll('#per2 button').forEach(b => b.classList.toggle('on', b.dataset.v === view));
+    if (view !== 'practice') { box.innerHTML = queue.length ? box.innerHTML : ''; return; }
     box.innerHTML = queue.map((idx, k) => `<i class="${idx in first ? (first[idx] ? 'ok' : 'err') : ''} ${k === qi ? 'now' : ''}"></i>`).join('');
   }
 
@@ -741,18 +815,46 @@ function run(L) {
   }
   function showResult(got, need, win) {
     const errs = queue.filter(i => !first[i]);
-    const list = errs.length ? `<p class="note"><b>Где были ошибки:</b></p><ul class="errs">${errs.map(i => `<li>${L.tasks[i].prompt}${L.tasks[i].text ? ': ' + L.tasks[i].text.replace('___', '…') : ''}</li>`).join('')}</ul>` : '';
-    const body = `<div class="score">${got}<small> из ${queue.length} с первой попытки</small></div>
-      <p>${win ? (errs.length ? 'Гол! Урок пройден, точка на маршруте стала красной. Задания с ошибками можно перерешать.' : 'Гол! Ни одной ошибки — урок пройден, точка на маршруте стала красной.')
-               : `Штанга! Чтобы забить, нужно ${need} из ${queue.length} с первой попытки. Перереши задания с ошибками — и бросай снова.`}</p>${list}`;
-    const foot = [];
-    if (errs.length) foot.push(btn('Перерешать ошибки <span>↗</span>', win ? 'go light' : 'go', () => { queue = errs; first = {}; round++; startPractice(false); }));
-    foot.push(spacer());
-    foot.push(btn('Обзор', 'go light', () => go('hub')));
-    if (win) foot.push(btn('К маршруту <span>↗</span>', 'go', () => leave(`module.html?m=${L.module}`)));
-    frame('Результат', win ? 'Гол!' : 'Штанга!', body, foot, true);
+    // рост навыков по типам заданий, решённых с первой попытки
+    const KIND = { choice: 'shot', error: 'shot', tfns: 'vision', listen: 'vision', match: 'skate', sort: 'skate', build: 'pass' };
+    const add = { shot: 0, skate: 0, vision: 0, pass: 0 };
+    queue.forEach(i => { if (first[i]) add[KIND[L.tasks[i].type] || 'shot'] += 2; });
+    store.skills = store.skills || { shot: 50, skate: 50, vision: 50, pass: 50 };
+    if (win && round === 1) Object.keys(add).forEach(k => store.skills[k] = Math.min(99, store.skills[k] + add[k]));
+    // награды: первый гол, сухой матч, хет-трик
+    store.awards = store.awards || []; let award = null;
+    const give = (id, name, desc) => { if (!store.awards.includes(id)) { store.awards.push(id); if (!award) award = { id, name, desc }; } };
+    if (win) {
+      give('first_goal', 'Первый гол', 'Первый выигранный урок сезона');
+      if (!errs.length) give('star', 'Сухой матч', 'Ни одной ошибки в уроке');
+      if (Object.keys(store.done).length >= 3) give('hattrick', 'Хет-трик', 'Три урока выиграно');
+    }
+    save();
+    const SK = [['shot', 'Бросок', 'грамматика'], ['skate', 'Катание', 'слова'], ['vision', 'Видение поля', 'чтение и слух'], ['pass', 'Пас', 'письмо']];
+    const nx = ICE_NEXT(store), nextHref = ICE_READY[nx.l.id] ? `lesson.html?l=${nx.l.id}` : `school.html?m=${nx.m.n}`;
+    const r = $('rew');
+    r.innerHTML = `<img class="who" src="img/${win ? 'pl_celebrate' : 'pl_stand'}.webp" alt="">
+      <div class="pn"><div>
+        <span class="kick bar">Spotlight 7 · матч ${L.module} · урок ${L.code}</span>
+        <h2>${win ? 'Период выигран' : 'Штанга!'}</h2>
+        <div class="bigsc"><span class="y">${got}</span><span class="c">:</span><span class="c">${errs.length}</span><small>ТЫ : ОШИБКИ</small></div>
+        <div class="sk">${SK.map(([k, n, d]) => `<div class="row"><span><b>${n}</b><small>${d.toUpperCase()}</small></span><span class="bar"><i data-w="${store.skills[k]}"></i></span><span class="pl">${win && round === 1 && add[k] ? '+' + add[k] : store.skills[k]}</span></div>`).join('')}</div>
+      </div>
+      <div class="aw">${award ? `<span class="kick">Новая награда</span><img src="img/badge_${award.id}.webp" alt=""><b>${award.name}</b><p>${award.desc}</p>`
+        : win ? `<span class="kick">Так держать</span><p>Ты разобрался с темой. Следующий урок — ${nx.l.code}.</p>`
+              : `<span class="kick">Почти</span><p>Чтобы забить, нужно ${need} из ${queue.length} с первой попытки. Перерешай ошибки и бросай снова.</p>`}</div>
+      <div class="acts">${errs.length ? '<button class="btn dark" data-a="redo">Перерешать ошибки</button>' : ''}
+        ${win ? '<button class="btn" data-a="next">Следующий матч →</button>' : ''}<button class="btn ghost" data-a="hub" style="background:#fff;color:var(--ink);box-shadow:none">В раздевалку</button></div></div>`;
+    r.classList.add('show');
+    setTimeout(() => r.querySelectorAll('.sk .bar i').forEach(i => { void i.offsetWidth; i.style.setProperty('width', i.dataset.w + '%', 'important'); }), 250);
+    r.onclick = e => { const a = e.target.closest('[data-a]'); if (!a) return; const k = a.dataset.a;
+      if (k === 'redo') { r.classList.remove('show'); queue = errs; first = {}; round++; startPractice(false); }
+      if (k === 'next') leave(nextHref);
+      if (k === 'hub') leave('hub.html'); };
+    frame('Результат', win ? 'Гол!' : 'Штанга!', `<div class="score">${got}<small> из ${queue.length} с первой попытки</small></div>`, [btn('Итоги матча', 'go', () => r.classList.add('show'))], true);
   }
 
+  window.__showResult = showResult; window.__q = () => queue;
   function leave(href) { document.body.classList.add('leaving'); setTimeout(() => location.assign(href), 650); }
   document.querySelectorAll('.nav-out').forEach(a => a.onclick = e => { e.preventDefault(); leave(a.href); });
 

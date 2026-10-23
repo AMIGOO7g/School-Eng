@@ -2,19 +2,19 @@
 <html lang="ru"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>ICE ENGLISH · Сезон</title>
-<link rel="stylesheet" href="fonts.css?v=34"><link rel="stylesheet" href="ui2.css?v=34">
+<link rel="stylesheet" href="fonts.css?v=35"><link rel="stylesheet" href="ui2.css?v=35">
 <style>
 html,body{height:100%;overflow:hidden}
-.player{position:fixed;z-index:9;pointer-events:none;height:min(27vh,300px);right:max(16px,calc((100vw - 1320px) / 2));top:96px}
+.player{position:fixed;z-index:9;pointer-events:none;height:min(56vh,600px);right:max(-30px,calc((100vw - 1320px) / 2 - 90px));bottom:0}
 .player img{height:100%;display:block;filter:drop-shadow(0 30px 30px rgba(20,40,64,.2))}
-.area{position:fixed;z-index:12;left:0;right:0;top:calc(var(--hz,40vh) - clamp(54px,7vh,80px));bottom:clamp(18px,3.4vh,36px)}
+.area{position:fixed;z-index:12;left:0;right:0;top:calc(var(--hz,40vh) - clamp(90px,11vh,120px));bottom:clamp(26px,5vh,54px)}
+.area .wrap::before{content:"";position:absolute;z-index:-1;left:-160px;width:min(1100px,90vw);top:-80px;height:300px;border-radius:50%;background:radial-gradient(closest-side,rgba(246,249,252,.95),rgba(246,249,252,.6) 60%,rgba(246,249,252,0))}
 .area .wrap{height:100%;display:flex;flex-direction:column;gap:clamp(14px,2.4vh,26px)}
 .fx-head .kick{position:relative}
 .fx-head .kick::before{content:""}
 .fx-head{position:relative}
 .fx-head::after{content:"";position:absolute;z-index:-1;left:-60px;width:520px;top:-30px;bottom:-30px;border-radius:50%;background:radial-gradient(closest-side,rgba(245,249,252,.95),rgba(245,249,252,.6) 60%,rgba(245,249,252,0))}
-.col{max-width:100%}
-.low{max-width:calc(100% - clamp(150px,13vw,230px))}
+.col,.low{width:calc(100% - clamp(150px,15vw,280px))}
 /* расписание сезона: 10 матчей */
 .fx-head{display:flex;align-items:center;gap:12px}
 .fx{display:grid;grid-template-columns:repeat(10,minmax(0,1fr));gap:10px}
@@ -36,9 +36,12 @@ body.ready .mc.later{opacity:.72}
 .mc.sel{transform:translateY(-6px)}
 /* нижняя часть: карточка матча и уроки-периоды */
 .low{flex:1;min-height:0;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:16px}
-.panel{position:relative;border-radius:24px;background:rgba(255,255,255,.86);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:0 16px 38px rgba(20,44,70,.13);padding:clamp(16px,2.4vh,26px) clamp(18px,1.8vw,28px);overflow:hidden;display:flex;flex-direction:column;min-height:0}
+.panel{position:relative;border-radius:24px;background:rgba(255,255,255,.94);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:0 16px 38px rgba(20,44,70,.13);padding:clamp(16px,2.4vh,26px) clamp(18px,1.8vw,28px);overflow:hidden;display:flex;flex-direction:column;min-height:0}
 .match h2{font-size:clamp(40px,3.6vw,64px);margin:6px 0 2px}
-.vs{display:flex;align-items:center;gap:10px;margin:2px 0 10px;flex-wrap:wrap}
+.vs{display:flex;align-items:center;gap:10px;margin:10px 0 0;flex-wrap:wrap}
+.mblock{margin-top:auto;padding-top:14px;border-top:1px solid rgba(31,50,72,.1)}
+.mblock h3{margin:0 0 6px!important}
+.match .btn{margin-top:16px!important}
 .vs .me2{font-family:var(--head);font-size:clamp(16px,1.3vw,20px);background:var(--red);color:#fff;padding:5px 10px;border-radius:8px}
 .vs .x{font-family:var(--head);font-size:16px;color:var(--mute)}
 .vs .op{font-family:var(--head);font-size:clamp(16px,1.3vw,20px);background:var(--ink);color:#fff;padding:5px 10px;border-radius:8px}
@@ -67,7 +70,7 @@ body.ready .mc.later{opacity:.72}
 </style></head>
 <body>
 <div id="stage"></div>
-<div class="player"><img src="img/pl_skate.webp" alt="Хоккеист номер 7" style="transform:scaleX(-1)"></div>
+<div class="player"><img src="img/pl_portrait.webp" alt="Хоккеист номер 7"></div>
 <section class="area"><div class="wrap">
   <div class="col"><div class="fx-head"><span class="kick bar">Расписание сезона · Spotlight 7</span></div></div>
   <div class="col"><div class="fx" id="fx"></div></div>
@@ -77,7 +80,7 @@ body.ready .mc.later{opacity:.72}
   </div>
 </div></section>
 <div class="veil2"></div>
-<script src="data.js?v=34"></script><script src="ui2.js?v=34"></script>
+<script src="data.js?v=35"></script><script src="ui2.js?v=35"></script>
 <script>
 (() => {
   const $ = id => document.getElementById(id), P = UI2.profile(), st = P.st, B = ICE_BOOK;
@@ -102,8 +105,8 @@ body.ready .mc.later{opacity:.72}
     sc.set(String(n).padStart(2, '0'), `spotlight 7 · матч ${n} · соперник: ${TEAMRU[i]}`, false);
     const next = m.lessons.find(l => !st.done[l.id]) || m.lessons[0];
     const href = ICE_READY[next.id] ? `lesson.html?l=${next.id}` : `module.html?m=${n}&l=${next.id}`;
-    $('match').innerHTML = `<img class="mascot" src="img/team_${TEAMS[i]}.webp" alt=""><span class="kick bar">Spotlight 7 · модуль ${n}</span><h2 class="h"><span class="flip" id="mt">Матч ${n}</span></h2><div class="vs"><span class="me2">${P.name} · №7</span><span class="x">против</span><span class="op">${m.grammar.split(',')[0]}</span></div><h3>${m.en} <span style="color:var(--mute)">· ${m.ru}</span></h3>
-      <div class="g">Соперники в этом матче — темы</div><div class="gt">${m.grammar}</div><p>Учебник, стр. ${m.pages}${d ? ` · сыграно уроков: ${d} из ${m.lessons.length}` : ''}</p>
+    $('match').innerHTML = `<img class="mascot" src="img/team_${TEAMS[i]}.webp" alt=""><span class="kick bar">Spotlight 7 · модуль ${n}</span><h2 class="h"><span class="flip" id="mt">Матч ${n}</span></h2><div class="vs"><span class="me2">${P.name} · №7</span><span class="x">против</span><span class="op">${m.grammar.split(',')[0]}</span></div><div class="mblock"><h3>${m.en} <span style="color:var(--mute)">· ${m.ru}</span></h3>
+      <div class="g">Соперники в этом матче — темы</div><div class="gt">${m.grammar}</div><p>Учебник, стр. ${m.pages}${d ? ` · сыграно уроков: ${d} из ${m.lessons.length}` : ''}</p></div>
       <a class="btn" href="${href}" data-go>На лёд <span>→</span></a>`;
     $('lessons').innerHTML = `<div class="lh"><span class="kick bar">Уроки матча ${n}</span><small>${m.lessons.length} уроков</small></div><ul class="ll" id="ll"></ul>`;
     m.lessons.forEach((l, k) => {
@@ -124,8 +127,6 @@ body.ready .mc.later{opacity:.72}
                       : UI2.note(document.body, 'следующий урок', pn.right - 260, pn.top - 46, { x: 170, y: 20, d: 'M4 4 C 20 10, 30 20, 34 34 M26 26 L34 35 L39 24' }); nn.classList.add('nx'); nn.style.position = 'fixed'; nn.style.zIndex = 15; nn.style.textAlign = 'left'; }, 700);
   }
   sc.set('01', '', true); select(sel);
-  // рукописная пометка тренера справа вверху
-  const tn = UI2.note(document.body, 'английский —<br>как большая игра', 0, 0); tn.style.position = 'fixed'; tn.style.right = 'clamp(380px,36vw,620px)'; tn.style.left = 'auto'; tn.style.top = '120px'; tn.style.zIndex = 11; tn.style.textAlign = 'center';
   UI2.ready();
 })();
 </script>

@@ -2,22 +2,23 @@
 <html lang="ru"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>ICE ENGLISH · Раздевалка</title>
-<link rel="stylesheet" href="fonts.css?v=34"><link rel="stylesheet" href="ui2.css?v=34">
+<link rel="stylesheet" href="fonts.css?v=35"><link rel="stylesheet" href="ui2.css?v=35">
 <style>
 html,body{height:100%;overflow:hidden}
 .lead3{position:fixed;z-index:12;left:0;right:0;top:calc(var(--hz,46vh) - clamp(70px,9vh,100px))}
+.hubw{margin-left:4.9vw;width:71vw;position:relative}
 .lead3 .head{position:relative;max-width:700px;margin-bottom:clamp(26px,4.4vh,48px)}
-.lead3 .head::before{content:"";position:absolute;z-index:-1;left:-90px;right:-130px;top:-100px;bottom:-60px;border-radius:50%;background:radial-gradient(closest-side,rgba(245,249,252,.98),rgba(245,249,252,.88) 50%,rgba(245,249,252,.4) 75%,rgba(245,249,252,0));filter:blur(6px)}
+.lead3 .head::before{content:"";position:absolute;z-index:-1;left:-200px;right:-220px;top:-140px;bottom:-80px;border-radius:50%;background:radial-gradient(closest-side,rgba(246,249,252,1),rgba(246,249,252,.95) 55%,rgba(246,249,252,.55) 78%,rgba(246,249,252,0));filter:blur(4px)}
 .lead3 h1{font-size:clamp(50px,5.2vw,92px);margin:12px 0 12px;min-height:.92em}
 .flip{display:inline-block;transition:opacity .45s ease,transform .6s var(--ease)}
 .flip.out{opacity:0;transform:translateY(10px)}
 .lead3 .sub{font-size:clamp(15px,1.15vw,18px);font-weight:600;color:var(--ink);margin:0;line-height:1.5}
-.cards3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;width:min(100%,calc(100% - clamp(150px,15vw,260px)))}
-.cd{position:relative;text-align:left;border:0;border-radius:28px;padding:clamp(22px,2.4vh,30px) clamp(22px,1.8vw,30px);display:flex;flex-direction:column;gap:10px;min-height:clamp(250px,33vh,330px);cursor:pointer;
+.cards3{display:grid;grid-template-columns:repeat(3,22.5vw);gap:1.4vw}
+.cd{position:relative;text-align:left;border:0;border-radius:28px;padding:clamp(22px,2.4vh,30px) clamp(22px,1.8vw,30px);display:flex;flex-direction:column;gap:10px;min-height:27vh;cursor:pointer;
   background:rgba(255,255,255,.88);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:0 18px 42px rgba(20,44,70,.15);overflow:hidden;
-  transition:transform .35s var(--ease),box-shadow .35s;opacity:0;translate:0 22px}
-body.ready .cd{opacity:1;translate:0 0;transition:transform .35s var(--ease),box-shadow .35s,opacity .6s ease calc(var(--i) * 90ms + .2s),translate .8s var(--ease) calc(var(--i) * 90ms + .2s)}
-.cd:hover{transform:translateY(-6px);box-shadow:0 26px 56px rgba(20,44,70,.22)}
+  color:var(--ink);transition:translate .35s var(--ease),box-shadow .35s;animation:cdIn .8s var(--ease) both;animation-delay:calc(var(--i) * 90ms + .25s)}
+@keyframes cdIn{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
+.cd:hover{translate:0 -6px;box-shadow:0 26px 56px rgba(20,44,70,.22)}
 .cd .ic{width:36px;height:36px}
 .cd .k{font-size:11px;letter-spacing:.28em;font-weight:800;color:var(--mute);text-transform:uppercase}
 .cd b{font-family:var(--head);font-weight:400;font-size:clamp(30px,2.6vw,44px);line-height:.95;text-transform:uppercase}
@@ -27,46 +28,49 @@ body.ready .cd{opacity:1;translate:0 0;transition:transform .35s var(--ease),box
 .cd.dark{background:linear-gradient(160deg,#22364d,#16263a);color:#fff}
 .cd.dark .k,.cd.dark .d{color:rgba(255,255,255,.72)}.cd.dark .arr{background:rgba(255,255,255,.12)}
 .pk{display:flex;gap:5px;margin-top:auto}
-.pk .puck3d{width:clamp(18px,1.7vw,28px);height:auto}
+.pk .puck3d{flex:1 1 0;min-width:0;width:auto;max-width:30px;height:auto}
 .pk-line{display:flex;justify-content:space-between;font-size:12px;font-weight:700;color:var(--ink-2)}
 .big{margin-top:auto;display:flex;align-items:center;gap:12px}.big span{font-family:var(--head);font-size:clamp(56px,5vw,80px);line-height:.85;color:var(--red)}.big small{font-size:13px;font-weight:700;color:var(--ink-2);line-height:1.3}
-.player{position:fixed;z-index:9;pointer-events:none;height:min(90vh,1000px);right:max(-20px,calc((100vw - 1320px) / 2 - 140px));bottom:-3vh}
-.player img{height:100%;display:block;filter:drop-shadow(0 30px 30px rgba(20,40,64,.2))}
-/* табло трансляции в левом нижнем углу и девиз справа */
-.bug{position:fixed;z-index:13;left:clamp(16px,2.2vw,36px);bottom:clamp(14px,2.4vh,26px);opacity:0;transition:opacity .6s ease .8s}
+.player{position:fixed;z-index:14;pointer-events:none;height:58vh;right:-7vw;bottom:0}
+.player video,.player img{height:100%;display:block;filter:drop-shadow(0 30px 30px rgba(20,40,64,.2))}
+/* табло — тёмная скошенная панель в левом нижнем углу, как в макете */
+.bug{position:fixed;z-index:13;left:0;bottom:0;padding:14px 110px 16px 4.9vw;pointer-events:none;
+  background:linear-gradient(100deg,rgba(16,30,48,.96),rgba(28,52,80,.92) 70%,rgba(28,52,80,.85));clip-path:polygon(0 0,86% 0,100% 100%,0 100%);opacity:0;transition:opacity .6s ease .8s}
 body.ready .bug{opacity:1}
-.bug .lab{font-size:10px;letter-spacing:.32em;font-weight:800;color:#fff;margin:0 0 6px 4px;text-shadow:0 1px 8px rgba(20,40,64,.4)}
-.bug .bar3{display:flex;align-items:stretch;border-radius:12px;overflow:hidden;box-shadow:0 14px 30px rgba(10,20,34,.3);background:#13202f;color:#fff}
-.bug .t1{background:var(--red);font-family:var(--head);font-size:24px;padding:8px 16px;display:flex;align-items:center}
-.bug .sc{font-family:var(--head);font-size:30px;padding:6px 16px;display:flex;align-items:center;gap:8px}
-.bug .t2{background:#2a3b50;font-family:var(--head);font-size:16px;padding:8px 14px;display:flex;align-items:center;letter-spacing:.04em}
-.bug .info{font-size:11px;font-weight:800;letter-spacing:.2em;color:rgba(255,255,255,.7);padding:0 16px;display:flex;align-items:center;white-space:nowrap}
-.motto{position:fixed;z-index:13;right:clamp(16px,2.2vw,36px);bottom:clamp(14px,2.4vh,26px);font-size:11px;letter-spacing:.42em;font-weight:800;color:#fff;line-height:1.7;text-shadow:0 1px 8px rgba(20,40,64,.45);text-align:left}
+.bug .lab{font-size:11px;letter-spacing:.42em;font-weight:800;color:rgba(255,255,255,.8);margin:0 0 9px 4px}
+.bug .bar3{display:flex;align-items:center;gap:14px}
+.bug .t1{background:linear-gradient(135deg,#e63a42,#b51c24);font-family:var(--head);font-size:clamp(20px,1.6vw,30px);color:#fff;padding:6px 16px;border-radius:8px;box-shadow:0 0 0 2px rgba(255,255,255,.12)}
+.bug .crown{color:#f2c14e;font-size:18px}
+.bug .scr{font-family:var(--head);font-size:clamp(26px,2vw,38px);color:#fff;letter-spacing:.04em}
+.bug .scr b{color:#fff;font-weight:400;opacity:.7}
+.bug .t2{background:rgba(255,255,255,.1);font-family:var(--head);font-size:clamp(18px,1.4vw,26px);color:#fff;padding:6px 14px;border-radius:8px;box-shadow:0 0 0 1px rgba(255,255,255,.18)}
+.bug .info{font-size:11px;font-weight:800;letter-spacing:.26em;color:rgba(255,255,255,.75);margin-left:12px;white-space:nowrap}
+.motto{pointer-events:none;position:fixed;z-index:13;right:clamp(16px,2.2vw,36px);bottom:clamp(14px,2.4vh,26px);font-size:11px;letter-spacing:.42em;font-weight:800;color:#fff;line-height:1.7;text-shadow:0 1px 8px rgba(20,40,64,.45);text-align:left}
 .name-pop{position:fixed;inset:0;z-index:80;background:rgba(20,36,54,.35);display:none;place-items:center}
 .name-pop.show{display:grid}
 .name-pop .bx{background:#fff;border-radius:22px;padding:24px 26px;width:min(380px,90vw);box-shadow:0 30px 80px rgba(10,24,40,.35)}
 .name-pop h3{font-family:var(--head);font-weight:400;font-size:30px;margin:6px 0 12px;text-transform:uppercase}
 .name-pop input{width:100%;font:inherit;font-size:20px;font-weight:800;padding:12px 14px;border-radius:12px;border:1px solid rgba(31,50,72,.2);margin-bottom:14px}
-@media (max-width:1100px){.cards3{width:100%}.player{opacity:.18}.motto{display:none}}
-@media (max-height:780px){.cd{min-height:210px}.lead3 h1{font-size:52px}}
+@media (max-width:1100px){.cards3{grid-template-columns:repeat(3,1fr);width:90vw}.player{opacity:.18}.motto{display:none}}
+@media (max-height:800px){.bug{display:none}.cd{min-height:210px}.lead3 h1{font-size:52px}}
 </style></head>
 <body>
 <div id="stage"></div>
-<div class="player"><img src="img/pl_stand.webp" alt="Хоккеист номер 7"></div>
-<section class="lead3"><div class="wrap">
+<div class="player"><video id="breath" src="img/pl_breath.webm" poster="img/pl_breath.webp" autoplay muted loop playsinline></video></div>
+<section class="lead3"><div class="hubw">
   <div class="head"><div class="kick bar">Юношеская лига · твой сезон</div><h1 class="h"><span class="flip" id="t1">Что будем делать?</span></h1><p class="sub">Учись, развивайся, выходи на новый уровень.<br>Твой английский — как большая игра.</p></div>
   <div class="cards3" id="cards"></div>
 </div></section>
 <div class="bug" id="bug"></div>
-<div class="motto">DISCIPLINE<br>BUILDS<br>FREEDOM —</div>
 <div class="name-pop" id="np"><div class="bx"><span class="kick bar">Знакомство</span><h3>Как тебя зовут?</h3><input id="nm" maxlength="16" placeholder="Имя игрока"><button class="btn" id="nok" style="width:100%;justify-content:center">На лёд →</button></div></div>
 <div class="veil2"></div>
-<script src="data.js?v=34"></script><script src="ui2.js?v=34"></script>
+<script src="data.js?v=35"></script><script src="ui2.js?v=35"></script>
 <script>
 (() => {
   const $ = id => document.getElementById(id), P = UI2.profile(), st = P.st, nx = ICE_NEXT(st), ms = (st.mistakes || []).length;
   UI2.header('hub');
-  const sc = UI2.scene($('stage'), { horizon: .46, size: .26, sink: .3 }); sc.set('SPOTLIGHT', '7 класс · сезон 2026/27', true);
+  { const v = $('breath'); if (!v.canPlayType('video/webm; codecs="vp9"')) v.replaceWith(Object.assign(document.createElement('img'), { src: 'img/pl_breath.webp', alt: '' })); }
+  const sc = UI2.scene($('stage'), { horizon: .46, size: .26, sink: .34, fitW: .86, left: () => innerWidth * .058 }); sc.set('SPOTLIGHT', '7 класс · сезон 2026/27', true);
   const setHz = () => document.documentElement.style.setProperty('--hz', sc.horizonPx() + 'px'); setHz(); addEventListener('resize', setHz);
   // крупный заголовок переливается: русский ↔ английский
   UI2.flip($('t1'), ['Что будем делать?', 'What’s the plan?']);
@@ -84,9 +88,9 @@ body.ready .bug{opacity:1}
   ];
   const rec = ms > 2 ? 2 : 1;
   C.forEach((c, i) => {
-    const el = document.createElement('button'); el.className = 'cd ' + (c.cls || ''); el.style.setProperty('--i', i);
+    const el = document.createElement('a'); el.href = c.href; el.className = 'cd ' + (c.cls || ''); el.style.setProperty('--i', i); el.style.textDecoration = 'none';
     el.innerHTML = `<span class="arr">›</span>${c.ic}<span class="k">${c.k}</span><b>${c.b}</b><span class="d">${c.d}</span>${c.extra || ''}${c.act ? `<span class="act">${c.act}</span>` : ''}`;
-    el.onclick = () => UI2.go(c.href); el.onmouseenter = () => tip(i); $('cards').appendChild(el);
+    el.onclick = e => { e.preventDefault(); UI2.go(c.href); }; el.onmouseenter = () => tip(i); $('cards').appendChild(el);
   });
   $('cards').onmouseleave = () => tip(rec);
   // пометка тренера: над карточкой, на свободном месте; при наведении переезжает и объясняет
@@ -99,9 +103,9 @@ body.ready .bug{opacity:1}
   }
   // табло трансляции: последний матч
   const playedL = Object.entries(st.lp || {}).filter(([, v]) => v.best != null), last = playedL[playedL.length - 1];
-  $('bug').innerHTML = `<div class="lab">ICE ENGLISH LEAGUE</div><div class="bar3"><span class="t1">7</span>` +
-    (last ? `<span class="sc">${last[1].best} : ${10 - last[1].best}</span><span class="t2">${last[0].toUpperCase()}</span><span class="info">ПОСЛЕДНИЙ МАТЧ</span>` : `<span class="info">ПЕРВЫЙ МАТЧ ВПЕРЕДИ</span>`) +
-    `<span class="info">СЕЗОН ${nDone}/10</span></div>`;
+  $('bug').innerHTML = `<div class="lab">ICE ENGLISH LEAGUE</div><div class="bar3"><span class="t1">${P.name.toUpperCase()}</span><span class="crown">♛</span>` +
+    (last ? `<span class="scr">${last[1].best}<b> : </b>${10 - last[1].best}</span><span class="t2">${last[0].toUpperCase()}</span>` : `<span class="scr">0<b> : </b>0</span><span class="t2">—</span>`) +
+    `<span class="info">${last ? 'ПОСЛЕДНИЙ МАТЧ' : 'ПЕРВЫЙ МАТЧ ВПЕРЕДИ'} · СЕЗОН ${nDone}/10</span></div>`;
   UI2.ready(); setTimeout(() => tip(rec), 1100);
   // имя игрока при первом входе
   if (!st.name) setTimeout(() => { $('np').classList.add('show'); $('nm').focus(); }, 900);

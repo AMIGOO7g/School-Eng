@@ -47,7 +47,8 @@ button{font:inherit;color:inherit}
 .me img{width:46px;height:46px;border-radius:50%;object-fit:cover;background:#c9d6e3}
 .me .n{font-weight:800;font-size:13px;line-height:1.2}.me .n small{display:block;font-weight:600;color:var(--mute);font-size:11px}
 .me .bar{height:4px;width:96px;border-radius:4px;background:rgba(31,50,72,.12);margin-top:5px;overflow:hidden}.me .bar i{display:block;height:100%;background:var(--red)}
-.me .r{font-family:var(--head);font-size:34px;line-height:1}
+.me .r{font-family:var(--head);font-size:34px;line-height:1;display:flex;flex-direction:column;align-items:center}
+.me .r small{font-family:var(--font);font-size:9px;font-weight:800;letter-spacing:.14em;color:var(--mute);text-transform:uppercase;margin-top:2px}
 
 .btn{display:inline-flex;align-items:center;gap:14px;border:0;border-radius:14px;padding:16px 26px;background:var(--red);color:#fff;font-family:var(--head);font-size:20px;letter-spacing:.04em;cursor:pointer;text-decoration:none;box-shadow:0 12px 28px rgba(211,38,46,.3);transition:background .25s,transform .25s var(--ease)}
 .btn:hover{background:var(--red-2);transform:translateY(-2px)}
