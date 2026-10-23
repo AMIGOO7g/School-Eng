@@ -2,7 +2,7 @@
 <html lang="ru"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>ICE ENGLISH · Сезон</title>
-<link rel="stylesheet" href="fonts.css?v=36"><link rel="stylesheet" href="ui2.css?v=38">
+<link rel="stylesheet" href="fonts.css?v=36"><link rel="stylesheet" href="ui2.css?v=39">
 <style>
 html,body{height:100%;overflow:hidden}
 .sc-over{font-size:12px!important;letter-spacing:.32em!important;opacity:.85!important}
@@ -68,7 +68,7 @@ html,body{height:100%;overflow:hidden}
   <div class="low"><div class="panel match" id="match"></div><div class="panel lessons" id="lessons"></div></div>
 </section>
 <div class="veil2"></div>
-<script src="data.js?v=36"></script><script src="ui2.js?v=38"></script>
+<script src="data.js?v=36"></script><script src="ui2.js?v=39"></script>
 <script>
 (() => {
   const $ = id => document.getElementById(id), P = UI2.profile(), st = P.st, B = ICE_BOOK;
@@ -81,10 +81,10 @@ html,body{height:100%;overflow:hidden}
   const nx = ICE_NEXT(st), curM = nx.m.n;
   let sel = +(new URLSearchParams(location.search).get('m')) || curM;
   B.forEach((m, i) => {
-    const d = doneIn(m), all = d === m.lessons.length, now = m.n === curM && !all;
+    const d = doneIn(m), all = d === m.lessons.length, now = m.n === curM && !all, lostN = m.lessons.filter(l => st.lp[l.id] && st.lp[l.id].lost).length;
     const b = document.createElement('button'); b.className = 'mc ' + (all ? 'won' : now ? 'now' : 'later'); b.style.setProperty('--i', i);
     b.innerHTML = `<span class="no">${String(m.n).padStart(2, '0')}</span><span class="em"><img src="img/team_${TEAMS[i]}.webp" alt=""></span><span class="nm">Матч ${m.n}<small>${m.en}</small></span>
-      ${all ? `<span class="st">${d} : 0</span><span class="tg">ПОБЕДА</span>` : now ? `<span class="st">${d} : ${m.lessons.length - d}</span><span class="tg">СЕГОДНЯ</span>` : `<span class="st" style="opacity:.45">— : —</span><span class="tg" style="background:#9aaabb">ВПЕРЕДИ</span>`}`;
+      ${lostN ? `<span class="st" style="color:var(--red)">${d} : ${lostN}</span><span class="tg" style="background:var(--red)">ПЕРЕИГРАТЬ</span>` : all ? `<span class="st">${d} : 0</span><span class="tg">ПОБЕДА</span>` : now ? `<span class="st">${d} : ${m.lessons.length - d}</span><span class="tg">СЕГОДНЯ</span>` : `<span class="st" style="opacity:.45">— : —</span><span class="tg" style="background:#9aaabb">ВПЕРЕДИ</span>`}`;
     b.onclick = () => select(m.n); $('fx').appendChild(b);
   });
   let mf = null;
@@ -102,10 +102,10 @@ html,body{height:100%;overflow:hidden}
       <a class="btn" href="${href}" data-go>На лёд <span>→</span></a>`;
     $('lessons').innerHTML = `<div class="lh"><span class="kick bar">Уроки матча ${n}</span><small>${m.lessons.length} уроков</small></div><ul class="ll" id="ll"></ul>`;
     m.lessons.forEach((l, k) => {
-      const dn = !!st.done[l.id], isNext = l === next && !dn, ready = ICE_READY[l.id];
+      const dn = !!st.done[l.id], lost = st.lp[l.id] && st.lp[l.id].lost, isNext = l === next && !dn, ready = ICE_READY[l.id];
       const li = document.createElement('li'); if (isNext) li.className = 'next';
       li.innerHTML = `<button>${UI2.puck(36, dn ? 'done' : isNext ? 'next' : 'off')}<span><span class="pr">${k + 1} период · ${l.code}${l.kind ? ' · ' + l.kind : ''}</span><span class="t">${l.en}<small>${l.ru}${st.lp[l.id] && st.lp[l.id].best != null ? ` · <b style="color:var(--red)">рекорд ${st.lp[l.id].best} из 10</b>` : ''}</small></span></span>
-        ${ready ? '<span class="go2">›</span>' : '<span class="soon">СКОРО</span>'}</button>`;
+        ${lost ? '<span class="soon" style="color:var(--red)">ПОРАЖЕНИЕ · ПЕРЕИГРАЙ</span>' : ready ? '<span class="go2">›</span>' : '<span class="soon">СКОРО</span>'}</button>`;
       li.firstChild.onclick = () => UI2.go(ready ? `lesson.html?l=${l.id}` : `module.html?m=${n}&l=${l.id}`);
       $('ll').appendChild(li);
     });

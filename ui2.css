@@ -77,3 +77,5 @@ body.ready .veil2{opacity:0}body.leaving .veil2{opacity:1}
 
 .snd{margin-left:auto;margin-right:10px;width:42px;height:42px;border-radius:50%;border:0;background:rgba(255,255,255,.8);box-shadow:0 8px 24px rgba(20,44,70,.12);font-size:18px;cursor:pointer}
 .snd + .me{margin-left:0}
+
+.me .fire{display:flex;flex-direction:column;align-items:center;font-size:18px;line-height:1;margin-left:4px}.me .fire b{font-family:var(--head);font-weight:400;font-size:18px;color:var(--red)}

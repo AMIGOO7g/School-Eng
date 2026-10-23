@@ -2,7 +2,7 @@
 <html lang="ru"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>ICE ENGLISH · Раздевалка</title>
-<link rel="stylesheet" href="fonts.css?v=36"><link rel="stylesheet" href="ui2.css?v=38">
+<link rel="stylesheet" href="fonts.css?v=36"><link rel="stylesheet" href="ui2.css?v=39">
 <style>
 html,body{height:100%;overflow:hidden}
 .lead3{position:fixed;z-index:12;left:0;right:0;top:calc(var(--hz,46vh) - clamp(110px,15vh,170px))}
@@ -56,18 +56,20 @@ body.ready .bug{opacity:1}
 @media (max-height:800px){.bug{display:none}.cd{min-height:210px}.lead3 h1{font-size:52px}}
 .sc-over{font-size:12px!important;letter-spacing:.32em!important;opacity:.85!important}
 .cd.rec{box-shadow:0 0 0 2px rgba(255,255,255,.95),0 0 0 6px rgba(211,38,46,.18),0 18px 46px rgba(211,38,46,.22)}
+.so-btn{position:absolute;left:calc(100% + 24px);bottom:6px;white-space:nowrap;display:inline-flex;align-items:center;gap:10px;padding:10px 18px;border-radius:999px;background:var(--ink);color:#fff;text-decoration:none;font-weight:800;font-size:14px;box-shadow:0 10px 24px rgba(20,40,64,.25);transition:translate .25s var(--ease)}
+.so-btn:hover{translate:0 -2px}.so-btn b{font-family:var(--head);font-weight:400;font-size:18px;color:#ff8a8f}
 </style></head>
 <body>
 <div id="stage"></div>
 <div class="player"><video id="breath" src="img/pl_breath.webm" poster="img/pl_breath.webp" autoplay muted loop playsinline></video></div>
 <section class="lead3"><div class="hubw">
-  <div class="head"><div class="kick bar">Юношеская лига · твой сезон</div><h1 class="h"><span class="flip" id="t1">Что будем делать?</span></h1><p class="sub">Учись, развивайся, выходи на новый уровень.<br>Твой английский — как большая игра.</p></div>
+  <div class="head"><div class="kick bar">Юношеская лига · твой сезон</div><h1 class="h"><span class="flip" id="t1">Что будем делать?</span></h1><p class="sub">Учись, развивайся, выходи на новый уровень.<br>Твой английский — как большая игра.</p><a class="so-btn" id="soBtn" href="shootout.html"></a></div>
   <div class="cards3" id="cards"></div>
 </div></section>
 <div class="bug" id="bug"></div>
 <div class="name-pop" id="np"><div class="bx"><span class="kick bar">Знакомство</span><h3>Как тебя зовут?</h3><input id="nm" maxlength="16" placeholder="Имя игрока"><button class="btn" id="nok" style="width:100%;justify-content:center">На лёд →</button></div></div>
 <div class="veil2"></div>
-<script src="data.js?v=36"></script><script src="ui2.js?v=38"></script>
+<script src="data.js?v=36"></script><script src="ui2.js?v=39"></script>
 <script>
 (() => {
   const $ = id => document.getElementById(id), P = UI2.profile(), st = P.st, nx = ICE_NEXT(st), ms = (st.mistakes || []).length;
@@ -115,6 +117,8 @@ body.ready .bug{opacity:1}
   $('bug').innerHTML = `<div class="lab">ICE ENGLISH LEAGUE</div><div class="bar3"><span class="t1">${P.name.toUpperCase()}</span><span class="crown">♛</span>` +
     `<span class="scr">${last ? last[1].best : 0}<b> : </b>${last ? lastErr : 0}</span><img class="opp2" src="img/team_${TEAMS[mIdx]}.webp" alt=""><span class="t2">${TEAMRU[mIdx]}</span>` +
     `<span class="info">${last ? 'ПОСЛЕДНИЙ МАТЧ' : 'ПЕРВЫЙ МАТЧ ВПЕРЕДИ'} · СЕЗОН ${nDone}/10</span></div>`;
+  { const td = (st.shoot || {})[new Date().toISOString().slice(0, 10)]; $('soBtn').innerHTML = td != null ? `🥅 Буллиты дня · сегодня <b>${td} / 5</b>` : '🥅 Буллиты дня · <b>1 минута</b>';
+    $('soBtn').onclick = e => { e.preventDefault(); UI2.go('shootout.html'); }; }
   UI2.ready(); setTimeout(() => tip(rec), 1100);
   // имя игрока при первом входе
   if (!st.name) setTimeout(() => { $('np').classList.add('show'); $('nm').focus(); }, 900);

@@ -3,7 +3,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>ICE ENGLISH · Урок</title>
 <link rel="stylesheet" href="fonts.css?v=29">
-<link rel="stylesheet" href="ice.css?v=35"><link rel="stylesheet" href="ui2.css?v=38">
+<link rel="stylesheet" href="ice.css?v=35"><link rel="stylesheet" href="ui2.css?v=39">
 <style>
 :root{--left:clamp(24px,4.9vw,120px);--cardw:clamp(560px,47vw,1200px)}
 .stage{transition:transform 1.2s var(--ease)}
@@ -321,7 +321,7 @@ mark{background:linear-gradient(transparent 58%,rgba(211,38,46,.26) 58%);color:i
 <div class="veil"></div>
 
 <script src="data.js?v=35"></script>
-<script src="ice-ui.js?v=35"></script><script src="ui2.js?v=38"></script>
+<script src="ice-ui.js?v=35"></script><script src="ui2.js?v=39"></script>
 <script>
 (() => {
   const q = new URLSearchParams(location.search);
@@ -866,7 +866,7 @@ function run(L) {
         setTimeout(() => { const f = $('flash'); f.classList.remove('show'); void f.offsetWidth; f.classList.add('show'); }, 380);
       }
       delete lp.pq;
-      if (round === 1 && !L.review) lp.best = Math.max(lp.best || 0, got);
+      if (round === 1 && !L.review) { lp.best = Math.max(lp.best || 0, got); if (win) delete lp.lost; else if (!store.done[L.id]) lp.lost = { got, errs: queue.length - got }; }
       save();
       setTimeout(() => { puck.classList.remove('go'); showResult(got, need, win); }, win ? 1500 : 900);
     }, 250);
@@ -895,20 +895,21 @@ function run(L) {
     r.innerHTML = `<img class="who" src="img/${win ? 'pl_celebrate' : 'pl_stand'}.webp" alt="">
       <div class="pn"><div>
         <span class="kick bar">Spotlight 7 · матч ${L.module} · урок ${L.code}</span>
-        <h2>${win ? (allDone ? 'Матч выигран' : 'Период выигран') : 'Штанга!'}${newRec ? '<span class="rec2">НОВЫЙ РЕКОРД</span>' : ''}</h2>${win && !allDone ? `<div class="ot">Чтобы выиграть матч, пройди: ${left.map(x => x[1].split(': ')[1]).join(', ')}</div>` : ''}
+        <h2>${win ? (allDone ? 'Матч выигран' : 'Период выигран') : 'Поражение'}${newRec ? '<span class="rec2">НОВЫЙ РЕКОРД</span>' : ''}</h2>${win && !allDone ? `<div class="ot">Чтобы выиграть матч, пройди: ${left.map(x => x[1].split(': ')[1]).join(', ')}</div>` : ''}
         <div class="bigsc"><span class="y">${got}</span><span class="c">:</span><span class="c">${errs.length}</span><small>ТЫ : ОШИБКИ</small></div>
         <div class="sk">${SK.map(([k, n, d]) => `<div class="row"><span><b>${n}</b><small>${d.toUpperCase()}</small></span><span class="bar"><i data-w="${store.skills[k]}"></i></span><span class="pl">${win && round === 1 && add[k] ? '+' + add[k] : store.skills[k]}</span></div>`).join('')}</div>
       </div>
       <div class="aw">${award ? `<span class="kick">Новая награда</span><img src="img/badge_${award.id}.webp" alt=""><b>${award.name}</b><p>${award.desc}</p>`
         : win ? `<span class="kick">Так держать</span><p>Ты разобрался с темой. Следующий урок — ${nx.l.code}.</p>`
-              : `<span class="kick">Почти</span><p>Чтобы забить, нужно ${need} из ${queue.length} с первой попытки. Перерешай ошибки и бросай снова.</p>`}</div>
-      <div class="acts">${errs.length ? '<button class="btn dark" data-a="redo">Перерешать ошибки</button>' : ''}
+              : `<span class="kick">Матч проигран</span><p>Нужно ${need} из ${queue.length} с первой попытки. Поражение записано в сезон — переиграй матч, чтобы пройти в МХЛ. Сначала перерешай ошибки.</p>`}</div>
+      <div class="acts">${errs.length ? '<button class="btn dark" data-a="redo">Перерешать ошибки</button>' : ''}${!win ? '<button class="btn" data-a="replay">Переиграть матч →</button>' : ''}
         ${win && !allDone ? left.map(([v, t]) => `<button class="btn" data-a="${v}">${t} →</button>`).join('') : ''}${allDone ? '<button class="btn" data-a="next">Следующий матч →</button>' : ''}<button class="btn ghost" data-a="hub" style="background:#fff;color:var(--ink);box-shadow:none">В раздевалку</button></div></div>`;
     r.classList.add('show');
     setTimeout(() => r.querySelectorAll('.sk .bar i').forEach(i => { void i.offsetWidth; i.style.setProperty('width', i.dataset.w + '%', 'important'); }), 250);
     r.onclick = e => { const a = e.target.closest('[data-a]'); if (!a) return; const k = a.dataset.a;
       if (k === 'redo') { r.classList.remove('show'); queue = errs; first = {}; round++; startPractice(false); }
       if (k === 'next') leave(nextHref);
+      if (k === 'replay') { r.classList.remove('show'); delete lp.pq; save(); leave(`lesson.html?l=${L.id}&v=practice`); }
       if (k === 'words' || k === 'theory') { r.classList.remove('show'); go(k); }
       if (k === 'hub') leave('hub.html'); };
     frame('Результат', win ? 'Гол!' : 'Штанга!', `<div class="score">${got}<small> из ${queue.length} с первой попытки</small></div>`, [btn('Итоги матча', 'go', () => r.classList.add('show'))], true);

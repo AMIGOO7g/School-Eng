@@ -2,7 +2,7 @@
 <html lang="ru"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>ICE ENGLISH · Карьера</title>
-<link rel="stylesheet" href="fonts.css?v=36"><link rel="stylesheet" href="ui2.css?v=38">
+<link rel="stylesheet" href="fonts.css?v=36"><link rel="stylesheet" href="ui2.css?v=39">
 <style>
 html,body{height:100%;overflow:hidden}
 .sc-over{font-size:12px!important;letter-spacing:.42em!important;opacity:.9!important;color:var(--ink-2)!important}
@@ -58,6 +58,13 @@ html,body{height:100%;overflow:hidden}
 .aw2.lock .lkk{position:relative;margin-top:-28px;margin-bottom:6px;width:26px;height:26px;border-radius:50%;background:#fff;display:grid;place-items:center;font-size:12px}
 @media (max-width:1100px){.grid{grid-template-columns:1fr 1fr;left:4vw;right:4vw}.lad{display:none}}
 @media (max-height:820px){.grid{top:20vh;height:50vh}.shelf{height:19vh}}
+.tb{border:0;background:none;font-family:var(--head);font-size:22px;color:var(--mute);cursor:pointer;display:flex;align-items:center;gap:8px;padding:0 6px}
+.tb.on{color:var(--ink)}.tb span{font-family:var(--font);font-size:11px;font-weight:800;color:#fff;background:var(--ink);border-radius:999px;padding:3px 10px}
+.board3.ops{grid-template-columns:repeat(10,1fr)}
+.op3{display:flex;flex-direction:column;align-items:center;gap:4px}
+.op3 img{height:clamp(54px,9vh,110px);margin-top:-4vh;filter:drop-shadow(0 10px 16px rgba(0,0,0,.4))}
+.op3.lock img{filter:brightness(0) opacity(.5)}
+.op3 b{font-family:var(--head);font-weight:400;font-size:clamp(12px,1vw,16px);color:#fff}.op3 small{font-size:9px;font-weight:800;letter-spacing:.14em;color:rgba(255,255,255,.6)}
 </style></head>
 <body>
 <div id="stage"></div>
@@ -66,9 +73,9 @@ html,body{height:100%;overflow:hidden}
   <div class="rt" id="rt"></div>
   <div class="lad" id="lad"></div>
 </section>
-<section class="shelf"><div class="hd"><b>МОИ ДОСТИЖЕНИЯ</b><span id="cnt"></span></div><div class="board3" id="shelf"></div></section>
+<section class="shelf"><div class="hd"><button class="tb on" data-t="aw">МОИ ДОСТИЖЕНИЯ <span id="cnt"></span></button><button class="tb" data-t="op">СОПЕРНИКИ <span id="cnt2"></span></button></div><div class="board3" id="shelf"></div></section>
 <div class="veil2"></div>
-<script src="data.js?v=36"></script><script src="ui2.js?v=38"></script>
+<script src="data.js?v=36"></script><script src="ui2.js?v=39"></script>
 <script>
 (() => {
   const $ = id => document.getElementById(id), P = UI2.profile(), st = P.st, cur = P.league.id;
@@ -93,6 +100,14 @@ html,body{height:100%;overflow:hidden}
   $('cnt').textContent = `${have.length} ИЗ ${AW.length}`;
   $('shelf').innerHTML = AW.map(([id, n, d]) => { const ok = have.includes(id);
     return `<div class="aw2 ${ok ? '' : 'lock'}"><img src="img/badge_${id}.webp" alt="">${ok ? '' : '<span class="lkk">🔒</span>'}<b>${n}</b><small>${ok ? 'СДЕЛАНО' : d.toUpperCase()}</small></div>`; }).join('');
+  // коллекция соперников: выиграл все уроки модуля — карточка соперника твоя
+  const TEAMS = ['wolf', 'bear', 'eagle', 'fox', 'lynx', 'deer', 'lion', 'owl', 'shark', 'tiger'], TEAMRU = ['Волки', 'Медведи', 'Орлы', 'Лисы', 'Рыси', 'Олени', 'Львы', 'Совы', 'Акулы', 'Тигры'];
+  const beat = ICE_BOOK.map(m => m.lessons.every(l => st.done[l.id]));
+  $('cnt2').textContent = `${beat.filter(Boolean).length} ИЗ 10`;
+  const awHTML = $('shelf').innerHTML;
+  const opHTML = TEAMS.map((t, i) => `<div class="op3 ${beat[i] ? '' : 'lock'}"><img src="img/team_${t}.webp" alt=""><b>${beat[i] ? TEAMRU[i] : '???'}</b><small>${beat[i] ? 'ПОБЕЖДЕНЫ' : 'МАТЧ ' + (i + 1)}</small></div>`).join('');
+  document.querySelectorAll('.tb').forEach(b => b.onclick = () => { document.querySelectorAll('.tb').forEach(x => x.classList.toggle('on', x === b));
+    const op = b.dataset.t === 'op'; $('shelf').classList.toggle('ops', op); $('shelf').innerHTML = op ? opHTML : awHTML; });
   UI2.ready();
   setTimeout(() => { const r = document.querySelector('.lr.cur'); if (!r) return; const b = r.getBoundingClientRect(), nx = UI2.LEAGUES[cur];
     if (!nx) return; const n = (() => { const lr = document.querySelector('.lad').getBoundingClientRect(), room = innerWidth - lr.right > 210;

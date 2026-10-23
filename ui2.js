@@ -10,7 +10,20 @@ window.UI2 = (() => {
     const done = lessons.filter(l => st.done[l.id]).length;
     const best = Object.values(st.lp || {}).reduce((a, x) => a + (x.best || 0), 0);
     const sk = st.skills, rating = done && sk ? Math.round((sk.shot + sk.skate + sk.vision + sk.pass) / 4) : '—';   // рейтинг — после первого выигранного урока
-    return { st, name: st.name || 'Игрок 7', league: LEAGUES[(st.league || 2) - 1], rating, done, total: lessons.length, awards: (st.awards || []).length };
+    return { st, streak: streak(st), name: st.name || 'Игрок 7', league: LEAGUES[(st.league || 2) - 1], rating, done, total: lessons.length, awards: (st.awards || []).length };
+  }
+  // серия дней подряд: день засчитывается, если занимался хотя бы минуту
+  const day = d => d.toISOString().slice(0, 10);
+  function streak(st) {
+    const t = st.time || {}; let n = 0, d = new Date();
+    if (!((t[day(d)] || 0) >= 60)) d.setDate(d.getDate() - 1);
+    while ((t[day(d)] || 0) >= 60) { n++; d.setDate(d.getDate() - 1); }
+    return n;
+  }
+  function track() {   // время занятий: каждые 30 секунд, пока вкладка открыта
+    setInterval(() => { if (document.hidden) return; const s2 = ICE_STORE.load(); s2.time = s2.time || {}; const k = day(new Date()); s2.time[k] = (s2.time[k] || 0) + 30;
+      if (streak(s2) >= 7) { s2.awards = s2.awards || []; if (!s2.awards.includes('iron')) s2.awards.push('iron'); }
+      ICE_STORE.save(s2); }, 30000);
   }
   function header(active, opt = {}) {
     const p = profile();
@@ -20,7 +33,7 @@ window.UI2 = (() => {
     h.innerHTML = `<a class="logo" href="index.html"><b>/</b><span class="ice">ICE</span><span class="eng">ENGLISH</span></a>
       <nav class="nav2"><span class="pill"></span>${L.map(([k, t, href]) => `<a href="${href}" class="${k === active ? 'on' : ''}">${t}</a>`).join('')}</nav>
       <button class="snd" title="Звук">${localStorage.getItem('ice_mute') === '1' ? '🔇' : '🔊'}</button>
-      <a class="me" href="career.html" title="Карьера"><img src="img/pl_avatar.webp" alt=""><span class="n">${p.name}<small>${p.league.name}</small><span class="bar"><i style="width:${(p.done / p.total * 100).toFixed(1)}%"></i></span></span><span class="r">${p.rating}<small>рейтинг</small></span></a>`;
+      <a class="me" href="career.html" title="Карьера"><img src="img/pl_avatar.webp" alt=""><span class="n">${p.name}<small>${p.league.name}</small><span class="bar"><i style="width:${(p.done / p.total * 100).toFixed(1)}%"></i></span></span><span class="r">${p.rating}<small>рейтинг</small></span>${p.streak ? `<span class="fire" title="Дней подряд">🔥<b>${p.streak}</b></span>` : ''}</a>`;
     document.body.prepend(h);
     h.querySelector('.snd').onclick = e => { e.currentTarget.textContent = SFX.toggle() ? '🔇' : '🔊'; };
     // красная плашка переезжает к пункту под курсором и возвращается к активному
@@ -120,6 +133,6 @@ window.UI2 = (() => {
     };
   })();
   function go(href) { document.body.classList.add('leaving'); setTimeout(() => location.assign(href), 520); }
-  function ready() { requestAnimationFrame(() => setTimeout(() => document.body.classList.add('ready'), 60)); }
-  return { LEAGUES, profile, header, scene, note, go, ready, puck, flip, SFX };
+  function ready() { track(); requestAnimationFrame(() => setTimeout(() => document.body.classList.add('ready'), 60)); }
+  return { LEAGUES, profile, header, scene, note, go, ready, puck, flip, SFX, streak };
 })();
