@@ -2,7 +2,7 @@
 <html lang="ru"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>ICE ENGLISH · Карьера</title>
-<link rel="stylesheet" href="fonts.css?v=36"><link rel="stylesheet" href="ui2.css?v=44">
+<link rel="stylesheet" href="fonts.css?v=36"><link rel="stylesheet" href="ui2.css?v=45">
 <style>
 html,body{height:100%;overflow:hidden}
 .sc-over{font-size:12px!important;letter-spacing:.42em!important;opacity:.9!important;color:var(--ink-2)!important}
@@ -65,6 +65,21 @@ html,body{height:100%;overflow:hidden}
 .op3 img{height:clamp(30px,4.6vh,56px);margin-top:0;filter:drop-shadow(0 10px 16px rgba(0,0,0,.4))}
 .op3.lock img{filter:brightness(0) opacity(.5)}
 .op3 b{font-family:var(--head);font-weight:400;font-size:clamp(12px,1vw,16px);color:#fff}.op3 small{font-size:9px;font-weight:800;letter-spacing:.14em;color:rgba(255,255,255,.6)}
+/* v45: по генерации — полка-доска уже, значки крупнее полки, лестница лиг крупнее, рейтинг огромной цифрой */
+.shelf{height:auto!important;bottom:2.4vh!important}
+.board3{height:clamp(54px,7vh,76px)!important;align-items:flex-end!important;overflow:visible!important;padding:0 2.5vw 6px!important;
+  background:linear-gradient(180deg,#3a4f66 0%,#22364c 40%,#16263a 100%)!important;box-shadow:0 18px 30px rgba(10,20,34,.35),inset 0 2px 0 rgba(255,255,255,.18)!important;border-radius:10px!important}
+.aw2 img,.op3 img{height:clamp(50px,8.5vh,120px)!important;margin-top:calc(-1 * clamp(28px,5vh,80px))!important;filter:drop-shadow(0 10px 14px rgba(0,0,0,.45))}
+.aw2 b,.op3 b{font-size:clamp(11px,.8vw,14px)!important}
+.grid{height:53vh!important;top:24vh!important}
+.shelf .hd{margin:0 0 calc(clamp(28px,5vh,80px) + 6px) 1vw!important}
+.lr{grid-template-columns:32px 64px 1fr auto!important;padding:8px 14px!important}
+.lr img{width:58px!important}
+.lr b{font-size:clamp(17px,1.4vw,24px)!important}.lr b small{font-size:11px!important}
+.top3 .big{font-size:clamp(96px,8.5vw,160px)!important;line-height:.85!important}
+@media (max-height:960px){.grid{top:22vh!important;height:52vh!important}.aw2 img,.op3 img{height:7.5vh!important;margin-top:-4vh!important}.shelf .hd{margin-bottom:calc(4vh + 6px)!important}.lr{padding:4px 12px!important}.lr img{width:44px!important}}
+.aw2 small,.op3 small{display:none!important}
+.aw2 b,.op3 b{color:#fff!important;white-space:nowrap}
 </style></head>
 <body>
 <div id="stage"></div>
@@ -75,7 +90,7 @@ html,body{height:100%;overflow:hidden}
 </section>
 <section class="shelf"><div class="hd"><button class="tb on" data-t="aw">МОИ ДОСТИЖЕНИЯ <span id="cnt"></span></button><button class="tb" data-t="op">СОПЕРНИКИ <span id="cnt2"></span></button></div><div class="board3" id="shelf"></div></section>
 <div class="veil2"></div>
-<script src="data.js?v=44"></script><script src="ui2.js?v=44"></script>
+<script src="data.js?v=45"></script><script src="ui2.js?v=45"></script>
 <script>
 (() => {
   const $ = id => document.getElementById(id), P = UI2.profile(), st = P.st, cur = P.league.id;

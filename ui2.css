@@ -83,7 +83,7 @@ body.ready .veil2{opacity:0}body.leaving .veil2{opacity:1}
 /* ===== дизайн-система v42 ===== */
 .sc.ph{background:#eef2f6}
 .ph-img{position:absolute;inset:-2%;background-size:cover;will-change:transform}
-.ph-haze{position:absolute;inset:0;background:linear-gradient(90deg,rgba(246,249,252,.82) 0%,rgba(246,249,252,.55) 38%,rgba(246,249,252,0) 64%),linear-gradient(0deg,rgba(246,249,252,.35),rgba(246,249,252,0) 40%)}
+.ph-haze{position:absolute;inset:0;background:linear-gradient(90deg,rgba(246,249,252,.62) 0%,rgba(246,249,252,.32) 34%,rgba(246,249,252,0) 52%),linear-gradient(0deg,rgba(246,249,252,.35),rgba(246,249,252,0) 40%)}
 .ph-word{position:absolute;left:0;right:0;top:11vh;display:flex;flex-direction:column;align-items:center;pointer-events:none}
 .ph-word .sc-word{font-size:min(19vw,34vh);color:#fff;opacity:.55;mix-blend-mode:soft-light;line-height:.8}
 .ph-word .sc-over{color:var(--ink-2)!important}
@@ -101,3 +101,7 @@ body.ready .veil2{opacity:0}body.leaving .veil2{opacity:1}
 .cd .k,.mc .tg,.ll .pr,.lb,.rows .lb,.aw2 small,.op3 small,.lr b small,.skl b small,.sk .row small,.bigsc2 small,.pbug .in,.bug .info,.lessons .lh small,.mblock .g,.exs span,.ls small,.mc .nm small,.pk-line{font-size:12px!important;letter-spacing:.08em!important}
 .mc .tg{letter-spacing:.06em!important}
 @media (max-height:920px){.plq{top:92px}.plq b{font-size:19px}}
+/* ===== v45: читаемость поверх любых фото ===== */
+.nav2{background:rgba(246,249,252,.72);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-radius:999px;padding:4px!important;box-shadow:0 6px 18px rgba(10,20,34,.12)}
+.sc-over,.kick{text-shadow:0 1px 0 rgba(255,255,255,.7)}
+.chip-dark{background:rgba(10,20,34,.72);color:#fff!important;padding:4px 10px;border-radius:8px;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}

@@ -2,7 +2,7 @@
 <html lang="ru"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>ICE ENGLISH · Задание тренера</title>
-<link rel="stylesheet" href="fonts.css?v=38"><link rel="stylesheet" href="ui2.css?v=44">
+<link rel="stylesheet" href="fonts.css?v=38"><link rel="stylesheet" href="ui2.css?v=45">
 <style>
 html,body{height:100%;overflow:hidden}
 .sc-over{font-size:12px!important;letter-spacing:.42em!important;color:var(--ink-2)!important;opacity:.9!important}
@@ -29,22 +29,25 @@ html,body{height:100%;overflow:hidden}
 .empty{font-size:15px;color:var(--ink-2);line-height:1.5}
 h2.h{font-size:clamp(30px,2.6vw,44px);margin:6px 0 4px}
 @media (max-width:1100px){.cols{width:88vw}.who{display:none}}
+#exn{width:84px!important;margin-left:8px}
+.pgrow input{font-family:var(--head);font-size:30px}
+.pnl{background:linear-gradient(160deg,rgba(255,255,255,.95),rgba(242,246,250,.92))!important}
 </style></head>
 <body>
 <div id="stage"></div>
 <div class="who"><img src="img/pl_stand.webp" alt=""></div>
 <section class="cols">
-  <div class="pnl"><span class="kick bar">Что задали в школе?</span><div class="pgrow"><input id="pg" type="number" min="5" max="104" placeholder="стр."><small>Введи номер страницы<br>из дневника — найду урок<br>и упражнения</small></div>
+  <div class="pnl"><span class="kick bar">Что задали в школе?</span><div class="pgrow"><input id="pg" type="number" min="5" max="104" placeholder="стр."><input id="exn" type="text" maxlength="4" placeholder="упр."><small>Страница и номер<br>упражнения из дневника —<br>открою нужное сразу</small></div>
     <span class="kick">или выбери модуль и урок</span><div class="mods" id="mods"></div><ul class="ls" id="ls"></ul></div>
   <div class="pnl" id="res"><span class="kick bar">Упражнения</span><p class="empty">Здесь появятся упражнения выбранного урока. В каждом — короткое правило, само задание с проверкой и подсказками, а в конце — что переписать в тетрадь.</p></div>
 </section>
 <div class="veil2"></div>
-<script src="data.js?v=44"></script><script src="ui2.js?v=44"></script>
+<script src="data.js?v=45"></script><script src="ui2.js?v=45"></script>
 <script>
 (async () => {
   const $ = id => document.getElementById(id), store = ICE_STORE.load();
   UI2.header('hw');
-  const sc = UI2.photo($('stage'), { src: 'bg_locker', pos: '75% 50%', horizon: .3 }); UI2.plaque('HOMEWORK', 'задание тренера · spotlight 7');
+  const sc = UI2.photo($('stage'), { src: 'bg_coach', pos: '70% 50%', horizon: .3 }); UI2.plaque('HOMEWORK', 'задание тренера · spotlight 7');
   const setHz = () => document.documentElement.style.setProperty('--hz', sc.horizonPx() + 'px'); setHz(); addEventListener('resize', setHz);
   UI2.ready();
   await ICE_LOAD();
@@ -55,7 +58,10 @@ h2.h{font-size:clamp(30px,2.6vw,44px);margin:6px 0 4px}
     const L = (window.ICE_LESSONS || {})[l.id], box = $('res');
     if (!L) { box.innerHTML = `<span class="kick bar">Модуль ${m.n} · стр. ${l.pages}</span><h2 class="h">${l.code} · ${l.en}</h2><p class="empty">Этот урок пока готовится. Можно посмотреть, что в нём будет.</p><div><a class="pill" href="school.html?m=${m.n}" id="toMod">Маршрут модуля →</a></div>`;
       $('toMod').onclick = e => { e.preventDefault(); go(`school.html?m=${m.n}`); }; return; }
-    const all = L.homework.map((h, i) => ({ h, i })), list = all.filter(x => !pg || x.h.ex.includes(String(pg)) || !/стр\./i.test(x.h.ex));
+    const exN = ($('exn').value || '').trim().toLowerCase().replace(/[^0-9a-z]/g, '');
+    const all = L.homework.map((h, i) => ({ h, i }));
+    let list = all.filter(x => !pg || x.h.ex.includes(String(pg)) || !/стр\./i.test(x.h.ex));
+    if (exN) { const hit = all.filter(x => { const m2 = x.h.ex.match(/Упр\.\s*(\d+[a-z]?)/i); return m2 && (m2[1].toLowerCase() === exN || m2[1].replace(/[a-z]/g, '') === exN); }); if (hit.length) list = hit; }
     box.innerHTML = `<span class="kick bar">Модуль ${m.n} · стр. ${l.pages}</span><h2 class="h">${l.code} · ${l.en}</h2><p class="empty" style="margin:0">${L.ru}. Выбери упражнение — сначала короткое правило, потом задание с проверкой.</p><ul class="exs" id="exs"></ul>`;
     (list.length ? list : all).forEach(({ h, i }, k) => { const li = document.createElement('li');
       li.innerHTML = `<span class="n">${k + 1}</span><span><b>${h.ex}</b><span>${h.task}</span></span><a class="pill" href="lesson.html?l=${l.id}&v=hw&ex=${i}">РАЗОБРАТЬ</a>`;
@@ -68,6 +74,7 @@ h2.h{font-size:clamp(30px,2.6vw,44px);margin:6px 0 4px}
   ICE_BOOK.forEach(m => { const b = document.createElement('button'); b.textContent = m.n; b.title = m.en;
     b.onclick = () => { mod = m.n; [...$('mods').children].forEach(x => x.classList.toggle('on', x === b)); lessonsOf(m); }; $('mods').appendChild(b); });
   $('mods').children[mod - 1].click();
+  $('exn').oninput = () => $('pg').oninput();
   $('pg').oninput = () => { const pg = +$('pg').value; if (!pg) return;
     for (const m of ICE_BOOK) for (const l of m.lessons) { const [a, b] = l.pages.split('–').map(Number); if (pg >= a && pg <= (b || a)) { $('mods').children[m.n - 1].click(); show(m, l, pg); return; } }
     $('res').innerHTML = `<span class="kick bar">Упражнения</span><p class="empty">Страница ${pg} не входит в уроки модулей. Уроки идут со стр. 6 по стр. 104.</p>`; };

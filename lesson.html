@@ -3,7 +3,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>ICE ENGLISH · Урок</title>
 <link rel="stylesheet" href="fonts.css?v=29">
-<link rel="stylesheet" href="ice.css?v=35"><link rel="stylesheet" href="ui2.css?v=44">
+<link rel="stylesheet" href="ice.css?v=35"><link rel="stylesheet" href="ui2.css?v=45">
 <style>
 :root{--left:clamp(24px,4.9vw,120px);--cardw:clamp(560px,47vw,1200px)}
 .stage{transition:transform 1.2s var(--ease)}
@@ -246,7 +246,7 @@ mark{background:linear-gradient(transparent 58%,rgba(211,38,46,.26) 58%);color:i
 .lower2.post .l1{background:linear-gradient(135deg,#2c4560,#1d3048)}
 .lower2.post .l2{background:#fff;color:var(--ink)}
 /* экран наград — как на генерации */
-.rew{position:fixed;inset:0;z-index:60;display:none;background:radial-gradient(ellipse at 30% 60%,rgba(255,255,255,.35),rgba(232,238,245,.6));backdrop-filter:blur(9px);-webkit-backdrop-filter:blur(9px)}
+.rew{position:fixed;inset:0;z-index:60;display:none;background:linear-gradient(180deg,rgba(12,24,40,.12),rgba(12,24,40,.32));backdrop-filter:blur(7px) saturate(1.25);-webkit-backdrop-filter:blur(7px) saturate(1.25)}
 .rew.show{display:block;animation:fin2 .5s ease}
 @keyframes fin2{from{opacity:0}}
 .rew .who{position:absolute;z-index:2;left:-1vw;bottom:-2vh;height:92vh;pointer-events:none;animation:rise2 .8s var(--ease);filter:drop-shadow(0 30px 40px rgba(20,40,64,.3))}
@@ -256,7 +256,7 @@ mark{background:linear-gradient(transparent 58%,rgba(211,38,46,.26) 58%);color:i
 .spray i{position:absolute;bottom:0;width:6px;height:6px;border-radius:50%;background:#fff;box-shadow:0 0 6px rgba(255,255,255,.9);opacity:0;animation:spr 1.6s ease-out forwards}
 @keyframes spr{0%{opacity:1;transform:translate(0,0)}100%{opacity:0;transform:translate(var(--dx),var(--dy))}}
 .rew .pn{position:absolute;z-index:4;right:5vw;top:50%;transform:translateY(-50%);width:min(62vw,1100px);display:grid;grid-template-columns:1.25fr .85fr;gap:0;border-radius:30px;padding:clamp(22px,3.4vh,40px) clamp(24px,2.4vw,44px);
-  background:linear-gradient(160deg,rgba(255,255,255,.88),rgba(240,246,252,.78));backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);box-shadow:0 30px 80px rgba(10,24,40,.25),inset 0 1px 0 rgba(255,255,255,.9);animation:rise2 .7s var(--ease) .1s both}
+  background:linear-gradient(160deg,rgba(255,255,255,.96),rgba(240,246,252,.92));backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);box-shadow:0 30px 80px rgba(10,24,40,.25),inset 0 1px 0 rgba(255,255,255,.9);animation:rise2 .7s var(--ease) .1s both}
 .rew .lf{padding-right:clamp(20px,2vw,36px);border-right:1px solid rgba(31,50,72,.12)}
 .rew .kk{font-size:12px;letter-spacing:.42em;font-weight:800;color:var(--ink-2);text-transform:uppercase}
 .rew h2{position:relative;display:inline-block;font-family:var(--head);font-weight:400;font-size:clamp(44px,4.4vw,80px);margin:6px 0 2px;line-height:.95;text-transform:uppercase}
@@ -370,6 +370,25 @@ body.revmode .player-slot{width:min(40vw,700px)!important;right:-2vw!important;b
 .fc{min-height:96px!important;border-radius:18px!important;box-shadow:0 8px 20px rgba(20,44,70,.08)!important}
 .fc .f b{font-family:var(--head);font-weight:400;font-size:24px!important;text-transform:none}
 .fc .b{font-size:18px!important;font-weight:800;background:linear-gradient(135deg,#1d3048,#0f1c2b)!important;color:#fff!important}
+
+/* ===== правила: просторно и читаемо (и в окне «Правило», и в уроке) ===== */
+#rulePop .rp-card{width:min(1060px,92vw)!important;max-height:88vh!important;border-radius:28px!important}
+#rulePop .rp-head{padding:18px 24px!important;gap:8px!important;flex-wrap:wrap}
+#rulePop .seg button{font-size:14px!important;padding:9px 14px!important}
+#rulePop .rp-body{padding:24px 34px 30px!important;font-size:17px!important;line-height:1.6!important}
+.rp-title{font-family:var(--head);font-weight:400;font-size:34px;line-height:1;margin:0 0 16px;text-transform:uppercase}
+.rp-body .cases,#pb .cases{list-style:none;padding:0;margin:0;display:grid;gap:14px}
+.rp-body .cases li,#pb .cases li{background:#fff!important;color:var(--ink)!important;border-radius:16px!important;padding:16px 20px!important;box-shadow:0 6px 18px rgba(20,44,70,.07);line-height:1.55}
+.rp-body .ex,#pb .ex{display:block!important;margin:10px 0 0!important;padding:10px 14px!important;background:rgba(31,50,72,.05)!important;border-left:4px solid var(--red)!important;border-radius:10px!important;color:var(--ink)!important;font-weight:700;font-size:18px}
+.rp-body .ex b,#pb .ex b{color:var(--red)!important}
+.rp-body .tr,#pb .tr{margin:6px 0 0 6px!important;color:var(--ink-2)!important;font-size:15px}
+.rp-body .duo,#pb .duo{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.rp-body .duo > div{background:#fff!important;color:var(--ink)!important;border-radius:18px!important;padding:18px 20px!important;box-shadow:0 6px 18px rgba(20,44,70,.07)}
+.rp-body .duo .kicker{color:var(--red)!important;font-weight:900}
+.rp-body mark,#pb mark{background:linear-gradient(transparent 58%,rgba(211,38,46,.22) 58%)!important;color:inherit!important;font-weight:800}
+.rp-body .f,#pb .f{background:var(--red);color:#fff;border-radius:6px;padding:1px 8px;font-weight:800}
+.rp-body .life,#pb .life{margin-top:18px;background:rgba(242,179,61,.12)!important;border-left:4px solid #f2b33d!important;border-radius:12px;padding:14px 18px;color:var(--ink)!important}
+.rp-body .note,#pb .note{margin-top:14px;font-size:14px;color:var(--mute)}
 </style></head>
 <body class="arriving">
 <main class="stage" id="stage"></main>
@@ -394,8 +413,8 @@ body.revmode .player-slot{width:min(40vw,700px)!important;right:-2vw!important;b
 <div class="flash" id="flash">ГОЛ!</div>
 <div class="veil"></div>
 
-<script src="data.js?v=44"></script>
-<script src="ice-ui.js?v=35"></script><script src="ui2.js?v=44"></script>
+<script src="data.js?v=45"></script>
+<script src="ice-ui.js?v=35"></script><script src="ui2.js?v=45"></script>
 <script>
 (() => {
   const q = new URLSearchParams(location.search);
@@ -425,7 +444,7 @@ function run(L) {
   const spacer = () => el('span', 'sp');
   document.title = `ICE ENGLISH · Урок ${L.code}`;
   const qs = new URLSearchParams(location.search);
-  const bgs = UI2.photo($('stage'), { src: 'bg_arena', pos: '50% 62%' });
+  const bgs = UI2.photo($('stage'), new URLSearchParams(location.search).get('v') === 'hw' ? { src: 'bg_coach', pos: '70% 50%' } : { src: 'bg_arena', pos: '50% 62%' });
   const HWM = qs.get('v') === 'hw'; if (HWM) document.body.classList.add('hwmode'); if (L.review) { document.body.classList.add('hwmode', 'revmode'); const pi = document.querySelector('#player img'); if (pi) pi.src = 'img/pbox_pl.webp'; }
   bgs.set(HWM ? 'HOMEWORK' : L.review ? 'ШТРАФНАЯ' : 'MATCH', '', true);
   UI2.plaque(L.review ? 'ШТРАФНАЯ' : HWM ? 'HOMEWORK' : `MATCH ${L.module}`, L.review ? `на скамейке: ${(store.mistakes || []).length} · реши верно — и выйдешь на лёд` : HWM ? `задание тренера · урок ${L.code} · стр. ${L.pages}` : `урок ${L.code} · ${L.en}`);
@@ -590,7 +609,7 @@ function run(L) {
     const last = i === L.theory.length - 1;
     const next = btn(last ? 'К тренировке <span>↗</span>' : 'Дальше <span>↗</span>', 'go', () => { if (last) { lp.theory = true; save(); go('practice'); } else showTheory(i + 1); });
     next.disabled = true;
-    if (c.life) body.appendChild(el('div', 'life', `<span class="kicker">В жизни говорят и так</span>${c.life}`));
+    if (c.life && !/class="life"/.test(c.html)) body.appendChild(el('div', 'life', `<span class="kicker">В жизни говорят и так</span>${c.life}`));
     ck.appendChild(choice(c.check.options, fb, () => next.disabled = false)); ck.appendChild(fb); body.appendChild(ck);
     const prev = btn('‹ Назад', 'go light', () => i ? showTheory(i - 1) : go('hub'));
     $('stage').style.setProperty('--pan', ((PAN.theory - i * .25) * innerWidth / 160).toFixed(0) + 'px');
@@ -884,7 +903,7 @@ function run(L) {
     const box = $('rulePop'); if (!cards.length) return;
     box.innerHTML = `<div class="rp-card"><div class="rp-head"><div class="seg">${cards.map((c, i) => `<button data-i="${i}">${i + 1}. ${c.title}</button>`).join('')}</div><button class="rp-x" aria-label="Закрыть">✕</button></div><div class="rp-body"></div></div>`;
     const show = i => { box.querySelectorAll('.seg button').forEach((b, k) => b.classList.toggle('on', k === i)); const c = cards[i];
-      box.querySelector('.rp-body').innerHTML = c.html + (c.life ? `<div class="life"><span class="kicker">В жизни говорят и так</span>${c.life}</div>` : ''); };
+      box.querySelector('.rp-body').innerHTML = `<h3 class="rp-title">${c.title}</h3>` + c.html + (c.life && !/class="life"/.test(c.html) ? `<div class="life"><span class="kicker">В жизни говорят и так</span>${c.life}</div>` : ''); };
     box.querySelectorAll('.seg button').forEach(b => b.onclick = () => show(+b.dataset.i));
     const close = () => box.classList.remove('show');
     box.querySelector('.rp-x').onclick = close; box.onclick = e => { if (e.target === box) close(); };

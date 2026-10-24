@@ -2,7 +2,7 @@
 <html lang="ru"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>ICE ENGLISH · Штрафная</title>
-<link rel="stylesheet" href="fonts.css?v=36"><link rel="stylesheet" href="ui2.css?v=44">
+<link rel="stylesheet" href="fonts.css?v=36"><link rel="stylesheet" href="ui2.css?v=45">
 <style>
 html,body{height:100%;overflow:hidden}
 .sc-over{font-size:clamp(14px,1.2vw,20px)!important;letter-spacing:.6em!important;opacity:.9!important;color:var(--ink-2)!important}
@@ -45,12 +45,16 @@ html,body{height:100%;overflow:hidden}
 .empty p{margin:0 0 8px;font-size:clamp(15px,1.2vw,20px);font-weight:600}
 .empty .btn{border-radius:999px;padding:16px 40px}
 @media (max-width:1100px){.pan{width:88vw}.who{display:none}.empty{left:8vw;width:84vw}}
+.num{width:clamp(64px,5vw,86px)!important}
+.pan{background:linear-gradient(160deg,rgba(255,255,255,.9),rgba(238,244,250,.84))!important;box-shadow:0 30px 70px rgba(10,24,40,.25)!important}
+.pan .row b,.rows b{font-size:clamp(18px,1.35vw,24px)!important}
+.pill{font-size:15px!important;padding:12px 24px!important}
 </style></head>
 <body>
 <div id="stage"></div>
 <div id="root"></div>
 <div class="veil2"></div>
-<script src="data.js?v=44"></script><script src="ui2.js?v=44"></script>
+<script src="data.js?v=45"></script><script src="ui2.js?v=45"></script>
 <script>
 (() => {
   const $ = id => document.getElementById(id), st = ICE_STORE.load(), ms = st.mistakes || [];
