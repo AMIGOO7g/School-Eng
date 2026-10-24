@@ -78,7 +78,7 @@ window.ICE_BOOK = (() => {
 })();
 
 /* Уроки, у которых уже есть содержание */
-window.ICE_READY = { '1a': true, '2b': true };
+window.ICE_READY = { '1a': true, '1b': true, '1c': true, '1d': true, '1eu': true, '1ac': true, '1pc': true, '2b': true };
 
 /* Куда ведёт «Продолжить»: первый непройденный урок текущего модуля */
 window.ICE_NEXT = st => {

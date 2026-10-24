@@ -2,7 +2,7 @@
 <html lang="ru"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>ICE ENGLISH · Сезон</title>
-<link rel="stylesheet" href="fonts.css?v=36"><link rel="stylesheet" href="ui2.css?v=39">
+<link rel="stylesheet" href="fonts.css?v=36"><link rel="stylesheet" href="ui2.css?v=42">
 <style>
 html,body{height:100%;overflow:hidden}
 .sc-over{font-size:12px!important;letter-spacing:.32em!important;opacity:.85!important}
@@ -36,7 +36,9 @@ html,body{height:100%;overflow:hidden}
 .vs .me2{background:linear-gradient(135deg,#e63a42,#b51c24)}.vs .op{background:linear-gradient(135deg,#2c4560,#16263a);overflow:hidden;text-overflow:ellipsis}
 .vs .x{flex:none;font-family:var(--head);font-size:clamp(40px,3.4vw,58px);line-height:.8;transform:skewX(-14deg) rotate(-6deg);background:linear-gradient(180deg,#ff6a6f,#d3262e 55%,#8e1218);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-stroke:1.5px #fff;filter:drop-shadow(0 4px 0 #1d3048) drop-shadow(0 8px 14px rgba(20,40,64,.35));padding:0 4px}
 .opp{position:relative;flex:1;min-height:56px;display:flex;align-items:center;justify-content:center}
-.opp img{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);height:min(130%,300px);opacity:.2;filter:grayscale(.2)}
+.opp img{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);height:min(240%,560px);opacity:.18;filter:grayscale(.2)}
+.opp .bigw{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-family:var(--head);font-size:clamp(70px,7vw,140px);color:#16263a;opacity:.08;white-space:nowrap;line-height:1}
+.vs{justify-content:center}
 .opp .on{position:relative;text-align:center;font-family:var(--head);font-size:clamp(22px,2vw,32px);line-height:1;color:var(--ink)}.opp .on small{display:block;font-family:var(--font);font-size:10px;font-weight:800;letter-spacing:.24em;color:var(--mute)}
 .mblock{padding-top:12px;border-top:1px solid rgba(31,50,72,.1)}
 .mblock h3{font-family:var(--head);font-weight:400;font-size:clamp(18px,1.5vw,24px);margin:0 0 4px;text-transform:uppercase}
@@ -68,7 +70,7 @@ html,body{height:100%;overflow:hidden}
   <div class="low"><div class="panel match" id="match"></div><div class="panel lessons" id="lessons"></div></div>
 </section>
 <div class="veil2"></div>
-<script src="data.js?v=36"></script><script src="ui2.js?v=39"></script>
+<script src="data.js?v=43"></script><script src="ui2.js?v=42"></script>
 <script>
 (() => {
   const $ = id => document.getElementById(id), P = UI2.profile(), st = P.st, B = ICE_BOOK;
@@ -97,7 +99,7 @@ html,body{height:100%;overflow:hidden}
     const topic = m.grammar.split(',')[0].replace(/ и Present /, ' / ').replace(/ и /, ' / ');
     $('match').innerHTML = `<span class="kick bar">Spotlight 7 · модуль ${n}</span><h2 class="h"><span class="flip" id="mt">Матч ${n}</span></h2>
       <div class="vs"><span class="me2">${P.name} · №7</span><span class="x">VS</span><span class="op" title="${m.grammar}">${topic}</span></div>
-      <div class="opp"><img src="img/team_${TEAMS[i]}.webp" alt=""><span class="on"><small>СОПЕРНИК</small>${TEAMRU[i]}</span></div>
+      <div class="opp"><span class="bigw">${TEAMRU[i].toUpperCase()}</span><img src="img/team_${TEAMS[i]}.webp" alt=""></div>
       <div class="mblock"><h3>${m.en} <span style="color:var(--mute)">· ${m.ru}</span></h3><div class="g">Темы матча</div><div class="gt">${m.grammar}</div><p>Учебник, стр. ${m.pages}${d ? ` · сыграно уроков: ${d} из ${m.lessons.length}` : ''}</p></div>
       <a class="btn" href="${href}" data-go>На лёд <span>→</span></a>`;
     $('lessons').innerHTML = `<div class="lh"><span class="kick bar">Уроки матча ${n}</span><small>${m.lessons.length} уроков</small></div><ul class="ll" id="ll"></ul>`;

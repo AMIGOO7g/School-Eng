@@ -92,6 +92,20 @@ window.UI2 = (() => {
       pan(px) { pan = px; }
     };
   }
+  // фото-сцена (раздевалка, арена): фото на весь экран, лёгкий параллакс, светлая дымка слева под интерфейс
+  function photo(stage, o) {
+    stage.classList.add('sc', 'ph');
+    stage.innerHTML = `<div class="ph-img" style="background-image:url(img/${o.src}.webp);background-position:${o.pos || '60% 50%'}"></div><div class="ph-haze"></div>` +
+      (o.word ? `<div class="ph-word"><span class="sc-over">${o.over || ''}</span><span class="sc-word">${o.word}</span></div>` : '');
+    const im = stage.querySelector('.ph-img'), w = stage.querySelector('.ph-word');
+    let mx = 0, cx = 0; addEventListener('pointermove', e => { mx = e.clientX / innerWidth - .5; });
+    (function loop() { cx += (mx - cx) * .05; im.style.transform = `scale(1.04) translateX(${-cx * 14}px)`; if (w) w.style.transform = `translateX(${-cx * 24}px)`; requestAnimationFrame(loop); })();
+    return { horizonPx: () => innerHeight * (o.horizon || .5), wordLeft: () => w ? w.querySelector('.sc-word').getBoundingClientRect().left : innerWidth * .06, set() {} };
+  }
+  // плашка-заголовок рабочих экранов (вместо гигантского слова)
+  function plaque(title, sub) {
+    const d = document.createElement('div'); d.className = 'plq'; d.innerHTML = `<b>${title}</b>${sub ? `<span>${sub}</span>` : ''}`; document.body.appendChild(d); return d;
+  }
   // рукописная пометка тренера со стрелкой (стрелка дорисовывается)
   function note(parent, text, x, y, arrow) {
     const n = document.createElement('div'); n.className = 'hand'; n.style.left = x + 'px'; n.style.top = y + 'px'; n.innerHTML = text;
@@ -134,5 +148,5 @@ window.UI2 = (() => {
   })();
   function go(href) { document.body.classList.add('leaving'); setTimeout(() => location.assign(href), 520); }
   function ready() { track(); requestAnimationFrame(() => setTimeout(() => document.body.classList.add('ready'), 60)); }
-  return { LEAGUES, profile, header, scene, note, go, ready, puck, flip, SFX, streak };
+  return { LEAGUES, profile, header, scene, note, go, ready, puck, flip, SFX, streak, photo, plaque };
 })();

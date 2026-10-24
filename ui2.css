@@ -21,7 +21,7 @@ button{font:inherit;color:inherit}
 .sc-box{position:absolute;pointer-events:none}
 .sc-box img{position:absolute;left:0;width:100%;display:block}
 .sc-sky{top:0;-webkit-mask-image:linear-gradient(to bottom,transparent 0,#000 26%);mask-image:linear-gradient(to bottom,transparent 0,#000 26%)}
-.sc-ice{opacity:.9;-webkit-mask-image:linear-gradient(to bottom,#000 0,rgba(0,0,0,.6) 14%,transparent 52%);mask-image:linear-gradient(to bottom,#000 0,rgba(0,0,0,.6) 14%,transparent 52%)}
+.sc-ice{-webkit-mask-image:linear-gradient(to bottom,#000 0,#000 55%,rgba(0,0,0,.75) 100%);mask-image:linear-gradient(to bottom,#000 0,#000 55%,rgba(0,0,0,.75) 100%)}
 .sc-giant{position:absolute;display:flex;flex-direction:column;align-items:flex-start;white-space:nowrap;transition:opacity .5s ease,translate .9s var(--ease)}
 .sc-giant.down{opacity:0;translate:0 14vh;transition:opacity .35s ease,translate .45s cubic-bezier(.6,0,.8,.4)}
 .sc-giant.pre{opacity:0;translate:0 16vh;transition:none}
@@ -79,3 +79,25 @@ body.ready .veil2{opacity:0}body.leaving .veil2{opacity:1}
 .snd + .me{margin-left:0}
 
 .me .fire{display:flex;flex-direction:column;align-items:center;font-size:18px;line-height:1;margin-left:4px}.me .fire b{font-family:var(--head);font-weight:400;font-size:18px;color:var(--red)}
+
+/* ===== дизайн-система v42 ===== */
+.sc.ph{background:#eef2f6}
+.ph-img{position:absolute;inset:-2%;background-size:cover;will-change:transform}
+.ph-haze{position:absolute;inset:0;background:linear-gradient(90deg,rgba(246,249,252,.82) 0%,rgba(246,249,252,.55) 38%,rgba(246,249,252,0) 64%),linear-gradient(0deg,rgba(246,249,252,.35),rgba(246,249,252,0) 40%)}
+.ph-word{position:absolute;left:0;right:0;top:11vh;display:flex;flex-direction:column;align-items:center;pointer-events:none}
+.ph-word .sc-word{font-size:min(19vw,34vh);color:#fff;opacity:.55;mix-blend-mode:soft-light;line-height:.8}
+.ph-word .sc-over{color:var(--ink-2)!important}
+/* плашка рабочих экранов: как титр в трансляции */
+.plq{position:fixed;z-index:19;left:max(24px,4.9vw);top:96px;display:flex;align-items:stretch;transform:skewX(-10deg);border-radius:8px;overflow:hidden;box-shadow:0 10px 24px rgba(10,20,34,.22)}
+.plq > *{transform:skewX(10deg);display:flex;align-items:center;padding:8px 18px}
+.plq b{background:linear-gradient(135deg,#e63a42,#b51c24);color:#fff;font-family:var(--head);font-weight:400;font-size:22px;letter-spacing:.02em}
+.plq span{background:linear-gradient(135deg,#1d3048,#0f1c2b);color:#fff;font-size:13px;font-weight:800;letter-spacing:.12em;text-transform:uppercase}
+/* единое табло трансляции (раздевалка, штрафная) */
+.bug,.pbug{position:fixed;z-index:13;left:0;bottom:1.8vh;padding:14px 130px 16px 4.9vw;background:linear-gradient(100deg,rgba(16,30,48,.95) 0%,rgba(28,52,80,.88) 58%,rgba(28,52,80,.25) 88%,rgba(28,52,80,0) 100%);clip-path:polygon(0 0,86% 0,100% 100%,0 100%)}
+.bug .lab,.pbug .lab{font-size:12px!important;letter-spacing:.3em!important;font-weight:800;color:rgba(255,255,255,.85);margin:0 0 9px 4px}
+/* шкала подписей: не мельче 12 px, разрядка умеренная */
+.kick{font-size:13px!important;letter-spacing:.2em!important}
+.sc-over{font-size:13px!important;letter-spacing:.3em!important}
+.cd .k,.mc .tg,.ll .pr,.lb,.rows .lb,.aw2 small,.op3 small,.lr b small,.skl b small,.sk .row small,.bigsc2 small,.pbug .in,.bug .info,.lessons .lh small,.mblock .g,.exs span,.ls small,.mc .nm small,.pk-line{font-size:12px!important;letter-spacing:.08em!important}
+.mc .tg{letter-spacing:.06em!important}
+@media (max-height:920px){.plq{top:92px}.plq b{font-size:19px}}

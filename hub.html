@@ -2,7 +2,7 @@
 <html lang="ru"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>ICE ENGLISH · Раздевалка</title>
-<link rel="stylesheet" href="fonts.css?v=36"><link rel="stylesheet" href="ui2.css?v=39">
+<link rel="stylesheet" href="fonts.css?v=36"><link rel="stylesheet" href="ui2.css?v=42">
 <style>
 html,body{height:100%;overflow:hidden}
 .lead3{position:fixed;z-index:12;left:0;right:0;top:calc(var(--hz,46vh) - clamp(110px,15vh,170px))}
@@ -14,7 +14,7 @@ html,body{height:100%;overflow:hidden}
 .flip.out{opacity:0;transform:translateY(10px)}
 .lead3 .sub{font-size:clamp(15px,1.15vw,18px);font-weight:600;color:var(--ink);margin:0;line-height:1.5}
 .cards3{display:grid;grid-template-columns:repeat(3,22.5vw);gap:1.4vw}
-.cd{position:relative;text-align:left;border:0;border-radius:28px;padding:clamp(22px,2.4vh,30px) clamp(22px,1.8vw,30px);display:flex;flex-direction:column;gap:10px;min-height:27vh;cursor:pointer;
+.cd{position:relative;text-align:left;border:0;border-radius:28px;padding:clamp(22px,2.4vh,30px) clamp(22px,1.8vw,30px);display:flex;flex-direction:column;gap:10px;min-height:25vh;cursor:pointer;
   background:rgba(255,255,255,.88);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:0 18px 42px rgba(20,44,70,.15);overflow:hidden;
   color:var(--ink);transition:translate .35s var(--ease),box-shadow .35s;animation:cdIn .8s var(--ease) both;animation-delay:calc(var(--i) * 90ms + .25s)}
 @keyframes cdIn{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
@@ -31,7 +31,8 @@ html,body{height:100%;overflow:hidden}
 .pk .puck3d{flex:1 1 0;min-width:0;width:auto;max-width:30px;height:auto}
 .pk-line{display:flex;justify-content:space-between;font-size:12px;font-weight:700;color:var(--ink-2)}
 .big{margin-top:auto;display:flex;align-items:center;gap:12px}.big span{font-family:var(--head);font-size:clamp(56px,5vw,80px);line-height:.85;color:var(--red)}.big small{font-size:13px;font-weight:700;color:var(--ink-2);line-height:1.3}
-.player{position:fixed;z-index:11;pointer-events:none;height:44vh;right:1vw;bottom:0}
+.player{position:fixed;z-index:14;pointer-events:none;height:44vh;right:1vw;bottom:0}
+.player *{pointer-events:none}
 .player video,.player img{height:100%;display:block;filter:drop-shadow(0 30px 30px rgba(20,40,64,.2))}
 /* табло — тёмная скошенная панель в левом нижнем углу, как в макете */
 .bug{position:fixed;z-index:13;left:0;bottom:1.8vh;padding:14px 130px 16px 4.9vw;pointer-events:none;
@@ -58,24 +59,42 @@ body.ready .bug{opacity:1}
 .cd.rec{box-shadow:0 0 0 2px rgba(255,255,255,.95),0 0 0 6px rgba(211,38,46,.18),0 18px 46px rgba(211,38,46,.22)}
 .so-btn{position:absolute;left:calc(100% + 24px);bottom:6px;white-space:nowrap;display:inline-flex;align-items:center;gap:10px;padding:10px 18px;border-radius:999px;background:var(--ink);color:#fff;text-decoration:none;font-weight:800;font-size:14px;box-shadow:0 10px 24px rgba(20,40,64,.25);transition:translate .25s var(--ease)}
 .so-btn:hover{translate:0 -2px}.so-btn b{font-family:var(--head);font-weight:400;font-size:18px;color:#ff8a8f}
+.so2{position:fixed;z-index:13;left:0;bottom:calc(1.8vh + 104px);display:flex;align-items:center;gap:14px;padding:10px 70px 10px 4.9vw;text-decoration:none;color:#fff;
+  background:linear-gradient(100deg,rgba(181,28,36,.95),rgba(211,38,46,.9) 65%,rgba(211,38,46,0));clip-path:polygon(0 0,88% 0,100% 100%,0 100%);transition:padding .3s var(--ease)}
+.so2:hover{padding-left:5.4vw}
+.so2 .ti{font-family:var(--head);font-size:clamp(20px,1.6vw,28px)}
+.so2 .mt{font-size:11px;font-weight:800;letter-spacing:.24em;opacity:.85}
+.so2 .go3{font-family:var(--head);font-size:16px;background:#fff;color:var(--red);padding:4px 12px;border-radius:8px}
+.bug .t2.win,.bug .t1.win{box-shadow:0 0 0 2px #f2c14e,0 0 18px rgba(242,193,78,.7)}
+.bug .t2.win{background:linear-gradient(135deg,#2c4560,#1d3048);color:#fff}
+.bug{pointer-events:auto!important}
+.bug .lab{display:flex;align-items:center;gap:16px}
+.so3{display:inline-flex;align-items:center;gap:10px;padding:5px 12px 5px 14px;border-radius:999px;background:var(--red);color:#fff;text-decoration:none;font-size:11px;font-weight:900;letter-spacing:.16em;box-shadow:0 6px 16px rgba(211,38,46,.4);transition:translate .25s var(--ease)}
+.so3:hover{translate:0 -2px}.so3 b{background:#fff;color:var(--red);border-radius:999px;padding:2px 8px;font-weight:900}
+.cd .it{position:absolute;right:-6%;bottom:-4%;height:72%;max-width:60%;object-fit:contain;opacity:.22;pointer-events:none;filter:grayscale(.2)}
+.cd.dark .it{opacity:.28;filter:invert(1) grayscale(1)}
+.cd > *:not(.it):not(.arr){position:relative}
+.cd .arr{position:absolute!important}
+.cd .act{position:relative}
+@media (max-height:920px){.cd{min-height:21vh!important;padding:18px 22px!important}.lead3 h1{font-size:60px!important;margin:6px 0 8px!important}.lead3 .head{margin-bottom:18px!important}}
 </style></head>
 <body>
 <div id="stage"></div>
 <div class="player"><video id="breath" src="img/pl_breath.webm" poster="img/pl_breath.webp" autoplay muted loop playsinline></video></div>
 <section class="lead3"><div class="hubw">
-  <div class="head"><div class="kick bar">Юношеская лига · твой сезон</div><h1 class="h"><span class="flip" id="t1">Что будем делать?</span></h1><p class="sub">Учись, развивайся, выходи на новый уровень.<br>Твой английский — как большая игра.</p><a class="so-btn" id="soBtn" href="shootout.html"></a></div>
+  <div class="head"><div class="kick bar">Юношеская лига · твой сезон</div><h1 class="h"><span class="flip" id="t1">Что будем делать?</span></h1><p class="sub">Учись, развивайся, выходи на новый уровень.<br>Твой английский — как большая игра.</p></div>
   <div class="cards3" id="cards"></div>
 </div></section>
 <div class="bug" id="bug"></div>
 <div class="name-pop" id="np"><div class="bx"><span class="kick bar">Знакомство</span><h3>Как тебя зовут?</h3><input id="nm" maxlength="16" placeholder="Имя игрока"><button class="btn" id="nok" style="width:100%;justify-content:center">На лёд →</button></div></div>
 <div class="veil2"></div>
-<script src="data.js?v=36"></script><script src="ui2.js?v=39"></script>
+<script src="data.js?v=43"></script><script src="ui2.js?v=42"></script>
 <script>
 (() => {
   const $ = id => document.getElementById(id), P = UI2.profile(), st = P.st, nx = ICE_NEXT(st), ms = (st.mistakes || []).length;
   UI2.header('hub');
   { const v = $('breath'); if (!v.canPlayType('video/webm; codecs="vp9"')) v.replaceWith(Object.assign(document.createElement('img'), { src: 'img/pl_breath.webp', alt: '' })); }
-  const sc = UI2.scene($('stage'), { horizon: .43, size: .26, sink: .24, fitW: .76, center: true }); sc.set('SPOTLIGHT', '7 класс · сезон 2026/27', true);
+  const sc = UI2.photo($('stage'), { src: 'bg_locker', pos: '70% 50%', word: 'SPOTLIGHT', over: '7 класс · сезон 2026/27', horizon: .4 });
   const setHz = () => { document.documentElement.style.setProperty('--hz', sc.horizonPx() + 'px'); const L0 = sc.wordLeft() + innerWidth * .004; document.querySelector('.hubw').style.marginLeft = L0 + 'px';
     const pw = document.querySelector('.player').getBoundingClientRect().width || innerWidth * .3, gap = innerWidth * .014;
     const cw = Math.max(innerWidth * .215, Math.min(innerWidth * .225, (innerWidth - L0 - pw - innerWidth * .02 - gap * 2) / 3));   // карточки не заходят под хоккеиста, если хватает места
@@ -86,19 +105,19 @@ body.ready .bug{opacity:1}
   const done = ICE_BOOK.map(m => m.lessons.every(l => st.done[l.id])), nDone = done.filter(Boolean).length;
   const C = [
     { cls: 'dark', ic: '<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8"><rect x="5" y="4" width="14" height="17" rx="2.5"/><path d="M9 4h6v3H9zM8.5 11h7M8.5 15h5"/></svg>',
-      k: 'Домашка', b: 'Задание тренера', d: 'Задали в школе? Введи страницу учебника — разберём упражнение вместе.', act: 'Открыть задание →', href: 'homework.html',
+      it: 'it_helmet', k: 'Домашка', b: 'Задание тренера', d: 'Задали в школе? Введи страницу учебника — разберём упражнение вместе.', act: 'Открыть задание →', href: 'homework.html',
       tip: 'если задали в школе' },
     { ic: '<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="#d3262e" stroke-width="1.8"><path d="M3 5.5c3-1.5 6-1.5 9 .5 3-2 6-2 9-.5v13c-3-1.5-6-1.5-9 .5-3-2-6-2-9-.5z"/><path d="M12 6v13"/></svg>',
-      k: 'Новая тема', b: 'Матч сезона', d: `Правило, тренировка, слова. Сейчас: матч ${nx.m.n} — ${P.name} против «${nx.m.grammar.split(',')[0]}».`, href: 'school.html',
+      it: 'it_board', k: 'Новая тема', b: 'Матч сезона', d: `Правило, тренировка, слова. Сейчас: матч ${nx.m.n} — ${P.name} против «${nx.m.grammar.split(',')[0]}».`, href: 'school.html',
       extra: `<div class="pk">${done.map(x => UI2.puck(28, x ? 'on' : 'off')).join('')}</div><div class="pk-line"><span>Сезон: ${nDone} из 10 матчей</span><span>${nDone * 10}%</span></div>`, tip: 'начни отсюда — новая тема по учебнику' },
     { ic: '<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="#d3262e" stroke-width="1.8"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2M10 2.5h4"/></svg>',
-      k: 'Работа над ошибками', b: 'Штрафная скамейка', d: ms ? 'Здесь задания, где ты ошибся. Реши их верно — и выйдешь со скамейки.' : 'На скамейке пусто — отличная игра!', href: 'penalty.html',
+      it: 'it_bench', k: 'Работа над ошибками', b: 'Штрафная скамейка', d: ms ? 'Здесь задания, где ты ошибся. Реши их верно — и выйдешь со скамейки.' : 'На скамейке пусто — отличная игра!', href: 'penalty.html',
       extra: `<div class="big"><span>${ms}</span><small>заданий<br>на скамейке</small></div>`, tip: 'здесь твои ошибки' }
   ];
   const rec = ms > 2 ? 2 : 1;
   C.forEach((c, i) => {
     const el = document.createElement('a'); el.href = c.href; el.className = 'cd ' + (c.cls || '') + (i === rec ? ' rec' : ''); el.style.setProperty('--i', i); el.style.textDecoration = 'none';
-    el.innerHTML = `<span class="arr">›</span>${c.ic}<span class="k">${c.k}</span><b>${c.b}</b><span class="d">${c.d}</span>${c.extra || ''}${c.act ? `<span class="act">${c.act}</span>` : ''}`;
+    el.innerHTML = `${c.it ? `<img class="it" src="img/${c.it}.webp" alt="">` : ''}<span class="arr">›</span>${c.ic}<span class="k">${c.k}</span><b>${c.b}</b><span class="d">${c.d}</span>${c.extra || ''}${c.act ? `<span class="act">${c.act}</span>` : ''}`;
     el.onclick = e => { e.preventDefault(); UI2.go(c.href); }; el.onmouseenter = () => tip(i); $('cards').appendChild(el);
   });
   $('cards').onmouseleave = () => tip(rec);
@@ -114,11 +133,13 @@ body.ready .bug{opacity:1}
   const lm = st.lastMatch, last = lm ? [lm.l, { best: lm.got }] : null, lastErr = lm ? lm.errs : 0;
   const TEAMS = ['wolf', 'bear', 'eagle', 'fox', 'lynx', 'deer', 'lion', 'owl', 'shark', 'tiger'], TEAMRU = ['ВОЛКИ', 'МЕДВЕДИ', 'ОРЛЫ', 'ЛИСЫ', 'РЫСИ', 'ОЛЕНИ', 'ЛЬВЫ', 'СОВЫ', 'АКУЛЫ', 'ТИГРЫ'];
   const mIdx = (lm ? (ICE_BOOK.findIndex(m => m.lessons.some(l => l.id === lm.l)) + 1 || nx.m.n) : nx.m.n) - 1;
-  $('bug').innerHTML = `<div class="lab">ICE ENGLISH LEAGUE</div><div class="bar3"><span class="t1">${P.name.toUpperCase()}</span><span class="crown">♛</span>` +
-    `<span class="scr">${last ? last[1].best : 0}<b> : </b>${last ? lastErr : 0}</span><img class="opp2" src="img/team_${TEAMS[mIdx]}.webp" alt=""><span class="t2">${TEAMRU[mIdx]}</span>` +
+  $('bug').innerHTML = `<div class="lab">ICE ENGLISH LEAGUE<a class="so3" id="so2" href="shootout.html"></a></div><div class="bar3">` + (() => { const weWon = last && last[1].best >= 8, theyWon = last && !weWon;
+    return `<span class="t1 ${weWon ? 'win' : ''}">${P.name.toUpperCase()}</span>${weWon ? '<span class="crown">♛</span>' : ''}<span class="scr">${last ? last[1].best : 0}<b> : </b>${last ? lastErr : 0}</span>${theyWon ? '<span class="crown">♛</span>' : ''}<img class="opp2" src="img/team_${TEAMS[mIdx]}.webp" alt=""><span class="t2 ${theyWon ? 'win' : ''}">${TEAMRU[mIdx]}</span>`; })() +
     `<span class="info">${last ? 'ПОСЛЕДНИЙ МАТЧ' : 'ПЕРВЫЙ МАТЧ ВПЕРЕДИ'} · СЕЗОН ${nDone}/10</span></div>`;
-  { const td = (st.shoot || {})[new Date().toISOString().slice(0, 10)]; $('soBtn').innerHTML = td != null ? `🥅 Буллиты дня · сегодня <b>${td} / 5</b>` : '🥅 Буллиты дня · <b>1 минута</b>';
-    $('soBtn').onclick = e => { e.preventDefault(); UI2.go('shootout.html'); }; }
+
+  { const td = (st.shoot || {})[new Date().toISOString().slice(0, 10)];
+    $('so2').innerHTML = `🥅 БУЛЛИТЫ ДНЯ · ${td != null ? 'СЕГОДНЯ ' + td + '/5' : '60 СЕК'} <b>${td != null ? 'ЕЩЁ' : 'ИГРАТЬ'} →</b>`;
+    $('so2').onclick = e => { e.preventDefault(); UI2.go('shootout.html'); }; }
   UI2.ready(); setTimeout(() => tip(rec), 1100);
   // имя игрока при первом входе
   if (!st.name) setTimeout(() => { $('np').classList.add('show'); $('nm').focus(); }, 900);

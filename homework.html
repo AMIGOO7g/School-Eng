@@ -2,13 +2,13 @@
 <html lang="ru"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>ICE ENGLISH · Задание тренера</title>
-<link rel="stylesheet" href="fonts.css?v=38"><link rel="stylesheet" href="ui2.css?v=39">
+<link rel="stylesheet" href="fonts.css?v=38"><link rel="stylesheet" href="ui2.css?v=42">
 <style>
 html,body{height:100%;overflow:hidden}
 .sc-over{font-size:12px!important;letter-spacing:.42em!important;color:var(--ink-2)!important;opacity:.9!important}
 .who{position:fixed;z-index:9;pointer-events:none;right:1.5vw;bottom:3vh;height:68vh}
 .who img{height:100%;display:block;filter:drop-shadow(0 30px 30px rgba(20,40,64,.2))}
-.cols{position:fixed;z-index:12;left:6vw;width:68vw;top:calc(var(--hz,44vh) - 12vh);bottom:5vh;display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:1.4vw}
+.cols{position:fixed;z-index:12;left:6vw;width:68vw;top:170px;bottom:5vh;display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:1.4vw}
 .pnl{border-radius:24px;background:rgba(255,255,255,.9);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:0 18px 44px rgba(20,44,70,.14);padding:clamp(18px,2.4vh,28px) clamp(18px,1.6vw,28px);display:flex;flex-direction:column;min-height:0;animation:pin .7s var(--ease) both}
 @keyframes pin{from{opacity:0;transform:translateY(18px)}}
 .pgrow{display:flex;align-items:center;gap:14px;margin:10px 0 6px}
@@ -39,12 +39,12 @@ h2.h{font-size:clamp(30px,2.6vw,44px);margin:6px 0 4px}
   <div class="pnl" id="res"><span class="kick bar">Упражнения</span><p class="empty">Здесь появятся упражнения выбранного урока. В каждом — короткое правило, само задание с проверкой и подсказками, а в конце — что переписать в тетрадь.</p></div>
 </section>
 <div class="veil2"></div>
-<script src="data.js?v=38"></script><script src="ui2.js?v=39"></script>
+<script src="data.js?v=43"></script><script src="ui2.js?v=42"></script>
 <script>
 (async () => {
   const $ = id => document.getElementById(id), store = ICE_STORE.load();
   UI2.header('hw');
-  const sc = UI2.scene($('stage'), { horizon: .44, size: .28, sink: .32, center: true }); sc.set('HOMEWORK', 'задание тренера · spotlight 7', true);
+  const sc = UI2.photo($('stage'), { src: 'bg_locker', pos: '75% 50%', horizon: .3 }); UI2.plaque('HOMEWORK', 'задание тренера · spotlight 7');
   const setHz = () => document.documentElement.style.setProperty('--hz', sc.horizonPx() + 'px'); setHz(); addEventListener('resize', setHz);
   UI2.ready();
   await ICE_LOAD();

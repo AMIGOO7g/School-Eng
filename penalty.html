@@ -2,30 +2,36 @@
 <html lang="ru"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>ICE ENGLISH · Штрафная</title>
-<link rel="stylesheet" href="fonts.css?v=36"><link rel="stylesheet" href="ui2.css?v=39">
+<link rel="stylesheet" href="fonts.css?v=36"><link rel="stylesheet" href="ui2.css?v=42">
 <style>
 html,body{height:100%;overflow:hidden}
 .sc-over{font-size:clamp(14px,1.2vw,20px)!important;letter-spacing:.6em!important;opacity:.9!important;color:var(--ink-2)!important}
 .who{position:fixed;z-index:9;pointer-events:none;bottom:5vh}
 .who img{height:100%;display:block;filter:drop-shadow(0 30px 30px rgba(20,40,64,.22))}
-.who.bench{left:55vw;height:64vh;bottom:4vh}
-.who.stand{left:57vw;height:72vh;bottom:4vh}
-.box{position:fixed;z-index:8;pointer-events:none;right:-6vw;bottom:5vh;height:70vh;filter:drop-shadow(0 30px 40px rgba(20,40,64,.18))}
+.who.stand{left:60vw;height:66vh;bottom:4vh}
+.box{position:fixed;z-index:8;pointer-events:none;right:-3vw;bottom:4vh;height:64vh;filter:drop-shadow(0 30px 40px rgba(20,40,64,.18))}
+.box.pl{height:68vh;right:-2vw}
 /* табло штрафа */
-.timer{position:fixed;z-index:13;left:8.6vw;top:calc(var(--hz,52vh) - 21vh);display:flex;transform:skewX(-12deg);border-radius:8px;overflow:hidden;box-shadow:0 18px 40px rgba(10,20,34,.3);animation:tin .6s var(--ease) both .2s}
+
 @keyframes tin{from{opacity:0;transform:skewX(-12deg) translateX(-30px)}}
-.timer > *{transform:skewX(12deg);display:flex;align-items:center;font-family:var(--head);color:#fff}
-.timer .tm{background:linear-gradient(135deg,#e63a42,#b51c24);font-size:clamp(40px,4vw,70px);padding:4px 28px;font-style:italic;line-height:1}
-.timer .tx{background:linear-gradient(135deg,#1d3048,#0f1c2b);font-size:clamp(22px,2vw,36px);padding:0 34px}
+
+
+
+.pbug{position:fixed;z-index:13;left:0;bottom:1.8vh;padding:14px 130px 16px 4.9vw;pointer-events:none;background:linear-gradient(100deg,rgba(16,30,48,.95) 0%,rgba(28,52,80,.88) 58%,rgba(28,52,80,.25) 88%,rgba(28,52,80,0) 100%);clip-path:polygon(0 0,86% 0,100% 100%,0 100%);animation:pin .6s var(--ease) both .3s}
+.pbug .lab{font-size:11px;letter-spacing:.42em;font-weight:800;color:rgba(255,255,255,.8);margin:0 0 9px 4px}
+.pbug .row{display:flex;align-items:center;gap:14px}
+.pbug .tm{background:linear-gradient(135deg,#e63a42,#b51c24);font-family:var(--head);font-size:clamp(26px,2vw,36px);color:#fff;padding:4px 16px;border-radius:8px;font-style:italic}
+.pbug .tx{font-family:var(--head);font-size:clamp(18px,1.4vw,26px);color:#fff}
+.pbug .in{font-size:11px;font-weight:800;letter-spacing:.26em;color:rgba(255,255,255,.75);margin-left:8px}
 /* список ошибок */
-.pan{position:fixed;z-index:12;left:8.4vw;width:50vw;top:calc(var(--hz,52vh) - 13vh);max-height:calc(100vh - var(--hz,52vh) + 13vh - 8vh);border-radius:26px;background:rgba(255,255,255,.88);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:0 20px 50px rgba(20,44,70,.15);padding:clamp(18px,2.6vh,30px) clamp(22px,2.2vw,40px);display:flex;flex-direction:column;animation:pin .7s var(--ease) both .1s}
+.pan{position:fixed;z-index:12;left:6vw;width:52vw;top:calc(var(--hz,52vh) - 4vh);max-height:calc(100vh - var(--hz,52vh) + 4vh - 150px);border-radius:26px;background:rgba(255,255,255,.88);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:0 20px 50px rgba(20,44,70,.15);padding:clamp(18px,2.6vh,30px) clamp(22px,2.2vw,40px);display:flex;flex-direction:column;animation:pin .7s var(--ease) both .1s}
 @keyframes pin{from{opacity:0;transform:translateY(20px)}}
 .rows{list-style:none;margin:12px 0 0;padding:0;overflow:auto;min-height:0}
 .rows li{display:grid;grid-template-columns:auto 1fr auto;gap:clamp(14px,1.4vw,24px);align-items:center;padding:clamp(10px,1.6vh,18px) 0;border-bottom:1px solid rgba(31,50,72,.1)}
 .rows li:last-child{border-bottom:0}
 .num{position:relative;width:clamp(58px,5vw,84px)}
 .num .puck3d{width:100%;height:auto;display:block}
-.num b{position:absolute;left:0;right:0;top:20%;text-align:center;font-family:var(--head);font-weight:400;font-size:clamp(20px,1.8vw,30px);color:#fff;font-style:italic}
+
 .rows .lb{font-size:11px;font-weight:800;letter-spacing:.14em;color:var(--mute)}
 .rows .tt{font-weight:800;font-size:clamp(17px,1.45vw,26px);margin:3px 0}
 .rows .tx2{font-size:clamp(14px,1.1vw,19px);color:var(--ink-2)}
@@ -33,7 +39,7 @@ html,body{height:100%;overflow:hidden}
 .pill:hover{translate:0 -2px}
 .pan .btn{margin-top:14px;align-self:center;width:min(100%,560px);justify-content:center;font-size:22px;border-radius:999px}
 /* скамейка пуста */
-.empty{position:fixed;z-index:12;left:20vw;width:33vw;top:calc(var(--hz,52vh) - 9vh);border-radius:28px;background:rgba(255,255,255,.86);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:0 20px 50px rgba(20,44,70,.15);padding:clamp(22px,3vh,40px);text-align:center;display:flex;flex-direction:column;align-items:center;gap:10px;animation:pin .7s var(--ease) both .1s}
+.empty{position:fixed;z-index:12;left:16vw;width:34vw;top:calc(var(--hz,52vh) - 2vh);border-radius:28px;background:rgba(255,255,255,.86);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:0 20px 50px rgba(20,44,70,.15);padding:clamp(22px,3vh,40px);text-align:center;display:flex;flex-direction:column;align-items:center;gap:10px;animation:pin .7s var(--ease) both .1s}
 .empty .ok{width:clamp(80px,7vw,120px)}
 .empty h2{font-size:clamp(36px,3.4vw,60px)}
 .empty p{margin:0 0 8px;font-size:clamp(15px,1.2vw,20px);font-weight:600}
@@ -44,12 +50,12 @@ html,body{height:100%;overflow:hidden}
 <div id="stage"></div>
 <div id="root"></div>
 <div class="veil2"></div>
-<script src="data.js?v=36"></script><script src="ui2.js?v=39"></script>
+<script src="data.js?v=43"></script><script src="ui2.js?v=42"></script>
 <script>
 (() => {
   const $ = id => document.getElementById(id), st = ICE_STORE.load(), ms = st.mistakes || [];
   UI2.header('pen');
-  const sc = UI2.scene($('stage'), { horizon: .52, size: .3, sink: .22, fitW: .69, left: () => innerWidth * .085 });
+  const sc = UI2.scene($('stage'), { horizon: .5, size: .3, sink: .28, fitW: .66, center: true });
   sc.set('ШТРАФНАЯ', 'зона', true);
   const setHz = () => document.documentElement.style.setProperty('--hz', sc.horizonPx() + 'px'); setHz(); addEventListener('resize', setHz);
   const root = $('root');
@@ -61,22 +67,31 @@ html,body{height:100%;overflow:hidden}
         <h2 class="h">Скамейка пуста</h2><p>Ни одного штрафа — чистая игра!</p><a class="btn" href="school.html" data-go>На лёд <span>→</span></a></div>`;
   } else {
     const ids = [...new Set(ms.map(m => m.l))];
-    root.innerHTML = `<img class="box" src="img/pbox.webp" alt=""><div class="who bench"><img src="img/pl_bench.webp" alt=""></div>
-      <div class="timer"><span class="tm">${ms.length * 2}:00</span><span class="tx">Штраф · ${ms.length} ${plural(ms.length)}</span></div>
-      <div class="pan"><span class="kick bar">На скамейке</span><ul class="rows" id="rows"></ul><a class="btn" href="lesson.html?mode=review" data-go>Отыграться все <span>→</span></a></div>`;
+    root.innerHTML = `<img class="box pl" src="img/pbox_pl.webp" alt="">
+      <div class="pbug"><div class="lab">ICE ENGLISH LEAGUE · ШТРАФНОЕ ВРЕМЯ</div><div class="row"><span class="tm">${ms.length * 2}:00</span><span class="tx">${ms.length} ${plural(ms.length).toUpperCase()} НА СКАМЕЙКЕ</span><span class="in">2:00 ЗА КАЖДУЮ ОШИБКУ</span></div></div>
+      <div class="pan"><span class="kick bar">На скамейке</span><ul class="rows" id="rows"></ul><a class="btn" href="lesson.html?mode=review&v=practice" data-go>Отыграться все <span>→</span></a></div>`;
     ICE_LOAD(ids).then(() => {
       const LS = window.ICE_LESSONS || {}, B = ICE_BOOK.flatMap(m => m.lessons.map(l => ({ ...l, m: m.n })));
       $('rows').innerHTML = ms.map((m, k) => {
         const t = (LS[m.l] || {}).tasks?.[m.i], l = B.find(x => x.id === m.l) || {};
         if (!t) return '';
         const line = (t.text || t.hint || '').replace('___', '…');
-        return `<li><span class="num">${UI2.puck(80, 'next')}<b>${k + 1}</b></span><span><span class="lb">МАТЧ ${l.m || '?'} · УРОК ${(l.code || m.l).toUpperCase()}</span><div class="tt">${t.prompt}</div><div class="tx2">${line ? 'задание: ' + line : 'перерешай задание'}</div></span>
-          <a class="pill" href="lesson.html?mode=review&only=${m.l}:${m.i}" data-go>ОТЫГРАТЬ</a></li>`;
+        return `<li><span class="num">${puckN(k + 1)}</span><span><span class="lb">МАТЧ ${l.m || '?'} · УРОК ${(l.code || m.l).toUpperCase()}</span><div class="tt">${t.prompt}</div><div class="tx2">${line ? 'задание: ' + line : 'перерешай задание'}</div></span>
+          <a class="pill" href="lesson.html?mode=review&v=practice&only=${m.l}:${m.i}" data-go>ОТЫГРАТЬ</a></li>`;
       }).join('');
       bind();
       setTimeout(() => { const r = document.querySelector('.rows li'); if (!r) return; const b = r.getBoundingClientRect(), p = document.querySelector('.pan').getBoundingClientRect();
         const n = UI2.note(document.body, 'реши верно —<br>и выйдешь на лёд!', p.right - 190, p.top - 64, { x: -40, y: 50, d: 'M40 6 C 20 14, 6 28, 0 48 M-8 38 L0 49 L9 40' }); n.style.position = 'fixed'; n.style.zIndex = 15; }, 900);
     });
+  }
+  function puckN(n) {
+    return `<svg viewBox="0 0 100 70" width="100%"><defs><radialGradient id="pt${n}" cx="42%" cy="38%" r="70%"><stop offset="0" stop-color="#5b6673"/><stop offset=".5" stop-color="#1d252e"/><stop offset="1" stop-color="#0a0f14"/></radialGradient>
+      <linearGradient id="ps${n}" x1="0" x2="1"><stop offset="0" stop-color="#05080b"/><stop offset=".5" stop-color="#222b35"/><stop offset="1" stop-color="#05080b"/></linearGradient></defs>
+      <path d="M6 30v14c0 10 20 18 44 18s44-8 44-18V30" fill="url(#ps${n})"/>
+      <path d="M6 38 C 20 50, 80 50, 94 38" stroke="rgba(255,255,255,.08)" stroke-width="1" fill="none"/>
+      <ellipse cx="50" cy="30" rx="44" ry="18" fill="url(#pt${n})"/>
+      <ellipse cx="50" cy="30" rx="31" ry="12.5" fill="none" stroke="#d3262e" stroke-width="2.5"/>
+      <text x="50" y="30" text-anchor="middle" dominant-baseline="central" font-family="MachineC,Impact,sans-serif" font-size="26" fill="#fff" transform="translate(50 30) scale(1 .62) translate(-50 -30)">${n}</text></svg>`;
   }
   function bind() { document.querySelectorAll('[data-go]').forEach(a => a.onclick = e => { e.preventDefault(); UI2.go(a.getAttribute('href')); }); }
   bind(); UI2.ready();

@@ -3,7 +3,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>ICE ENGLISH · Урок</title>
 <link rel="stylesheet" href="fonts.css?v=29">
-<link rel="stylesheet" href="ice.css?v=35"><link rel="stylesheet" href="ui2.css?v=39">
+<link rel="stylesheet" href="ice.css?v=35"><link rel="stylesheet" href="ui2.css?v=42">
 <style>
 :root{--left:clamp(24px,4.9vw,120px);--cardw:clamp(560px,47vw,1200px)}
 .stage{transition:transform 1.2s var(--ease)}
@@ -210,7 +210,7 @@ mark{background:linear-gradient(transparent 58%,rgba(211,38,46,.26) 58%);color:i
 @media (max-height:800px){.ptitle{padding-top:12px}.ptitle h2{font-size:28px}.q{margin-bottom:12px}.opt{padding:11px 16px}.tile{min-height:118px;padding:14px}}
 
 /* ---------- новое оформление матча ---------- */
-.board2{position:fixed;z-index:20;left:var(--left);right:var(--left);top:12.8vh}
+.board2{position:fixed;z-index:20;left:var(--left);right:var(--left);top:calc(96px + 52px)}
 .mkick{position:fixed;z-index:20;left:calc(var(--left) + 20px);top:calc(12.8vh - 26px);font-size:12px;letter-spacing:.42em;font-weight:800;color:var(--ink-2);text-transform:uppercase}
 .sb2{display:flex;align-items:stretch;height:58px;border-radius:14px;overflow:hidden;background:linear-gradient(135deg,#1d3048,#0f1c2b);color:#fff;box-shadow:0 16px 34px rgba(10,20,34,.3);transform:skewX(-8deg)}
 .sb2 > *{transform:skewX(8deg);display:flex;align-items:center;gap:10px;padding:0 18px;border-right:1px solid rgba(255,255,255,.08);white-space:nowrap}
@@ -245,29 +245,53 @@ mark{background:linear-gradient(transparent 58%,rgba(211,38,46,.26) 58%);color:i
 .lower2 .l2{background:linear-gradient(135deg,#1d3048,#0f1c2b);color:#fff;font-family:var(--head);font-size:clamp(18px,1.5vw,24px);padding:0 30px;display:flex;align-items:center;max-width:460px;line-height:1.1;font-style:italic}
 .lower2.post .l1{background:linear-gradient(135deg,#2c4560,#1d3048)}
 .lower2.post .l2{background:#fff;color:var(--ink)}
-/* экран наград */
-.rew{position:fixed;inset:0;z-index:60;display:none;align-items:center;justify-content:flex-end;background:rgba(232,238,245,.55);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
-.rew.show{display:flex;animation:fin2 .5s ease}
+/* экран наград — как на генерации */
+.rew{position:fixed;inset:0;z-index:60;display:none;background:radial-gradient(ellipse at 30% 60%,rgba(255,255,255,.35),rgba(232,238,245,.6));backdrop-filter:blur(9px);-webkit-backdrop-filter:blur(9px)}
+.rew.show{display:block;animation:fin2 .5s ease}
 @keyframes fin2{from{opacity:0}}
-.rew .who{position:absolute;z-index:0;left:max(0px,calc((100vw - 1320px) / 2 - 40px));bottom:0;height:min(80vh,860px);pointer-events:none;animation:rise2 .8s var(--ease)}
+.rew .who{position:absolute;z-index:2;left:-1vw;bottom:-2vh;height:92vh;pointer-events:none;animation:rise2 .8s var(--ease);filter:drop-shadow(0 30px 40px rgba(20,40,64,.3))}
+.rew.lose .who{height:80vh;left:4vw;bottom:0}
 @keyframes rise2{from{transform:translateY(40px);opacity:0}}
-.rew .pn{position:relative;z-index:1;margin-right:max(var(--left),calc((100vw - 1320px) / 2));width:min(900px,62vw);display:grid;grid-template-columns:1.25fr .9fr;gap:24px;background:rgba(255,255,255,.92);border-radius:30px;padding:30px 34px;box-shadow:0 30px 80px rgba(10,24,40,.25);animation:rise2 .7s var(--ease) .1s both}
-.rew h2{font-family:var(--head);font-weight:400;font-size:clamp(40px,3.8vw,64px);margin:6px 0 4px;line-height:.95}
-.rew .bigsc{font-family:var(--head);font-size:clamp(70px,7vw,120px);line-height:.9;display:flex;gap:16px;align-items:baseline}
-.rew .bigsc .y{color:var(--red)}.rew .bigsc .c{color:var(--ink)}
-.rew .bigsc small{font-family:var(--font);font-size:11px;letter-spacing:.24em;font-weight:800;color:var(--mute)}
-.sk{display:grid;gap:8px;margin-top:10px}
-.sk .row{display:grid;grid-template-columns:150px 1fr 44px;align-items:center;gap:12px;background:rgba(31,50,72,.05);border-radius:14px;padding:9px 14px}
-.sk .row b{font-family:var(--head);font-weight:400;font-size:20px;display:block;line-height:1}.sk .row small{font-size:10px;letter-spacing:.2em;font-weight:800;color:var(--mute)}
-.sk .bar{height:9px;border-radius:9px;background:rgba(31,50,72,.12);overflow:hidden}.sk .bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#e63a42,#b51c24);border-radius:9px;transition:width 1.2s var(--ease) .4s}
-.sk .pl{font-family:var(--head);font-size:20px;color:var(--red);text-align:right}
-.aw{text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;border-left:1px solid rgba(31,50,72,.1);padding-left:24px}
-.aw img{width:min(190px,14vw);filter:drop-shadow(0 0 30px rgba(255,200,90,.55));animation:pop2 .8s var(--ease) .5s both}
+.spray{position:absolute;z-index:3;left:4vw;bottom:2vh;width:40vw;height:30vh;pointer-events:none}
+.spray i{position:absolute;bottom:0;width:6px;height:6px;border-radius:50%;background:#fff;box-shadow:0 0 6px rgba(255,255,255,.9);opacity:0;animation:spr 1.6s ease-out forwards}
+@keyframes spr{0%{opacity:1;transform:translate(0,0)}100%{opacity:0;transform:translate(var(--dx),var(--dy))}}
+.rew .pn{position:absolute;z-index:4;right:5vw;top:50%;transform:translateY(-50%);width:min(62vw,1100px);display:grid;grid-template-columns:1.25fr .85fr;gap:0;border-radius:30px;padding:clamp(22px,3.4vh,40px) clamp(24px,2.4vw,44px);
+  background:linear-gradient(160deg,rgba(255,255,255,.88),rgba(240,246,252,.78));backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);box-shadow:0 30px 80px rgba(10,24,40,.25),inset 0 1px 0 rgba(255,255,255,.9);animation:rise2 .7s var(--ease) .1s both}
+.rew .lf{padding-right:clamp(20px,2vw,36px);border-right:1px solid rgba(31,50,72,.12)}
+.rew .kk{font-size:12px;letter-spacing:.42em;font-weight:800;color:var(--ink-2);text-transform:uppercase}
+.rew h2{position:relative;display:inline-block;font-family:var(--head);font-weight:400;font-size:clamp(44px,4.4vw,80px);margin:6px 0 2px;line-height:.95;text-transform:uppercase}
+.rew h2 svg{position:absolute;left:12%;bottom:-14px;width:80%;height:18px;overflow:visible}
+.rew h2 svg path{fill:none;stroke:var(--red);stroke-width:6;stroke-linecap:round;stroke-dasharray:600;stroke-dashoffset:600;animation:brush .8s var(--ease) .5s forwards}
+@keyframes brush{to{stroke-dashoffset:0}}
+.bigsc2{display:flex;justify-content:center;align-items:flex-start;gap:clamp(14px,1.6vw,26px);margin:clamp(10px,2vh,22px) 0 clamp(8px,1.6vh,18px)}
+.bigsc2 .d{display:flex;flex-direction:column;align-items:center}
+.bigsc2 .n{font-family:var(--head);font-size:clamp(90px,9vw,170px);line-height:.85}
+.bigsc2 .n.y{color:var(--red)}.bigsc2 .n.c{color:#16263a}
+.bigsc2 .col{font-family:var(--head);font-size:clamp(60px,6vw,110px);line-height:1.1;color:#16263a}
+.bigsc2 small{font-size:clamp(11px,.9vw,14px);font-weight:900;letter-spacing:.3em;margin-top:6px}
+.bigsc2 .y + small{color:var(--red)}
+.sk{display:grid;gap:clamp(6px,1vh,10px)}
+.sk .row{display:grid;grid-template-columns:40px 1.2fr 1.4fr 50px;align-items:center;gap:14px;background:rgba(255,255,255,.75);border-radius:14px;padding:clamp(7px,1.1vh,12px) 16px;box-shadow:0 4px 14px rgba(20,40,64,.06)}
+.sk .ic{width:34px;height:34px}
+.sk .row b{font-weight:800;font-size:clamp(14px,1.1vw,18px);display:block;line-height:1.1}.sk .row small{font-size:10px;letter-spacing:.24em;font-weight:800;color:var(--mute);text-transform:uppercase}
+.sk .bar{height:10px;border-radius:10px;background:rgba(31,50,72,.12);overflow:hidden}.sk .bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#e63a42,#b51c24);border-radius:10px;transition:width 1.2s var(--ease) .5s}
+.sk .pl{font-family:var(--head);font-size:24px;color:var(--red);text-align:right}
+.aw{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding-left:clamp(20px,2vw,36px);text-align:center}
+.aw .kk{margin-bottom:6px}
+.medal{position:relative;width:min(240px,15vw);aspect-ratio:1;display:grid;place-items:center}
+.medal::before{content:"";position:absolute;inset:-30%;border-radius:50%;background:repeating-conic-gradient(from 0deg,rgba(255,206,110,.55) 0 4deg,transparent 4deg 16deg);-webkit-mask-image:radial-gradient(circle,#000 30%,transparent 70%);mask-image:radial-gradient(circle,#000 30%,transparent 70%);animation:spin 18s linear infinite}
+.medal::after{content:"";position:absolute;inset:-6%;border-radius:50%;background:radial-gradient(circle,rgba(255,220,140,.75),transparent 65%)}
+@keyframes spin{to{transform:rotate(360deg)}}
+.medal img{position:relative;z-index:1;width:100%;filter:drop-shadow(0 10px 20px rgba(0,0,0,.35));animation:pop2 .8s var(--ease) .5s both}
 @keyframes pop2{from{transform:scale(.4) rotate(-20deg);opacity:0}}
-.aw b{font-family:var(--head);font-weight:400;font-size:28px;line-height:1}
-.aw p{margin:0;font-size:13px;color:var(--ink-2)}
-.rew .acts{grid-column:1 / -1;display:flex;gap:12px;flex-wrap:wrap}
-.rew .acts .btn{flex:1;justify-content:center}
+.aw b{font-family:var(--head);font-weight:400;font-size:clamp(28px,2.4vw,40px);line-height:1;text-transform:uppercase}
+.aw .sub3{font-size:11px;letter-spacing:.3em;font-weight:800;color:var(--ink-2);text-transform:uppercase}
+.tip3{display:flex;gap:12px;align-items:flex-start;text-align:left;margin-top:12px;background:rgba(255,255,255,.75);border-radius:16px;padding:12px 16px;font-size:13px;line-height:1.45;color:var(--ink-2)}
+.tip3 .st{flex:none;width:24px;height:24px;border-radius:50%;background:#f2b33d;color:#fff;display:grid;place-items:center;font-size:13px}
+.rew .acts{grid-column:1 / -1;display:grid;grid-template-columns:repeat(auto-fit,minmax(0,1fr));gap:12px;margin-top:clamp(14px,2.4vh,26px)}
+.rew .acts .btn{justify-content:center;font-size:clamp(15px,1.1vw,19px);letter-spacing:.12em}
+.rew .acts .ghost{background:#fff;color:var(--ink);box-shadow:0 6px 18px rgba(20,40,64,.08)}
+.rew.lose .pn{filter:saturate(.85)}
 @media (max-width:1100px){.rew .who{opacity:.25}.rew .pn{width:92vw;margin:0 auto;grid-template-columns:1fr}.aw{border:0;padding:0}.per2 button:not(.on){display:none}}
 
 .sb2{display:grid!important;grid-template-columns:1fr auto 1fr;height:64px!important}
@@ -289,13 +313,24 @@ mark{background:linear-gradient(transparent 58%,rgba(211,38,46,.26) 58%);color:i
 .sub2 .pucks{background:rgba(16,30,48,.88);border-radius:12px;padding:9px 14px;box-shadow:0 10px 24px rgba(10,20,34,.22)}
 .sub2 .pucks:empty{display:none}
 #tabs{display:none!important}
-.card{top:calc(12.8vh + 130px)!important;bottom:15vh!important}
-@media (max-height:820px){.card{top:calc(12.8vh + 120px)!important;bottom:13vh!important}}
+.card{top:calc(96px + 52px + 128px)!important;bottom:13vh!important}
+@media (max-height:820px){.card{top:calc(92px + 48px + 118px)!important;bottom:11vh!important}}
 .lower2{bottom:2.5vh!important}
 .how2{display:flex;gap:10px;align-items:flex-start;font-size:14px;line-height:1.4;color:var(--ink-2);background:rgba(37,75,112,.07);border-radius:12px;padding:9px 13px;margin:0 0 12px}
 .how2 b{color:var(--ink)}
 .rec2{display:inline-block;margin-left:12px;font-family:var(--head);font-size:18px;color:#fff;background:linear-gradient(135deg,#f2b33d,#d98a12);padding:4px 12px;border-radius:8px;vertical-align:middle;animation:pop2 .7s var(--ease) .4s both}
 .ot{font-family:var(--head);font-size:22px;color:var(--red)}
+body.hwmode .board2{display:none!important}
+body.hwmode .card{top:calc(96px + 60px)!important;bottom:5vh!important}
+body.hwmode .mkick{top:calc(30vh - 30px)!important}
+body.revmode .player-slot{width:min(40vw,700px)!important;right:-2vw!important;bottom:4vh!important}
+.whyb{margin-left:auto;flex:none;border:0;border-radius:999px;background:var(--red);color:#fff;font-weight:900;font-size:12px;letter-spacing:.06em;padding:7px 14px;cursor:pointer}
+/* объяснения: крупнее, пары «английский — перевод», ▶ и пометка тренера */
+#pb .ex{font-size:clamp(17px,1.25vw,21px)!important;font-weight:700}
+#pb .tr{font-size:clamp(14px,1vw,17px)!important}
+#pb mark{font-weight:900}
+.say{display:inline-grid;place-items:center;width:28px;height:28px;margin-right:8px;border:0;border-radius:50%;background:var(--red);color:#fff;font-size:11px;cursor:pointer;vertical-align:middle;box-shadow:0 4px 10px rgba(211,38,46,.3)}
+.hn{display:inline-block;margin-left:10px;font-family:var(--hand);font-weight:700;font-size:24px;color:var(--red);transform:rotate(-6deg);white-space:nowrap;vertical-align:middle}
 </style></head>
 <body class="arriving">
 <main class="stage" id="stage"></main>
@@ -320,8 +355,8 @@ mark{background:linear-gradient(transparent 58%,rgba(211,38,46,.26) 58%);color:i
 <div class="flash" id="flash">ГОЛ!</div>
 <div class="veil"></div>
 
-<script src="data.js?v=35"></script>
-<script src="ice-ui.js?v=35"></script><script src="ui2.js?v=39"></script>
+<script src="data.js?v=43"></script>
+<script src="ice-ui.js?v=35"></script><script src="ui2.js?v=42"></script>
 <script>
 (() => {
   const q = new URLSearchParams(location.search);
@@ -351,9 +386,10 @@ function run(L) {
   const spacer = () => el('span', 'sp');
   document.title = `ICE ENGLISH · Урок ${L.code}`;
   const qs = new URLSearchParams(location.search);
-  const bgs = UI2.scene($('stage'), { horizon: .58, size: .3, sink: .3, fitW: .58, left: () => innerWidth * .075 });
-  bgs.set(L.review ? 'ШТРАФНАЯ' : 'MATCH', '', true);
-  { const k = document.createElement('div'); k.className = 'mkick'; k.textContent = L.review ? 'штрафная · отыгрываем ошибки' : `spotlight 7 · match ${L.module} · урок ${L.code}`; document.body.appendChild(k); }
+  const bgs = UI2.photo($('stage'), { src: 'bg_arena', pos: '50% 62%' });
+  const HWM = qs.get('v') === 'hw'; if (HWM) document.body.classList.add('hwmode'); if (L.review) { document.body.classList.add('hwmode', 'revmode'); const pi = document.querySelector('#player img'); if (pi) pi.src = 'img/pbox_pl.webp'; }
+  bgs.set(HWM ? 'HOMEWORK' : L.review ? 'ШТРАФНАЯ' : 'MATCH', '', true);
+  UI2.plaque(L.review ? 'ШТРАФНАЯ' : HWM ? 'HOMEWORK' : `MATCH ${L.module}`, L.review ? `на скамейке: ${(store.mistakes || []).length} · реши верно — и выйдешь на лёд` : HWM ? `задание тренера · урок ${L.code} · стр. ${L.pages}` : `урок ${L.code} · ${L.en}`);
   const gwrap = () => document.querySelector('.sc-giant');
   UI2.header(qs.get('v') === 'hw' ? 'hw' : L.review ? 'pen' : 'season');
   const crumbV = null;
@@ -364,8 +400,15 @@ function run(L) {
   let voice = null;
   const pickVoice = () => { const v = speechSynthesis.getVoices(); voice = v.find(x => /en-GB/i.test(x.lang)) || v.find(x => /^en/i.test(x.lang)) || null; };
   if ('speechSynthesis' in window) { pickVoice(); speechSynthesis.onvoiceschanged = pickVoice; }
-  function speak(t) { if (!('speechSynthesis' in window)) return; speechSynthesis.cancel(); const u = new SpeechSynthesisUtterance(t.replace(/’/g, "'")); u.lang = 'en-GB'; u.rate = .9; if (voice) u.voice = voice; speechSynthesis.speak(u); }
+  function speak(t) { const slug = t.toLowerCase().replace(/[’']/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 80);
+    const a = new Audio(`audio/${slug}.mp3`); a.play().then(() => {}).catch(() => tts(t)); }
+  function tts(t) { if (!('speechSynthesis' in window)) return; speechSynthesis.cancel(); const u = new SpeechSynthesisUtterance(t.replace(/’/g, "'")); u.lang = 'en-GB'; u.rate = .9; if (voice) u.voice = voice; speechSynthesis.speak(u); }
   document.addEventListener('click', e => { const s = e.target.closest('[data-say]'); if (s) speak(s.dataset.say); });
+  const decorate = () => { const pb = $('pb'); if (!pb) return;
+    pb.querySelectorAll('.ex').forEach(x => { if (x.querySelector('.say, [data-say]') || x.closest('[data-say]')) return; const txt = x.textContent.trim(); if (!/[a-z]/i.test(txt)) return;
+      const b = document.createElement('button'); b.className = 'say'; b.dataset.say = txt.replace(/\s+/g, ' '); b.textContent = '▶'; b.title = 'Послушать'; x.prepend(b); });
+    const m = pb.querySelector('mark'); if (m && !pb.querySelector('.hn')) { const n = document.createElement('span'); n.className = 'hn'; n.textContent = '← главное!'; m.after(n); } };
+  new MutationObserver(() => { clearTimeout(decorate.t); decorate.t = setTimeout(decorate, 60); }).observe(document.body, { childList: true, subtree: true });
 
   /* ---------- разделы и переходы «по одному льду» ---------- */
   const VIEWS_ALL = [['hub', 'Обзор'], ['theory', 'Разобраться'], ['practice', 'Тренироваться'], ['words', 'Слова'], ['hw', 'Домашка']];
@@ -378,7 +421,7 @@ function run(L) {
     [...$('tabs').children].forEach((b, i) => b.classList.toggle('on', VIEWS[i][0] === v));
     if (crumbV && !L.review) crumbV.textContent = VIEWS.find(x => x[0] === v)[1];
     $('stage').style.setProperty('--pan', (PAN[v] * innerWidth / 160).toFixed(0) + 'px');
-    if (changed) { const g = gwrap(); g.classList.add('down'); clearTimeout(g.t); g.t = setTimeout(() => { g.classList.remove('down'); g.classList.add('pre'); void g.offsetWidth; g.classList.remove('pre'); }, 560); }
+    if (changed && gwrap()) { const g = gwrap(); g.classList.add('down'); clearTimeout(g.t); g.t = setTimeout(() => { g.classList.remove('down'); g.classList.add('pre'); void g.offsetWidth; g.classList.remove('pre'); }, 560); }
     ({ hub: showHub, theory: () => showTheory(arg || 0), practice: () => startPractice(true), words: showWords, hw: showHw })[v]();
   }
   // смена содержимого карточки
@@ -544,7 +587,7 @@ function run(L) {
     next.disabled = true;
     const right = () => { markResult(idx, true); solved++; moveTo(solved / queue.length); next.disabled = false; };
     const wrong = () => markResult(idx, false);
-    const body = el('div'); if (HOW[t.type]) { const h = document.createElement('div'); h.className = 'how2'; h.innerHTML = '💡 ' + HOW[t.type]; body.appendChild(h); }
+    const body = el('div'); if (HOW[t.type]) { const h = document.createElement('div'); h.className = 'how2'; h.innerHTML = '💡 ' + HOW[t.type]; if (L.review && t._src && L.srcTheory) { const w = document.createElement('button'); w.className = 'whyb'; w.textContent = 'Почему ошибся? →'; w.onclick = () => rulePop(L.srcTheory(t._src.l)); h.appendChild(w); } body.appendChild(h); }
     body.appendChild(RENDER[t.type](t, fb, right, wrong, idx)); body.appendChild(fb);
     $('stage').style.setProperty('--pan', ((PAN.practice - qi * .08) * innerWidth / 160).toFixed(0) + 'px');
     frame(`${round > 1 ? 'Работа над ошибками' : L.review ? 'Повторить' : 'Тренироваться'}, задание ${qi + 1} из ${queue.length}`, t.prompt, body, [btn('‹ Обзор', 'go light', () => go('hub')), btn('Правило', 'go light', () => rulePop(t._src ? L.srcTheory(t._src.l) : L.theory)), spacer(), next]);
@@ -695,7 +738,7 @@ function run(L) {
       cards.appendChild(c);
     });
     body.appendChild(cards);
-    frame('Слова урока', 'Слова: город и деревня', body, [btn('‹ Обзор урока', 'go light', () => go('hub')), spacer(), btn('Проверь себя <span>↗</span>', 'go', () => wordQuiz(0, 0, shuffle(L.words).slice(0, 6)))]);
+    frame('Слова урока', `Слова: ${L.ru.toLowerCase()}`, body, [btn('‹ Обзор урока', 'go light', () => go('hub')), spacer(), btn('Проверь себя <span>↗</span>', 'go', () => wordQuiz(0, 0, shuffle(L.words).slice(0, 6)))]);
   }
   function wordQuiz(i, score, set) {
     if (i === set.length) {
@@ -889,21 +932,29 @@ function run(L) {
       if (Object.keys(store.done).length >= 3) give('hattrick', 'Хет-трик', 'Три урока выиграно');
     }
     save();
-    const SK = [['shot', 'Бросок', 'грамматика'], ['skate', 'Катание', 'слова'], ['vision', 'Видение поля', 'чтение и слух'], ['pass', 'Пас', 'письмо']];
+    const SK = [['shot', 'Бросок', 'грамматика'], ['skate', 'Катание', 'слова'], ['vision', 'Видение поля', 'чтение'], ['pass', 'Пас', 'письмо']];
     const nx = ICE_NEXT(store), nextHref = ICE_READY[nx.l.id] ? `lesson.html?l=${nx.l.id}` : `school.html?m=${nx.m.n}`;
     const r = $('rew'), allDone = win && !!lp.theory && !!lp.words, left = [!lp.theory && ['theory', '1 период: Разобраться'], !lp.words && ['words', '3 период: Слова']].filter(Boolean);
-    r.innerHTML = `<img class="who" src="img/${win ? 'pl_celebrate' : 'pl_stand'}.webp" alt="">
-      <div class="pn"><div>
-        <span class="kick bar">Spotlight 7 · матч ${L.module} · урок ${L.code}</span>
-        <h2>${win ? (allDone ? 'Матч выигран' : 'Период выигран') : 'Поражение'}${newRec ? '<span class="rec2">НОВЫЙ РЕКОРД</span>' : ''}</h2>${win && !allDone ? `<div class="ot">Чтобы выиграть матч, пройди: ${left.map(x => x[1].split(': ')[1]).join(', ')}</div>` : ''}
-        <div class="bigsc"><span class="y">${got}</span><span class="c">:</span><span class="c">${errs.length}</span><small>ТЫ : ОШИБКИ</small></div>
-        <div class="sk">${SK.map(([k, n, d]) => `<div class="row"><span><b>${n}</b><small>${d.toUpperCase()}</small></span><span class="bar"><i data-w="${store.skills[k]}"></i></span><span class="pl">${win && round === 1 && add[k] ? '+' + add[k] : store.skills[k]}</span></div>`).join('')}</div>
+    const ICON = { shot: '<svg class="ic" viewBox="0 0 40 40"><ellipse cx="20" cy="16" rx="15" ry="7" fill="#16263a"/><path d="M5 16v6c0 4 7 7 15 7s15-3 15-7v-6" fill="#0b1219"/></svg>',
+      skate: '<svg class="ic" viewBox="0 0 40 40"><path d="M10 6h9l2 14 9 3c3 1 4 3 4 6H8z" fill="#16263a"/><path d="M6 33h30" stroke="#16263a" stroke-width="3" stroke-linecap="round"/></svg>',
+      vision: '<svg class="ic" viewBox="0 0 40 40"><path d="M8 22a12 12 0 0 1 24 0v4H8z" fill="#16263a"/><path d="M12 26v6h16v-6" fill="none" stroke="#16263a" stroke-width="2.5"/><path d="M14 28h12M14 31h12" stroke="#16263a" stroke-width="1.6"/></svg>',
+      pass: '<svg class="ic" viewBox="0 0 40 40"><path d="M8 6l20 26M32 6L12 32" stroke="#16263a" stroke-width="3.5" stroke-linecap="round"/><path d="M26 32h7M7 32h7" stroke="#16263a" stroke-width="4" stroke-linecap="round"/></svg>' };
+    const TM = ['wolf', 'bear', 'eagle', 'fox', 'lynx', 'deer', 'lion', 'owl', 'shark', 'tiger'], TR = ['Волков', 'Медведей', 'Орлов', 'Лис', 'Рысей', 'Оленей', 'Львов', 'Сов', 'Акул', 'Тигров'], mi = Math.max(0, (L.module || 1) - 1);
+    r.className = 'rew' + (win ? '' : ' lose');
+    const sprayHTML = win ? '<div class="spray">' + Array.from({ length: 46 }, () => `<i style="left:${Math.random() * 60 + 10}%;--dx:${(Math.random() * 2 - 1) * 260}px;--dy:${-Math.random() * 260 - 40}px;animation-delay:${Math.random() * .5}s;width:${Math.random() * 6 + 3}px;height:${Math.random() * 6 + 3}px"></i>`).join('') + '</div>' : '';
+    r.innerHTML = `<img class="who" src="img/${win ? 'pl_celebrate' : 'pl_stand'}.webp" alt="">${sprayHTML}
+      <div class="pn"><div class="lf">
+        <span class="kk">Spotlight 7 · матч ${L.module} · урок ${L.code}</span><br>
+        <h2>${win ? (allDone ? 'Матч выигран' : 'Период выигран') : 'Поражение'}<svg viewBox="0 0 300 18" preserveAspectRatio="none"><path d="M4 12 C 80 2, 180 4, 296 8"/></svg></h2>${newRec ? '<span class="rec2">НОВЫЙ РЕКОРД</span>' : ''}
+        ${win && !allDone ? `<div class="ot">Чтобы выиграть матч, пройди: ${left.map(x => x[1].split(': ')[1]).join(', ')}</div>` : ''}
+        <div class="bigsc2"><span class="d"><span class="n y">${got}</span><small>ТЫ</small></span><span class="col">:</span><span class="d"><span class="n c">${errs.length}</span><small>ОШИБКИ</small></span></div>
+        <div class="sk">${SK.map(([k, n, d]) => `<div class="row">${ICON[k]}<span><b>${n}</b><small>${d}</small></span><span class="bar"><i data-w="${store.skills[k]}"></i></span><span class="pl">${win && round === 1 && add[k] ? '+' + add[k] : store.skills[k]}</span></div>`).join('')}</div>
       </div>
-      <div class="aw">${award ? `<span class="kick">Новая награда</span><img src="img/badge_${award.id}.webp" alt=""><b>${award.name}</b><p>${award.desc}</p>`
-        : win ? `<span class="kick">Так держать</span><p>Ты разобрался с темой. Следующий урок — ${nx.l.code}.</p>`
-              : `<span class="kick">Матч проигран</span><p>Нужно ${need} из ${queue.length} с первой попытки. Поражение записано в сезон — переиграй матч, чтобы пройти в МХЛ. Сначала перерешай ошибки.</p>`}</div>
-      <div class="acts">${errs.length ? '<button class="btn dark" data-a="redo">Перерешать ошибки</button>' : ''}${!win ? '<button class="btn" data-a="replay">Переиграть матч →</button>' : ''}
-        ${win && !allDone ? left.map(([v, t]) => `<button class="btn" data-a="${v}">${t} →</button>`).join('') : ''}${allDone ? '<button class="btn" data-a="next">Следующий матч →</button>' : ''}<button class="btn ghost" data-a="hub" style="background:#fff;color:var(--ink);box-shadow:none">В раздевалку</button></div></div>`;
+      <div class="aw">${award ? `<span class="kk">Новая награда</span><div class="medal"><img src="img/badge_${award.id}.webp" alt=""></div><b>${award.name}</b><span class="sub3">${award.desc}</span>`
+        : win ? `<span class="kk">Победа</span><div class="medal"><img src="img/team_${TM[mi]}.webp" alt=""></div><b>Победа над ${TR[mi]}</b><span class="sub3">матч ${L.module} · урок ${L.code}</span>`
+              : `<span class="kk">Матч проигран</span><div class="medal" style="filter:grayscale(1);opacity:.7"><img src="img/team_${TM[mi]}.webp" alt=""></div><b>${TR[mi].replace(/ов$|ей$/, '')} сильнее</b><span class="sub3">пока что</span>`}
+        <div class="tip3"><span class="st">★</span><span>${win ? (allDone ? '<b>Так держать!</b><br>Ты отлично разобрался с темой и уверенно выполнил задания.' : '<b>Почти матч!</b><br>Остался ещё период — после него матч засчитают.') : `<b>Нужно ${need} из ${queue.length} с первой попытки.</b><br>Поражение записано в сезон. Перерешай ошибки и переиграй матч — только так путь в МХЛ.`}</span></div></div>
+      <div class="acts">${errs.length ? '<button class="btn dark" data-a="redo">Перерешать ошибки</button>' : ''}${!win ? '<button class="btn" data-a="replay">Переиграть матч →</button>' : ''}${win && !allDone ? left.map(([v, t]) => `<button class="btn" data-a="${v}">${t} →</button>`).join('') : ''}${allDone ? '<button class="btn" data-a="next">→ Следующий матч</button>' : ''}<button class="btn ghost" data-a="hub">В раздевалку</button></div></div>`;
     r.classList.add('show');
     setTimeout(() => r.querySelectorAll('.sk .bar i').forEach(i => { void i.offsetWidth; i.style.setProperty('width', i.dataset.w + '%', 'important'); }), 250);
     r.onclick = e => { const a = e.target.closest('[data-a]'); if (!a) return; const k = a.dataset.a;
