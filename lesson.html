@@ -3,7 +3,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>ICE ENGLISH · Урок</title>
 <link rel="stylesheet" href="fonts.css?v=29">
-<link rel="stylesheet" href="ice.css?v=35"><link rel="stylesheet" href="ui2.css?v=42">
+<link rel="stylesheet" href="ice.css?v=35"><link rel="stylesheet" href="ui2.css?v=44">
 <style>
 :root{--left:clamp(24px,4.9vw,120px);--cardw:clamp(560px,47vw,1200px)}
 .stage{transition:transform 1.2s var(--ease)}
@@ -331,6 +331,45 @@ body.revmode .player-slot{width:min(40vw,700px)!important;right:-2vw!important;b
 #pb mark{font-weight:900}
 .say{display:inline-grid;place-items:center;width:28px;height:28px;margin-right:8px;border:0;border-radius:50%;background:var(--red);color:#fff;font-size:11px;cursor:pointer;vertical-align:middle;box-shadow:0 4px 10px rgba(211,38,46,.3)}
 .hn{display:inline-block;margin-left:10px;font-family:var(--hand);font-weight:700;font-size:24px;color:var(--red);transform:rotate(-6deg);white-space:nowrap;vertical-align:middle}
+.gap{font:inherit;font-weight:800;color:var(--red);width:9ch;border:0;border-bottom:3px solid var(--red);background:rgba(211,38,46,.05);text-align:center;padding:0 4px;outline:none}
+.gap.ok{color:#1c8a4c;border-color:#1c8a4c}.gap.bad{animation:shake .4s}
+.wr2{width:100%;font:inherit;font-size:18px;font-weight:700;border:2px solid rgba(31,50,72,.15);border-radius:14px;padding:12px 14px;margin:6px 0 12px;resize:vertical;outline:none}
+.wr2:focus{border-color:var(--red)}.wr2.ok{border-color:#1c8a4c;background:rgba(28,138,76,.05)}
+.mic.rec{background:var(--red)!important;animation:blink 1s infinite}@keyframes blink{50%{opacity:.6}}
+@keyframes shake{25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+/* обзор урока */
+.ov-top{display:grid;grid-template-columns:auto 1fr;gap:20px;align-items:start;margin-bottom:14px}
+.ov-time{width:84px;height:84px;border-radius:50%;background:linear-gradient(135deg,#e63a42,#b51c24);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:0 10px 24px rgba(211,38,46,.3)}
+.ov-time b{font-family:var(--head);font-weight:400;font-size:34px;line-height:1}.ov-time small{font-size:11px;font-weight:800;letter-spacing:.1em}
+.ov-top p{margin:4px 0 10px;font-size:15px;line-height:1.45}
+.ov-steps{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.ov-step{position:relative;display:flex;flex-direction:column;align-items:flex-start;gap:4px;text-align:left;border:0;border-radius:18px;padding:16px;background:#fff;box-shadow:0 8px 20px rgba(20,44,70,.08);cursor:pointer;transition:translate .25s}
+.ov-step:hover{translate:0 -3px}
+.ov-step .n{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:#16263a;color:#fff;font-family:var(--head);font-size:20px;margin-bottom:4px}
+.ov-step.ok .n{background:#1c8a4c}.ov-step.rec{box-shadow:0 0 0 2px var(--red),0 10px 26px rgba(211,38,46,.2)}
+.ov-step .k{font-size:12px;font-weight:800;letter-spacing:.08em;color:var(--mute);text-transform:uppercase}
+.ov-step b{font-family:var(--head);font-weight:400;font-size:24px;line-height:1;text-transform:uppercase}
+.ov-step > span:not(.n):not(.k):not(.st):not(.badge){font-size:13px;color:var(--ink-2);line-height:1.35}
+.ov-step .st{margin-top:auto;font-size:12px;font-weight:800;color:var(--red)}
+.ov-step .badge{position:absolute;right:12px;top:12px;font-size:11px;font-weight:900;color:#fff;background:var(--red);padding:3px 9px;border-radius:999px}
+.ov-win{margin:14px 0 8px;font-size:14px;line-height:1.45;background:rgba(242,179,61,.12);border-radius:12px;padding:10px 14px}
+.ov-hw{border:0;background:rgba(31,50,72,.06);border-radius:12px;padding:10px 14px;font-weight:700;font-size:14px;cursor:pointer;text-align:left;width:100%}
+.lock2{font-size:13px;font-weight:700;color:var(--mute);margin:0 12px 0 0;align-self:center}
+/* карточки правила в новом стиле */
+#pb .duo > div{background:linear-gradient(160deg,#fff,#f3f6fa)!important;color:var(--ink)!important;border:1px solid rgba(31,50,72,.08);box-shadow:0 8px 20px rgba(20,44,70,.07);border-radius:18px!important}
+#pb .duo > div .kicker{color:var(--red)!important;font-weight:900}
+#pb .duo .ex{background:rgba(31,50,72,.05)!important;color:var(--ink)!important;border-left:4px solid var(--red)!important;border-radius:10px!important;padding:8px 12px!important}
+#pb .duo .tr{color:var(--ink-2)!important}
+#pb .ex b,#pb .ex strong{color:var(--red)!important}
+#pb .duo p,#pb .duo{color:var(--ink)!important}
+#pb mark{background:linear-gradient(transparent 55%,rgba(211,38,46,.25) 55%)!important;color:inherit!important}
+#pb .check{background:#16263a!important;color:#fff!important;border-radius:18px!important}
+#pb .check .kicker{color:#ffb3b6!important}
+/* слова урока — крупные карточки */
+.cards{gap:12px!important}
+.fc{min-height:96px!important;border-radius:18px!important;box-shadow:0 8px 20px rgba(20,44,70,.08)!important}
+.fc .f b{font-family:var(--head);font-weight:400;font-size:24px!important;text-transform:none}
+.fc .b{font-size:18px!important;font-weight:800;background:linear-gradient(135deg,#1d3048,#0f1c2b)!important;color:#fff!important}
 </style></head>
 <body class="arriving">
 <main class="stage" id="stage"></main>
@@ -355,8 +394,8 @@ body.revmode .player-slot{width:min(40vw,700px)!important;right:-2vw!important;b
 <div class="flash" id="flash">ГОЛ!</div>
 <div class="veil"></div>
 
-<script src="data.js?v=43"></script>
-<script src="ice-ui.js?v=35"></script><script src="ui2.js?v=42"></script>
+<script src="data.js?v=44"></script>
+<script src="ice-ui.js?v=35"></script><script src="ui2.js?v=44"></script>
 <script>
 (() => {
   const q = new URLSearchParams(location.search);
@@ -510,16 +549,18 @@ function run(L) {
                ['words', 'Шаг 3', 'Слова', 'Карточки слов урока с озвучкой и проверкой'],
                ['hw', 'Когда задали', 'Домашка', 'Подсказки к упражнениям учебника, без готовых ответов']];
     const body = el('div');
-    body.appendChild(el('p', 'meta', `${L.ru}. Примерно ${L.minutes} минут. Учебник: стр. ${L.pages} — если есть под рукой, но можно и без него.`));
-    body.appendChild(el('div', 'kicker', 'Что научишься'));
-    const ul = el('ul', 'learn'); L.learn.forEach(x => ul.appendChild(el('li', '', x))); ul.style.marginTop = '8px'; body.appendChild(ul);
-    const tiles = el('div', 'tiles');
-    T.forEach(([v, k, b, s]) => {
-      const t = btn(`<span class="k">${k}</span><b>${b}</b><span>${s}</span><span class="st">${st[v]}</span>${v === rec ? '<span class="badge">Начни здесь</span>' : ''}`, 'tile' + (v === rec ? ' rec' : ''), () => go(v));
-      tiles.appendChild(t);
+    const why = L.why || `Это пригодится, чтобы ${L.learn[0].charAt(0).toLowerCase() + L.learn[0].slice(1)}.`;
+    body.appendChild(el('div', 'ov-top', `<div class="ov-time"><b>${L.minutes}</b><small>минут</small></div><div><span class="kicker">Зачем это нужно</span><p>${why}</p><span class="kicker">Чему научишься</span><ul class="learn">${L.learn.map(x => `<li>${x}</li>`).join('')}</ul></div>`));
+    const steps = el('div', 'ov-steps');
+    T.slice(0, 3).forEach(([v, k, b, sub], n) => {
+      const done = v === 'theory' ? lp.theory : v === 'practice' ? store.done[L.id] : lp.words;
+      const t = btn(`<span class="n">${done ? '✓' : n + 1}</span><span class="k">${n + 1} период</span><b>${b}</b><span>${sub}</span><span class="st">${st[v]}</span>${v === rec ? '<span class="badge">Начни здесь</span>' : ''}`, 'ov-step' + (v === rec ? ' rec' : '') + (done ? ' ok' : ''), () => go(v));
+      steps.appendChild(t);
     });
-    body.appendChild(tiles);
-    frame(`Модуль ${L.module} / Урок ${L.code}`, L.en, body, [btn('‹ К маршруту модуля', 'go light', () => leave(`module.html?m=${L.module}`)), spacer(), btn(`${T.find(x => x[0] === rec)[2]} <span>↗</span>`, 'go', () => go(rec))]);
+    body.appendChild(steps);
+    body.appendChild(el('p', 'ov-win', '🏆 <b>Матч засчитан</b>, когда пройдены все три периода, а в тренировке не меньше 8 голов из 10. Домашка — отдельно: «Задание тренера».'));
+    if (L.homework.length) { const h = btn(`📋 Домашка по стр. ${L.pages}: ${st.hw}`, 'ov-hw', () => go('hw')); body.appendChild(h); }
+    frame(`Модуль ${L.module} / Урок ${L.code}`, L.en, body, [btn('‹ К матчам сезона', 'go light', () => leave(`school.html?m=${L.module}`)), spacer(), btn(`${T.find(x => x[0] === rec)[2]} <span>↗</span>`, 'go', () => go(rec))]);
     moveTo(0, true); resetGoal();
   }
 
@@ -552,9 +593,9 @@ function run(L) {
     if (c.life) body.appendChild(el('div', 'life', `<span class="kicker">В жизни говорят и так</span>${c.life}`));
     ck.appendChild(choice(c.check.options, fb, () => next.disabled = false)); ck.appendChild(fb); body.appendChild(ck);
     const prev = btn('‹ Назад', 'go light', () => i ? showTheory(i - 1) : go('hub'));
-    const skip = btn('Пропустить вопрос', 'go light', () => next.disabled = false); skip.style.opacity = '.7';
     $('stage').style.setProperty('--pan', ((PAN.theory - i * .25) * innerWidth / 160).toFixed(0) + 'px');
-    frame(`Разобраться, ${i + 1} из ${L.theory.length}`, c.title, body, [prev, spacer(), skip, next]);
+    frame(`Разобраться, ${i + 1} из ${L.theory.length}`, c.title, body, [prev, spacer(), next]);
+    if (!lp.theory) { const h = el('p', 'lock2', '🔒 Ответь на вопрос «Проверь себя» — и откроется «Дальше».'); next.parentNode && next.parentNode.insertBefore(h, next); }
   }
 
   /* ---------- ТРЕНИРОВАТЬСЯ ---------- */
@@ -593,6 +634,9 @@ function run(L) {
     frame(`${round > 1 ? 'Работа над ошибками' : L.review ? 'Повторить' : 'Тренироваться'}, задание ${qi + 1} из ${queue.length}`, t.prompt, body, [btn('‹ Обзор', 'go light', () => go('hub')), btn('Правило', 'go light', () => rulePop(t._src ? L.srcTheory(t._src.l) : L.theory)), spacer(), next]);
   }
   const HOW = {
+    input: '<b>Как делать:</b> впиши слово в пропуск и нажми Enter. Одна опечатка в длинном слове — не страшно.',
+    write: '<b>Как делать:</b> напиши фразу по-английски целиком и нажми Enter. Точку в конце можно не ставить.',
+    speak: '<b>Как делать:</b> нажми ▶ и послушай, потом 🎤 — и скажи фразу вслух. Браузер попросит доступ к микрофону.',
     choice: '<b>Как делать:</b> нажми верный вариант. Можно клавишами 1–4.',
     listen: '<b>Как делать:</b> нажми ▶, послушай фразу и выбери, что услышал.',
     sort: '<b>Как делать:</b> перетащи каждое слово в нужную корзину. Или нажми слово, потом корзину.',
@@ -601,7 +645,56 @@ function run(L) {
     match: '<b>Как делать:</b> соедини пары: нажми слово слева, потом его перевод справа.',
     tfns: '<b>Как делать:</b> T — так сказано в тексте, F — сказано обратное, NS — об этом в тексте нет.'
   };
+  /* сравнение ответов: регистр, апострофы, пробелы и знаки в конце не важны; одна опечатка в длинном слове прощается */
+  const nrm = x => String(x).toLowerCase().replace(/[’‘`]/g, "'").replace(/[.!?,]/g, '').replace(/\s+/g, ' ').trim();
+  const lev = (a, b) => { const m = a.length, n = b.length, d = Array.from({ length: m + 1 }, (_, i) => [i, ...Array(n).fill(0)]); for (let j = 1; j <= n; j++) d[0][j] = j;
+    for (let i = 1; i <= m; i++) for (let j = 1; j <= n; j++) d[i][j] = Math.min(d[i - 1][j] + 1, d[i][j - 1] + 1, d[i - 1][j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1)); return d[m][n]; };
+  function judge(said, answers) {
+    const s1 = nrm(said); let best = 99, bestA = answers[0];
+    answers.forEach(a => { const v = lev(s1, nrm(a)); if (v < best) { best = v; bestA = a; } });
+    const tol = nrm(bestA).length >= 12 ? 2 : nrm(bestA).length >= 5 ? 1 : 0;
+    return { ok: best <= tol, exact: best === 0, best: bestA };
+  }
   const RENDER = {
+    // вписать слово в пропуск
+    input(t, fb, right, wrong) {
+      const d = el('div'); const parts = t.text.split('___');
+      const p = el('p', 'q'); p.innerHTML = `${parts[0]}<input class="gap" autocomplete="off" spellcheck="false" placeholder="…">${parts[1] || ''}`; d.appendChild(p);
+      if (t.hint) d.appendChild(el('p', 'meta', `Подсказка: ${t.hint}`));
+      const inp = p.querySelector('input'), go2 = btn('Проверить', 'go', () => { const r = judge(inp.value, [t.answer, ...(t.alt || [])]);
+        if (r.ok) { inp.value = r.best; inp.classList.add('ok'); inp.disabled = true; go2.disabled = true; feedback(fb, true, (r.exact ? '' : ' Почти без ошибок — правильно пишется: <b>' + r.best + '</b>. ') + (t.why || '')); right(); }
+        else { inp.classList.add('bad'); setTimeout(() => inp.classList.remove('bad'), 600); feedback(fb, false, ' ' + (t.why || '')); wrong(); } });
+      inp.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); e.stopPropagation(); go2.click(); } });
+      d.appendChild(go2); setTimeout(() => inp.focus(), 200); return d;
+    },
+    // написать фразу целиком по-русскому заданию
+    write(t, fb, right, wrong) {
+      const d = el('div'); d.appendChild(el('p', 'q', `«${t.ru}»`));
+      const ta = document.createElement('textarea'); ta.className = 'wr2'; ta.rows = 2; ta.placeholder = 'Напиши по-английски…'; ta.spellcheck = false; d.appendChild(ta);
+      let tries = 0;
+      const go2 = btn('Проверить', 'go', () => { const r = judge(ta.value, [t.answer, ...(t.alt || [])]); tries++;
+        if (r.ok) { ta.disabled = true; go2.disabled = true; ta.classList.add('ok'); feedback(fb, true, (r.exact ? '' : ' Правильно так: <b>' + r.best + '</b>. ') + (t.why || '')); right(); }
+        else { feedback(fb, false, ' ' + (t.why || '') + (tries >= 2 ? ` Правильный ответ: <b>${t.answer}</b>.` : ''), tries >= 2 ? ' Перепиши его, чтобы запомнить.' : undefined); wrong(); } });
+      ta.addEventListener('keydown', e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); e.stopPropagation(); go2.click(); } });
+      d.appendChild(go2); setTimeout(() => ta.focus(), 200); return d;
+    },
+    // сказать вслух: распознавание речи в браузере, без него — самопроверка
+    speak(t, fb, right, wrong) {
+      const d = el('div'); d.appendChild(el('p', 'q', t.say)); if (t.ru) d.appendChild(el('p', 'meta', `Перевод: ${t.ru}`));
+      const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+      d.appendChild(btn('▶ Послушать, как надо', 'go light', () => speak(t.say)));
+      if (!SR) { d.appendChild(el('p', 'meta', 'В этом браузере нет распознавания речи. Скажи фразу вслух сам и нажми кнопку.'));
+        d.appendChild(btn('Я сказал вслух ✓', 'go', () => { feedback(fb, true, ' Молодец! Говорить вслух — лучший способ запомнить.'); right(); })); return d; }
+      const mic = btn('🎤 Нажми и скажи', 'go mic', () => {
+        const r = new SR(); r.lang = 'en-US'; r.interimResults = false; r.maxAlternatives = 3; mic.classList.add('rec'); mic.textContent = '🎤 Слушаю…';
+        r.onresult = e => { const alts = [...e.results[0]].map(x => x.transcript); mic.classList.remove('rec'); mic.textContent = '🎤 Ещё раз';
+          const tw = nrm(t.say).split(' '), best = alts.map(a => { const w = nrm(a).split(' '); return tw.filter(x => w.includes(x)).length / tw.length; }).sort((a, b) => b - a)[0];
+          if (best >= .75) { mic.disabled = true; feedback(fb, true, ` Я услышал: «${alts[0]}». ${t.why || ''}`); right(); }
+          else { feedback(fb, false, ` Я услышал: «${alts[0]}». Послушай образец и скажи ещё раз чётче.`); wrong(); } };
+        r.onerror = () => { mic.classList.remove('rec'); mic.textContent = '🎤 Ещё раз'; feedback(fb, false, ' Не расслышал. Проверь, что микрофон разрешён, и скажи ещё раз.', ''); };
+        r.onend = () => mic.classList.remove('rec'); r.start(); });
+      d.appendChild(mic); return d;
+    },
     choice(t, fb, right, wrong) { const d = el('div'); d.appendChild(q(t.text)); d.appendChild(choice(t.options, fb, right, wrong)); return d; },
     listen(t, fb, right, wrong) {
       const d = el('div'), has = 'speechSynthesis' in window;

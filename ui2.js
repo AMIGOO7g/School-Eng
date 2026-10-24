@@ -32,10 +32,9 @@ window.UI2 = (() => {
     if (opt && opt.light) h.classList.add('light');
     h.innerHTML = `<a class="logo" href="index.html"><b>/</b><span class="ice">ICE</span><span class="eng">ENGLISH</span></a>
       <nav class="nav2"><span class="pill"></span>${L.map(([k, t, href]) => `<a href="${href}" class="${k === active ? 'on' : ''}">${t}</a>`).join('')}</nav>
-      <button class="snd" title="Звук">${localStorage.getItem('ice_mute') === '1' ? '🔇' : '🔊'}</button>
       <a class="me" href="career.html" title="Карьера"><img src="img/pl_avatar.webp" alt=""><span class="n">${p.name}<small>${p.league.name}</small><span class="bar"><i style="width:${(p.done / p.total * 100).toFixed(1)}%"></i></span></span><span class="r">${p.rating}<small>рейтинг</small></span>${p.streak ? `<span class="fire" title="Дней подряд">🔥<b>${p.streak}</b></span>` : ''}</a>`;
     document.body.prepend(h);
-    h.querySelector('.snd').onclick = e => { e.currentTarget.textContent = SFX.toggle() ? '🔇' : '🔊'; };
+
     // красная плашка переезжает к пункту под курсором и возвращается к активному
     const nav = h.querySelector('.nav2'), pill = nav.querySelector('.pill'), links = [...nav.querySelectorAll('a')];
     const moveTo = a => { if (!a) { pill.style.opacity = 0; return; } pill.style.opacity = 1; pill.style.left = a.offsetLeft + 'px'; pill.style.width = a.offsetWidth + 'px';
@@ -133,7 +132,7 @@ window.UI2 = (() => {
   }
   // звук арены: синтез прямо в браузере, файлов нет; выключается кнопкой в шапке
   const SFX = (() => {
-    let ctx = null; const muted = () => localStorage.getItem('ice_mute') === '1';
+    let ctx = null; const muted = () => true;   // звук выключен по решению: только визуальные эффекты
     const ac = () => (ctx = ctx || new (window.AudioContext || window.webkitAudioContext)());
     function tone(type, f0, f1, t0, dur, vol, filt) { const c = ac(), o = c.createOscillator(), g = c.createGain(); o.type = type;
       o.frequency.setValueAtTime(f0, c.currentTime + t0); if (f1) o.frequency.exponentialRampToValueAtTime(f1, c.currentTime + t0 + dur);

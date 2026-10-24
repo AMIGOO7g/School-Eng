@@ -156,6 +156,7 @@ window.ICE_LESSON = {
       { t: 'today', g: 1, why: 'today — «сегодня», временно, не как всегда. Present Continuous.' },
       { t: 'on Sundays', g: 0, why: 'on Sundays — «по воскресеньям», это повторяется. Present Simple.' },
       { t: 'these days', g: 1, why: 'these days — «в эти дни», временная ситуация. Present Continuous.' }] },
+    { type: 'input', prompt: 'Впиши глагол в нужной форме', text: 'Look! The children ___ in the garden. (play)', answer: 'are playing', why: 'Look! — прямо сейчас: are + playing.' },
     { type: 'build', prompt: 'Собери предложение из письма Jim', hint: 'Сейчас я очень много занимаюсь.',
       words: ['really', 'am', 'the', 'I', 'at', 'studying', 'moment', 'hard'],
       answer: 'I am studying really hard at the moment',
@@ -165,26 +166,16 @@ window.ICE_LESSON = {
       { t: 'leaves', ok: true, why: 'Это расписание автобуса, оно повторяется каждое утро: Present Simple, bus → leaves.' },
       { t: 'is leaving', alt: true, why: 'В разговоре про сегодняшний автобус так скажут: The bus is leaving at 7 — это не ошибка. Но every morning и расписание по учебнику — Present Simple: leaves.' },
       { t: 'leave', why: 'bus — это «он» (it), значит нужно окончание -s: leaves.' }] },
-    { type: 'choice', prompt: 'Выбери правильную форму', text: 'Tonight I ___ my friends at the cinema. We bought the tickets yesterday.', options: [
-      { t: 'am meeting', ok: true, why: 'Встреча уже договорена на сегодня (билеты куплены): Present Continuous.' },
-      { t: 'meet', why: 'Когда о встрече на ближайшее время уже договорились, говорим Present Continuous: am meeting.' },
-      { t: 'am meet', why: 'После am глагол всегда с -ing: am meeting.' }] },
+    { type: 'write', prompt: 'Напиши по-английски', ru: 'Я обычно встаю в 7 утра.', answer: 'I usually get up at 7 am', alt: ['I usually get up at 7', 'I usually get up at seven', 'I usually get up at seven am', 'I usually get up at 7 o’clock'], why: 'usually — привычка, Present Simple: I usually get up…' },
     { type: 'error', prompt: 'Нажми на слово с ошибкой', tokens: ['I', 'am', 'knowing', 'the', 'answer', 'to', 'this', 'question.'], bad: [1, 2],
       fix: 'I know the answer to this question.',
       why: 'know — глагол состояния, его не ставят в -ing. Правильно: I know the answer.' ,
       miss: 'Это слово стоит правильно. Подумай: можно ли «знать» как процесс, который идёт прямо сейчас?' },
-    { type: 'choice', prompt: 'Выбери правильную форму', text: 'My sister ___ my clothes without asking! It’s so annoying!', options: [
-      { t: 'is always taking', ok: true, why: 'Жалуемся на надоедливую привычку — is always + -ing, как в упр. 6 на стр. 7.' },
-      { t: 'always takes', alt: true, why: 'Так тоже говорят, и это не ошибка. Но по учебнику для жалобы нужно is always taking — в школе выбирай его.' },
-      { t: 'is taking always', why: 'always стоит между is и глаголом: is always taking.' }] },
     { type: 'match', prompt: 'Соедини слово и перевод', pairs: [
       ['heavy traffic', 'плотное движение'], ['fresh air', 'свежий воздух'], ['peace and quiet', 'тишина и покой'],
       ['crowded streets', 'людные улицы'], ['high cost of living', 'дорогая жизнь']],
       why: 'Посмотри ещё раз на слова урока: каждое выражение переводится целиком, не по одному слову.' },
-    { type: 'choice', prompt: 'Образуй слово', text: 'There are no jobs in this town. The rate of ___ is very high.', options: [
-      { t: 'unemployment', ok: true, why: 'Работы нет — значит безработица: un + employ + ment = unemployment.' },
-      { t: 'employment', why: 'employment — это занятость, работа. А здесь работы нет, поэтому нужна приставка un-: unemployment.' },
-      { t: 'unemployed', why: 'unemployed — «безработный», так говорят о человеке. После the rate of нужно существительное: unemployment.' }] },
+    { type: 'speak', prompt: 'Скажи вслух', say: 'I am studying really hard at the moment.', ru: 'Сейчас я очень много занимаюсь.', why: 'Present Continuous: am studying.' },
     { type: 'listen', prompt: 'Послушай и выбери, что прозвучало', say: 'Annabel’s mum is making breakfast now.', options: [
       { t: 'Annabel’s mum is making breakfast now.', ok: true, why: 'Верно: is making — Present Continuous, и now это подтверждает.' },
       { t: 'Annabel’s mum makes breakfast now.', why: 'Прислушайся: в фразе есть is и making — это Present Continuous. И now тоже подсказывает.' },

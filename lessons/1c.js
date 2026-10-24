@@ -107,10 +107,7 @@ window.ICE_LESSON = {
       { t: 'from', ok: true, why: 'Выбирать из — choose from.' }, { t: 'at', why: 'Пара — choose from.' }, { t: 'about', why: 'Пара — choose from.' }] },
     { type: 'choice', prompt: 'Вставь предлог', text: 'You can take a ride ___ the carousel.', options: [
       { t: 'on', ok: true, why: 'Кататься на карусели — a ride on.' }, { t: 'to', why: 'to — направление. Кататься на — on.' }, { t: 'for', why: 'Пара — a ride on.' }] },
-    { type: 'choice', prompt: 'Вставь предлог', text: 'I’m crazy ___ one thing — the skatepark!', options: [
-      { t: 'about', ok: true, why: 'Обожать — be crazy about.' }, { t: 'on', why: 'Пара — crazy about.' }, { t: 'from', why: 'Пара — crazy about.' }] },
-    { type: 'choice', prompt: 'Вставь предлог', text: 'It’s the best place to shop ___ skating gear.', options: [
-      { t: 'for', ok: true, why: 'Покупать что-то — shop for.' }, { t: 'to', why: 'Пара — shop for.' }, { t: 'at', why: 'at + магазин: shop at a store. А покупать что — shop for.' }] },
+    { type: 'input', prompt: 'Впиши предлог', text: 'I’m crazy ___ skateboarding.', answer: 'about', why: 'Обожать — crazy about.' },
     { type: 'sort', prompt: 'Какое занятие для какой погоды?', groups: ['on a rainy day', 'on a hot day'], items: [
       { t: 'read a book', g: 0, why: 'В дождь удобно читать дома.' }, { t: 'play board games', g: 0, why: 'Настольные игры — дома в дождь.' },
       { t: 'surf the Net', g: 0, why: 'Интернет — дома.' }, { t: 'go sunbathing', g: 1, why: 'Загорать — в жару.' },
@@ -118,8 +115,7 @@ window.ICE_LESSON = {
     { type: 'match', prompt: 'Соедини слово и перевод', pairs: [
       ['hang out', 'проводить время'], ['spot', 'любимое место'], ['including', 'включая'], ['attraction', 'достопримечательность'], ['skating gear', 'снаряжение для катания']],
       why: 'Слова — из текста о Сиднее на стр. 10.' },
-    { type: 'choice', prompt: 'Выбери пару', text: 'On Saturdays I ___ the Net for hours.', options: [
-      { t: 'surf', ok: true, why: 'Сидеть в интернете — surf the Net.' }, { t: 'play', why: 'Пара — surf the Net.' }, { t: 'go', why: 'Пара — surf the Net.' }] },
+    { type: 'write', prompt: 'Напиши по-английски', ru: 'Мне туда 10 минут добираться.', answer: 'It takes me ten minutes to get there', alt: ['It takes me 10 minutes to get there'], why: 'Схема: It takes me + время + to get there.' },
     { type: 'build', prompt: 'Собери предложение', hint: 'Мне туда 10 минут добираться.',
       words: ['takes', 'It', 'minutes', 'me', 'ten', 'there', 'get', 'to'],
       answer: 'It takes me ten minutes to get there',
@@ -128,6 +124,7 @@ window.ICE_LESSON = {
       fix: 'I meet my friends and we skate all afternoon.',
       why: 'we — «мы», окончание -s не нужно: we skate.',
       miss: 'Это слово на месте. Посмотри на глагол после we.' },
+    { type: 'speak', prompt: 'Скажи вслух', say: 'My favourite spot is the park.', ru: 'Моё любимое место — парк.', why: 'spot — любимое место.' },
     { type: 'listen', prompt: 'Послушай и выбери, что прозвучало', say: 'My coolest spot is Darling Harbour.', options: [
       { t: 'My coolest spot is Darling Harbour.', ok: true, why: 'Верно: spot — любимое место.' },
       { t: 'My coolest sport is Darling Harbour.', why: 'Прислушайся: spot (место), а не sport (спорт).' },

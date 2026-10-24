@@ -2,7 +2,7 @@
 <html lang="ru"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>ICE ENGLISH · Задание тренера</title>
-<link rel="stylesheet" href="fonts.css?v=38"><link rel="stylesheet" href="ui2.css?v=42">
+<link rel="stylesheet" href="fonts.css?v=38"><link rel="stylesheet" href="ui2.css?v=44">
 <style>
 html,body{height:100%;overflow:hidden}
 .sc-over{font-size:12px!important;letter-spacing:.42em!important;color:var(--ink-2)!important;opacity:.9!important}
@@ -39,7 +39,7 @@ h2.h{font-size:clamp(30px,2.6vw,44px);margin:6px 0 4px}
   <div class="pnl" id="res"><span class="kick bar">Упражнения</span><p class="empty">Здесь появятся упражнения выбранного урока. В каждом — короткое правило, само задание с проверкой и подсказками, а в конце — что переписать в тетрадь.</p></div>
 </section>
 <div class="veil2"></div>
-<script src="data.js?v=43"></script><script src="ui2.js?v=42"></script>
+<script src="data.js?v=44"></script><script src="ui2.js?v=44"></script>
 <script>
 (async () => {
   const $ = id => document.getElementById(id), store = ICE_STORE.load();
@@ -53,8 +53,8 @@ h2.h{font-size:clamp(30px,2.6vw,44px);margin:6px 0 4px}
   const show = (m, l, pg) => {
     [...$('ls').querySelectorAll('button')].forEach(b => b.classList.toggle('on', b.dataset.id === l.id));
     const L = (window.ICE_LESSONS || {})[l.id], box = $('res');
-    if (!L) { box.innerHTML = `<span class="kick bar">Модуль ${m.n} · стр. ${l.pages}</span><h2 class="h">${l.code} · ${l.en}</h2><p class="empty">Этот урок пока готовится. Можно посмотреть, что в нём будет.</p><div><a class="pill" href="module.html?m=${m.n}&l=${l.id}" id="toMod">Маршрут модуля →</a></div>`;
-      $('toMod').onclick = e => { e.preventDefault(); go(`module.html?m=${m.n}&l=${l.id}`); }; return; }
+    if (!L) { box.innerHTML = `<span class="kick bar">Модуль ${m.n} · стр. ${l.pages}</span><h2 class="h">${l.code} · ${l.en}</h2><p class="empty">Этот урок пока готовится. Можно посмотреть, что в нём будет.</p><div><a class="pill" href="school.html?m=${m.n}" id="toMod">Маршрут модуля →</a></div>`;
+      $('toMod').onclick = e => { e.preventDefault(); go(`school.html?m=${m.n}`); }; return; }
     const all = L.homework.map((h, i) => ({ h, i })), list = all.filter(x => !pg || x.h.ex.includes(String(pg)) || !/стр\./i.test(x.h.ex));
     box.innerHTML = `<span class="kick bar">Модуль ${m.n} · стр. ${l.pages}</span><h2 class="h">${l.code} · ${l.en}</h2><p class="empty" style="margin:0">${L.ru}. Выбери упражнение — сначала короткое правило, потом задание с проверкой.</p><ul class="exs" id="exs"></ul>`;
     (list.length ? list : all).forEach(({ h, i }, k) => { const li = document.createElement('li');

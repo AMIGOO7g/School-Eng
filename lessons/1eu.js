@@ -109,19 +109,15 @@ window.ICE_LESSON = {
       { t: 'Where to?', ok: true, why: 'Кассиру нужно знать, куда вы едете.' }, { t: 'You’re welcome.', why: 'Так отвечают на «спасибо».' }, { t: 'Which line do I take?', why: 'Это спрашивает пассажир.' }] },
     { type: 'choice', prompt: 'Выбери вид билета', text: 'I want to go there and come back. I need a ___ ticket.', options: [
       { t: 'return', ok: true, why: 'Туда и обратно — return.' }, { t: 'single', why: 'single — только в одну сторону.' }] },
+    { type: 'input', prompt: 'Впиши слово', text: 'A ticket there and back is a ___ ticket.', answer: 'return', why: 'Туда и обратно — return.' },
     { type: 'sort', prompt: 'Кто это говорит?', groups: ['ticket seller', 'passenger'], items: [
       { t: 'Next, please.', g: 0, why: 'Кассир зовёт следующего.' }, { t: 'Single or return?', g: 0, why: 'Кассир уточняет билет.' },
       { t: 'That’s £12.00.', g: 0, why: 'Кассир называет цену.' }, { t: 'Which line do I take?', g: 1, why: 'Пассажир спрашивает линию.' },
       { t: 'Here you are.', g: 1, why: 'Пассажир отдаёт деньги.' }, { t: 'Thanks a lot.', g: 1, why: 'Пассажир благодарит.' }] },
-    { type: 'choice', prompt: 'Посчитай', text: 'Zone 1: adult £3, child £1.50. Three adult tickets: That’s ___ .', options: [
-      { t: '£9.00', ok: true, why: '3 × £3 = £9.' }, { t: '£4.50', why: 'Это 3 детских. Взрослый — £3.' }, { t: '£6.00', why: 'Это 2 взрослых. Нужно 3.' }] },
-    { type: 'choice', prompt: 'Большие числа', text: 'Every year ___ tourists visit London.', options: [
-      { t: 'millions of', ok: true, why: 'Без числа: millions of — «миллионы».' }, { t: 'million of', why: 'Без числа нужно -s: millions of.' }, { t: 'millions', why: 'Без числа нужно of: millions of tourists.' }] },
-    { type: 'choice', prompt: 'Большие числа', text: 'There are seven ___ students in our school.', options: [
-      { t: 'hundred', ok: true, why: 'С числом — без -s и без of.' }, { t: 'hundreds', why: 'С числом seven -s не ставят.' }, { t: 'hundreds of', why: 'hundreds of — без числа.' }] },
     { type: 'sort', prompt: 'Разложи по звукам', groups: ['/iː/ долгий', '/ɪ/ короткий'], items: [
       { t: 'sleep', g: 0, why: 'ee — /iː/.' }, { t: 'peal', g: 0, why: 'ea — /iː/.' }, { t: 'beat', g: 0, why: 'ea — /iː/.' },
       { t: 'slip', g: 1, why: 'i — /ɪ/.' }, { t: 'pill', g: 1, why: 'i — /ɪ/.' }, { t: 'bit', g: 1, why: 'i — /ɪ/.' }] },
+    { type: 'write', prompt: 'Напиши по-английски', ru: 'Два билета до Вестминстера, пожалуйста.', answer: 'Two tickets to Westminster, please', alt: ['Two tickets to Westminster please'], why: 'Сколько билетов + to + станция + please.' },
     { type: 'build', prompt: 'Собери просьбу пассажира', hint: 'Два билета туда и обратно до Барбикан, пожалуйста.',
       words: ['tickets,', 'Two', 'to', 'return', 'Barbican,', 'please'],
       answer: 'Two tickets, return to Barbican, please',
@@ -130,6 +126,7 @@ window.ICE_LESSON = {
     { type: 'match', prompt: 'Соедини фразу и перевод', pairs: [
       ['Where to?', 'Куда?'], ['Here you are.', 'Вот, пожалуйста.'], ['You’re welcome.', 'Не за что.'], ['on foot', 'пешком'], ['by tube', 'на метро']],
       why: 'Фразы из диалогов на стр. 12.' },
+    { type: 'speak', prompt: 'Скажи вслух', say: 'Which line do I take, please?', ru: 'На какой линии мне ехать?', why: 'Вопрос пассажира из диалога B.' },
     { type: 'listen', prompt: 'Послушай и выбери слово', say: 'sleep', options: [
       { t: 'sleep', ok: true, why: 'Долгий звук /iː/ — sleep.' }, { t: 'slip', why: 'Прозвучал долгий звук. slip — короткий /ɪ/.' }] }
   ]

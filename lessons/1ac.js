@@ -81,20 +81,14 @@ window.ICE_LESSON = {
       { t: 'Transport', ok: true, why: 'Про движение и метро — Transport.' }, { t: 'Homes', why: 'Homes — про дома. Здесь про дороги.' }, { t: 'Food', why: 'Food — про еду.' }] },
     { type: 'choice', prompt: 'Подбери заголовок к разделу', text: 'Many people live in beautiful houses with gardens. → ___', options: [
       { t: 'Homes', ok: true, why: 'Где живут — Homes.' }, { t: 'Tourism', why: 'Tourism — про туристов.' }, { t: 'Leisure', why: 'Leisure — про досуг.' }] },
-    { type: 'choice', prompt: 'Подбери заголовок к разделу', text: 'The restaurants serve delicious local food like tortillas. → ___', options: [
-      { t: 'Food', ok: true, why: 'Рестораны и тортильи — Food.' }, { t: 'Transport', why: 'Здесь про еду.' }] },
-    { type: 'choice', prompt: 'Верно, неверно или не сказано?', text: 'The metro in Mexico City is very expensive.', options: [
-      { t: 'F — неверно', ok: true, why: 'В разделе 3 сказано обратное: метро very cheap — очень дешёвое.' },
-      { t: 'T — верно', why: 'Перечитай раздел 3: метро very cheap.' },
-      { t: 'NS — не сказано', why: 'Про цену метро в тексте есть: very cheap. Значит, утверждение неверно.' }] },
+    { type: 'input', prompt: 'Впиши противоположное слово', text: 'The village isn’t noisy, it’s very ___ .', answer: 'quiet', why: 'noisy ↔ quiet.' },
     { type: 'sort', prompt: 'Разложи по заголовкам', groups: ['Transport', 'Leisure'], items: [
       { t: 'metro lines', g: 0, why: 'Метро — транспорт.' }, { t: 'trolley buses', g: 0, why: 'Троллейбусы — транспорт.' }, { t: 'heavy traffic', g: 0, why: 'Движение — транспорт.' },
       { t: 'street markets', g: 1, why: 'Рынки — досуг в тексте.' }, { t: 'street parties', g: 1, why: 'Праздники на улицах — досуг.' }, { t: 'horse racing', g: 1, why: 'Скачки — досуг.' }] },
     { type: 'match', prompt: 'Соедини слово и перевод', pairs: [
       ['noisy', 'шумный'], ['crowded', 'многолюдный'], ['blocks of flats', 'многоквартирные дома'], ['nightlife', 'ночная жизнь'], ['leisure', 'досуг']],
       why: 'Слова — из текста о Мехико.' },
-    { type: 'choice', prompt: 'Справка о Мехико', text: 'The currency of Mexico is the ___ .', options: [
-      { t: 'peso', ok: true, why: 'В справке на стр. 13: currency — Peso.' }, { t: 'euro', why: 'Евро — в Европе. В Мексике — песо.' }, { t: 'dollar', why: 'В справке указано Peso.' }] },
+    { type: 'write', prompt: 'Напиши по-английски', ru: 'В городе плотное движение.', answer: 'The traffic in the city is heavy', alt: ['There is heavy traffic in the city', 'The city has heavy traffic'], why: 'heavy traffic — плотное движение.' },
     { type: 'build', prompt: 'Собери предложение о своём городе', hint: 'Думаю, там оживлённо. (в моём городе)',
       words: ['think', 'I', 'town', 'my', 'is', 'busy'],
       answer: 'I think my town is busy',
@@ -103,6 +97,7 @@ window.ICE_LESSON = {
       fix: 'There are hundreds of buses in the city.',
       why: 'Без числа — hundreds of (с -s).',
       miss: 'Это слово на месте. Вспомни правило hundred / hundreds of.' },
+    { type: 'speak', prompt: 'Скажи вслух', say: 'Mexico City is one of the world’s largest cities.', ru: 'Мехико — один из крупнейших городов мира.', why: 'Первое предложение текста на стр. 13.' },
     { type: 'listen', prompt: 'Послушай и выбери, что прозвучало', say: 'It is a difficult city to drive in.', options: [
       { t: 'It is a difficult city to drive in.', ok: true, why: 'Верно: по городу трудно ездить на машине.' },
       { t: 'It is a different city to live in.', why: 'Прозвучало difficult и drive.' },

@@ -84,7 +84,7 @@ window.ICE_READY = { '1a': true, '1b': true, '1c': true, '1d': true, '1eu': true
 window.ICE_NEXT = st => {
   const m = window.ICE_BOOK[(st.module || 1) - 1];
   const l = m.lessons.find(x => !st.done[x.id]) || m.lessons[0];
-  return { m, l, href: window.ICE_READY[l.id] ? `lesson.html?l=${l.id}` : `module.html?m=${m.n}` };
+  return { m, l, href: window.ICE_READY[l.id] ? `lesson.html?l=${l.id}` : `school.html?m=${m.n}` };
 };
 
 window.ICE_STORE = {

@@ -84,22 +84,18 @@ window.ICE_LESSON = {
   tasks: [
     { type: 'choice', prompt: 'Вставь both правильно', text: '___ of us want to visit Edinburgh Castle.', options: [
       { t: 'Both', ok: true, why: 'both + of + местоимение: Both of us.' }, { t: 'All', why: 'Нас двое — значит Both of us.' }, { t: 'Both two', why: 'both уже значит «оба», two лишнее.' }] },
-    { type: 'choice', prompt: 'Выбери правильный вариант', text: 'It was used as both a fortress ___ a family home.', options: [
-      { t: 'and', ok: true, why: 'Конструкция both … and … — «и … и …».' }, { t: 'or', why: 'Пара — both … and …' }, { t: 'with', why: 'Пара — both … and …' }] },
     { type: 'match', prompt: 'Соедини столицу и страну', pairs: [
       ['London', 'England'], ['Edinburgh', 'Scotland'], ['Cardiff', 'Wales'], ['Belfast', 'Northern Ireland'], ['Dublin', 'Ireland']],
       why: 'Посмотри ещё раз на карту на стр. 11.' },
+    { type: 'input', prompt: 'Впиши слово', text: 'The capital of Scotland is ___ .', answer: 'Edinburgh', why: 'Столица Шотландии — Edinburgh.' },
     { type: 'match', prompt: 'Соедини слово и перевод', pairs: [
       ['fortress', 'крепость'], ['spooky', 'жуткий'], ['medieval', 'средневековый'], ['legend', 'легенда'], ['extinct volcano', 'потухший вулкан']],
       why: 'Это выделенные слова из текстов на стр. 11.' },
-    { type: 'choice', prompt: 'Факт из текста', text: 'Edinburgh Castle is unique because it was built on top of ___ .', options: [
-      { t: 'an extinct volcano', ok: true, why: 'Верно: замок стоит на потухшем вулкане.' }, { t: 'a large park', why: 'В парке — Malahide Castle.' }, { t: 'the River Thames', why: 'На Темзе — Тауэр.' }] },
-    { type: 'choice', prompt: 'Факт из текста', text: 'The Tower of London is guarded by ___ .', options: [
-      { t: 'Yeoman Warders', ok: true, why: 'Их ещё называют Beefeaters.' }, { t: 'ravens', why: 'Вороны там живут, а охраняют Тауэр Yeoman Warders.' }, { t: 'ghosts', why: 'Привидения — в Malahide Castle.' }] },
     { type: 'sort', prompt: 'Какой замок где?', groups: ['Malahide Castle', 'Conwy Castle'], items: [
       { t: 'Ireland', g: 0, why: 'Malahide — рядом с Дублином, Ирландия.' }, { t: '12th century', g: 0, why: 'Malahide dates back to the 12th century.' },
       { t: 'ghosts', g: 0, why: 'В Malahide часто видят привидения.' }, { t: 'Wales', g: 1, why: 'Conwy — в Уэльсе.' },
       { t: 'eight big towers', g: 1, why: 'У Conwy восемь больших башен.' }, { t: 'seven years to build', g: 1, why: 'Conwy строили семь лет.' }] },
+    { type: 'write', prompt: 'Напиши по-английски', ru: 'Мы оба любим замки.', answer: 'Both of us like castles', alt: ['We both like castles'], why: 'both + of + местоимение: Both of us like…' },
     { type: 'build', prompt: 'Собери предложение', hint: 'Он относится к XII веку.',
       words: ['back', 'It', 'the', 'dates', 'to', 'century', '12th'],
       answer: 'It dates back to the 12th century',
@@ -108,6 +104,7 @@ window.ICE_LESSON = {
       fix: 'Both my friends like old castles.',
       why: 'После both — множественное число: friends.',
       miss: 'Это слово на месте. Сколько друзей, если сказано both?' },
+    { type: 'speak', prompt: 'Скажи вслух', say: 'It dates back to the twelfth century.', ru: 'Он относится к XII веку.', why: 'dates back to — «датируется, восходит к».' },
     { type: 'listen', prompt: 'Послушай и выбери, что прозвучало', say: 'Around one million people visit it every year.', options: [
       { t: 'Around one million people visit it every year.', ok: true, why: 'Верно: около миллиона человек каждый год.' },
       { t: 'Around one hundred people visit it every year.', why: 'Прислушайся: million, а не hundred.' },

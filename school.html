@@ -2,7 +2,7 @@
 <html lang="ru"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>ICE ENGLISH · Сезон</title>
-<link rel="stylesheet" href="fonts.css?v=36"><link rel="stylesheet" href="ui2.css?v=42">
+<link rel="stylesheet" href="fonts.css?v=36"><link rel="stylesheet" href="ui2.css?v=44">
 <style>
 html,body{height:100%;overflow:hidden}
 .sc-over{font-size:12px!important;letter-spacing:.32em!important;opacity:.85!important}
@@ -70,7 +70,7 @@ html,body{height:100%;overflow:hidden}
   <div class="low"><div class="panel match" id="match"></div><div class="panel lessons" id="lessons"></div></div>
 </section>
 <div class="veil2"></div>
-<script src="data.js?v=43"></script><script src="ui2.js?v=42"></script>
+<script src="data.js?v=44"></script><script src="ui2.js?v=44"></script>
 <script>
 (() => {
   const $ = id => document.getElementById(id), P = UI2.profile(), st = P.st, B = ICE_BOOK;
@@ -108,7 +108,7 @@ html,body{height:100%;overflow:hidden}
       const li = document.createElement('li'); if (isNext) li.className = 'next';
       li.innerHTML = `<button>${UI2.puck(36, dn ? 'done' : isNext ? 'next' : 'off')}<span><span class="pr">${k + 1} период · ${l.code}${l.kind ? ' · ' + l.kind : ''}</span><span class="t">${l.en}<small>${l.ru}${st.lp[l.id] && st.lp[l.id].best != null ? ` · <b style="color:var(--red)">рекорд ${st.lp[l.id].best} из 10</b>` : ''}</small></span></span>
         ${lost ? '<span class="soon" style="color:var(--red)">ПОРАЖЕНИЕ · ПЕРЕИГРАЙ</span>' : ready ? '<span class="go2">›</span>' : '<span class="soon">СКОРО</span>'}</button>`;
-      li.firstChild.onclick = () => UI2.go(ready ? `lesson.html?l=${l.id}` : `module.html?m=${n}&l=${l.id}`);
+      li.firstChild.onclick = () => UI2.go(ready ? `lesson.html?l=${l.id}` : `school.html?m=${n}`);
       $('ll').appendChild(li);
     });
     document.querySelectorAll('[data-go]').forEach(a => a.onclick = e => { e.preventDefault(); UI2.go(a.getAttribute('href')); });

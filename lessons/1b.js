@@ -170,24 +170,15 @@ window.ICE_LESSON = {
       { t: 'shouldn’t', ok: true, why: 'Советуем не делать: shouldn’t worry.' },
       { t: 'should', why: 'Мы же не советуем ей волноваться! Нужно shouldn’t.' },
       { t: 'shoulds', why: 'У should не бывает окончания -s.' }] },
+    { type: 'input', prompt: 'Впиши should или shouldn’t', text: 'You ___ leave your keys near an open window.', answer: 'shouldn’t', alt: ['shouldnt', 'should not'], why: 'Это опасно — совет не делать: shouldn’t.' },
     { type: 'match', prompt: 'Соедини слово и перевод', pairs: [
       ['peephole', 'дверной глазок'], ['burglar', 'грабитель'], ['alarm system', 'сигнализация'], ['valuables', 'ценные вещи'], ['switched on', 'включённый']],
       why: 'Все эти слова — из листовки о безопасности на стр. 8.' },
-    { type: 'choice', prompt: 'Вставь фразовый глагол', text: 'He ran ___ milk, so he went to buy some.', options: [
-      { t: 'out of', ok: true, why: 'Молоко закончилось — run out of.' },
-      { t: 'into', why: 'run into — «случайно встретить». Молоко закончилось: run out of.' },
-      { t: 'after', why: 'run after — «гнаться за». Молоко закончилось: run out of.' }] },
-    { type: 'choice', prompt: 'Вставь фразовый глагол', text: 'Dan ran ___ Jo on his way home.', options: [
-      { t: 'into', ok: true, why: 'Случайно встретил — run into.' },
-      { t: 'after', why: 'run after — «гнаться». Дэн просто случайно встретил Джо: run into.' },
-      { t: 'out of', why: 'run out of — «закончиться». Здесь — случайная встреча: run into.' }] },
-    { type: 'choice', prompt: 'Образуй наречие', text: 'Make sure the alarm works ___ . (proper)', options: [
-      { t: 'properly', ok: true, why: 'Как работает? — наречие: proper + ly.' },
-      { t: 'proper', why: 'proper — «правильный». Про то, как работает, нужно наречие properly.' }] },
     { type: 'sort', prompt: 'Разложи по корзинам', groups: ['добавляем -ly', 'не меняется'], items: [
       { t: 'careful', g: 0, why: 'careful → carefully.' }, { t: 'safe', g: 0, why: 'safe → safely.' },
       { t: 'bad', g: 0, why: 'bad → badly.' }, { t: 'fast', g: 1, why: 'fast — и «быстрый», и «быстро».' },
       { t: 'hard', g: 1, why: 'hard — и «трудный», и «усердно».' }, { t: 'early', g: 1, why: 'early — и «ранний», и «рано».' }] },
+    { type: 'write', prompt: 'Напиши совет по-английски', ru: 'Тебе стоит пойти спать.', answer: 'You should go to bed', why: 'Совет: You should + глагол без to.' },
     { type: 'build', prompt: 'Собери совет из листовки', hint: 'Не оставляй ключи рядом с дверями или окнами.',
       words: ['your', 'Don’t', 'keys', 'leave', 'doors', 'to', 'next', 'windows', 'or'],
       answer: 'Don’t leave your keys next to doors or windows',
@@ -196,6 +187,7 @@ window.ICE_LESSON = {
       fix: 'You should install an alarm system.',
       why: 'После should не ставят to: should install.',
       miss: 'Это слово на месте. Вспомни: что нельзя ставить после should?' },
+    { type: 'speak', prompt: 'Скажи вслух', say: 'Better safe than sorry!', ru: 'Береженого Бог бережёт! (лучше перестраховаться)', why: 'Это название урока и последняя фраза Jo в диалоге.' },
     { type: 'listen', prompt: 'Послушай и выбери, что прозвучало', say: 'Why don’t you see a dentist?', options: [
       { t: 'Why don’t you see a dentist?', ok: true, why: 'Верно: Why don’t you … — вежливый совет.' },
       { t: 'Why didn’t you see a dentist?', why: 'Прислушайся: don’t, а не didn’t. Это совет, а не вопрос о прошлом.' },

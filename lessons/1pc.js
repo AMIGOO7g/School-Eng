@@ -96,22 +96,19 @@ window.ICE_LESSON = {
       why: 'Пары из уроков 1a и 1b.' },
     { type: 'choice', prompt: 'Выбери правильное слово', text: 'It’s a crime to ___ into a house.', options: [
       { t: 'break', ok: true, why: 'Вламываться — break into.' }, { t: 'look', why: 'look into — заглянуть, разобраться. Преступление — break into.' }] },
+    { type: 'input', prompt: 'Впиши глагол в нужной форме', text: 'Be quiet. The baby ___ . (sleep)', answer: 'is sleeping', why: 'Прямо сейчас — is sleeping.' },
     { type: 'choice', prompt: 'Выбери правильное слово', text: 'You are ___ when you miss home.', options: [
       { t: 'homesick', ok: true, why: 'Скучать по дому — be homesick.' }, { t: 'hometown', why: 'hometown — родной город.' }] },
     { type: 'choice', prompt: 'Выбери правильное слово', text: 'On a hot day we ___ beach volleyball.', options: [
       { t: 'play', ok: true, why: 'Игры с мячом — play.' }, { t: 'do', why: 'В игры мы play.' }] },
+    { type: 'write', prompt: 'Напиши по-английски', ru: 'Она не любит летать на самолёте.', answer: 'She doesn’t like flying by plane', alt: ['She does not like flying by plane', 'She doesn’t like flying', 'She doesnt like flying by plane'], why: 'like не ставят в -ing; отрицание — doesn’t like.' },
     { type: 'choice', prompt: 'Выбери предлог', text: 'The police are running ___ a burglar.', options: [
       { t: 'after', ok: true, why: 'Гнаться — run after.' }, { t: 'into', why: 'run into — случайно встретить.' }] },
-    { type: 'choice', prompt: 'Present Simple или Present Continuous?', text: 'Water ___ at 80°C.', options: [
-      { t: 'doesn’t boil', ok: true, why: 'Факт природы — Present Simple.' }, { t: 'isn’t boiling', why: 'Это не про «сейчас», а научный факт: doesn’t boil.' }] },
-    { type: 'choice', prompt: 'Present Simple или Present Continuous?', text: 'John ___ his parents this weekend.', options: [
-      { t: 'is visiting', ok: true, why: 'Договорённость на ближайшее время — Present Continuous.' }, { t: 'visits', why: 'Встреча уже договорена на эти выходные: is visiting.' }] },
-    { type: 'choice', prompt: 'Present Simple или Present Continuous?', text: 'I ___ he’s in.', options: [
-      { t: 'don’t think', ok: true, why: 'think = «считаю», мнение — без -ing.' }, { t: 'am not thinking', why: 'think в значении «считаю» не ставят в -ing.' }] },
     { type: 'build', prompt: 'Собери реплику пассажира (упр. 5)', hint: 'На какой линии мне ехать?',
       words: ['line', 'Which', 'I', 'do', 'take,', 'please'],
       answer: 'Which line do I take, please',
       why: 'Вопрос: Which line + do I take + please.' },
+    { type: 'speak', prompt: 'Скажи вслух', say: 'Many young people hang out at shopping centres.', ru: 'Многие подростки проводят время в торговых центрах.', why: 'hang out — проводить время.' },
     { type: 'error', prompt: 'Нажми на слово с ошибкой', tokens: ['He', 'is', 'always', 'bite', 'his', 'nails.'], bad: [3],
       fix: 'He is always biting his nails.',
       why: 'Жалоба на привычку: is always + глагол с -ing — biting.',
