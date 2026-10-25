@@ -2,7 +2,7 @@
 <html lang="ru"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>ICE ENGLISH · Задание тренера</title>
-<link rel="stylesheet" href="fonts.css?v=38"><link rel="stylesheet" href="ui2.css?v=45">
+<link rel="stylesheet" href="fonts.css?v=38"><link rel="stylesheet" href="ui2.css?v=47">
 <style>
 html,body{height:100%;overflow:hidden}
 .sc-over{font-size:12px!important;letter-spacing:.42em!important;color:var(--ink-2)!important;opacity:.9!important}
@@ -32,8 +32,9 @@ h2.h{font-size:clamp(30px,2.6vw,44px);margin:6px 0 4px}
 #exn{width:84px!important;margin-left:8px}
 .pgrow input{font-family:var(--head);font-size:30px}
 .pnl{background:linear-gradient(160deg,rgba(255,255,255,.95),rgba(242,246,250,.92))!important}
+.who{height:42vh!important}
 </style></head>
-<body>
+<body class="dk">
 <div id="stage"></div>
 <div class="who"><img src="img/pl_stand.webp" alt=""></div>
 <section class="cols">
@@ -42,12 +43,12 @@ h2.h{font-size:clamp(30px,2.6vw,44px);margin:6px 0 4px}
   <div class="pnl" id="res"><span class="kick bar">Упражнения</span><p class="empty">Здесь появятся упражнения выбранного урока. В каждом — короткое правило, само задание с проверкой и подсказками, а в конце — что переписать в тетрадь.</p></div>
 </section>
 <div class="veil2"></div>
-<script src="data.js?v=45"></script><script src="ui2.js?v=45"></script>
+<script src="data.js?v=45"></script><script src="ui2.js?v=47"></script>
 <script>
 (async () => {
   const $ = id => document.getElementById(id), store = ICE_STORE.load();
   UI2.header('hw');
-  const sc = UI2.photo($('stage'), { src: 'bg_coach', pos: '70% 50%', horizon: .3 }); UI2.plaque('HOMEWORK', 'задание тренера · spotlight 7');
+  const sc = UI2.abstract($('stage'), { theme: 'green', horizon: .3 }); UI2.plaque('HOMEWORK', 'задание тренера · spotlight 7');
   const setHz = () => document.documentElement.style.setProperty('--hz', sc.horizonPx() + 'px'); setHz(); addEventListener('resize', setHz);
   UI2.ready();
   await ICE_LOAD();

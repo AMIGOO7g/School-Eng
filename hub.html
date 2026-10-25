@@ -2,7 +2,7 @@
 <html lang="ru"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>ICE ENGLISH · Раздевалка</title>
-<link rel="stylesheet" href="fonts.css?v=36"><link rel="stylesheet" href="ui2.css?v=45">
+<link rel="stylesheet" href="fonts.css?v=36"><link rel="stylesheet" href="ui2.css?v=47">
 <style>
 html,body{height:100%;overflow:hidden}
 .lead3{position:fixed;z-index:12;left:0;right:0;top:calc(var(--hz,46vh) - clamp(110px,15vh,170px))}
@@ -83,10 +83,23 @@ body.ready .bug{opacity:1}
 .pk{display:flex!important;gap:6px!important;width:100%!important}
 .cd .it{-webkit-mask-image:radial-gradient(ellipse 70% 70% at 62% 62%,#000 40%,transparent 78%);mask-image:radial-gradient(ellipse 70% 70% at 62% 62%,#000 40%,transparent 78%)}
 .lead3 h1{font-size:clamp(56px,5.2vw,96px)!important;color:#0f1c2b!important}
+/* проба: тёмный оформленный фон */
+.cd.dark{background:linear-gradient(160deg,#2a4466,#1a2f4a)!important;border:1px solid rgba(255,255,255,.18)!important}
+.lead3 .head::before{display:none!important}
+.hand{color:#ff9aa0!important;text-shadow:0 2px 8px rgba(0,0,0,.45)!important}
+.hand svg path{stroke:#ff9aa0!important}
+.ab-word .sc-word{-webkit-text-stroke:2px rgba(255,255,255,.3)!important;color:rgba(255,255,255,.04)!important}
+.lead3 h1{color:#fff!important;text-shadow:0 6px 24px rgba(0,0,0,.35)}
+.lead3 p,.lead3 .sub{color:rgba(255,255,255,.82)!important}
+.lead3 .kick,.lead3 .kick *{color:rgba(255,255,255,.85)!important;text-shadow:none!important}
+.cd{box-shadow:0 24px 50px rgba(0,0,0,.35)!important}
+.bug{background:linear-gradient(100deg,rgba(6,14,24,.92) 0%,rgba(16,30,48,.85) 58%,rgba(16,30,48,0) 100%)!important}
+.player{height:36vh!important;right:auto!important;transform:scaleX(-1);z-index:15!important}
+.player video{height:100%}
 </style></head>
-<body>
+<body class="dk">
 <div id="stage"></div>
-<div class="player"><video id="breath" src="img/pl_breath.webm" poster="img/pl_breath.webp" autoplay muted loop playsinline></video></div>
+<div class="player"><img src="img/pl_stand.webp" alt="" style="height:100%;display:block"></div><video id="breath" style="display:none" muted></video>
 <section class="lead3"><div class="hubw">
   <div class="head"><div class="kick bar">Юношеская лига · твой сезон</div><h1 class="h"><span class="flip" id="t1">Что будем делать?</span></h1><p class="sub">Учись, развивайся, выходи на новый уровень.<br>Твой английский — как большая игра.</p></div>
   <div class="cards3" id="cards"></div>
@@ -94,13 +107,13 @@ body.ready .bug{opacity:1}
 <div class="bug" id="bug"></div>
 <div class="name-pop" id="np"><div class="bx"><span class="kick bar">Знакомство</span><h3>Как тебя зовут?</h3><input id="nm" maxlength="16" placeholder="Имя игрока"><button class="btn" id="nok" style="width:100%;justify-content:center">На лёд →</button></div></div>
 <div class="veil2"></div>
-<script src="data.js?v=45"></script><script src="ui2.js?v=45"></script>
+<script src="data.js?v=45"></script><script src="ui2.js?v=47"></script>
 <script>
 (() => {
   const $ = id => document.getElementById(id), P = UI2.profile(), st = P.st, nx = ICE_NEXT(st), ms = (st.mistakes || []).length;
   UI2.header('hub');
   { const v = $('breath'); if (!v.canPlayType('video/webm; codecs="vp9"')) v.replaceWith(Object.assign(document.createElement('img'), { src: 'img/pl_breath.webp', alt: '' })); }
-  const sc = UI2.photo($('stage'), { src: 'bg_locker', pos: '70% 50%', word: 'SPOTLIGHT', over: '7 класс · сезон 2026/27', horizon: .4 });
+  const sc = UI2.abstract($('stage'), { word: 'SPOTLIGHT', over: '7 класс · сезон 2026/27', horizon: .4 });
   const setHz = () => { document.documentElement.style.setProperty('--hz', sc.horizonPx() + 'px'); const L0 = sc.wordLeft() + innerWidth * .004; document.querySelector('.hubw').style.marginLeft = L0 + 'px';
     const pw = document.querySelector('.player').getBoundingClientRect().width || innerWidth * .3, gap = innerWidth * .014;
     const cw = Math.max(innerWidth * .215, Math.min(innerWidth * .225, (innerWidth - L0 - pw - innerWidth * .02 - gap * 2) / 3));   // карточки не заходят под хоккеиста, если хватает места
@@ -146,6 +159,9 @@ body.ready .bug{opacity:1}
   { const td = (st.shoot || {})[new Date().toISOString().slice(0, 10)];
     $('so2').innerHTML = `🥅 БУЛЛИТЫ ДНЯ · ${td != null ? 'СЕГОДНЯ ' + td + '/5' : '60 СЕК'} <b>${td != null ? 'ЕЩЁ' : 'ИГРАТЬ'} →</b>`;
     $('so2').onclick = e => { e.preventDefault(); UI2.go('shootout.html'); }; }
+  const placeP = () => { const b = document.getElementById('bug').getBoundingClientRect(), p = document.querySelector('.player');
+    p.style.bottom = (innerHeight - b.top - 6) + 'px'; p.style.left = Math.max(8, innerWidth * .02) + 'px'; };
+  setTimeout(placeP, 300); addEventListener('resize', placeP);
   UI2.ready(); setTimeout(() => tip(rec), 1100);
   // имя игрока при первом входе
   if (!st.name) setTimeout(() => { $('np').classList.add('show'); $('nm').focus(); }, 900);

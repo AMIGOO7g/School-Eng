@@ -101,6 +101,28 @@ window.UI2 = (() => {
     (function loop() { cx += (mx - cx) * .05; im.style.transform = `scale(1.04) translateX(${-cx * 14}px)`; if (w) w.style.transform = `translateX(${-cx * 24}px)`; requestAnimationFrame(loop); })();
     return { horizonPx: () => innerHeight * (o.horizon || .5), wordLeft: () => w ? w.querySelector('.sc-word').getBoundingClientRect().left : innerWidth * .06, set() {} };
   }
+  // оформленный фон «как в игровом меню»: градиент, наклонные полосы цветов клуба, лучи, лёд, ледяная пыль
+  function abstract(stage, o) {
+    o = o || {};
+    stage.classList.add('sc', 'ab'); stage.dataset.theme = o.theme || 'red';
+    stage.innerHTML = `<div class="ab-base"></div><div class="ab-spot sp1"></div><div class="ab-spot sp2"></div><div class="ab-spot sp3"></div><div class="ab-ice"></div>
+      <div class="ab-str s1"></div><div class="ab-str s2"></div><div class="ab-str s3"></div><canvas class="ab-dust"></canvas>` +
+      `<div class="ab-word"><span class="sc-over">${o.over || ''}</span><span class="sc-word">${o.word || ''}</span></div>`;
+    const cv = stage.querySelector('.ab-dust'), cx = cv.getContext('2d'), w = stage.querySelector('.ab-word');
+    let P = [];
+    const size = () => { cv.width = innerWidth; cv.height = innerHeight; P = Array.from({ length: Math.round(innerWidth / 22) }, () => ({ x: Math.random() * innerWidth, y: Math.random() * innerHeight, r: Math.random() * 1.8 + .4, v: Math.random() * .35 + .1, a: Math.random() * .5 + .15, d: Math.random() * Math.PI * 2 })); };
+    size(); addEventListener('resize', size);
+    const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let mx = 0, gx = 0; addEventListener('pointermove', e => { mx = e.clientX / innerWidth - .5; });
+    (function loop(t) {
+      cx.clearRect(0, 0, cv.width, cv.height);
+      P.forEach(p => { if (!still) { p.y -= p.v; p.x += Math.sin(t / 1800 + p.d) * .25; if (p.y < -5) { p.y = cv.height + 5; p.x = Math.random() * cv.width; } }
+        cx.beginPath(); cx.arc(p.x, p.y, p.r, 0, 6.3); cx.fillStyle = `rgba(220,236,255,${p.a})`; cx.fill(); });
+      gx += (mx - gx) * .05; stage.style.setProperty('--px', (gx * 30).toFixed(1) + 'px');
+      requestAnimationFrame(loop);
+    })(0);
+    return { horizonPx: () => innerHeight * (o.horizon || .44), wordLeft: () => w.querySelector('.sc-word').getBoundingClientRect().left, set(word, over) { w.querySelector('.sc-word').textContent = word; if (over) w.querySelector('.sc-over').textContent = over; } };
+  }
   // плашка-заголовок рабочих экранов (вместо гигантского слова)
   function plaque(title, sub) {
     const d = document.createElement('div'); d.className = 'plq'; d.innerHTML = `<b>${title}</b>${sub ? `<span>${sub}</span>` : ''}`; document.body.appendChild(d); return d;
@@ -147,5 +169,5 @@ window.UI2 = (() => {
   })();
   function go(href) { document.body.classList.add('leaving'); setTimeout(() => location.assign(href), 520); }
   function ready() { track(); requestAnimationFrame(() => setTimeout(() => document.body.classList.add('ready'), 60)); }
-  return { LEAGUES, profile, header, scene, note, go, ready, puck, flip, SFX, streak, photo, plaque };
+  return { LEAGUES, profile, header, scene, note, go, ready, puck, flip, SFX, streak, photo, plaque, abstract };
 })();

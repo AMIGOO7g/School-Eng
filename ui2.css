@@ -105,3 +105,43 @@ body.ready .veil2{opacity:0}body.leaving .veil2{opacity:1}
 .nav2{background:rgba(246,249,252,.72);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-radius:999px;padding:4px!important;box-shadow:0 6px 18px rgba(10,20,34,.12)}
 .sc-over,.kick{text-shadow:0 1px 0 rgba(255,255,255,.7)}
 .chip-dark{background:rgba(10,20,34,.72);color:#fff!important;padding:4px 10px;border-radius:8px;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+
+/* ===== оформленный фон «игровое меню» ===== */
+.sc.ab{background:#0c1828;overflow:hidden}
+.sc.ab{--g1:#2a4a70;--g2:#173050;--g0:#0c1828;--st1a:rgba(230,58,66,.95);--st1b:rgba(181,28,36,.85);--st1g:rgba(230,58,66,.35);--st3:rgba(60,110,170,.55)}
+.sc.ab[data-theme="ice"]{--g1:#1f5f86;--g2:#133a5a;--g0:#0a1a2a;--st1a:rgba(86,196,235,.9);--st1b:rgba(40,130,190,.8);--st1g:rgba(86,196,235,.35);--st3:rgba(230,58,66,.45)}
+.sc.ab[data-theme="gold"]{--g1:#3a3f63;--g2:#1d2440;--g0:#0c1022;--st1a:rgba(242,190,80,.92);--st1b:rgba(196,140,40,.85);--st1g:rgba(242,190,80,.3);--st3:rgba(90,110,170,.5)}
+.sc.ab[data-theme="penalty"]{--g1:#5a1f2a;--g2:#2a1420;--g0:#120a12;--st1a:rgba(230,58,66,.95);--st1b:rgba(140,20,30,.85);--st1g:rgba(230,58,66,.45);--st3:rgba(120,60,80,.5)}
+.sc.ab[data-theme="green"]{--g1:#1f5a52;--g2:#143834;--g0:#0a1a1a;--st1a:rgba(70,200,160,.85);--st1b:rgba(30,140,110,.8);--st1g:rgba(70,200,160,.3);--st3:rgba(230,58,66,.4)}
+.sc.ab[data-theme="arena"]{--g1:#3c5f86;--g2:#20385a;--g0:#101c2c;--st1a:rgba(255,255,255,.55);--st1b:rgba(200,220,240,.35);--st1g:rgba(255,255,255,.2);--st3:rgba(230,58,66,.5)}
+.ab-base{position:absolute;inset:0;background:radial-gradient(ellipse 80% 70% at 72% 30%,var(--g1) 0%,var(--g2) 38%,var(--g0) 75%),var(--g0)}
+/* прожекторы на дальнем плане: 3 луча медленно ходят из стороны в сторону */
+.ab-spot{position:absolute;bottom:-10%;width:34vw;height:130vh;transform-origin:50% 100%;background:linear-gradient(to top,rgba(220,235,255,.16),rgba(220,235,255,0) 85%);clip-path:polygon(46% 100%,54% 100%,100% 0,0 0);filter:blur(10px);opacity:.7}
+.ab-spot.sp1{left:8vw;animation:sweep 14s ease-in-out infinite}
+.ab-spot.sp2{left:38vw;animation:sweep 18s ease-in-out infinite reverse;opacity:.5}
+.ab-spot.sp3{left:66vw;animation:sweep 16s ease-in-out -6s infinite}
+@keyframes sweep{0%,100%{transform:rotate(-14deg)}50%{transform:rotate(14deg)}}
+.ab-rays{position:absolute;left:50%;top:-60%;width:180vmax;height:180vmax;margin-left:-90vmax;background:repeating-conic-gradient(from 0deg at 50% 50%,rgba(255,255,255,.07) 0 3deg,transparent 3deg 14deg);
+  -webkit-mask-image:radial-gradient(circle at 50% 50%,#000 0,transparent 55%);mask-image:radial-gradient(circle at 50% 50%,#000 0,transparent 55%);animation:abspin 120s linear infinite;opacity:.8}
+@keyframes abspin{to{transform:rotate(360deg)}}
+.ab-ice{position:absolute;left:0;right:0;bottom:0;height:42%;background:url(img/cr_ice.webp) center top/cover;opacity:.35;mix-blend-mode:screen;
+  -webkit-mask-image:linear-gradient(to top,#000 20%,transparent);mask-image:linear-gradient(to top,#000 20%,transparent)}
+.ab-str{position:absolute;top:-20%;bottom:-20%;transform:skewX(-18deg) translateX(var(--px,0));transition:transform .2s linear}
+.ab-str.s1{right:6vw;width:15vw;background:linear-gradient(180deg,var(--st1a),var(--st1b));box-shadow:0 0 60px var(--st1g);animation:abfl 7s ease-in-out infinite}
+.ab-str.s2{right:24vw;width:2.2vw;background:rgba(255,255,255,.85);opacity:.55}
+.ab-str.s3{right:28vw;width:8vw;background:linear-gradient(180deg,var(--st3),transparent)}
+@keyframes abfl{50%{filter:brightness(1.12)}}
+.ab-dust{position:absolute;inset:0;pointer-events:none}
+.ab-word{position:absolute;left:0;right:0;top:9vh;display:flex;flex-direction:column;align-items:center;pointer-events:none}
+.ab-word .sc-word{font-size:min(19vw,32vh);line-height:.8;color:transparent;-webkit-text-stroke:2px rgba(255,255,255,.22);transform:translateX(calc(var(--px,0) * -.6))}
+.ab-word .sc-over{color:rgba(255,255,255,.75)!important;text-shadow:none!important}
+@media (prefers-reduced-motion:reduce){.ab-spot,.ab-str.s1{animation:none}}
+/* рукописные пометки: мягкий белый ореол, без подложки — почерк остаётся живым */
+.hand{text-shadow:0 0 4px rgba(255,255,255,.95),0 0 10px rgba(255,255,255,.85),0 0 18px rgba(255,255,255,.6)}
+
+/* ===== тёмные страницы с оформленным фоном ===== */
+body.dk .hand{color:#ff9aa0!important;text-shadow:0 2px 8px rgba(0,0,0,.45)!important}
+body.dk .hand svg path{stroke:#ff9aa0!important}
+body.dk .ab-word .sc-word{-webkit-text-stroke:2px rgba(255,255,255,.3);color:rgba(255,255,255,.04)}
+body.dk .tabs3 b,body.dk .shelf .hd b,body.dk .shelf .hd button{color:#fff!important}
+body.dk .page-k,body.dk .kick.on-dark{color:rgba(255,255,255,.85)!important}

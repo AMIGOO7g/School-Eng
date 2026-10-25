@@ -2,7 +2,7 @@
 <html lang="ru"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>ICE ENGLISH · Карьера</title>
-<link rel="stylesheet" href="fonts.css?v=36"><link rel="stylesheet" href="ui2.css?v=45">
+<link rel="stylesheet" href="fonts.css?v=36"><link rel="stylesheet" href="ui2.css?v=47">
 <style>
 html,body{height:100%;overflow:hidden}
 .sc-over{font-size:12px!important;letter-spacing:.42em!important;opacity:.9!important;color:var(--ink-2)!important}
@@ -80,8 +80,14 @@ html,body{height:100%;overflow:hidden}
 @media (max-height:960px){.grid{top:22vh!important;height:52vh!important}.aw2 img,.op3 img{height:7.5vh!important;margin-top:-4vh!important}.shelf .hd{margin-bottom:calc(4vh + 6px)!important}.lr{padding:4px 12px!important}.lr img{width:44px!important}}
 .aw2 small,.op3 small{display:none!important}
 .aw2 b,.op3 b{color:#fff!important;white-space:nowrap}
+/* проба: оформленный фон */
+.hand{color:#ff9aa0!important;text-shadow:0 2px 8px rgba(0,0,0,.45)!important}.hand svg path{stroke:#ff9aa0!important}
+.shelf .hd b{color:#fff!important}
+.rt,.lad{box-shadow:0 24px 50px rgba(0,0,0,.35)!important}
+.ab-word{top:8vh!important}
+.shelf .hd .tb{color:rgba(255,255,255,.55)!important}.shelf .hd .tb.on{color:#fff!important}
 </style></head>
-<body>
+<body class="dk">
 <div id="stage"></div>
 <section class="grid">
   <div class="pc" id="pc"></div>
@@ -90,13 +96,12 @@ html,body{height:100%;overflow:hidden}
 </section>
 <section class="shelf"><div class="hd"><button class="tb on" data-t="aw">МОИ ДОСТИЖЕНИЯ <span id="cnt"></span></button><button class="tb" data-t="op">СОПЕРНИКИ <span id="cnt2"></span></button></div><div class="board3" id="shelf"></div></section>
 <div class="veil2"></div>
-<script src="data.js?v=45"></script><script src="ui2.js?v=45"></script>
+<script src="data.js?v=45"></script><script src="ui2.js?v=47"></script>
 <script>
 (() => {
   const $ = id => document.getElementById(id), P = UI2.profile(), st = P.st, cur = P.league.id;
   UI2.header('career');
-  const sc = UI2.scene($('stage'), { horizon: .42, size: .3, sink: .4, fitW: .66, center: true });
-  sc.set('КАРЬЕРА', `${P.name} · 7 класс · сезон 2026/27`, true);
+  const sc = UI2.abstract($('stage'), { theme: 'gold', word: 'КАРЬЕРА', over: `${P.name} · 7 класс · сезон 2026/27`, horizon: .42 });
   $('pc').innerHTML = `<div class="no">7<small>НАПАДАЮЩИЙ</small></div><div class="lg3"><img src="img/${P.league.img}.webp" alt="">${P.league.name}</div>
     <img src="img/pl_portrait.webp" alt=""><div class="nm">${P.name}<small>${P.league.name} · ${P.league.lvl}</small></div>`;
   const sk = st.skills || { shot: 50, skate: 50, vision: 50, pass: 50 };

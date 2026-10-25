@@ -3,7 +3,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>ICE ENGLISH · Урок</title>
 <link rel="stylesheet" href="fonts.css?v=29">
-<link rel="stylesheet" href="ice.css?v=35"><link rel="stylesheet" href="ui2.css?v=45">
+<link rel="stylesheet" href="ice.css?v=35"><link rel="stylesheet" href="ui2.css?v=47">
 <style>
 :root{--left:clamp(24px,4.9vw,120px);--cardw:clamp(560px,47vw,1200px)}
 .stage{transition:transform 1.2s var(--ease)}
@@ -389,8 +389,24 @@ body.revmode .player-slot{width:min(40vw,700px)!important;right:-2vw!important;b
 .rp-body .f,#pb .f{background:var(--red);color:#fff;border-radius:6px;padding:1px 8px;font-weight:800}
 .rp-body .life,#pb .life{margin-top:18px;background:rgba(242,179,61,.12)!important;border-left:4px solid #f2b33d!important;border-radius:12px;padding:14px 18px;color:var(--ink)!important}
 .rp-body .note,#pb .note{margin-top:14px;font-size:14px;color:var(--mute)}
+/* итоги матча по пропорциям генерации: свой яркий фон, хоккеист меньше, крупная панель, большая медаль */
+.rew{background:none!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+.rew::before{content:"";position:absolute;inset:-20px;background:url(img/bg_lake.webp) center 55%/cover;filter:blur(2px) saturate(1.1);z-index:0}
+.rew::after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 60% 45%,rgba(255,255,255,.12),rgba(8,18,32,.28) 85%);z-index:0}
+.rew .who{height:72vh!important;left:-1vw!important;bottom:-1vh!important;z-index:2}
+.rew.lose .who{height:70vh!important;left:3vw!important}
+.spray{left:2vw!important;width:34vw!important;height:26vh!important}
+.rew .pn{right:4vw!important;width:min(62vw,1160px)!important;grid-template-columns:1.3fr 1fr!important;
+  background:linear-gradient(160deg,rgba(255,255,255,.86),rgba(240,246,252,.78))!important;backdrop-filter:blur(14px)!important;-webkit-backdrop-filter:blur(14px)!important;padding:clamp(26px,3.6vh,44px) clamp(28px,2.6vw,48px)!important}
+.rew h2{font-size:clamp(48px,4.6vw,86px)!important}
+.bigsc2 .n{font-size:clamp(100px,9.5vw,180px)!important}
+.medal{width:min(330px,19vw)!important}
+.aw b{font-size:clamp(32px,2.8vw,46px)!important}
+@media (max-height:920px){.rew .who{height:66vh!important}.medal{width:min(260px,17vw)!important}.bigsc2 .n{font-size:clamp(84px,8vw,140px)!important}}
+.player-slot{width:min(30vw,calc((100vh - 200px) * 1.2))!important;bottom:4vh!important}
+body.revmode .player-slot{width:min(30vw,520px)!important}
 </style></head>
-<body class="arriving">
+<body class="arriving dk">
 <main class="stage" id="stage"></main>
 <section class="board2" id="board2"><div class="sb2">
   <div class="side2"><span class="lg2">7</span><span class="nm2" id="nm2">ИГРОК</span></div>
@@ -414,7 +430,7 @@ body.revmode .player-slot{width:min(40vw,700px)!important;right:-2vw!important;b
 <div class="veil"></div>
 
 <script src="data.js?v=45"></script>
-<script src="ice-ui.js?v=35"></script><script src="ui2.js?v=45"></script>
+<script src="ice-ui.js?v=35"></script><script src="ui2.js?v=47"></script>
 <script>
 (() => {
   const q = new URLSearchParams(location.search);
@@ -444,9 +460,9 @@ function run(L) {
   const spacer = () => el('span', 'sp');
   document.title = `ICE ENGLISH · Урок ${L.code}`;
   const qs = new URLSearchParams(location.search);
-  const bgs = UI2.photo($('stage'), new URLSearchParams(location.search).get('v') === 'hw' ? { src: 'bg_coach', pos: '70% 50%' } : { src: 'bg_arena', pos: '50% 62%' });
+  const qv = new URLSearchParams(location.search); const bgs = UI2.abstract($('stage'), { theme: qv.get('v') === 'hw' ? 'green' : qv.get('mode') === 'review' ? 'penalty' : 'arena' });
   const HWM = qs.get('v') === 'hw'; if (HWM) document.body.classList.add('hwmode'); if (L.review) { document.body.classList.add('hwmode', 'revmode'); const pi = document.querySelector('#player img'); if (pi) pi.src = 'img/pbox_pl.webp'; }
-  bgs.set(HWM ? 'HOMEWORK' : L.review ? 'ШТРАФНАЯ' : 'MATCH', '', true);
+
   UI2.plaque(L.review ? 'ШТРАФНАЯ' : HWM ? 'HOMEWORK' : `MATCH ${L.module}`, L.review ? `на скамейке: ${(store.mistakes || []).length} · реши верно — и выйдешь на лёд` : HWM ? `задание тренера · урок ${L.code} · стр. ${L.pages}` : `урок ${L.code} · ${L.en}`);
   const gwrap = () => document.querySelector('.sc-giant');
   UI2.header(qs.get('v') === 'hw' ? 'hw' : L.review ? 'pen' : 'season');

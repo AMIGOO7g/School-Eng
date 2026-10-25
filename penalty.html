@@ -2,7 +2,7 @@
 <html lang="ru"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>ICE ENGLISH · Штрафная</title>
-<link rel="stylesheet" href="fonts.css?v=36"><link rel="stylesheet" href="ui2.css?v=45">
+<link rel="stylesheet" href="fonts.css?v=36"><link rel="stylesheet" href="ui2.css?v=47">
 <style>
 html,body{height:100%;overflow:hidden}
 .sc-over{font-size:clamp(14px,1.2vw,20px)!important;letter-spacing:.6em!important;opacity:.9!important;color:var(--ink-2)!important}
@@ -50,17 +50,16 @@ html,body{height:100%;overflow:hidden}
 .pan .row b,.rows b{font-size:clamp(18px,1.35vw,24px)!important}
 .pill{font-size:15px!important;padding:12px 24px!important}
 </style></head>
-<body>
+<body class="dk">
 <div id="stage"></div>
 <div id="root"></div>
 <div class="veil2"></div>
-<script src="data.js?v=45"></script><script src="ui2.js?v=45"></script>
+<script src="data.js?v=45"></script><script src="ui2.js?v=47"></script>
 <script>
 (() => {
   const $ = id => document.getElementById(id), st = ICE_STORE.load(), ms = st.mistakes || [];
   UI2.header('pen');
-  const sc = UI2.scene($('stage'), { horizon: .5, size: .3, sink: .28, fitW: .66, center: true });
-  sc.set('ШТРАФНАЯ', 'зона', true);
+  const sc = UI2.abstract($('stage'), { theme: 'penalty', word: 'ШТРАФНАЯ', over: 'зона', horizon: .5 });
   const setHz = () => document.documentElement.style.setProperty('--hz', sc.horizonPx() + 'px'); setHz(); addEventListener('resize', setHz);
   const root = $('root');
   const plural = n => n % 10 === 1 && n % 100 !== 11 ? 'задание' : [2, 3, 4].includes(n % 10) && ![12, 13, 14].includes(n % 100) ? 'задания' : 'заданий';
