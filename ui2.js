@@ -32,7 +32,7 @@ window.UI2 = (() => {
     if (opt && opt.light) h.classList.add('light');
     h.innerHTML = `<a class="logo" href="index.html"><b>/</b><span class="ice">ICE</span><span class="eng">ENGLISH</span></a>
       <nav class="nav2"><span class="pill"></span>${L.map(([k, t, href]) => `<a href="${href}" class="${k === active ? 'on' : ''}">${t}</a>`).join('')}</nav>
-      <a class="me" href="career.html" title="Карьера"><img src="img/pl_avatar.webp" alt=""><span class="n">${p.name}<small>${p.league.name}</small><span class="bar"><i style="width:${(p.done / p.total * 100).toFixed(1)}%"></i></span></span><span class="r">${p.rating}<small>рейтинг</small></span>${p.streak ? `<span class="fire" title="Дней подряд">🔥<b>${p.streak}</b></span>` : ''}</a>`;
+      <a class="me" href="career.html" title="Карьера"><img src="img/pl_avatar.webp" alt=""><span class="n">${p.name}<small>${p.league.name}</small><span class="bar"><i style="width:${(p.done / p.total * 100).toFixed(1)}%"></i></span></span><span class="r">${p.rating}<small>рейтинг</small></span>${p.streak ? `<span class="fire" title="Дней подряд"><svg class="ico" viewBox="0 0 24 24" width="1em" height="1em"><path d="M12 2c1 4 6 6 6 12a6 6 0 0 1-12 0c0-3 2-5 3-7 1 2 2 3 3 3 0-3-1-5 0-8z" fill="currentColor"/></svg><b>${p.streak}</b></span>` : ''}</a>`;
     document.body.prepend(h);
 
     // красная плашка переезжает к пункту под курсором и возвращается к активному
@@ -119,7 +119,8 @@ window.UI2 = (() => {
       (spot ? '<div class="ab-beam b1"></div><div class="ab-beam b2"></div>' : '') +
       `<div class="ab-str s1"></div><div class="ab-str s2"></div><div class="ab-str s3"></div><canvas class="ab-dust"></canvas>` +
       `<div class="ab-word${spot ? ' lit' : ''}"><div class="ab-w"><span class="sc-over">${o.over || ''}</span><span class="sc-word"><span class="wo">${o.word || ''}</span><span class="wl">${o.word || ''}</span></span></div></div>`;
-    const cv = stage.querySelector('.ab-dust'), cx = cv.getContext('2d'), w = stage.querySelector('.ab-word'), word = w.querySelector('.sc-word');
+    const cv = stage.querySelector('.ab-dust'), cx = cv.getContext('2d'), w = stage.querySelector('.ab-word'), word = w.querySelector('.sc-word'), beams = [...stage.querySelectorAll('.ab-beam')];
+    setTimeout(() => stage.querySelectorAll('.ab-str').forEach(x => x.classList.add('done')), 1300);
     let P = [];
     const size = () => { cv.width = innerWidth; cv.height = innerHeight; P = Array.from({ length: Math.round(innerWidth / 26) }, () => ({ x: Math.random() * innerWidth, y: Math.random() * innerHeight, r: Math.random() * 1.7 + .5, v: Math.random() * .3 + .15, a: Math.random() * .45 + .2, d: Math.random() * Math.PI * 2 })); };
     size(); addEventListener('resize', size);
@@ -130,21 +131,32 @@ window.UI2 = (() => {
       P.forEach(p => { if (!still) { p.y += p.v; p.x += Math.sin(t / 2200 + p.d) * .3; if (p.y > cv.height + 5) { p.y = -5; p.x = Math.random() * cv.width; } }   // снег падает вниз
         cx.beginPath(); cx.arc(p.x, p.y, p.r, 0, 6.3); cx.fillStyle = `rgba(230,240,255,${p.a})`; cx.fill(); });
       gx += (mx - gx) * .05; stage.style.setProperty('--px', (gx * 24).toFixed(1) + 'px');
-      if (spot) {   // два прожектора ходят по слову; где луч — буквы светятся
-        const r = word.getBoundingClientRect(), k = still ? 0 : t / 1000;
-        const x1 = r.left + r.width * (.5 + .42 * Math.sin(k * .45)), x2 = r.left + r.width * (.5 + .42 * Math.sin(k * .33 + 2.2));
-        stage.style.setProperty('--sx1', x1 + 'px'); stage.style.setProperty('--sx2', x2 + 'px');
-        word.style.setProperty('--wx1', (x1 - r.left) + 'px'); word.style.setProperty('--wx2', (x2 - r.left) + 'px');
+      if (spot) {   // два прожектора качаются вокруг точек у нижнего края; где луч пересекает слово — буквы светятся
+        const r = word.getBoundingClientRect(), k = still ? 0 : t / 1000, H = innerHeight;
+        const a1 = 22 * Math.sin(k * .38), a2 = 22 * Math.sin(k * .29 + 2.1), yc = r.top + r.height * .55;
+        const bx = [innerWidth * .26, innerWidth * .74], ang = [a1, a2];
+        beams.forEach((b, n) => b.style.setProperty('--a', ang[n].toFixed(2) + 'deg'));
+        const hit = n => bx[n] + Math.tan(ang[n] * Math.PI / 180) * (H * 1.04 - yc);
+        word.style.setProperty('--wx1', (hit(0) - r.left) + 'px'); word.style.setProperty('--wx2', (hit(1) - r.left) + 'px');
       }
       requestAnimationFrame(loop);
     })(0);
-    requestAnimationFrame(() => stage.classList.add('in'));   // полосы въезжают
     return { horizonPx: () => innerHeight * (o.horizon || .44), wordLeft: () => word.getBoundingClientRect().left,
       set(text, over) { word.querySelectorAll('span').forEach(x => x.textContent = text); if (over) w.querySelector('.sc-over').textContent = over; } };
   }
   // плашка-заголовок рабочих экранов (вместо гигантского слова)
-  function plaque(title, sub) {
-    const d = document.createElement('div'); d.className = 'plq'; d.innerHTML = `<b>${title}</b>${sub ? `<span>${sub}</span>` : ''}`; document.body.appendChild(d); return d;
+  function plaque(title, sub, pl) {
+    const d = document.createElement('div'); d.className = 'plq'; d.innerHTML = `<b>${title}</b>${sub ? `<span>${sub}</span>` : ''}`; document.body.appendChild(d);
+    if (pl) {   // маленький хоккеист стоит на верхней границе плашки, у левого края, смотрит в центр
+      const w = document.createElement('div'); w.className = 'plq-pl';
+      w.innerHTML = /\.webm$/.test(pl) ? `<video src="img/${pl}" autoplay muted loop playsinline></video>` : `<img src="img/${pl}" alt="">`;
+      document.body.appendChild(w);
+      const place = () => { const r = d.getBoundingClientRect(), m = w.firstChild, ratio = (m.naturalWidth || m.videoWidth || 1) / (m.naturalHeight || m.videoHeight || 1);
+        w.style.bottom = (innerHeight - r.top - 2) + 'px'; w.style.height = Math.min(innerHeight * .26, 260, innerWidth * .15 / ratio) + 'px'; };
+      w.firstChild.addEventListener('load', place); w.firstChild.addEventListener('loadedmetadata', place);
+      place(); addEventListener('resize', place); setTimeout(place, 300);
+    }
+    return d;
   }
   // рукописная пометка тренера со стрелкой (стрелка дорисовывается)
   function note(parent, text, x, y, arrow) {

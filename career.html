@@ -2,7 +2,7 @@
 <html lang="ru"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>ICE ENGLISH · Карьера</title>
-<link rel="stylesheet" href="fonts.css?v=36"><link rel="stylesheet" href="ui2.css?v=48">
+<link rel="stylesheet" href="fonts.css?v=36"><link rel="stylesheet" href="ui2.css?v=49">
 <style>
 html,body{height:100%;overflow:hidden}
 .sc-over{font-size:12px!important;letter-spacing:.42em!important;opacity:.9!important;color:var(--ink-2)!important}
@@ -98,6 +98,14 @@ html,body{height:100%;overflow:hidden}
   background-size:250% 250%;background-position:var(--gx,0%) var(--gy,0%);animation:glr 6s ease-in-out infinite}
 @keyframes glr{0%,100%{background-position:0% 0%}50%{background-position:100% 100%}}
 .pc:hover .glare{animation:none}
+.lr{padding-left:14px!important;padding-right:14px!important}
+.lad::before{left:calc(18px + 14px + 15px)!important}
+.skl .row{background:#fff!important;box-shadow:0 4px 12px rgba(20,44,70,.06)}
+.skl b{color:var(--ink)!important;font-size:13px!important}.skl b small{color:var(--ink-2)!important;font-size:11px!important}
+.skl .v{color:var(--ink)!important}
+.rt{background:linear-gradient(160deg,rgba(255,255,255,.95),rgba(240,246,252,.92))!important}
+.rt .txt{color:var(--ink)!important}
+.pc{transition:transform .7s cubic-bezier(.2,.8,.2,1)!important}
 </style></head>
 <body class="dk">
 <div id="stage"></div>
@@ -108,7 +116,7 @@ html,body{height:100%;overflow:hidden}
 </section>
 <section class="shelf"><div class="hd"><button class="tb on" data-t="aw">МОИ ДОСТИЖЕНИЯ <span id="cnt"></span></button><button class="tb" data-t="op">СОПЕРНИКИ <span id="cnt2"></span></button></div><div class="board3" id="shelf"></div></section>
 <div class="veil2"></div>
-<script src="data.js?v=45"></script><script src="ui2.js?v=48"></script>
+<script src="data.js?v=45"></script><script src="ui2.js?v=49"></script>
 <script>
 (() => {
   const $ = id => document.getElementById(id), P = UI2.profile(), st = P.st, cur = P.league.id;
@@ -117,21 +125,25 @@ html,body{height:100%;overflow:hidden}
   $('pc').innerHTML = `<div class="no">7<small>НАПАДАЮЩИЙ</small></div><div class="lg3"><img src="img/${P.league.img}.webp" alt="">${P.league.name}</div>
     <video class="pv" src="img/pl_breath.webm" poster="img/pl_breath.webp" autoplay muted loop playsinline></video><span class="glare"></span><div class="nm">${P.name}<small>${P.league.name} · ${P.league.lvl}</small></div>`;
   const sk = st.skills || { shot: 50, skate: 50, vision: 50, pass: 50 };
-  const SK = [['shot', '🏒', 'БРОСОК', 'грамматика'], ['skate', '⛸', 'КАТАНИЕ', 'слова'], ['vision', '👁', 'ВИДЕНИЕ ПОЛЯ', 'чтение и слух'], ['pass', '✕', 'ПАС', 'письмо']];
-  $('rt').innerHTML = `<span class="kick">Общий рейтинг</span><div class="top3">${P.rating === '—' ? '<span class="lock2">🔒</span>' : `<span class="big">${P.rating}</span>`}
+  const IC = { shot: '<svg viewBox="0 0 40 40" width="22" height="22"><ellipse cx="20" cy="16" rx="15" ry="7" fill="#16263a"/><path d="M5 16v6c0 4 7 7 15 7s15-3 15-7v-6" fill="#0b1219"/></svg>',
+    skate: '<svg viewBox="0 0 40 40" width="22" height="22"><path d="M10 6h9l2 14 9 3c3 1 4 3 4 6H8z" fill="#16263a"/><path d="M6 33h30" stroke="#16263a" stroke-width="3" stroke-linecap="round"/></svg>',
+    vision: '<svg viewBox="0 0 40 40" width="22" height="22"><path d="M8 22a12 12 0 0 1 24 0v4H8z" fill="#16263a"/><path d="M12 26v6h16v-6" fill="none" stroke="#16263a" stroke-width="2.5"/></svg>',
+    pass: '<svg viewBox="0 0 40 40" width="22" height="22"><path d="M8 6l20 26M32 6L12 32" stroke="#16263a" stroke-width="3.5" stroke-linecap="round"/></svg>' };
+  const SK = [['shot', IC.shot, 'БРОСОК', 'грамматика'], ['skate', IC.skate, 'КАТАНИЕ', 'слова'], ['vision', IC.vision, 'ВИДЕНИЕ ПОЛЯ', 'чтение и слух'], ['pass', IC.pass, 'ПАС', 'письмо']];
+  $('rt').innerHTML = `<span class="kick">Общий рейтинг</span><div class="top3">${P.rating === '—' ? '<span class="lock2"><svg class="ico" viewBox="0 0 24 24" width="1em" height="1em"><rect x="5" y="10" width="14" height="10" rx="2" fill="currentColor"/><path d="M8 10V7a4 4 0 0 1 8 0v3" fill="none" stroke="currentColor" stroke-width="2.2"/></svg></span>' : `<span class="big">${P.rating}</span>`}
     <span class="txt">${P.rating === '—' ? '<b>Рейтинг откроется после первой победы.</b><br>Выиграй урок — и навыки начнут расти.' : 'Ты становишься сильнее с каждым уроком. Продолжай — впереди новые лиги!'}</span></div>
     <div class="skl">${SK.map(([k, ic, n, d]) => `<div class="row"><span class="ic">${ic}</span><span><b>${n}<small>· ${d.toUpperCase()}</small></b><span class="bar"><i data-w="${sk[k]}"></i></span></span><span class="v">${st.skills ? sk[k] : '—'}</span></div>`).join('')}</div>`;
   setTimeout(() => document.querySelectorAll('.skl .bar i').forEach(i => i.style.width = (st.skills ? i.dataset.w : 0) + '%'), 200);
   $('lad').innerHTML = UI2.LEAGUES.slice().reverse().map(l => {
     const s2 = l.id < cur ? 'done' : l.id === cur ? 'cur' : 'lock';
-    return `<div class="lr ${s2}"><span class="dot"></span><img src="img/${l.img}.webp" alt=""><b>${l.name}<small>${s2 === 'cur' ? 'ТЕКУЩАЯ ЛИГА' : s2 === 'done' ? 'ПРОЙДЕНА' : l.id === cur + 1 ? 'СЛЕДУЮЩАЯ ЦЕЛЬ' : l.lvl}</small></b><span class="lk">${s2 === 'lock' ? '🔒' : ''}</span></div>`;
+    return `<div class="lr ${s2}"><span class="dot"></span><img src="img/${l.img}.webp" alt=""><b>${l.name}<small>${s2 === 'cur' ? 'ТЕКУЩАЯ ЛИГА' : s2 === 'done' ? 'ПРОЙДЕНА' : l.id === cur + 1 ? 'СЛЕДУЮЩАЯ ЦЕЛЬ' : l.lvl}</small></b><span class="lk">${s2 === 'lock' ? '<svg class="ico" viewBox="0 0 24 24" width="1em" height="1em"><rect x="5" y="10" width="14" height="10" rx="2" fill="currentColor"/><path d="M8 10V7a4 4 0 0 1 8 0v3" fill="none" stroke="currentColor" stroke-width="2.2"/></svg>' : ''}</span></div>`;
   }).join('');
   const AW = [['first_goal', 'Первый гол', 'первый выигранный урок'], ['hattrick', 'Хет-трик', '3 урока выиграно'], ['iron', 'Железный человек', '7 дней подряд'], ['sniper', 'Точный пас', 'урок без подсказок'],
               ['reader', 'Мастер чтения', '10 текстов'], ['star', 'Сухой матч', 'урок без ошибок'], ['fighter', 'Отбыл штраф', 'очистил скамейку'], ['summit', 'Покоритель вершин', 'весь сезон']];
   const have = st.awards || [];
   $('cnt').textContent = `${have.length} ИЗ ${AW.length}`;
   $('shelf').innerHTML = AW.map(([id, n, d]) => { const ok = have.includes(id);
-    return `<div class="aw2 ${ok ? '' : 'lock'}"><img src="img/badge_${id}.webp" alt="">${ok ? '' : '<span class="lkk">🔒</span>'}<b>${n}</b><small>${ok ? 'СДЕЛАНО' : d.toUpperCase()}</small></div>`; }).join('');
+    return `<div class="aw2 ${ok ? '' : 'lock'}"><img src="img/badge_${id}.webp" alt="">${ok ? '' : '<span class="lkk"><svg class="ico" viewBox="0 0 24 24" width="1em" height="1em"><rect x="5" y="10" width="14" height="10" rx="2" fill="currentColor"/><path d="M8 10V7a4 4 0 0 1 8 0v3" fill="none" stroke="currentColor" stroke-width="2.2"/></svg></span>'}<b>${n}</b><small>${ok ? 'СДЕЛАНО' : d.toUpperCase()}</small></div>`; }).join('');
   // коллекция соперников: выиграл все уроки модуля — карточка соперника твоя
   const TEAMS = ['wolf', 'bear', 'eagle', 'fox', 'lynx', 'deer', 'lion', 'owl', 'shark', 'tiger'], TEAMRU = ['Волки', 'Медведи', 'Орлы', 'Лисы', 'Рыси', 'Олени', 'Львы', 'Совы', 'Акулы', 'Тигры'];
   const beat = ICE_BOOK.map(m => m.lessons.every(l => st.done[l.id]));

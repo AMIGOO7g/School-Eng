@@ -2,7 +2,7 @@
 <html lang="ru"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>ICE ENGLISH · Штрафная</title>
-<link rel="stylesheet" href="fonts.css?v=36"><link rel="stylesheet" href="ui2.css?v=48">
+<link rel="stylesheet" href="fonts.css?v=36"><link rel="stylesheet" href="ui2.css?v=49">
 <style>
 html,body{height:100%;overflow:hidden}
 .sc-over{font-size:clamp(14px,1.2vw,20px)!important;letter-spacing:.6em!important;opacity:.9!important;color:var(--ink-2)!important}
@@ -49,12 +49,16 @@ html,body{height:100%;overflow:hidden}
 .pan{background:linear-gradient(160deg,rgba(255,255,255,.9),rgba(238,244,250,.84))!important;box-shadow:0 30px 70px rgba(10,24,40,.25)!important}
 .pan .row b,.rows b{font-size:clamp(18px,1.35vw,24px)!important}
 .pill{font-size:15px!important;padding:12px 24px!important}
+.pan{left:50%!important;transform:translateX(-50%);width:min(1100px,62vw)!important}
+.empty{left:50%!important;transform:translateX(-50%);width:min(620px,44vw)!important}
+.plq-pl.pen{transform:scaleX(-1);height:20vh;bottom:calc(1.8vh + 104px);left:1.4vw}
+.plq-pl.pen img{height:100%;width:auto}
 </style></head>
 <body class="dk">
 <div id="stage"></div>
 <div id="root"></div>
 <div class="veil2"></div>
-<script src="data.js?v=45"></script><script src="ui2.js?v=48"></script>
+<script src="data.js?v=45"></script><script src="ui2.js?v=49"></script>
 <script>
 (() => {
   const $ = id => document.getElementById(id), st = ICE_STORE.load(), ms = st.mistakes || [];
@@ -64,13 +68,13 @@ html,body{height:100%;overflow:hidden}
   const root = $('root');
   const plural = n => n % 10 === 1 && n % 100 !== 11 ? 'задание' : [2, 3, 4].includes(n % 10) && ![12, 13, 14].includes(n % 100) ? 'задания' : 'заданий';
   if (!ms.length) {
-    root.innerHTML = `<img class="box" src="img/pbox.webp" alt=""><div class="who stand"><img src="img/pl_stand.webp" alt=""></div>
+    root.innerHTML = `<div class="plq-pl pen"><img src="img/pbox.webp" alt=""></div>
       <div class="empty"><svg class="ok" viewBox="0 0 120 84"><defs><radialGradient id="pt" cx="40%" cy="35%" r="70%"><stop offset="0" stop-color="#5b6673"/><stop offset=".55" stop-color="#1a222b"/><stop offset="1" stop-color="#0b1016"/></radialGradient></defs>
         <path d="M6 34v16c0 14 24 26 54 26s54-12 54-26V34" fill="#10161d"/><ellipse cx="60" cy="34" rx="54" ry="26" fill="url(#pt)"/><path d="M40 33l14 12 28-22" fill="none" stroke="#3ee07a" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" style="filter:drop-shadow(0 0 8px #3ee07a)"/></svg>
         <h2 class="h">Скамейка пуста</h2><p>Ни одного штрафа — чистая игра!</p><a class="btn" href="school.html" data-go>На лёд <span>→</span></a></div>`;
   } else {
     const ids = [...new Set(ms.map(m => m.l))];
-    root.innerHTML = `<img class="box pl" src="img/pbox_pl.webp" alt="">
+    root.innerHTML = `<div class="plq-pl pen"><img src="img/pbox_pl.webp" alt=""></div>
       <div class="pbug"><div class="lab">ICE ENGLISH LEAGUE · ШТРАФНОЕ ВРЕМЯ</div><div class="row"><span class="tm">${ms.length * 2}:00</span><span class="tx">${ms.length} ${plural(ms.length).toUpperCase()} НА СКАМЕЙКЕ</span><span class="in">2:00 ЗА КАЖДУЮ ОШИБКУ</span></div></div>
       <div class="pan"><span class="kick bar">На скамейке</span><ul class="rows" id="rows"></ul><a class="btn" href="lesson.html?mode=review&v=practice" data-go>Отыграться все <span>→</span></a></div>`;
     ICE_LOAD(ids).then(() => {
@@ -100,4 +104,5 @@ html,body{height:100%;overflow:hidden}
   bind(); UI2.ready();
 })();
 </script>
+<script>(() => { const placeBox = () => { const b = document.querySelector(".pbug"), w = document.querySelector(".plq-pl.pen"); if (!w) return; const top = b ? b.getBoundingClientRect().top : innerHeight - 110; w.style.bottom = (innerHeight - top - 2) + "px"; w.style.height = Math.min(innerHeight * .2, 200) + "px"; }; setTimeout(placeBox, 100); setTimeout(placeBox, 900); addEventListener("resize", placeBox); })();</script>
 </body></html>

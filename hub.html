@@ -2,7 +2,7 @@
 <html lang="ru"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>ICE ENGLISH · Раздевалка</title>
-<link rel="stylesheet" href="fonts.css?v=36"><link rel="stylesheet" href="ui2.css?v=48">
+<link rel="stylesheet" href="fonts.css?v=36"><link rel="stylesheet" href="ui2.css?v=49">
 <style>
 html,body{height:100%;overflow:hidden}
 .lead3{position:fixed;z-index:12;left:0;right:0;top:calc(var(--hz,46vh) - clamp(110px,15vh,170px))}
@@ -92,7 +92,7 @@ body.ready .bug{opacity:1}
 .lead3 .kick,.lead3 .kick *{color:rgba(255,255,255,.85)!important;text-shadow:none!important}
 .cd{box-shadow:0 24px 50px rgba(0,0,0,.35)!important}
 .bug{background:linear-gradient(100deg,rgba(6,14,24,.92) 0%,rgba(16,30,48,.85) 58%,rgba(16,30,48,0) 100%)!important}
-.player{height:30vh;right:auto!important;transform:scaleX(-1);z-index:12!important}
+.player{height:26vh;right:auto!important;transform:scaleX(-1);z-index:14!important}
 .bug{z-index:13!important}
 .player video{height:100%}
 </style></head>
@@ -106,7 +106,7 @@ body.ready .bug{opacity:1}
 <div class="bug" id="bug"></div>
 <div class="name-pop" id="np"><div class="bx"><span class="kick bar">Знакомство</span><h3>Как тебя зовут?</h3><input id="nm" maxlength="16" placeholder="Имя игрока"><button class="btn" id="nok" style="width:100%;justify-content:center">На лёд →</button></div></div>
 <div class="veil2"></div>
-<script src="data.js?v=45"></script><script src="ui2.js?v=48"></script>
+<script src="data.js?v=45"></script><script src="ui2.js?v=49"></script>
 <script>
 (() => {
   const $ = id => document.getElementById(id), P = UI2.profile(), st = P.st, nx = ICE_NEXT(st), ms = (st.mistakes || []).length;
@@ -152,16 +152,16 @@ body.ready .bug{opacity:1}
   const TEAMS = ['wolf', 'bear', 'eagle', 'fox', 'lynx', 'deer', 'lion', 'owl', 'shark', 'tiger'], TEAMRU = ['ВОЛКИ', 'МЕДВЕДИ', 'ОРЛЫ', 'ЛИСЫ', 'РЫСИ', 'ОЛЕНИ', 'ЛЬВЫ', 'СОВЫ', 'АКУЛЫ', 'ТИГРЫ'];
   const mIdx = (lm ? (ICE_BOOK.findIndex(m => m.lessons.some(l => l.id === lm.l)) + 1 || nx.m.n) : nx.m.n) - 1;
   $('bug').innerHTML = `<div class="lab">ICE ENGLISH LEAGUE<a class="so3" id="so2" href="shootout.html"></a></div><div class="bar3">` + (() => { const weWon = last && last[1].best >= 8, theyWon = last && !weWon;
-    return `<span class="t1 ${weWon ? 'win' : ''}">${P.name.toUpperCase()}</span>${weWon ? '<span class="crown">♛</span>' : ''}<span class="scr">${last ? last[1].best : 0}<b> : </b>${last ? lastErr : 0}</span>${theyWon ? '<span class="crown">♛</span>' : ''}<img class="opp2" src="img/team_${TEAMS[mIdx]}.webp" alt=""><span class="t2 ${theyWon ? 'win' : ''}">${TEAMRU[mIdx]}</span>`; })() +
+    return `<span class="t1 ${weWon ? 'win' : ''}">${P.name.toUpperCase()}</span>${weWon ? '<span class="crown"><svg class="ico" viewBox="0 0 24 24" width="1em" height="1em"><path d="M3 18l1.5-10 5 5L12 5l2.5 8 5-5L21 18z" fill="currentColor"/></svg></span>' : ''}<span class="scr">${last ? last[1].best : 0}<b> : </b>${last ? lastErr : 0}</span>${theyWon ? '<span class="crown"><svg class="ico" viewBox="0 0 24 24" width="1em" height="1em"><path d="M3 18l1.5-10 5 5L12 5l2.5 8 5-5L21 18z" fill="currentColor"/></svg></span>' : ''}<img class="opp2" src="img/team_${TEAMS[mIdx]}.webp" alt=""><span class="t2 ${theyWon ? 'win' : ''}">${TEAMRU[mIdx]}</span>`; })() +
     `<span class="info">${last ? 'ПОСЛЕДНИЙ МАТЧ' : 'ПЕРВЫЙ МАТЧ ВПЕРЕДИ'} · СЕЗОН ${nDone}/10</span></div>`;
 
   { const td = (st.shoot || {})[new Date().toISOString().slice(0, 10)];
-    $('so2').innerHTML = `🥅 БУЛЛИТЫ ДНЯ · ${td != null ? 'СЕГОДНЯ ' + td + '/5' : '60 СЕК'} <b>${td != null ? 'ЕЩЁ' : 'ИГРАТЬ'} →</b>`;
+    $('so2').innerHTML = `БУЛЛИТЫ ДНЯ · ${td != null ? 'СЕГОДНЯ ' + td + '/5' : '60 СЕК'} <b>${td != null ? 'ЕЩЁ' : 'ИГРАТЬ'} →</b>`;
     $('so2').onclick = e => { e.preventDefault(); UI2.go('shootout.html'); }; }
   const placeP = () => { const b = document.getElementById('bug').getBoundingClientRect(), p = document.querySelector('.player');
-    const cb = Math.max(...[...document.querySelectorAll('.cd')].map(c => c.getBoundingClientRect().bottom)), hidden = b.height * .55;
-    p.style.height = Math.max(170, b.top - cb - 8 + hidden) + 'px'; p.style.bottom = (innerHeight - b.top - hidden) + 'px'; p.style.left = (b.left + b.width * .55) + 'px'; };
-  setTimeout(placeP, 300); addEventListener('resize', placeP);
+    const v = p.querySelector('video'), ratio = v && v.videoWidth ? v.videoWidth / v.videoHeight : .9, room = (document.querySelector('.cd') || p).getBoundingClientRect().left - innerWidth * .014 - 8;
+    p.style.height = Math.min(innerHeight * .26, 260, Math.max(80, room) / ratio) + 'px'; p.style.bottom = (innerHeight - b.top - 2) + 'px'; p.style.left = (innerWidth * .014) + 'px'; };
+  setTimeout(placeP, 300); setTimeout(placeP, 1200); addEventListener('resize', placeP); { const v = document.querySelector('.player video'); v && v.addEventListener('loadedmetadata', placeP); }
   UI2.ready(); setTimeout(() => tip(rec), 1100);
   // имя игрока при первом входе
   if (!st.name) setTimeout(() => { $('np').classList.add('show'); $('nm').focus(); }, 900);

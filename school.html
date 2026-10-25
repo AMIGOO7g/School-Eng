@@ -2,7 +2,7 @@
 <html lang="ru"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>ICE ENGLISH · Сезон</title>
-<link rel="stylesheet" href="fonts.css?v=36"><link rel="stylesheet" href="ui2.css?v=48">
+<link rel="stylesheet" href="fonts.css?v=36"><link rel="stylesheet" href="ui2.css?v=49">
 <style>
 html,body{height:100%;overflow:hidden}
 .sc-over{font-size:12px!important;letter-spacing:.32em!important;opacity:.85!important}
@@ -86,17 +86,19 @@ html,body{height:100%;overflow:hidden}
 .mc{position:relative}
 .mc:not(.now):not(.sel) img{filter:grayscale(1);opacity:.55}
 .mc:not(.now):hover img{filter:none;opacity:1}
+.area{left:50%!important;transform:translateX(-50%);width:min(1500px,82vw)!important;bottom:calc(1.8vh + 96px)!important}
+.area,.area *{scrollbar-width:none}
 </style></head>
 <body class="dk">
 <div id="stage"></div>
-<div class="player"><img src="img/pl_stand.webp" alt="Хоккеист номер 7"></div>
+
 <section class="area">
   <span class="kick bar">Расписание сезона · Spotlight 7</span>
   <div class="fxs"><div class="fx" id="fx"></div></div>
   <div class="low"><div class="panel match" id="match"></div><div class="panel lessons" id="lessons"></div></div>
 </section>
 <div class="veil2"></div>
-<script src="data.js?v=45"></script><script src="ui2.js?v=48"></script>
+<script src="data.js?v=45"></script><script src="ui2.js?v=49"></script>
 <script>
 (() => {
   const $ = id => document.getElementById(id), P = UI2.profile(), st = P.st, B = ICE_BOOK;
@@ -145,6 +147,7 @@ html,body{height:100%;overflow:hidden}
       nn.classList.add('nx'); nn.style.position = 'fixed'; nn.style.zIndex = 15; }, 700);
   }
   sc.set('01', '', true); select(sel);
+  UI2.plaque('СЕЗОН', `spotlight 7 · матч ${curM} из 10`, 'pl_stand.webp');
   UI2.ready();
 })();
 </script>

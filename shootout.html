@@ -3,7 +3,7 @@
 <head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>ICE ENGLISH · Буллиты дня</title>
-<link rel="stylesheet" href="fonts.css?v=38"><link rel="stylesheet" href="ui2.css?v=48">
+<link rel="stylesheet" href="fonts.css?v=38"><link rel="stylesheet" href="ui2.css?v=49">
 <style>
 html,body{height:100%;overflow:hidden;background:#0c1520}
 /* ворота на весь экран, вид от бьющего */
@@ -34,7 +34,7 @@ html,body{height:100%;overflow:hidden;background:#0c1520}
 .qbar .q{font-size:clamp(22px,2.1vw,36px);font-weight:800;line-height:1.25;margin:6px 0 0}
 .qbar .q u{display:inline-block;min-width:3.4em;border-bottom:4px solid var(--red);text-decoration:none}
 /* табло серии */
-.so-bar{position:fixed;z-index:20;left:50%;top:84px;transform:translateX(-50%) skewX(-10deg);display:flex;align-items:stretch;border-radius:10px;overflow:hidden;box-shadow:0 12px 30px rgba(0,0,0,.35)}
+.so-bar{position:fixed;z-index:20;left:50%;top:104px;transform:translateX(-50%) skewX(-10deg);display:flex;align-items:stretch;border-radius:10px;overflow:hidden;box-shadow:0 12px 30px rgba(0,0,0,.35)}
 .so-bar > *{transform:skewX(10deg);display:flex;align-items:center;gap:10px;padding:8px 20px;color:#fff}
 .so-bar .t{background:linear-gradient(135deg,#e63a42,#b51c24);font-family:Inter,Arial,sans-serif;font-weight:900;font-variant-numeric:tabular-nums;font-size:30px;min-width:120px;justify-content:center}
 .so-bar .t.low{animation:blink 1s infinite}@keyframes blink{50%{opacity:.6}}
@@ -65,7 +65,7 @@ html,body{height:100%;overflow:hidden;background:#0c1520}
 .zone[data-c="TL"]{align-items:flex-start;justify-content:flex-start}.zone[data-c="TR"]{align-items:flex-start;justify-content:flex-end}
 .zone[data-c="BL"]{align-items:flex-end;justify-content:flex-start}.zone[data-c="BR"]{align-items:flex-end;justify-content:flex-end}
 .zone .pill{margin:6px}
-.qbar{top:150px}
+.qbar{top:170px}
 </style>
 </head>
 <body>
@@ -79,7 +79,7 @@ html,body{height:100%;overflow:hidden;background:#0c1520}
 <div class="qbar" id="qb" style="display:none"></div>
 <div class="dim" id="dim"></div>
 <section class="panel3" id="panel"></section>
-<script src="data.js?v=45"></script><script src="ui2.js?v=48"></script>
+<script src="data.js?v=45"></script><script src="ui2.js?v=49"></script>
 <script>
 (() => {
   const $ = id => document.getElementById(id), st = ICE_STORE.load(), today = new Date().toISOString().slice(0, 10);
@@ -109,7 +109,7 @@ html,body{height:100%;overflow:hidden;background:#0c1520}
   }
   function layout() {
     const g = goal(), w = g.r - g.l, h = g.b - g.t;
-    $('qb').style.top = Math.max(150, g.t - h * .25 - 150) + 'px';
+    $('qb').style.top = Math.max(170, g.t - h * .25 - 150) + 'px';
     document.querySelectorAll('.zone').forEach(z => { const c = z.dataset.c;
       z.style.left = (c[1] === 'L' ? g.l : g.l + w / 2) + 'px'; z.style.top = (c[0] === 'T' ? g.t : g.t + h / 2) + 'px';
       z.style.width = w / 2 + 'px'; z.style.height = h / 2 + 'px'; });

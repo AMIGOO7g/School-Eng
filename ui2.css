@@ -102,7 +102,7 @@ body.ready .veil2{opacity:0}body.leaving .veil2{opacity:1}
 .mc .tg{letter-spacing:.06em!important}
 
 /* ===== v45: читаемость поверх любых фото ===== */
-.nav2{background:rgba(246,249,252,.72);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-radius:999px;padding:4px!important;box-shadow:0 6px 18px rgba(10,20,34,.12)}
+
 .sc-over,.kick{text-shadow:0 1px 0 rgba(255,255,255,.7)}
 .chip-dark{background:rgba(10,20,34,.72);color:#fff!important;padding:4px 10px;border-radius:8px;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
 
@@ -149,3 +149,32 @@ body.dk .hand{color:#fff!important;text-shadow:0 2px 10px rgba(0,0,0,.5)!importa
 body.dk .hand svg path{stroke:#fff!important}
 body.dk .tabs3 b,body.dk .shelf .hd b,body.dk .shelf .hd button{color:#fff!important}
 body.dk .page-k,body.dk .kick.on-dark{color:rgba(255,255,255,.85)!important}
+
+/* ===== v49 ===== */
+/* шапка на тёмном: меню без подложки, только красная кнопка; карточка игрока — тёмное стекло */
+body.dk .nav2 a:not(.on):not(.hot){color:rgba(255,255,255,.88)}
+body.dk .nav2 a:not(.on):not(.hot):hover{color:#fff}
+body.dk .me{background:rgba(10,20,34,.55);border:1px solid rgba(255,255,255,.14);box-shadow:0 10px 26px rgba(0,0,0,.3)}
+body.dk .me .n,body.dk .me .n *{color:#fff!important}
+body.dk .me small{color:rgba(255,255,255,.65)!important}
+body.dk .logo{color:#fff!important}
+/* полосы въезжают одной плавной анимацией, без задержек */
+.ab-str{transition:none!important;transform:skewX(-18deg) translateX(calc(var(--px,0px) + var(--sc,0px)));animation:strIn .9s cubic-bezier(.22,.8,.25,1) both;will-change:transform}
+.ab-str.s2{animation-delay:.08s}.ab-str.s3{animation-delay:.16s}
+@keyframes strIn{from{transform:skewX(-18deg) translateX(110vw)}to{transform:skewX(-18deg) translateX(calc(var(--px,0px) + var(--sc,0px)))}}
+.ab-str.done{animation:none}
+/* прожекторы: стоят в точках у нижнего края и качаются вокруг них; мягкие, бледные */
+.ab-beam{position:absolute;top:auto!important;bottom:-4vh;width:22vw;height:115vh;margin-left:-11vw;transform-origin:50% 100%;transform:rotate(var(--a,0deg));
+  background:linear-gradient(to top,rgba(220,235,255,.13),rgba(220,235,255,.05) 55%,rgba(220,235,255,0) 90%)!important;clip-path:polygon(47% 100%,53% 100%,100% 0,0 0);filter:blur(22px)!important;opacity:1}
+.ab-beam.b1{left:26vw!important}.ab-beam.b2{left:74vw!important;opacity:.85}
+/* мотивы мельче и по краям, не под карточками */
+.ab-motif{-webkit-mask-image:linear-gradient(90deg,#000 0,#000 14%,transparent 30%,transparent 70%,#000 86%,#000 100%);mask-image:linear-gradient(90deg,#000 0,#000 14%,transparent 30%,transparent 70%,#000 86%,#000 100%)}
+.ab-motif svg{transform:scale(.62);transform-origin:center}
+/* плашка внизу слева с маленьким хоккеистом, стоящим на её верхней границе */
+.plq-pl{position:fixed;z-index:18;left:1.4vw;pointer-events:none;transform:scaleX(-1);filter:drop-shadow(0 10px 16px rgba(0,0,0,.35))}
+.plq-pl img,.plq-pl video{height:100%;display:block}
+/* внутренние полосы прокрутки не показываем — колесо работает */
+.hide-sb,.hide-sb *{scrollbar-width:none}
+.hide-sb::-webkit-scrollbar,.hide-sb *::-webkit-scrollbar{display:none}
+
+.ico{display:inline-block;vertical-align:-.15em}

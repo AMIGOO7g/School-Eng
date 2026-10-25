@@ -3,7 +3,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>ICE ENGLISH · Урок</title>
 <link rel="stylesheet" href="fonts.css?v=29">
-<link rel="stylesheet" href="ice.css?v=35"><link rel="stylesheet" href="ui2.css?v=48">
+<link rel="stylesheet" href="ice.css?v=35"><link rel="stylesheet" href="ui2.css?v=49">
 <style>
 :root{--left:clamp(24px,4.9vw,120px);--cardw:clamp(560px,47vw,1200px)}
 .stage{transition:transform 1.2s var(--ease)}
@@ -63,7 +63,7 @@ body.leaving .card{opacity:0;transform:translateX(-24px);transition-delay:0s}
 .duo p{margin:6px 0}
 .duo b,.cases b{color:#fff}
 .ex{font-size:16px;font-weight:600;cursor:pointer;display:inline-block;background:rgba(255,255,255,.12);padding:6px 12px;border-radius:12px;margin:4px 0}
-.ex::before{content:"🔊";font-size:12px;margin-right:8px}
+.ex::before{content:"<svg class="ico" viewBox="0 0 24 24" width="1em" height="1em"><path d="M4 9h4l5-4v14l-5-4H4z" fill="currentColor"/><path d="M16 9a4 4 0 0 1 0 6M18.5 6.5a7.5 7.5 0 0 1 0 11" fill="none" stroke="currentColor" stroke-width="2"/></svg>";font-size:12px;margin-right:8px}
 .ex:hover{background:rgba(255,255,255,.22)}
 .pbody > div > .ex{background:rgba(37,75,112,.08);color:var(--ink)}
 .pbody > div > .ex b{color:var(--ink)}
@@ -430,13 +430,23 @@ body.revmode .player-slot{width:min(30vw,520px)!important}
 @media (max-height:820px){.card{top:calc(92px + 118px)!important}}
 body.hwmode .card{top:110px!important;bottom:calc(1.8vh + 92px)!important}
 /* «отыграть» в штрафной: без картинки, карточка по центру и крупнее */
-body.revmode .player-slot{display:none!important}
-body.revmode .card,body.hwmode .card{left:50%!important;right:auto!important;transform:translateX(-50%)!important;width:min(1100px,78vw)!important}
+.player-slot{display:none!important}
+.card{left:50%!important;right:auto!important;transform:translateX(-50%)!important;width:min(1100px,66vw)!important}
 /* подсказки по ступенькам во «впиши» */
 .ladder{margin:10px 0 0;padding:10px 14px;border-radius:12px;background:rgba(242,179,61,.14);font-size:15px;line-height:1.5}
 .ladder b{color:var(--red)}
+.hw-top .kicker,.hw-top .kicker *{color:rgba(255,255,255,.7)!important}
+.hw{margin-top:14px}
+.hw-in{display:block;width:100%;margin:8px 0 6px;font:inherit;font-size:16px;font-weight:600;border:2px solid rgba(31,50,72,.14);border-radius:12px;padding:10px 12px;background:#fff;outline:none;resize:vertical}
+.hw-in:focus{border-color:var(--red)}
+.fc .f{background:linear-gradient(160deg,#22395a,#16263a)!important;border-left:5px solid var(--red)}
+.fc .f b{font-size:clamp(15px,1.1vw,20px)!important;line-height:1.1;white-space:normal!important;overflow-wrap:break-word;display:block}
+.fc .f small{color:rgba(255,255,255,.7)!important;font-size:12px!important}
+.fc .b{background:#fff!important;color:var(--ink)!important;border:2px solid var(--red)}
+.cards{overflow:visible!important}
+#pb{overflow-x:hidden!important}
 </style></head>
-<body class="arriving dk">
+<body class="arriving dk hide-sb">
 <main class="stage" id="stage"></main>
 <section class="board2" id="board2"><div class="sb2">
   <div class="side2"><span class="lg2">7</span><span class="nm2" id="nm2">ИГРОК</span></div>
@@ -460,7 +470,7 @@ body.revmode .card,body.hwmode .card{left:50%!important;right:auto!important;tra
 <div class="veil"></div>
 
 <script src="data.js?v=45"></script>
-<script src="ice-ui.js?v=35"></script><script src="ui2.js?v=48"></script>
+<script src="ice-ui.js?v=35"></script><script src="ui2.js?v=49"></script>
 <script>
 (() => {
   const q = new URLSearchParams(location.search);
@@ -493,7 +503,7 @@ function run(L) {
   const qv = new URLSearchParams(location.search); const bgs = UI2.abstract($('stage'), { theme: qv.get('v') === 'hw' ? 'green' : qv.get('mode') === 'review' ? 'penalty' : 'arena' });
   const HWM = qs.get('v') === 'hw'; if (HWM) document.body.classList.add('hwmode'); if (L.review) { document.body.classList.add('hwmode', 'revmode'); const pi = document.querySelector('#player img'); if (pi) pi.src = 'img/pbox_pl.webp'; }
 
-  UI2.plaque(L.review ? 'ШТРАФНАЯ' : HWM ? 'HOMEWORK' : `MATCH ${L.module}`, L.review ? `на скамейке: ${(store.mistakes || []).length} · реши верно — и выйдешь на лёд` : HWM ? `задание тренера · урок ${L.code} · стр. ${L.pages}` : `урок ${L.code} · ${L.en}`);
+  UI2.plaque(L.review ? 'ШТРАФНАЯ' : HWM ? 'HOMEWORK' : `MATCH ${L.module}`, L.review ? `на скамейке: ${(store.mistakes || []).length} · реши верно — и выйдешь на лёд` : HWM ? `задание тренера · урок ${L.code} · стр. ${L.pages}` : `урок ${L.code} · ${L.en}`, L.review ? 'pbox_pl.webp' : HWM ? 'pl_stand.webp' : 'pl_shot.webp');
   const gwrap = () => document.querySelector('.sc-giant');
   UI2.header(qs.get('v') === 'hw' ? 'hw' : L.review ? 'pen' : 'season');
   const crumbV = null;
@@ -571,7 +581,7 @@ function run(L) {
     return box;
   }
   const q = text => el('p', 'q', text.replace('___', '<u>&nbsp;</u>'));
-  const how = text => el('div', 'how', '👆 ' + text);
+  const how = text => el('div', 'how', '' + text);
 
   /* перетаскивание мышью и пальцем; короткое нажатие — тоже работает */
   function draggable(chip, { onDrop, onTap }) {
@@ -623,8 +633,8 @@ function run(L) {
       steps.appendChild(t);
     });
     body.appendChild(steps);
-    body.appendChild(el('p', 'ov-win', '🏆 <b>Матч засчитан</b>, когда пройдены все три периода, а в тренировке не меньше 8 голов из 10. Домашка — отдельно: «Задание тренера».'));
-    if (L.homework.length) { const h = btn(`📋 Домашка по стр. ${L.pages}: ${st.hw}`, 'ov-hw', () => go('hw')); body.appendChild(h); }
+    body.appendChild(el('p', 'ov-win', '<b>Матч засчитан</b>, когда пройдены все три периода, а в тренировке не меньше 8 голов из 10. Домашка — отдельно: «Задание тренера».'));
+    if (L.homework.length) { const h = btn(`Домашка по стр. ${L.pages}: ${st.hw}`, 'ov-hw', () => go('hw')); body.appendChild(h); }
     frame(`Модуль ${L.module} / Урок ${L.code}`, L.en, body, [btn('‹ К матчам сезона', 'go light', () => leave(`school.html?m=${L.module}`)), spacer(), btn(`${T.find(x => x[0] === rec)[2]} <span>↗</span>`, 'go', () => go(rec))]);
     moveTo(0, true); resetGoal();
   }
@@ -660,7 +670,7 @@ function run(L) {
     const prev = btn('‹ Назад', 'go light', () => i ? showTheory(i - 1) : go('hub'));
     $('stage').style.setProperty('--pan', ((PAN.theory - i * .25) * innerWidth / 160).toFixed(0) + 'px');
     frame(`Разобраться, ${i + 1} из ${L.theory.length}`, c.title, body, [prev, spacer(), next]);
-    if (!lp.theory) { const h = el('p', 'lock2', '🔒 Ответь на вопрос «Проверь себя» — и откроется «Дальше».'); next.parentNode && next.parentNode.insertBefore(h, next); }
+    if (!lp.theory) { const h = el('p', 'lock2', 'Ответь на вопрос «Проверь себя» — и откроется «Дальше».'); next.parentNode && next.parentNode.insertBefore(h, next); }
   }
 
   /* ---------- ТРЕНИРОВАТЬСЯ ---------- */
@@ -670,7 +680,8 @@ function run(L) {
     if (fresh && !L.review && lp.pq && lp.pq.qi > 0) {   // продолжаем с того места, где остановились
       ({ queue, qi, first, round, solved } = lp.pq); toast(`Продолжаем с задания ${qi + 1}`); showTask(); return;
     }
-    if (fresh) { queue = L.tasks.map((_, i) => i); first = {}; round = 1; }
+    const RANK = { listen: 0, choice: 1, match: 1, sort: 2, error: 3, build: 3, input: 4, write: 5, speak: 6 };
+    if (fresh) { queue = L.tasks.map((_, i) => i).sort((a, b) => (RANK[L.tasks[a].type] ?? 2) - (RANK[L.tasks[b].type] ?? 2) || a - b); first = {}; round = 1; }
     qi = 0; solved = 0; moveTo(0, true); resetGoal(); showTask();
   }
   function markResult(idx, ok) {
@@ -693,7 +704,7 @@ function run(L) {
     next.disabled = true;
     const right = () => { markResult(idx, true); solved++; moveTo(solved / queue.length); next.disabled = false; };
     const wrong = () => markResult(idx, false);
-    const body = el('div'); if (HOW[t.type]) { const h = document.createElement('div'); h.className = 'how2'; h.innerHTML = '💡 ' + HOW[t.type]; if (L.review && t._src && L.srcTheory) { const w = document.createElement('button'); w.className = 'whyb'; w.textContent = 'Почему ошибся? →'; w.onclick = () => rulePop(L.srcTheory(t._src.l)); h.appendChild(w); } body.appendChild(h); }
+    const body = el('div'); if (HOW[t.type]) { const h = document.createElement('div'); h.className = 'how2'; h.innerHTML = HOW[t.type]; if (L.review && t._src && L.srcTheory) { const w = document.createElement('button'); w.className = 'whyb'; w.textContent = 'Почему ошибся? →'; w.onclick = () => rulePop(L.srcTheory(t._src.l)); h.appendChild(w); } body.appendChild(h); }
     body.appendChild(RENDER[t.type](t, fb, right, wrong, idx)); body.appendChild(fb);
     $('stage').style.setProperty('--pan', ((PAN.practice - qi * .08) * innerWidth / 160).toFixed(0) + 'px');
     frame(`${round > 1 ? 'Работа над ошибками' : L.review ? 'Повторить' : 'Тренироваться'}, задание ${qi + 1} из ${queue.length}`, t.prompt, body, [btn('‹ Обзор', 'go light', () => go('hub')), btn('Правило', 'go light', () => rulePop(t._src ? L.srcTheory(t._src.l) : L.theory)), spacer(), next]);
@@ -701,7 +712,7 @@ function run(L) {
   const HOW = {
     input: '<b>Как делать:</b> впиши слово в пропуск и нажми Enter. Одна опечатка в длинном слове — не страшно.',
     write: '<b>Как делать:</b> напиши фразу по-английски целиком и нажми Enter. Точку в конце можно не ставить.',
-    speak: '<b>Как делать:</b> нажми ▶ и послушай, потом 🎤 — и скажи фразу вслух. Браузер попросит доступ к микрофону.',
+    speak: '<b>Как делать:</b> нажми ▶ и послушай, потом <svg class="ico" viewBox="0 0 24 24" width="1em" height="1em"><rect x="9" y="3" width="6" height="11" rx="3" fill="currentColor"/><path d="M6 11a6 6 0 0 0 12 0M12 17v4" fill="none" stroke="currentColor" stroke-width="2"/></svg> — и скажи фразу вслух. Браузер попросит доступ к микрофону.',
     choice: '<b>Как делать:</b> нажми верный вариант. Можно клавишами 1–4.',
     listen: '<b>Как делать:</b> нажми ▶, послушай фразу и выбери, что услышал.',
     sort: '<b>Как делать:</b> перетащи каждое слово в нужную корзину. Или нажми слово, потом корзину.',
@@ -730,9 +741,9 @@ function run(L) {
         if (r.ok) { inp.value = r.best; inp.classList.add('ok'); inp.disabled = true; go2.disabled = true; feedback(fb, true, (r.exact ? '' : ' Почти без ошибок — правильно пишется: <b>' + r.best + '</b>. ') + (t.why || '')); right(); }
         else { inp.classList.add('bad'); setTimeout(() => inp.classList.remove('bad'), 600); tries++;
           const lad = d.querySelector('.ladder') || d.appendChild(el('div', 'ladder'));
-          lad.innerHTML = tries === 1 ? `💡 <b>Подсказка:</b> ${t.why || 'вспомни правило урока.'}`
-            : tries === 2 ? `💡 <b>Начинается так:</b> ${t.answer.slice(0, Math.max(2, Math.ceil(t.answer.length / 3)))}…`
-            : `✍️ <b>Правильно:</b> ${t.answer}. Впиши его сам — так запомнится.`;
+          lad.innerHTML = tries === 1 ? `<b>Подсказка:</b> ${t.why || 'вспомни правило урока.'}`
+            : tries === 2 ? `<b>Начинается так:</b> ${t.answer.slice(0, Math.max(2, Math.ceil(t.answer.length / 3)))}…`
+            : `<b>Правильно:</b> ${t.answer}. Впиши его сам — так запомнится.`;
           feedback(fb, false, tries >= 3 ? ' Перепиши правильный ответ в поле.' : ' Попробуй ещё раз — подсказка ниже.'); wrong(); } });
       inp.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); e.stopPropagation(); go2.click(); } });
       d.appendChild(go2); setTimeout(() => inp.focus(), 200); return d;
@@ -755,20 +766,22 @@ function run(L) {
       d.appendChild(btn('▶ Послушать, как надо', 'go light', () => speak(t.say)));
       if (!SR) { d.appendChild(el('p', 'meta', 'В этом браузере нет распознавания речи. Скажи фразу вслух сам и нажми кнопку.'));
         d.appendChild(btn('Я сказал вслух ✓', 'go', () => { feedback(fb, true, ' Молодец! Говорить вслух — лучший способ запомнить.'); right(); })); return d; }
-      const mic = btn('🎤 Нажми и скажи', 'go mic', () => {
-        const r = new SR(); r.lang = 'en-US'; r.interimResults = false; r.maxAlternatives = 3; mic.classList.add('rec'); mic.textContent = '🎤 Слушаю…';
-        r.onresult = e => { const alts = [...e.results[0]].map(x => x.transcript); mic.classList.remove('rec'); mic.textContent = '🎤 Ещё раз';
+      const mic = btn('<svg class="ico" viewBox="0 0 24 24" width="1em" height="1em"><rect x="9" y="3" width="6" height="11" rx="3" fill="currentColor"/><path d="M6 11a6 6 0 0 0 12 0M12 17v4" fill="none" stroke="currentColor" stroke-width="2"/></svg> Нажми и скажи', 'go mic', () => {
+        const r = new SR(); r.lang = 'en-US'; r.interimResults = false; r.maxAlternatives = 3; mic.classList.add('rec'); mic.textContent = '<svg class="ico" viewBox="0 0 24 24" width="1em" height="1em"><rect x="9" y="3" width="6" height="11" rx="3" fill="currentColor"/><path d="M6 11a6 6 0 0 0 12 0M12 17v4" fill="none" stroke="currentColor" stroke-width="2"/></svg> Слушаю…';
+        r.onresult = e => { const alts = [...e.results[0]].map(x => x.transcript); mic.classList.remove('rec'); mic.textContent = '<svg class="ico" viewBox="0 0 24 24" width="1em" height="1em"><rect x="9" y="3" width="6" height="11" rx="3" fill="currentColor"/><path d="M6 11a6 6 0 0 0 12 0M12 17v4" fill="none" stroke="currentColor" stroke-width="2"/></svg> Ещё раз';
           const tw = nrm(t.say).split(' '), best = alts.map(a => { const w = nrm(a).split(' '); return tw.filter(x => w.includes(x)).length / tw.length; }).sort((a, b) => b - a)[0];
           if (best >= .75) { mic.disabled = true; feedback(fb, true, ` Я услышал: «${alts[0]}». ${t.why || ''}`); right(); }
           else { feedback(fb, false, ` Я услышал: «${alts[0]}». Послушай образец и скажи ещё раз чётче.`); wrong(); } };
-        r.onerror = () => { mic.classList.remove('rec'); mic.textContent = '🎤 Ещё раз'; feedback(fb, false, ' Не расслышал. Проверь, что микрофон разрешён, и скажи ещё раз.', ''); };
+        r.onerror = () => { mic.classList.remove('rec'); mic.textContent = '<svg class="ico" viewBox="0 0 24 24" width="1em" height="1em"><rect x="9" y="3" width="6" height="11" rx="3" fill="currentColor"/><path d="M6 11a6 6 0 0 0 12 0M12 17v4" fill="none" stroke="currentColor" stroke-width="2"/></svg> Ещё раз'; feedback(fb, false, ' Не расслышал. Проверь, что микрофон разрешён, и скажи ещё раз.', ''); };
         r.onend = () => mic.classList.remove('rec'); r.start(); });
-      d.appendChild(mic); return d;
+      d.appendChild(mic);
+      d.appendChild(btn('Нет микрофона — пропустить', 'go light', () => { mic.disabled = true; feedback(fb, true, ' Задание пропущено. Скажи фразу вслух сам — так лучше запомнится.'); right(); }));
+      return d;
     },
     choice(t, fb, right, wrong) { const d = el('div'); d.appendChild(q(t.text)); d.appendChild(choice(t.options, fb, right, wrong)); return d; },
     listen(t, fb, right, wrong) {
       const d = el('div'), has = 'speechSynthesis' in window;
-      const p = btn('🔊 Послушать ещё раз', 'play', () => speak(t.say)); if (!has) { p.textContent = 'Озвучка в этом браузере недоступна'; p.disabled = true; }
+      const p = btn('<svg class="ico" viewBox="0 0 24 24" width="1em" height="1em"><path d="M4 9h4l5-4v14l-5-4H4z" fill="currentColor"/><path d="M16 9a4 4 0 0 1 0 6M18.5 6.5a7.5 7.5 0 0 1 0 11" fill="none" stroke="currentColor" stroke-width="2"/></svg> Послушать ещё раз', 'play', () => speak(t.say)); if (!has) { p.textContent = 'Озвучка в этом браузере недоступна'; p.disabled = true; }
       d.append(p, choice(t.options, fb, right, wrong)); setTimeout(() => speak(t.say), 500); return d;
     },
     sort(t, fb, right, wrong) {
@@ -911,7 +924,7 @@ function run(L) {
     }
     const [en, ru] = set[i], wrongs = shuffle(L.words.filter(w => w[0] !== en)).slice(0, 2);
     const fb = fbBox(), body = el('div'); let firstTry = true;
-    body.appendChild(el('p', 'q', `<span data-say="${en}" style="cursor:pointer">🔊 ${en}</span>`));
+    body.appendChild(el('p', 'q', `<span data-say="${en}" style="cursor:pointer"><svg class="ico" viewBox="0 0 24 24" width="1em" height="1em"><path d="M4 9h4l5-4v14l-5-4H4z" fill="currentColor"/><path d="M16 9a4 4 0 0 1 0 6M18.5 6.5a7.5 7.5 0 0 1 0 11" fill="none" stroke="currentColor" stroke-width="2"/></svg> ${en}</span>`));
     const next = btn(i < set.length - 1 ? 'Дальше <span>↗</span>' : 'Результат <span>↗</span>', 'go', () => wordQuiz(i + 1, score + (firstTry ? 1 : 0), set)); next.disabled = true;
     body.appendChild(choice([{ t: ru, ok: true, why: `${en} — ${ru}.` }, ...wrongs.map(w => ({ t: w[1], why: `«${w[1]}» — это ${w[0]}.` }))], fb, () => next.disabled = false, () => firstTry = false));
     body.appendChild(fb);
@@ -925,7 +938,6 @@ function run(L) {
     lp.hw = true; save();
     const body = el('div'); body.appendChild(el('p', 'meta', 'Здесь нет готовых ответов: подсказка показывает, где искать и какое правило нужно. Сначала попробуй сам, подсказку открывай, если застрял.'));
     lp.tr = lp.tr || {}; lp.wr = lp.wr || {};
-    if (hwOnly != null) body.appendChild(btn('Все упражнения урока', 'go light', () => { hwOnly = null; showHw(); }));
     L.homework.forEach((h, hi) => {
       if (hwOnly != null && hi !== hwOnly) return;
       const box = el('div', 'hw');
@@ -936,7 +948,18 @@ function run(L) {
       else if (h.type === 'write') box.appendChild(writeBox(h, hi));
       else {
         const items = el('div', 'hw-items');
-        h.items.forEach(it => { const row = el('div', 'hw-item', `<p>${it.t}</p>`); row.appendChild(btn('Подсказка', '', () => row.classList.toggle('open'))); row.appendChild(el('div', 'h', it.hint)); items.appendChild(row); });
+        lp.ans = lp.ans || {}; const long = /письм|портфолио|статью|статья|текст о|листовк|диалог|расскажи|заметки|проект/i.test(h.task);
+        const nb = el('div', 'notebook'); nb.style.display = 'none';
+        const upd = () => { const got = h.items.map((it, ii) => (lp.ans[`${L.id}:${hi}:${ii}`] || '').trim()).filter(Boolean);
+          nb.style.display = got.length ? '' : 'none'; nb.innerHTML = `<span class="kicker">Перепиши в тетрадь</span><p>${h.ex.split(',')[0]}<br>${got.join(long ? ' ' : '<br>')}</p>`; };
+        h.items.forEach((it, ii) => {
+          const row = el('div', 'hw-item', `<p>${it.t}</p>`), key = `${L.id}:${hi}:${ii}`;
+          const f = document.createElement(long ? 'textarea' : 'input'); f.className = 'hw-in'; if (long) f.rows = 2;
+          f.placeholder = long ? 'Напиши здесь по-английски…' : 'Твой ответ'; f.value = lp.ans[key] || '';
+          f.oninput = () => { lp.ans[key] = f.value; save(); upd(); };
+          row.appendChild(f);
+          row.appendChild(btn('Подсказка', 'hw-hint', () => row.classList.toggle('open'))); row.appendChild(el('div', 'h', it.hint)); items.appendChild(row); });
+        items.appendChild(nb); upd();
         box.appendChild(items);
       }
       if (h.practice) {
@@ -946,7 +969,7 @@ function run(L) {
       }
       body.appendChild(box);
     });
-    frame('Домашка', `Помощь с упражнениями, стр. ${L.pages}`, body, [btn('‹ Обзор урока', 'go light', () => go('hub')), spacer()]);
+    frame('Домашка', `Помощь с упражнениями, стр. ${L.pages}`, body, [hwOnly != null ? btn('‹ Все упражнения урока', 'go light', () => { hwOnly = null; showHw(); }) : btn('‹ Обзор урока', 'go light', () => go('hub')), spacer(), btn('Другая страница ↗', 'go light', () => leave('homework.html'))]);
   }
 
   /* карточки правила поверх задания */
@@ -1049,7 +1072,7 @@ function run(L) {
   function overtime(need) {   // проиграл в один гол — одно задание за победу
     otUsed = true; const idx = queue.find(i => !first[i]), t = L.tasks[idx], fb = fbBox(); let once = false;
     lower2('post', 'ОВЕРТАЙМ', 'Одно задание — и победа твоя!'); UI2.SFX.horn();
-    const body = el('div'); const h = document.createElement('div'); h.className = 'how2'; h.innerHTML = '🔥 <b>Овертайм.</b> Не хватило одного гола. Реши это задание верно — и матч твой.'; body.appendChild(h);
+    const body = el('div'); const h = document.createElement('div'); h.className = 'how2'; h.innerHTML = '<svg class="ico" viewBox="0 0 24 24" width="1em" height="1em"><path d="M12 2c1 4 6 6 6 12a6 6 0 0 1-12 0c0-3 2-5 3-7 1 2 2 3 3 3 0-3-1-5 0-8z" fill="currentColor"/></svg> <b>Овертайм.</b> Не хватило одного гола. Реши это задание верно — и матч твой.'; body.appendChild(h);
     body.appendChild(RENDER[t.type](t, fb, () => { if (once) return; once = true; first[idx] = true; store.mistakes = (store.mistakes || []).filter(m => !(m.l === L.id && m.i === idx)); save(); UI2.SFX.goal(); lower2('', 'ГОЛ!', 'Победа в овертайме!'); setTimeout(shoot, 1400); },
       () => { if (once) return; once = true; UI2.SFX.post(); lower2('post', 'ШТАНГА', 'Овертайм не получился — перерешай ошибки'); setTimeout(shoot, 1400); }, idx));
     body.appendChild(fb);
@@ -1116,7 +1139,7 @@ function run(L) {
       <div class="aw">${award ? `<span class="kk">Новая награда</span><div class="medal"><img src="img/badge_${award.id}.webp" alt=""></div><b>${award.name}</b><span class="sub3">${award.desc}</span>`
         : win ? `<span class="kk">Победа</span><div class="medal"><img src="img/team_${TM[mi]}.webp" alt=""></div><b>Победа над ${TR[mi]}</b><span class="sub3">матч ${L.module} · урок ${L.code}</span>`
               : `<span class="kk">Матч проигран</span><div class="medal" style="filter:grayscale(1);opacity:.7"><img src="img/team_${TM[mi]}.webp" alt=""></div><b>${TR[mi].replace(/ов$|ей$/, '')} сильнее</b><span class="sub3">пока что</span>`}
-        <div class="tip3"><span class="st">★</span><span>${win ? (allDone ? '<b>Так держать!</b><br>Ты отлично разобрался с темой и уверенно выполнил задания.' : '<b>Почти матч!</b><br>Остался ещё период — после него матч засчитают.') : `<b>Нужно ${need} из ${queue.length} с первой попытки.</b><br>Поражение записано в сезон. Перерешай ошибки и переиграй матч — только так путь в МХЛ.`}</span></div></div>
+        <div class="tip3"><span class="st"><svg class="ico" viewBox="0 0 24 24" width="1em" height="1em"><path d="M12 2l3 7 7 .6-5.3 4.7 1.6 7.2L12 17.8 5.7 21.5l1.6-7.2L2 9.6 9 9z" fill="currentColor"/></svg></span><span>${win ? (allDone ? '<b>Так держать!</b><br>Ты отлично разобрался с темой и уверенно выполнил задания.' : '<b>Почти матч!</b><br>Остался ещё период — после него матч засчитают.') : `<b>Нужно ${need} из ${queue.length} с первой попытки.</b><br>Поражение записано в сезон. Перерешай ошибки и переиграй матч — только так путь в МХЛ.`}</span></div></div>
       <div class="acts">${errs.length ? '<button class="btn dark" data-a="redo">Перерешать ошибки</button>' : ''}${!win ? '<button class="btn" data-a="replay">Переиграть матч →</button>' : ''}${win && !allDone ? left.map(([v, t]) => `<button class="btn" data-a="${v}">${t} →</button>`).join('') : ''}${allDone ? '<button class="btn" data-a="next">→ Следующий матч</button>' : ''}<button class="btn ghost" data-a="hub">В раздевалку</button></div></div>`;
     r.classList.add('show');
     setTimeout(() => r.querySelectorAll('.sk .bar i').forEach(i => { void i.offsetWidth; i.style.setProperty('width', i.dataset.w + '%', 'important'); }), 250);
