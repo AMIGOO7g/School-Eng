@@ -2,7 +2,7 @@
 <html lang="ru"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>ICE ENGLISH · Сезон</title>
-<link rel="stylesheet" href="fonts.css?v=36"><link rel="stylesheet" href="ui2.css?v=49">
+<link rel="stylesheet" href="fonts.css?v=36"><link rel="stylesheet" href="ui2.css?v=50">
 <style>
 html,body{height:100%;overflow:hidden}
 .sc-over{font-size:12px!important;letter-spacing:.32em!important;opacity:.85!important}
@@ -88,6 +88,33 @@ html,body{height:100%;overflow:hidden}
 .mc:not(.now):hover img{filter:none;opacity:1}
 .area{left:50%!important;transform:translateX(-50%);width:min(1500px,82vw)!important;bottom:calc(1.8vh + 96px)!important}
 .area,.area *{scrollbar-width:none}
+/* «Волки» по центру под плашкой темы */
+#match .opp{width:100%!important;justify-content:center!important}
+#match .opp .tn{margin:0 auto}
+.mode-tabs{position:fixed;z-index:25;left:50%;transform:translateX(-50%);top:84px}
+/* турнирная сетка */
+.bracket{position:fixed;z-index:12;left:50%;top:150px;bottom:calc(1.8vh + 110px);transform:translateX(-50%);width:min(1500px,84vw)}
+.bwrap{position:relative;width:100%;height:100%}
+.bwrap svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.bwrap path{fill:none;stroke:rgba(255,255,255,.28);stroke-width:2;vector-effect:non-scaling-stroke}
+.bwrap path.on{stroke:#e63a42;filter:drop-shadow(0 0 6px rgba(230,58,66,.8))}
+.bcol{position:absolute;top:0;bottom:0;width:21%;display:flex;flex-direction:column;justify-content:space-around}
+.bcol.l{left:0}.bcol.r{right:0}
+.bc{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:12px;border:1px solid rgba(255,255,255,.18);border-radius:12px;background:rgba(8,16,28,.82);color:#fff;padding:8px 14px 8px 8px;cursor:pointer;text-align:left;transition:transform .2s,border-color .2s}
+.bc:hover{transform:translateY(-2px);border-color:#fff}
+.bc img{height:clamp(40px,6vh,64px);filter:grayscale(1);opacity:.6}
+.bc.won img,.bc.now img,.bc:hover img{filter:none;opacity:1}
+.bc b{display:block;font-family:var(--head);font-weight:400;font-size:clamp(18px,1.4vw,24px);line-height:1}
+.bc small{font-size:11px;font-weight:800;letter-spacing:.12em;color:rgba(255,255,255,.6);text-transform:uppercase}
+.bc em{font-style:normal;font-family:var(--head);font-size:18px;color:rgba(255,255,255,.75)}
+.bc.won{border-color:#e63a42}.bc.won em{color:#ff6b72}
+.bc.now{border-color:#fff;box-shadow:0 0 0 3px rgba(255,255,255,.18),0 0 24px rgba(86,196,235,.45);animation:pulse2 2s ease-in-out infinite}
+@keyframes pulse2{50%{box-shadow:0 0 0 6px rgba(255,255,255,.08),0 0 34px rgba(86,196,235,.65)}}
+.bcup{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:24%;text-align:center;color:#fff}
+.bcup img{width:70%;max-width:230px;position:relative;filter:drop-shadow(0 18px 30px rgba(0,0,0,.5))}
+.bcup .glow{position:absolute;left:50%;top:38%;width:160%;aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(circle,rgba(150,210,255,.35),transparent 62%)}
+.bcup b{display:block;position:relative;font-family:var(--head);font-weight:400;font-size:clamp(30px,2.6vw,46px);margin-top:10px}
+.bcup small{position:relative;font-size:13px;color:rgba(255,255,255,.75);line-height:1.4}
 </style></head>
 <body class="dk">
 <div id="stage"></div>
@@ -98,14 +125,14 @@ html,body{height:100%;overflow:hidden}
   <div class="low"><div class="panel match" id="match"></div><div class="panel lessons" id="lessons"></div></div>
 </section>
 <div class="veil2"></div>
-<script src="data.js?v=45"></script><script src="ui2.js?v=49"></script>
+<script src="data.js?v=45"></script><script src="ui2.js?v=50"></script>
 <script>
 (() => {
   const $ = id => document.getElementById(id), P = UI2.profile(), st = P.st, B = ICE_BOOK;
   const TEAMS = ['wolf', 'bear', 'eagle', 'fox', 'lynx', 'deer', 'lion', 'owl', 'shark', 'tiger'];
   const TEAMRU = ['Волки', 'Медведи', 'Орлы', 'Лисы', 'Рыси', 'Олени', 'Львы', 'Совы', 'Акулы', 'Тигры'];
   UI2.header('season');
-  const sc = UI2.abstract($('stage'), { theme: 'ice', horizon: .42 });
+  const sc = UI2.abstract($('stage'), { theme: 'ice', horizon: .42, word: '01', over: '' });
   const setHz = () => document.documentElement.style.setProperty('--hz', sc.horizonPx() + 'px'); setHz(); addEventListener('resize', setHz);
   const doneIn = m => m.lessons.filter(l => st.done[l.id]).length;
   const nx = ICE_NEXT(st), curM = nx.m.n;
@@ -121,7 +148,7 @@ html,body{height:100%;overflow:hidden}
   function select(n) {
     sel = n; const m = B[n - 1], i = n - 1, d = doneIn(m); clearInterval(mf);
     [...$('fx').children].forEach((b, k) => b.classList.toggle('sel', k === i));
-    sc.set(String(n).padStart(2, '0'), `spotlight 7 · матч ${n} · соперник: ${TEAMRU[i]}`, false);
+    sc.set(String(n).padStart(2, '0'));
     const next = m.lessons.find(l => !st.done[l.id]) || m.lessons[0];
     const href = ICE_READY[next.id] ? `lesson.html?l=${next.id}` : `module.html?m=${n}&l=${next.id}`;
     const topic = m.grammar.split(',')[0].replace(/ и Present /, ' / ').replace(/ и /, ' / ');
@@ -147,7 +174,25 @@ html,body{height:100%;overflow:hidden}
       nn.classList.add('nx'); nn.style.position = 'fixed'; nn.style.zIndex = 15; }, 700);
   }
   sc.set('01', '', true); select(sel);
-  UI2.plaque('СЕЗОН', `spotlight 7 · матч ${curM} из 10`, 'pl_stand.webp');
+  UI2.plaque('СЕЗОН', `spotlight 7 · матч ${curM} из 10`, 'pl_stand.webp', { h: .5, behind: true });
+  /* дополнение: турнирная сетка сезона — матчи 1–5 слева, 6–10 справа, в центре кубок и следующая лига */
+  const br = document.createElement('div'); br.className = 'bracket'; br.style.display = 'none'; document.body.appendChild(br);
+  { const nxL = UI2.LEAGUES[1 + 1] || UI2.LEAGUES[UI2.LEAGUES.length - 1];
+    const cell = (m, i) => { const d = doneIn(m), all = d === m.lessons.length, now = m.n === curM && !all;
+      return `<button class="bc ${all ? 'won' : now ? 'now' : ''}" data-n="${m.n}"><img src="img/team_${TEAMS[i]}.webp" alt=""><span><b>${TEAMRU[i]}</b><small>Матч ${m.n}</small></span><em>${all ? 'ПОБЕДА' : d ? d + ' / ' + m.lessons.length : '— : —'}</em></button>`; };
+    const L5 = B.slice(0, 5), R5 = B.slice(5, 10);
+    const lit = i => doneIn(B[i]) === B[i].lessons.length;
+    const ys = [10, 30, 50, 70, 90];
+    const lines = (side) => { const x0 = side ? 79 : 21, x1 = side ? 70 : 30, x2 = side ? 58 : 42, off = side ? 5 : 0;
+      return ys.map((y, k) => `<path d="M${x0} ${y} H${x1} V50 H${x2}" class="${lit(k + off) ? 'on' : ''}"/>`).join(''); };
+    br.innerHTML = `<div class="bwrap"><svg viewBox="0 0 100 100" preserveAspectRatio="none">${lines(0)}${lines(1)}</svg>
+      <div class="bcol l">${L5.map((m, i) => cell(m, i)).join('')}</div>
+      <div class="bcup"><div class="glow"></div><img src="img/${nxL.img}.webp" alt=""><b>ПРОСМОТР</b><small>выиграй все 10 матчей — и переходи в ${nxL.name}</small></div>
+      <div class="bcol r">${R5.map((m, i) => cell(m, i + 5)).join('')}</div></div>`;
+    br.querySelectorAll('.bc').forEach(b => b.onclick = () => { tb.set('m'); showMode('m'); select(+b.dataset.n); }); }
+  const showMode = id => { document.querySelector('.area').style.display = id === 'm' ? '' : 'none'; br.style.display = id === 'b' ? '' : 'none'; };
+  const tb = UI2.tabs([{ id: 'm', t: 'Матчи' }, { id: 'b', t: 'Сетка сезона' }], 'm', showMode, { color: '#2882be' });
+  tb.classList.add('mode-tabs'); document.body.appendChild(tb);
   UI2.ready();
 })();
 </script>

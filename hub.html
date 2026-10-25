@@ -2,7 +2,7 @@
 <html lang="ru"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>ICE ENGLISH · Раздевалка</title>
-<link rel="stylesheet" href="fonts.css?v=36"><link rel="stylesheet" href="ui2.css?v=49">
+<link rel="stylesheet" href="fonts.css?v=36"><link rel="stylesheet" href="ui2.css?v=50">
 <style>
 html,body{height:100%;overflow:hidden}
 .lead3{position:fixed;z-index:12;left:0;right:0;top:calc(var(--hz,46vh) - clamp(110px,15vh,170px))}
@@ -98,7 +98,7 @@ body.ready .bug{opacity:1}
 </style></head>
 <body class="dk">
 <div id="stage"></div>
-<div class="player"><video id="breath" src="img/pl_breath.webm" poster="img/pl_breath.webp" autoplay muted loop playsinline style="height:100%;display:block"></video></div>
+<div class="player sil"><video id="breath" src="img/pl_breath.webm" poster="img/pl_breath.webp" autoplay muted loop playsinline style="height:100%;display:block"></video></div>
 <section class="lead3"><div class="hubw">
   <div class="head"><div class="kick bar">Юношеская лига · твой сезон</div><h1 class="h"><span class="flip" id="t1">Что будем делать?</span></h1><p class="sub">Учись, развивайся, выходи на новый уровень.<br>Твой английский — как большая игра.</p></div>
   <div class="cards3" id="cards"></div>
@@ -106,7 +106,7 @@ body.ready .bug{opacity:1}
 <div class="bug" id="bug"></div>
 <div class="name-pop" id="np"><div class="bx"><span class="kick bar">Знакомство</span><h3>Как тебя зовут?</h3><input id="nm" maxlength="16" placeholder="Имя игрока"><button class="btn" id="nok" style="width:100%;justify-content:center">На лёд →</button></div></div>
 <div class="veil2"></div>
-<script src="data.js?v=45"></script><script src="ui2.js?v=49"></script>
+<script src="data.js?v=45"></script><script src="ui2.js?v=50"></script>
 <script>
 (() => {
   const $ = id => document.getElementById(id), P = UI2.profile(), st = P.st, nx = ICE_NEXT(st), ms = (st.mistakes || []).length;

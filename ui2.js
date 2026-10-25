@@ -34,6 +34,9 @@ window.UI2 = (() => {
       <nav class="nav2"><span class="pill"></span>${L.map(([k, t, href]) => `<a href="${href}" class="${k === active ? 'on' : ''}">${t}</a>`).join('')}</nav>
       <a class="me" href="career.html" title="Карьера"><img src="img/pl_avatar.webp" alt=""><span class="n">${p.name}<small>${p.league.name}</small><span class="bar"><i style="width:${(p.done / p.total * 100).toFixed(1)}%"></i></span></span><span class="r">${p.rating}<small>рейтинг</small></span>${p.streak ? `<span class="fire" title="Дней подряд"><svg class="ico" viewBox="0 0 24 24" width="1em" height="1em"><path d="M12 2c1 4 6 6 6 12a6 6 0 0 1-12 0c0-3 2-5 3-7 1 2 2 3 3 3 0-3-1-5 0-8z" fill="currentColor"/></svg><b>${p.streak}</b></span>` : ''}</a>`;
     document.body.prepend(h);
+    if (active !== 'start') { const b = document.createElement('button'); b.className = 'back2'; b.title = 'Назад';
+      b.innerHTML = '<svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+      b.onclick = () => back(); document.body.appendChild(b); }
 
     // красная плашка переезжает к пункту под курсором и возвращается к активному
     const nav = h.querySelector('.nav2'), pill = nav.querySelector('.pill'), links = [...nav.querySelectorAll('a')];
@@ -142,19 +145,35 @@ window.UI2 = (() => {
       requestAnimationFrame(loop);
     })(0);
     return { horizonPx: () => innerHeight * (o.horizon || .44), wordLeft: () => word.getBoundingClientRect().left,
-      set(text, over) { word.querySelectorAll('span').forEach(x => x.textContent = text); if (over) w.querySelector('.sc-over').textContent = over; } };
+      set(text, over) { word.querySelectorAll('span').forEach(x => x.textContent = text); if (over !== undefined) w.querySelector('.sc-over').textContent = over || ''; } };
+  }
+  // вкладки-переключатели с подсказками клавиш ← →
+  function tabs(items, active, onPick, o = {}) {
+    const box = document.createElement('div'); box.className = 'tabs4' + (o.light ? ' light' : '');
+    if (o.color) box.style.setProperty('--tab', o.color);
+    let cur = Math.max(0, items.findIndex(x => x.id === active));
+    const draw = () => { box.innerHTML = `<button class="k" data-d="-1" title="Влево">←</button>` +
+      items.map((x, i) => `<button class="t ${i === cur ? 'on' : ''} ${x.ok ? 'ok' : ''}" data-i="${i}">${x.t}</button>`).join('') + `<button class="k" data-d="1" title="Вправо">→</button>`; };
+    const pick = i => { if (i < 0 || i >= items.length) return; cur = i; draw(); onPick(items[i].id, i); };
+    box.addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; if (b.dataset.d) pick(cur + +b.dataset.d); else pick(+b.dataset.i); });
+    if (o.keys !== false) addEventListener('keydown', e => { if (e.target.matches('input, textarea') || !box.isConnected) return;
+      if (e.key === 'ArrowLeft') pick(cur - 1); if (e.key === 'ArrowRight') pick(cur + 1); });
+    draw(); box.set = (id, ok) => { const i = items.findIndex(x => x.id === id); if (ok !== undefined && i >= 0) items[i].ok = ok; if (i >= 0) cur = i; draw(); };
+    return box;
   }
   // плашка-заголовок рабочих экранов (вместо гигантского слова)
-  function plaque(title, sub, pl) {
+  function plaque(title, sub, pl, o = {}) {
     const d = document.createElement('div'); d.className = 'plq'; d.innerHTML = `<b>${title}</b>${sub ? `<span>${sub}</span>` : ''}`; document.body.appendChild(d);
-    if (pl) {   // маленький хоккеист стоит на верхней границе плашки, у левого края, смотрит в центр
-      const w = document.createElement('div'); w.className = 'plq-pl';
+    const stg = document.querySelector('.sc.ab'); if (stg) d.dataset.theme = stg.dataset.theme;
+    if (pl) {   // маленький хоккеист-силуэт стоит на верхней границе плашки, у левого края, смотрит в центр
+      const w = document.createElement('div'); w.className = 'plq-pl' + (o.lit ? '' : ' sil'); if (o.behind) w.style.zIndex = 9;
       w.innerHTML = /\.webm$/.test(pl) ? `<video src="img/${pl}" autoplay muted loop playsinline></video>` : `<img src="img/${pl}" alt="">`;
       document.body.appendChild(w);
       const place = () => { const r = d.getBoundingClientRect(), m = w.firstChild, ratio = (m.naturalWidth || m.videoWidth || 1) / (m.naturalHeight || m.videoHeight || 1);
-        w.style.bottom = (innerHeight - r.top - 2) + 'px'; w.style.height = Math.min(innerHeight * .26, 260, innerWidth * .15 / ratio) + 'px'; };
+        w.style.bottom = (innerHeight - r.top - 2) + 'px'; w.style.height = (o.h ? innerHeight * o.h : Math.min(innerHeight * .26, 260, innerWidth * .15 / ratio)) + 'px'; };
       w.firstChild.addEventListener('load', place); w.firstChild.addEventListener('loadedmetadata', place);
       place(); addEventListener('resize', place); setTimeout(place, 300);
+      d.pl = w;
     }
     return d;
   }
@@ -199,6 +218,12 @@ window.UI2 = (() => {
     };
   })();
   function go(href) { document.body.classList.add('leaving'); setTimeout(() => location.assign(href), 520); }
+  addEventListener('pageshow', e => { if (e.persisted) location.reload(); });   // браузер вернул страницу из памяти «уходящей» — перезагружаем
+  function back() {   // шаг назад: сначала спрашиваем страницу (урок, домашка), потом история браузера
+    if (window.ICE_BACK && window.ICE_BACK()) return;
+    if (history.length > 1 && document.referrer && new URL(document.referrer).origin === location.origin) { document.body.classList.add('leaving'); setTimeout(() => history.back(), 300); }
+    else go('hub.html');
+  }
   function ready() { track(); requestAnimationFrame(() => setTimeout(() => document.body.classList.add('ready'), 60)); }
-  return { LEAGUES, profile, header, scene, note, go, ready, puck, flip, SFX, streak, photo, plaque, abstract };
+  return { LEAGUES, profile, header, scene, note, go, ready, puck, flip, SFX, streak, photo, plaque, abstract, tabs, back };
 })();

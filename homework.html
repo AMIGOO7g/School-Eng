@@ -2,7 +2,7 @@
 <html lang="ru"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>ICE ENGLISH · Задание тренера</title>
-<link rel="stylesheet" href="fonts.css?v=38"><link rel="stylesheet" href="ui2.css?v=49">
+<link rel="stylesheet" href="fonts.css?v=38"><link rel="stylesheet" href="ui2.css?v=50">
 <style>
 html,body{height:100%;overflow:hidden}
 .sc-over{font-size:12px!important;letter-spacing:.42em!important;color:var(--ink-2)!important;opacity:.9!important}
@@ -33,7 +33,9 @@ h2.h{font-size:clamp(30px,2.6vw,44px);margin:6px 0 4px}
 .pgrow input{font-family:var(--head);font-size:30px}
 .pnl{background:linear-gradient(160deg,rgba(255,255,255,.95),rgba(242,246,250,.92))!important}
 .who{height:42vh!important}
-.cols{top:110px!important;bottom:calc(1.8vh + 96px)!important;height:auto!important;left:50%!important;transform:translateX(-50%);width:min(1400px,80vw)!important}
+.cols{top:150px!important;bottom:calc(1.8vh + 120px)!important;height:auto!important;left:50%!important;transform:translateX(-50%);width:min(1560px,76vw)!important}
+#mods{margin:12px 0 10px;flex-wrap:wrap;max-width:100%}
+#mods .t{padding:7px 11px;font-size:15px}
 </style></head>
 <body class="dk hide-sb">
 <div id="stage"></div>
@@ -44,12 +46,12 @@ h2.h{font-size:clamp(30px,2.6vw,44px);margin:6px 0 4px}
   <div class="pnl" id="res"><span class="kick bar">Упражнения</span><p class="empty">Здесь появятся упражнения выбранного урока. В каждом — короткое правило, само задание с проверкой и подсказками, а в конце — что переписать в тетрадь.</p></div>
 </section>
 <div class="veil2"></div>
-<script src="data.js?v=45"></script><script src="ui2.js?v=49"></script>
+<script src="data.js?v=45"></script><script src="ui2.js?v=50"></script>
 <script>
 (async () => {
   const $ = id => document.getElementById(id), store = ICE_STORE.load();
   UI2.header('hw');
-  const sc = UI2.abstract($('stage'), { theme: 'green', horizon: .3 }); UI2.plaque('HOMEWORK', 'задание тренера · spotlight 7', 'pl_stand.webp');
+  const sc = UI2.abstract($('stage'), { theme: 'green', horizon: .3 }); UI2.plaque('HOMEWORK', 'задание тренера · spotlight 7', 'pl_stand.webp', { h: .56, behind: true });
   const setHz = () => document.documentElement.style.setProperty('--hz', sc.horizonPx() + 'px'); setHz(); addEventListener('resize', setHz);
   UI2.ready();
   await ICE_LOAD();
@@ -73,12 +75,11 @@ h2.h{font-size:clamp(30px,2.6vw,44px);margin:6px 0 4px}
     m.lessons.forEach(l => { const li = document.createElement('li'), b = document.createElement('button'); b.dataset.id = l.id;
       b.innerHTML = `<span class="c">${l.code}</span><span><b>${l.en}</b><small>стр. ${l.pages}${ICE_READY[l.id] ? '' : ' · скоро'}</small></span><span>›</span>`;
       b.onclick = () => show(m, l); li.appendChild(b); $('ls').appendChild(li); }); };
-  ICE_BOOK.forEach(m => { const b = document.createElement('button'); b.textContent = m.n; b.title = m.en;
-    b.onclick = () => { mod = m.n; [...$('mods').children].forEach(x => x.classList.toggle('on', x === b)); lessonsOf(m); }; $('mods').appendChild(b); });
-  $('mods').children[mod - 1].click();
+  const modTabs = UI2.tabs(ICE_BOOK.map(m => ({ id: m.n, t: String(m.n) })), mod, id => { mod = id; lessonsOf(ICE_BOOK[id - 1]); }, { light: true, color: '#1e8c6e' });
+  $('mods').replaceWith(modTabs); modTabs.id = 'mods'; lessonsOf(ICE_BOOK[mod - 1]);
   $('exn').oninput = () => $('pg').oninput();
   $('pg').oninput = () => { const pg = +$('pg').value; if (!pg) return;
-    for (const m of ICE_BOOK) for (const l of m.lessons) { const [a, b] = l.pages.split('–').map(Number); if (pg >= a && pg <= (b || a)) { $('mods').children[m.n - 1].click(); show(m, l, pg); return; } }
+    for (const m of ICE_BOOK) for (const l of m.lessons) { const [a, b] = l.pages.split('–').map(Number); if (pg >= a && pg <= (b || a)) { modTabs.set(m.n); mod = m.n; lessonsOf(m); show(m, l, pg); return; } }
     $('res').innerHTML = `<span class="kick bar">Упражнения</span><p class="empty">Страница ${pg} не входит в уроки модулей. Уроки идут со стр. 6 по стр. 104.</p>`; };
 })();
 </script>

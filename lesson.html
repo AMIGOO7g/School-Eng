@@ -3,7 +3,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>ICE ENGLISH · Урок</title>
 <link rel="stylesheet" href="fonts.css?v=29">
-<link rel="stylesheet" href="ice.css?v=35"><link rel="stylesheet" href="ui2.css?v=49">
+<link rel="stylesheet" href="ice.css?v=35"><link rel="stylesheet" href="ui2.css?v=50">
 <style>
 :root{--left:clamp(24px,4.9vw,120px);--cardw:clamp(560px,47vw,1200px)}
 .stage{transition:transform 1.2s var(--ease)}
@@ -445,6 +445,31 @@ body.hwmode .card{top:110px!important;bottom:calc(1.8vh + 92px)!important}
 .fc .b{background:#fff!important;color:var(--ink)!important;border:2px solid var(--red)}
 .cards{overflow:visible!important}
 #pb{overflow-x:hidden!important}
+/* переключатель периодов — вкладки как в меню NHL */
+.sub2 .per2.tabs4{background:rgba(6,12,22,.82)!important;padding:6px!important;gap:6px!important}
+.per2.tabs4 .t{font-family:var(--head);font-weight:400;font-size:16px;letter-spacing:.03em;text-transform:uppercase;color:rgba(255,255,255,.82);background:rgba(255,255,255,.06);padding:9px 16px}
+.per2.tabs4 .t b{color:#ff6b72;font-size:16px}
+.per2.tabs4 .t.on{background:var(--red)!important;color:#fff!important}.per2.tabs4 .t.on b{color:#fff}
+.per2.tabs4 .t.ok::after{content:none}
+/* вкладки в окне правила — в том же стиле */
+#rulePop .rp-head{background:rgba(6,12,22,.9)!important;border-radius:22px 22px 0 0}
+#rulePop .seg{background:none!important;gap:6px!important}
+#rulePop .seg button{font-family:var(--head)!important;font-weight:400!important;font-size:15px!important;text-transform:uppercase;letter-spacing:.03em;color:rgba(255,255,255,.82)!important;background:rgba(255,255,255,.06)!important;border-radius:8px!important}
+#rulePop .seg button.on{background:var(--red)!important;color:#fff!important}
+#rulePop .rp-x{color:#fff!important;background:rgba(255,255,255,.1)!important}
+/* итоги матча в общем стиле: тёмный фон с лучами, панель по центру, финальный титр внизу */
+.rew::before,.rew::after{display:none!important}
+.rew .rbg{position:absolute;inset:0;z-index:0}
+.rew .rbg.sc{position:absolute!important}
+.rew .who{display:none!important}
+.rew .who2{position:absolute;left:1.4vw;z-index:3;transform:scaleX(-1)}
+.rew .pn{left:50%!important;right:auto!important;transform:translate(-50%,-50%)!important;width:min(1240px,68vw)!important;top:47%!important}
+.rew.show .pn{animation:none!important}
+.rew .ot{margin-top:22px!important}
+.rew h2{margin-bottom:10px!important}
+.plq.final{position:absolute;z-index:4}
+.plq.final .fsc{order:3;font-style:normal;font-family:var(--head);font-size:22px;color:#fff;margin-left:4px}
+.spray{left:1vw!important;bottom:9vh!important;width:24vw!important}
 </style></head>
 <body class="arriving dk hide-sb">
 <main class="stage" id="stage"></main>
@@ -452,7 +477,7 @@ body.hwmode .card{top:110px!important;bottom:calc(1.8vh + 92px)!important}
   <div class="side2"><span class="lg2">7</span><span class="nm2" id="nm2">ИГРОК</span></div>
   <div class="mid2"><b id="sYou">0</b><i>:</i><b id="sMis">0</b></div>
   <div class="side2 r"><span class="nm2" id="op2">СОПЕРНИК</span><img id="opImg" alt=""><span class="pen2" id="pen2">НА СКАМЕЙКЕ: 0</span></div>
-</div><div class="sub2"><div class="per2" id="per2"><button data-v="theory"><b>1</b>Разобраться</button><button data-v="practice"><b>2</b>Тренировка</button><button data-v="words"><b>3</b>Слова</button></div><div class="pucks" id="pucks"></div></div></section>
+</div><div class="sub2"><div class="per2 tabs4" id="per2"><button class="k" data-d="-1">←</button><button class="t" data-v="theory"><b>1</b>Разобраться</button><button class="t" data-v="practice"><b>2</b>Тренировка</button><button class="t" data-v="words"><b>3</b>Слова</button><button class="t" data-v="hw">Домашка</button><button class="k" data-d="1">→</button></div><div class="pucks" id="pucks"></div></div></section>
 <section class="card" aria-live="polite">
   <div class="chead"><div class="seg" id="tabs"></div></div>
   <div class="ptitle" id="ptitle"><div class="kicker" id="pk"></div><h2 class="title" id="pt"></h2></div>
@@ -470,7 +495,7 @@ body.hwmode .card{top:110px!important;bottom:calc(1.8vh + 92px)!important}
 <div class="veil"></div>
 
 <script src="data.js?v=45"></script>
-<script src="ice-ui.js?v=35"></script><script src="ui2.js?v=49"></script>
+<script src="ice-ui.js?v=35"></script><script src="ui2.js?v=50"></script>
 <script>
 (() => {
   const q = new URLSearchParams(location.search);
@@ -503,7 +528,7 @@ function run(L) {
   const qv = new URLSearchParams(location.search); const bgs = UI2.abstract($('stage'), { theme: qv.get('v') === 'hw' ? 'green' : qv.get('mode') === 'review' ? 'penalty' : 'arena' });
   const HWM = qs.get('v') === 'hw'; if (HWM) document.body.classList.add('hwmode'); if (L.review) { document.body.classList.add('hwmode', 'revmode'); const pi = document.querySelector('#player img'); if (pi) pi.src = 'img/pbox_pl.webp'; }
 
-  UI2.plaque(L.review ? 'ШТРАФНАЯ' : HWM ? 'HOMEWORK' : `MATCH ${L.module}`, L.review ? `на скамейке: ${(store.mistakes || []).length} · реши верно — и выйдешь на лёд` : HWM ? `задание тренера · урок ${L.code} · стр. ${L.pages}` : `урок ${L.code} · ${L.en}`, L.review ? 'pbox_pl.webp' : HWM ? 'pl_stand.webp' : 'pl_shot.webp');
+  UI2.plaque(L.review ? 'ШТРАФНАЯ' : HWM ? 'HOMEWORK' : `MATCH ${L.module}`, L.review ? `на скамейке: ${(store.mistakes || []).length} · реши верно — и выйдешь на лёд` : HWM ? `задание тренера · урок ${L.code} · стр. ${L.pages}` : `урок ${L.code} · ${L.en}`, L.review ? 'pbox_pl.webp' : HWM ? 'pl_stand.webp' : 'pl_shot.webp', { h: L.review ? .36 : HWM ? .56 : .3, behind: true });
   const gwrap = () => document.querySelector('.sc-giant');
   UI2.header(qs.get('v') === 'hw' ? 'hw' : L.review ? 'pen' : 'season');
   const crumbV = null;
@@ -892,14 +917,20 @@ function run(L) {
   { const mi = Math.max(0, (L.module || 1) - 1); $('op2').textContent = L.review ? 'ОШИБКИ' : TEAMRU[mi]; $('opImg').src = `img/team_${TEAMS[mi]}.webp`; if (L.review) $('opImg').style.display = 'none'; }
   function lower2(kind, t1, t2) { const l = $('lower2'); l.className = 'lower2 ' + kind; $('l1').textContent = t1; $('l2').textContent = t2;
     requestAnimationFrame(() => l.classList.add('show')); clearTimeout(l.t); l.t = setTimeout(() => l.classList.remove('show'), 2900); }
-  document.querySelectorAll('#per2 button').forEach(b => b.onclick = () => go(b.dataset.v));
+  { const tabsV = () => [...document.querySelectorAll('#per2 .t')].filter(b => b.style.display !== 'none');
+    if (!L.homework || !L.homework.length) document.querySelector('#per2 [data-v="hw"]').style.display = 'none';
+    const step = d => { const t = tabsV(), i = t.findIndex(b => b.dataset.v === view); const n = t[Math.min(t.length - 1, Math.max(0, (i < 0 ? 0 : i) + d))]; if (n) go(n.dataset.v); };
+    document.querySelectorAll('#per2 button').forEach(b => b.onclick = () => b.dataset.d ? step(+b.dataset.d) : go(b.dataset.v));
+    addEventListener('keydown', e => { if (e.target.matches('input, textarea') || $('rulePop').classList.contains('show')) return; if (e.key === 'ArrowLeft') step(-1); if (e.key === 'ArrowRight') step(1); });
+    // кнопка «назад» шагает внутри урока: упражнение → список домашки → обзор урока → сезон
+    window.ICE_BACK = () => { if (view === 'hw' && hwOnly != null) { hwOnly = null; showHw(); return true; } if (view && view !== 'hub' && !L.review) { go('hub'); return true; } return false; }; }
   function renderPucks() {
     const box = $('pucks');
     const vals = Object.values(first), y = vals.filter(Boolean).length, m = vals.length - y;
     if ($('sYou').textContent != y) { $('sYou').textContent = y; $('sYou').classList.remove('bump'); void $('sYou').offsetWidth; $('sYou').classList.add('bump'); }
     if ($('sMis').textContent != m) { $('sMis').textContent = m; $('sMis').classList.remove('bump'); void $('sMis').offsetWidth; $('sMis').classList.add('bump'); }
     $('pen2').textContent = `НА СКАМЕЙКЕ: ${(store.mistakes || []).length}`;
-    document.querySelectorAll('#per2 button').forEach(b => { b.classList.toggle('on', b.dataset.v === view);
+    document.querySelectorAll('#per2 .t').forEach(b => { b.classList.toggle('on', b.dataset.v === view);
       b.classList.toggle('ok', b.dataset.v === 'theory' ? !!lp.theory : b.dataset.v === 'practice' ? !!store.done[L.id] : !!lp.words); });
     if (view !== 'practice') { box.innerHTML = queue.length ? box.innerHTML : ''; return; }
     box.innerHTML = queue.map((idx, k) => `<i class="${idx in first ? (first[idx] ? 'ok' : 'err') : ''} ${k === qi ? 'now' : ''}"></i>`).join('');
@@ -1125,10 +1156,12 @@ function run(L) {
       skate: '<svg class="ic" viewBox="0 0 40 40"><path d="M10 6h9l2 14 9 3c3 1 4 3 4 6H8z" fill="#16263a"/><path d="M6 33h30" stroke="#16263a" stroke-width="3" stroke-linecap="round"/></svg>',
       vision: '<svg class="ic" viewBox="0 0 40 40"><path d="M8 22a12 12 0 0 1 24 0v4H8z" fill="#16263a"/><path d="M12 26v6h16v-6" fill="none" stroke="#16263a" stroke-width="2.5"/><path d="M14 28h12M14 31h12" stroke="#16263a" stroke-width="1.6"/></svg>',
       pass: '<svg class="ic" viewBox="0 0 40 40"><path d="M8 6l20 26M32 6L12 32" stroke="#16263a" stroke-width="3.5" stroke-linecap="round"/><path d="M26 32h7M7 32h7" stroke="#16263a" stroke-width="4" stroke-linecap="round"/></svg>' };
-    const TM = ['wolf', 'bear', 'eagle', 'fox', 'lynx', 'deer', 'lion', 'owl', 'shark', 'tiger'], TR = ['Волков', 'Медведей', 'Орлов', 'Лис', 'Рысей', 'Оленей', 'Львов', 'Сов', 'Акул', 'Тигров'], mi = Math.max(0, (L.module || 1) - 1);
+    const TM = ['wolf', 'bear', 'eagle', 'fox', 'lynx', 'deer', 'lion', 'owl', 'shark', 'tiger'], TR = ['Волков', 'Медведей', 'Орлов', 'Лис', 'Рысей', 'Оленей', 'Львов', 'Сов', 'Акул', 'Тигров'], TI = ['Волками', 'Медведями', 'Орлами', 'Лисами', 'Рысями', 'Оленями', 'Львами', 'Совами', 'Акулами', 'Тиграми'], TN = ['ВОЛКИ', 'МЕДВЕДИ', 'ОРЛЫ', 'ЛИСЫ', 'РЫСИ', 'ОЛЕНИ', 'ЛЬВЫ', 'СОВЫ', 'АКУЛЫ', 'ТИГРЫ'], mi = Math.max(0, (L.module || 1) - 1);
     r.className = 'rew' + (win ? '' : ' lose');
     const sprayHTML = win ? '<div class="spray">' + Array.from({ length: 46 }, () => `<i style="left:${Math.random() * 60 + 10}%;--dx:${(Math.random() * 2 - 1) * 260}px;--dy:${-Math.random() * 260 - 40}px;animation-delay:${Math.random() * .5}s;width:${Math.random() * 6 + 3}px;height:${Math.random() * 6 + 3}px"></i>`).join('') + '</div>' : '';
-    r.innerHTML = `<img class="who" src="img/${win ? 'pl_celebrate' : 'pl_stand'}.webp" alt="">${sprayHTML}
+    const seasonN = Object.keys(store.done).filter(k => store.done[k]).length;
+    r.innerHTML = `<div class="rbg" id="rbg"></div><div class="who2 plq-pl sil" id="who2"><img src="img/${win ? 'pl_celebrate' : 'pl_stand'}.webp" alt=""></div>${sprayHTML}
+      <div class="plq final" data-theme="red"><span>финал · spotlight 7 · матч ${L.module} · урок ${L.code}</span><b>${win ? 'ПОБЕДА' : 'ПОРАЖЕНИЕ'}</b><i class="fsc">${UI2.profile().name.toUpperCase()} ${got} : ${errs.length} ${TN[mi]}</i></div>
       <div class="pn"><div class="lf">
         <span class="kk">Spotlight 7 · матч ${L.module} · урок ${L.code}</span><br>
         <h2>${win ? (allDone ? 'Матч выигран' : 'Период выигран') : 'Поражение'}<svg viewBox="0 0 300 18" preserveAspectRatio="none"><path d="M4 12 C 80 2, 180 4, 296 8"/></svg></h2>${newRec ? '<span class="rec2">НОВЫЙ РЕКОРД</span>' : ''}
@@ -1137,11 +1170,14 @@ function run(L) {
         <div class="sk">${SK.map(([k, n, d]) => `<div class="row">${ICON[k]}<span><b>${n}</b><small>${d}</small></span><span class="bar"><i data-w="${store.skills[k]}"></i></span><span class="pl">${win && round === 1 && add[k] ? '+' + add[k] : store.skills[k]}</span></div>`).join('')}</div>
       </div>
       <div class="aw">${award ? `<span class="kk">Новая награда</span><div class="medal"><img src="img/badge_${award.id}.webp" alt=""></div><b>${award.name}</b><span class="sub3">${award.desc}</span>`
-        : win ? `<span class="kk">Победа</span><div class="medal"><img src="img/team_${TM[mi]}.webp" alt=""></div><b>Победа над ${TR[mi]}</b><span class="sub3">матч ${L.module} · урок ${L.code}</span>`
+        : win ? `<span class="kk">Победа</span><div class="medal"><img src="img/team_${TM[mi]}.webp" alt=""></div><b>Победа над ${TI[mi]}</b><span class="sub3">матч ${L.module} · урок ${L.code}</span>`
               : `<span class="kk">Матч проигран</span><div class="medal" style="filter:grayscale(1);opacity:.7"><img src="img/team_${TM[mi]}.webp" alt=""></div><b>${TR[mi].replace(/ов$|ей$/, '')} сильнее</b><span class="sub3">пока что</span>`}
         <div class="tip3"><span class="st"><svg class="ico" viewBox="0 0 24 24" width="1em" height="1em"><path d="M12 2l3 7 7 .6-5.3 4.7 1.6 7.2L12 17.8 5.7 21.5l1.6-7.2L2 9.6 9 9z" fill="currentColor"/></svg></span><span>${win ? (allDone ? '<b>Так держать!</b><br>Ты отлично разобрался с темой и уверенно выполнил задания.' : '<b>Почти матч!</b><br>Остался ещё период — после него матч засчитают.') : `<b>Нужно ${need} из ${queue.length} с первой попытки.</b><br>Поражение записано в сезон. Перерешай ошибки и переиграй матч — только так путь в МХЛ.`}</span></div></div>
       <div class="acts">${errs.length ? '<button class="btn dark" data-a="redo">Перерешать ошибки</button>' : ''}${!win ? '<button class="btn" data-a="replay">Переиграть матч →</button>' : ''}${win && !allDone ? left.map(([v, t]) => `<button class="btn" data-a="${v}">${t} →</button>`).join('') : ''}${allDone ? '<button class="btn" data-a="next">→ Следующий матч</button>' : ''}<button class="btn ghost" data-a="hub">В раздевалку</button></div></div>`;
     r.classList.add('show');
+    UI2.abstract($('rbg'), { theme: win ? 'red' : 'penalty' });
+    { const w = $('who2'), pq = r.querySelector('.plq.final'); const place = () => { const t = pq.getBoundingClientRect().top; w.style.bottom = (innerHeight - t - 2) + 'px'; w.style.height = (innerHeight * .3) + 'px'; }; place(); setTimeout(place, 200);
+      if (win) setTimeout(() => { w.classList.remove('sil'); w.classList.add('lit'); }, 900); }
     setTimeout(() => r.querySelectorAll('.sk .bar i').forEach(i => { void i.offsetWidth; i.style.setProperty('width', i.dataset.w + '%', 'important'); }), 250);
     r.onclick = e => { const a = e.target.closest('[data-a]'); if (!a) return; const k = a.dataset.a;
       if (k === 'redo') { r.classList.remove('show'); queue = errs; first = {}; round++; startPractice(false); }

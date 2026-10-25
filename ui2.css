@@ -178,3 +178,39 @@ body.dk .logo{color:#fff!important}
 .hide-sb::-webkit-scrollbar,.hide-sb *::-webkit-scrollbar{display:none}
 
 .ico{display:inline-block;vertical-align:-.15em}
+
+/* ===== v50 ===== */
+/* лучи: яркость прежняя, края мягкие — конус из конического градиента вместо резкой обрезки */
+.ab-beam{clip-path:none!important;width:46vw!important;margin-left:-23vw!important;filter:blur(6px)!important;
+  background:conic-gradient(from -11deg at 50% 100%,rgba(220,235,255,0) 0deg,rgba(220,235,255,.10) 5deg,rgba(220,235,255,.16) 11deg,rgba(220,235,255,.10) 17deg,rgba(220,235,255,0) 22deg,rgba(220,235,255,0) 360deg)!important;
+  -webkit-mask-image:linear-gradient(to top,#000 0,#000 35%,transparent 96%);mask-image:linear-gradient(to top,#000 0,#000 35%,transparent 96%)}
+/* плашка: название на блоке цвета раздела, подпись на плотной тёмной полосе */
+.plq{background:linear-gradient(100deg,rgba(6,12,22,.96) 0%,rgba(10,20,34,.94) 62%,rgba(10,20,34,0) 100%)!important}
+.plq span{color:#fff!important}
+.plq[data-theme="ice"] b{background:linear-gradient(135deg,#56c4eb,#2882be)}
+.plq[data-theme="green"] b{background:linear-gradient(135deg,#3fc79c,#1e8c6e)}
+.plq[data-theme="gold"] b{background:linear-gradient(135deg,#f2be50,#c48c28);color:#16263a}
+.plq[data-theme="arena"] b,.plq[data-theme="shoot"] b{background:#fff;color:#16263a}
+/* маленькие хоккеисты — силуэты в контровом свете: тёмная фигура, светящаяся кромка, свет и дым за спиной */
+.plq-pl.sil img,.plq-pl.sil video,.player.sil video,.player.sil img{filter:brightness(.06) saturate(0) sepia(1) hue-rotate(185deg) saturate(2.2) drop-shadow(0 0 1.5px rgba(200,228,255,.95)) drop-shadow(0 0 10px rgba(150,200,255,.45))!important}
+.plq-pl.sil::before,.player.sil::before{content:"";position:absolute;left:50%;top:44%;width:150%;height:110%;transform:translate(-50%,-50%);z-index:-1;border-radius:50%;
+  background:radial-gradient(ellipse at 50% 50%,rgba(190,220,255,.42) 0%,rgba(120,170,230,.18) 38%,transparent 68%);filter:blur(6px)}
+.plq-pl.sil::after,.player.sil::after{content:"";position:absolute;left:-30%;right:-30%;bottom:-6%;height:42%;z-index:-1;
+  background:radial-gradient(ellipse 40% 60% at 30% 70%,rgba(210,230,255,.30),transparent 70%),radial-gradient(ellipse 45% 55% at 72% 75%,rgba(210,230,255,.24),transparent 70%);filter:blur(10px);animation:smoke 9s ease-in-out infinite alternate}
+@keyframes smoke{to{transform:translateX(8%) scale(1.08)}}
+.plq-pl.lit img,.plq-pl.lit video{filter:drop-shadow(0 10px 16px rgba(0,0,0,.35))!important;transition:filter 1.2s ease}
+/* вкладки-переключатели режимов, как в меню NHL */
+.tabs4{display:inline-flex;align-items:center;gap:6px;padding:6px;border-radius:12px;background:rgba(6,12,22,.72);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);box-shadow:0 10px 26px rgba(0,0,0,.3)}
+.tabs4 .k{display:grid;place-items:center;min-width:30px;height:24px;padding:0 6px;border-radius:6px;background:rgba(255,255,255,.14);color:#fff;font:800 12px/1 Inter,Arial,sans-serif;cursor:pointer;border:0}
+.tabs4 .k:hover{background:rgba(255,255,255,.28)}
+.tabs4 .t{position:relative;border:0;cursor:pointer;padding:9px 18px;border-radius:8px;background:rgba(255,255,255,.06);color:rgba(255,255,255,.82);font-family:var(--head);font-weight:400;font-size:16px;letter-spacing:.03em;text-transform:uppercase;white-space:nowrap;transition:background .25s,color .25s,transform .25s}
+.tabs4 .t:hover{background:rgba(255,255,255,.14);color:#fff}
+.tabs4 .t.on{background:var(--tab,#d3262e);color:#fff;box-shadow:0 6px 16px rgba(0,0,0,.3)}
+.tabs4 .t.ok::after{content:"✓";margin-left:8px;font-family:Inter,Arial,sans-serif;font-weight:900;font-size:13px}
+.tabs4.light{background:rgba(31,50,72,.08);box-shadow:none}.tabs4.light .t{background:rgba(31,50,72,.06);color:var(--ink)}.tabs4.light .t.on{color:#fff}.tabs4.light .k{background:rgba(31,50,72,.12);color:var(--ink)}
+/* кнопка «назад» под логотипом */
+.back2{position:fixed;z-index:30;left:max(20px,1.4vw);top:84px;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;border:1px solid rgba(255,255,255,.22);background:rgba(10,20,34,.6);color:#fff;cursor:pointer;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);transition:background .2s,transform .2s}
+.back2:hover{background:var(--red);transform:translateX(-2px)}
+.back2 svg{width:20px;height:20px}
+/* стрелки рукописных пометок видны и на светлом */
+.hand svg path{filter:drop-shadow(0 0 1.5px rgba(10,20,34,.9))}

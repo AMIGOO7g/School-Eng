@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>ICE ENGLISH · Skate through levels</title>
-<link rel="stylesheet" href="fonts.css?v=36"><link rel="stylesheet" href="ui2.css?v=49">
+<link rel="stylesheet" href="fonts.css?v=36"><link rel="stylesheet" href="ui2.css?v=50">
 <style>
 :root{--ink:#24374d;--blue:#648ba5;--panel:#ffffffad}
 *{box-sizing:border-box}html{scroll-behavior:auto}body{margin:0;background:#dbe8f3;color:var(--ink);font-family:Inter,Arial,sans-serif;overflow-x:hidden}
@@ -86,6 +86,15 @@ h1,h2,.big{color:#fff}
 .lg{z-index:1}
 .lg .nm{color:#fff!important;text-shadow:0 2px 6px rgba(0,0,0,.5)}
 .lg .trk{display:none}
+/* заставка перехода в раздевалку: тёмная, SPOTLIGHT по центру в лучах */
+.scene-transition{background:radial-gradient(ellipse 80% 70% at 50% 40%,#22406a 0%,#132a46 40%,#0a1626 80%)!important}
+.scene-transition::before,.scene-transition::after{content:"";position:absolute;bottom:-4vh;width:46vw;height:115vh;margin-left:-23vw;transform-origin:50% 100%;filter:blur(6px);
+  background:conic-gradient(from -11deg at 50% 100%,rgba(220,235,255,0) 0deg,rgba(220,235,255,.12) 5deg,rgba(220,235,255,.2) 11deg,rgba(220,235,255,.12) 17deg,rgba(220,235,255,0) 22deg,rgba(220,235,255,0) 360deg);
+  -webkit-mask-image:linear-gradient(to top,#000 35%,transparent 96%);mask-image:linear-gradient(to top,#000 35%,transparent 96%);animation:swing 3.2s ease-in-out infinite alternate}
+.scene-transition::before{left:30vw;transform:rotate(-14deg)}.scene-transition::after{left:70vw;animation-direction:alternate-reverse;transform:rotate(14deg)}
+@keyframes swing{from{transform:rotate(-16deg)}to{transform:rotate(16deg)}}
+.scene-transition strong{color:#fff!important;text-shadow:0 0 40px rgba(180,215,255,.55);position:relative;z-index:1}
+.scene-transition div div{color:rgba(255,255,255,.75)!important;position:relative;z-index:1}
 </style><style>.grade-center{transform:translateY(1.5vh)!important}.grade-label{opacity:.13!important}.panel-inner{top:53%!important}</style></head>
 <body class="dk"><div id="abst" style="position:fixed;inset:0;z-index:0"></div><div id="track" class="track" style="position:relative;z-index:1"><main id="stage" class="stage"><div id="bg" class="bg"></div><div id="grades" class="grade"></div><div id="travel" class="travel"></div><div class="shadow"></div><div id="skater" class="skater"><img id="hockeyFrame" src="frames/frame_000.webp" alt="Hockey player"></div><header class="top"><div class="brand">ICE <span>ENGLISH</span></div><div id="counter" class="counter">01 / 07</div></header><footer class="bottom"><div id="bars" class="bars"></div><div>SCROLL TO SKATE</div></footer></main></div><div id="toast" class="toast"></div>
 <section class="ladder" id="ladder"><div class="wrap"><div class="row" id="lad"><span class="dash g" id="dg"></span><span class="dash r" id="dr"></span></div></div></section>
@@ -104,11 +113,11 @@ data.forEach((d,i)=>{let sec=document.createElement('section');sec.className='pa
 let target=0,current=0;try{history.scrollRestoration='auto'}catch(e){}const sceneCount=data.length;let scrollTotal=1;function measure(){const r=track.getBoundingClientRect();scrollTotal=Math.max(1,r.height-innerHeight);target=clamp(-r.top/scrollTotal,0,1)}
 function tick(){current+=(target-current)*.24;if(Math.abs(target-current)<.000025)current=target;const p=current*(sceneCount-1),w=stage.clientWidth,mobile=w<740,start=w+20,anchor=mobile?24:Math.max(24,w*.065),span=start-anchor;panelEls.forEach((el,i)=>{const x=i===0?anchor-p*span:(i-p)*span+anchor;el.style.transform=`translate3d(${x-anchor}px,0,0)`;const ww=el.querySelector('.panel-inner').getBoundingClientRect().width;const visible=x+ww>0&&x<w;el.style.visibility=visible?'visible':'hidden';el.style.pointerEvents=visible?'auto':'none'});gradeEls.forEach((g,i)=>{let u=Math.abs(p-i);let opacity=clamp((.52-u)/.22,0,1);opacity=opacity*opacity*(3-2*opacity);g.style.opacity=String(opacity);g.style.transform=`translate3d(${(i-p)*w*.065}px,0,0)`});bg.style.transform=`translate3d(${(-p*1.15).toFixed(2)}%,${(Math.sin(p*.65)*1.8).toFixed(2)}%,0)`;bg.style.filter=`hue-rotate(${(p*12).toFixed(1)}deg)`;const frameCount=36;const num=Math.floor(current*sceneCount*frameCount*1.15)%frameCount;const f=document.getElementById('hockeyFrame');const next='frames/frame_'+String(num).padStart(3,'0')+'.webp';if(f.getAttribute('src')!==next)f.setAttribute('src',next);const idx=clamp(Math.round(p),0,sceneCount-1);counter.textContent=`0${idx+1} / 0${sceneCount}`;window.__ladder&&window.__ladder(current,idx);[...bars.children].forEach((b,i)=>b.classList.toggle('active',i===idx));requestAnimationFrame(tick)}
 for(let i=0;i<36;i++){const img=new Image();img.src='frames/frame_'+String(i).padStart(3,'0')+'.webp'}function fitWords(){document.querySelectorAll('.grade-word').forEach(w=>{w.style.fontSize='';const mw=innerWidth*.94;if(w.offsetWidth>mw)w.style.fontSize=(parseFloat(getComputedStyle(w).fontSize)*mw/w.offsetWidth)+'px'})}fitWords();addEventListener('resize',fitWords);document.fonts&&document.fonts.ready.then(fitWords);measure();addEventListener('scroll',measure,{passive:true});addEventListener('resize',measure);tick();document.getElementById('restart').onclick=()=>scrollTo({top:0,behavior:'smooth'});document.querySelectorAll('.cta').forEach(btn=>btn.onclick=(e)=>{if(btn.getAttribute('href')) return; e.preventDefault();toast.textContent=(data[+btn.dataset.id]||{}).msg||'Скоро';toast.style.display='block';clearTimeout(window.__toast);window.__toast=setTimeout(()=>toast.style.display='none',2200)})})();</script><div class="scene-transition" aria-hidden="true"><div style="text-align:center"><div style="font:800 14px Inter,Arial;letter-spacing:.42em;color:#3d5368;margin-bottom:10px">ЮНОШЕСКАЯ ЛИГА · ТВОЙ СЕЗОН</div><strong style="font-family:MachineC,Impact,sans-serif;font-weight:400;letter-spacing:0">SPOTLIGHT 7</strong></div></div><script>try{const save=JSON.parse(localStorage.getItem('ice_school_v22')||'{}');document.querySelectorAll('#homeClass').forEach(el=>el.textContent='CLASS '+(save.grade||7));}catch(e){}document.querySelectorAll('a[href="hub.html"]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();document.body.classList.add('leaving');setTimeout(()=>location.assign('hub.html?from=home'),1150)}));</script>
-<script src="data.js?v=45"></script><script src="ui2.js?v=49"></script><script>UI2.abstract(document.getElementById("abst"), { theme: "red" }); addEventListener("scroll", () => document.getElementById("abst").style.setProperty("--sc", (-scrollY * .12).toFixed(1) + "px"), { passive: true });</script>
+<script src="data.js?v=45"></script><script src="ui2.js?v=50"></script><script>UI2.abstract(document.getElementById("abst"), { theme: "red" }); (() => { const ab = document.getElementById("abst"); let cur = 0; (function lp() { const tgt = -scrollY * .06; cur += (tgt - cur) * .08; ab.style.setProperty("--sc", cur.toFixed(2) + "px"); requestAnimationFrame(lp); })(); })();</script>
 <script>
 (() => {
   const $ = id => document.getElementById(id), P = UI2.profile(), cur = P.league.id;
-  UI2.header('', { dark: true });
+  UI2.header('start', { dark: true });
   const total = ICE_BOOK.flatMap(m => m.lessons).length;
   const lock = '<svg viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="11" rx="2.5" fill="#111"/><path d="M8 10V7.5a4 4 0 0 1 8 0V10" fill="none" stroke="#111" stroke-width="2.4"/></svg>';
   const items = UI2.LEAGUES.map(l => {
