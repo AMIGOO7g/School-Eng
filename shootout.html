@@ -3,7 +3,7 @@
 <head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>ICE ENGLISH · Буллиты дня</title>
-<link rel="stylesheet" href="fonts.css?v=38"><link rel="stylesheet" href="ui2.css?v=47">
+<link rel="stylesheet" href="fonts.css?v=38"><link rel="stylesheet" href="ui2.css?v=48">
 <style>
 html,body{height:100%;overflow:hidden;background:#0c1520}
 /* ворота на весь экран, вид от бьющего */
@@ -34,7 +34,7 @@ html,body{height:100%;overflow:hidden;background:#0c1520}
 .qbar .q{font-size:clamp(22px,2.1vw,36px);font-weight:800;line-height:1.25;margin:6px 0 0}
 .qbar .q u{display:inline-block;min-width:3.4em;border-bottom:4px solid var(--red);text-decoration:none}
 /* табло серии */
-.so-bar{position:fixed;z-index:20;right:max(24px,4.9vw);top:100px;transform:skewX(-10deg);display:flex;align-items:stretch;border-radius:10px;overflow:hidden;box-shadow:0 12px 30px rgba(0,0,0,.35)}
+.so-bar{position:fixed;z-index:20;left:50%;top:84px;transform:translateX(-50%) skewX(-10deg);display:flex;align-items:stretch;border-radius:10px;overflow:hidden;box-shadow:0 12px 30px rgba(0,0,0,.35)}
 .so-bar > *{transform:skewX(10deg);display:flex;align-items:center;gap:10px;padding:8px 20px;color:#fff}
 .so-bar .t{background:linear-gradient(135deg,#e63a42,#b51c24);font-family:Inter,Arial,sans-serif;font-weight:900;font-variant-numeric:tabular-nums;font-size:30px;min-width:120px;justify-content:center}
 .so-bar .t.low{animation:blink 1s infinite}@keyframes blink{50%{opacity:.6}}
@@ -62,10 +62,14 @@ html,body{height:100%;overflow:hidden;background:#0c1520}
 .panel3 .bigres{font-family:var(--head);font-size:110px;line-height:.9}.panel3 .bigres b{color:var(--red);font-weight:400}
 .panel3 .row3{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
 .dim{position:fixed;inset:0;z-index:21;background:rgba(8,16,28,.45);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px)}
+.zone[data-c="TL"]{align-items:flex-start;justify-content:flex-start}.zone[data-c="TR"]{align-items:flex-start;justify-content:flex-end}
+.zone[data-c="BL"]{align-items:flex-end;justify-content:flex-start}.zone[data-c="BR"]{align-items:flex-end;justify-content:flex-end}
+.zone .pill{margin:6px}
+.qbar{top:150px}
 </style>
 </head>
 <body>
-<div class="gbg" id="gbg"></div>
+<div id="stage"></div><div class="gbg" id="gbg" style="display:none"></div>
 <img class="gk2" id="gk" src="img/gk_ready.webp" alt="">
 <div id="zones"></div>
 <div class="pk3" id="pk"></div>
@@ -75,20 +79,19 @@ html,body{height:100%;overflow:hidden;background:#0c1520}
 <div class="qbar" id="qb" style="display:none"></div>
 <div class="dim" id="dim"></div>
 <section class="panel3" id="panel"></section>
-<script src="data.js?v=45"></script><script src="ui2.js?v=47"></script>
+<script src="data.js?v=45"></script><script src="ui2.js?v=48"></script>
 <script>
 (() => {
   const $ = id => document.getElementById(id), st = ICE_STORE.load(), today = new Date().toISOString().slice(0, 10);
-  UI2.header('hub'); UI2.plaque('БУЛЛИТЫ ДНЯ', 'ежедневная минутка · 5 бросков · 60 секунд');
+  UI2.header('hub'); UI2.abstract($('stage'), { theme: 'shoot' }); UI2.plaque('БУЛЛИТЫ ДНЯ', 'ежедневная минутка · 5 бросков · 60 секунд');
   const counts = !(st.shoot || {})[today];
   const shuffle = a => a.map(v => [Math.random(), v]).sort((x, y) => x[0] - y[0]).map(x => x[1]);
   let Q = [], qi = 0, goals = 0, res = [], left = 60, timer = null, busy = false;
 
-  /* где ворота на экране: фон 2560×1440, cover по центру; рамка ворот в долях картинки */
-  const G = { x0: .232, x1: .768, y0: .19, y1: .705 };
+  /* «ворота» без картинки: невидимая рамка вокруг вратаря; вратарь выше неё, как в хоккее */
   function goal() {
-    const W = innerWidth, H = innerHeight, s = Math.max(W / 2560, H / 1440) * 1.02, ox = (W - 2560 * s) / 2, oy = (H - 1440 * s) / 2;
-    return { l: ox + G.x0 * 2560 * s, r: ox + G.x1 * 2560 * s, t: oy + G.y0 * 1440 * s, b: oy + G.y1 * 1440 * s };
+    const W = innerWidth, H = innerHeight, h = Math.min(H * .42, W * .26), w = h * 1.7, bt = H * .86;
+    return { l: W / 2 - w / 2, r: W / 2 + w / 2, t: bt - h, b: bt };
   }
   // поза вратаря: ready — в центре; high/low — прыжок в угол; flip — зеркально (в левую сторону)
   function pose(p, side) {
@@ -97,16 +100,16 @@ html,body{height:100%;overflow:hidden;background:#0c1520}
     setTimeout(() => {
       img.src = `img/gk_${p}.webp`;
       const ratio = { ready: 1064 / 900, high: 1310 / 852, low: 1609 / 729 }[p];
-      const gh = p === 'ready' ? h * .98 : p === 'high' ? h * .95 : h * .62, gw = gh * ratio;
+      const gh = p === 'ready' ? h * 1.25 : p === 'high' ? h * 1.05 : h * .72, gw = gh * ratio;
       const cx = p === 'ready' ? (g.l + g.r) / 2 : (side === 'R' ? g.l + w * .62 : g.l + w * .38);
-      img.style.height = gh + 'px'; img.style.left = (cx - gw / 2) + 'px'; img.style.top = (g.b - gh + h * .03) + 'px';
+      img.style.height = gh + 'px'; img.style.left = (cx - gw / 2) + 'px'; img.style.top = (g.b - gh) + 'px';
       img.style.transform = side === 'L' ? 'scaleX(-1)' : 'none';
       img.classList.remove('hide');
     }, p === 'ready' ? 0 : 60);
   }
   function layout() {
     const g = goal(), w = g.r - g.l, h = g.b - g.t;
-    $('qb').style.top = Math.min(innerHeight - 150, g.b + 18) + 'px';
+    $('qb').style.top = Math.max(150, g.t - h * .25 - 150) + 'px';
     document.querySelectorAll('.zone').forEach(z => { const c = z.dataset.c;
       z.style.left = (c[1] === 'L' ? g.l : g.l + w / 2) + 'px'; z.style.top = (c[0] === 'T' ? g.t : g.t + h / 2) + 'px';
       z.style.width = w / 2 + 'px'; z.style.height = h / 2 + 'px'; });
@@ -135,7 +138,7 @@ html,body{height:100%;overflow:hidden;background:#0c1520}
   }
   function show() {
     if (qi >= Q.length) return end();
-    busy = false; marks(); pose('ready'); $('gbg').classList.remove('zoom');
+    busy = false; marks(); pose('ready');
     const t = Q[qi], opts = shuffle(t.options), corners = shuffle(['TL', 'TR', 'BL', 'BR']);
     $('qb').innerHTML = `<div class="k">Бросок ${qi + 1} из 5 · ${t.prompt}</div><div class="q">${t.text.replace('___', '<u>&nbsp;</u>')}</div>`;
     $('zones').innerHTML = '';
@@ -157,7 +160,7 @@ html,body{height:100%;overflow:hidden;background:#0c1520}
     const tx = c[1] === 'L' ? r.left + r.width * .3 : r.left + r.width * .7, ty = c[0] === 'T' ? r.top + r.height * .32 : r.top + r.height * .7;
     // вратарь: при верном ответе прыгает в противоположную сторону, при неверном — ловит
     const side = ok ? (c[1] === 'L' ? 'R' : 'L') : c[1], high = ok ? c[0] !== 'T' : c[0] === 'T';
-    const pk = $('pk'); $('gbg').classList.add('zoom');
+    const pk = $('pk'); 
     pk.animate([{ left: innerWidth / 2 - 22 + 'px', top: innerHeight - 70 + 'px', opacity: 1, transform: 'scale(2.2)' },
                 { left: tx - 22 + 'px', top: ty - 13 + 'px', opacity: 1, transform: 'scale(.7)' }], { duration: 380, easing: 'cubic-bezier(.25,.1,.3,1)', fill: 'forwards' });
     setTimeout(() => pose(high ? 'high' : 'low', side), 120);

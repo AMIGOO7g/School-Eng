@@ -101,27 +101,46 @@ window.UI2 = (() => {
     (function loop() { cx += (mx - cx) * .05; im.style.transform = `scale(1.04) translateX(${-cx * 14}px)`; if (w) w.style.transform = `translateX(${-cx * 24}px)`; requestAnimationFrame(loop); })();
     return { horizonPx: () => innerHeight * (o.horizon || .5), wordLeft: () => w ? w.querySelector('.sc-word').getBoundingClientRect().left : innerWidth * .06, set() {} };
   }
-  // оформленный фон «как в игровом меню»: градиент, наклонные полосы цветов клуба, лучи, лёд, ледяная пыль
+  // оформленный фон «как в игровом меню»: градиент, полосы цветов клуба (въезжают при загрузке), мотив раздела,
+  // снег; если есть большое слово — прожекторы, которые его подсвечивают (где луча нет — слова не видно)
+  const MOTIF = {
+    ice: `<svg viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice"><g stroke="rgba(150,220,255,.10)" stroke-width="1.5" fill="none">${Array.from({ length: 9 }, (_, i) => `<line x1="0" y1="${100 + i * 90}" x2="1600" y2="${100 + i * 90}"/>`).join('')}${Array.from({ length: 13 }, (_, i) => `<line x1="${120 * i + 40}" y1="0" x2="${120 * i + 40}" y2="900"/>`).join('')}</g></svg>`,
+    arena: `<svg viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice"><g fill="none" stroke-width="6"><line x1="800" y1="0" x2="800" y2="900" stroke="rgba(230,58,66,.16)"/><line x1="460" y1="0" x2="460" y2="900" stroke="rgba(120,170,255,.14)"/><line x1="1140" y1="0" x2="1140" y2="900" stroke="rgba(120,170,255,.14)"/><circle cx="800" cy="450" r="190" stroke="rgba(120,170,255,.14)"/><circle cx="800" cy="450" r="10" fill="rgba(120,170,255,.2)"/><circle cx="240" cy="230" r="120" stroke="rgba(230,58,66,.12)"/><circle cx="240" cy="670" r="120" stroke="rgba(230,58,66,.12)"/><circle cx="1360" cy="230" r="120" stroke="rgba(230,58,66,.12)"/><circle cx="1360" cy="670" r="120" stroke="rgba(230,58,66,.12)"/></g></svg>`,
+    shoot: `<svg viewBox="0 0 1600 900" preserveAspectRatio="xMidYMax slice"><g fill="none" stroke-width="6"><path d="M560 900 A240 200 0 0 1 1040 900" fill="rgba(90,150,230,.10)" stroke="rgba(120,170,255,.22)"/><line x1="0" y1="900" x2="1600" y2="900" stroke="rgba(230,58,66,.3)"/></g></svg>`,
+    gold: `<svg viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice"><defs><pattern id="hx" width="56" height="97" patternUnits="userSpaceOnUse"><path d="M28 0 L56 16 L56 48 L28 64 L0 48 L0 16 Z M28 64 L28 97" fill="none" stroke="rgba(242,190,80,.09)" stroke-width="1.5"/></pattern></defs><rect width="1600" height="900" fill="url(#hx)"/></svg>`,
+    penalty: `<div class="ab-alarm"></div>`,
+    green: `<svg viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice"><g fill="none" stroke="rgba(220,255,240,.13)" stroke-width="4" stroke-linecap="round"><path d="M200 640 C 320 520, 420 520, 520 420" /><path d="M505 400 l20 18 l-26 6"/><path d="M1100 220 C 1180 330, 1260 360, 1380 330"/><path d="M1362 316 l22 14 l-24 12"/><path d="M300 200 l40 40 M340 200 l-40 40"/><path d="M1200 640 l40 40 M1240 640 l-40 40"/><circle cx="760" cy="700" r="26"/><circle cx="980" cy="160" r="26"/><path d="M760 700 C 820 560, 900 300, 980 186" stroke-dasharray="10 14"/></g></svg>`
+  };
   function abstract(stage, o) {
     o = o || {};
-    stage.classList.add('sc', 'ab'); stage.dataset.theme = o.theme || 'red';
-    stage.innerHTML = `<div class="ab-base"></div><div class="ab-spot sp1"></div><div class="ab-spot sp2"></div><div class="ab-spot sp3"></div><div class="ab-ice"></div>
-      <div class="ab-str s1"></div><div class="ab-str s2"></div><div class="ab-str s3"></div><canvas class="ab-dust"></canvas>` +
-      `<div class="ab-word"><span class="sc-over">${o.over || ''}</span><span class="sc-word">${o.word || ''}</span></div>`;
-    const cv = stage.querySelector('.ab-dust'), cx = cv.getContext('2d'), w = stage.querySelector('.ab-word');
+    const th = o.theme || 'red', spot = !!o.word && o.spot !== false;
+    stage.classList.add('sc', 'ab'); stage.dataset.theme = th;
+    stage.innerHTML = `<div class="ab-base"></div><div class="ab-motif">${MOTIF[th] || ''}</div>` +
+      (spot ? '<div class="ab-beam b1"></div><div class="ab-beam b2"></div>' : '') +
+      `<div class="ab-str s1"></div><div class="ab-str s2"></div><div class="ab-str s3"></div><canvas class="ab-dust"></canvas>` +
+      `<div class="ab-word${spot ? ' lit' : ''}"><div class="ab-w"><span class="sc-over">${o.over || ''}</span><span class="sc-word"><span class="wo">${o.word || ''}</span><span class="wl">${o.word || ''}</span></span></div></div>`;
+    const cv = stage.querySelector('.ab-dust'), cx = cv.getContext('2d'), w = stage.querySelector('.ab-word'), word = w.querySelector('.sc-word');
     let P = [];
-    const size = () => { cv.width = innerWidth; cv.height = innerHeight; P = Array.from({ length: Math.round(innerWidth / 22) }, () => ({ x: Math.random() * innerWidth, y: Math.random() * innerHeight, r: Math.random() * 1.8 + .4, v: Math.random() * .35 + .1, a: Math.random() * .5 + .15, d: Math.random() * Math.PI * 2 })); };
+    const size = () => { cv.width = innerWidth; cv.height = innerHeight; P = Array.from({ length: Math.round(innerWidth / 26) }, () => ({ x: Math.random() * innerWidth, y: Math.random() * innerHeight, r: Math.random() * 1.7 + .5, v: Math.random() * .3 + .15, a: Math.random() * .45 + .2, d: Math.random() * Math.PI * 2 })); };
     size(); addEventListener('resize', size);
     const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
     let mx = 0, gx = 0; addEventListener('pointermove', e => { mx = e.clientX / innerWidth - .5; });
     (function loop(t) {
       cx.clearRect(0, 0, cv.width, cv.height);
-      P.forEach(p => { if (!still) { p.y -= p.v; p.x += Math.sin(t / 1800 + p.d) * .25; if (p.y < -5) { p.y = cv.height + 5; p.x = Math.random() * cv.width; } }
-        cx.beginPath(); cx.arc(p.x, p.y, p.r, 0, 6.3); cx.fillStyle = `rgba(220,236,255,${p.a})`; cx.fill(); });
-      gx += (mx - gx) * .05; stage.style.setProperty('--px', (gx * 30).toFixed(1) + 'px');
+      P.forEach(p => { if (!still) { p.y += p.v; p.x += Math.sin(t / 2200 + p.d) * .3; if (p.y > cv.height + 5) { p.y = -5; p.x = Math.random() * cv.width; } }   // снег падает вниз
+        cx.beginPath(); cx.arc(p.x, p.y, p.r, 0, 6.3); cx.fillStyle = `rgba(230,240,255,${p.a})`; cx.fill(); });
+      gx += (mx - gx) * .05; stage.style.setProperty('--px', (gx * 24).toFixed(1) + 'px');
+      if (spot) {   // два прожектора ходят по слову; где луч — буквы светятся
+        const r = word.getBoundingClientRect(), k = still ? 0 : t / 1000;
+        const x1 = r.left + r.width * (.5 + .42 * Math.sin(k * .45)), x2 = r.left + r.width * (.5 + .42 * Math.sin(k * .33 + 2.2));
+        stage.style.setProperty('--sx1', x1 + 'px'); stage.style.setProperty('--sx2', x2 + 'px');
+        word.style.setProperty('--wx1', (x1 - r.left) + 'px'); word.style.setProperty('--wx2', (x2 - r.left) + 'px');
+      }
       requestAnimationFrame(loop);
     })(0);
-    return { horizonPx: () => innerHeight * (o.horizon || .44), wordLeft: () => w.querySelector('.sc-word').getBoundingClientRect().left, set(word, over) { w.querySelector('.sc-word').textContent = word; if (over) w.querySelector('.sc-over').textContent = over; } };
+    requestAnimationFrame(() => stage.classList.add('in'));   // полосы въезжают
+    return { horizonPx: () => innerHeight * (o.horizon || .44), wordLeft: () => word.getBoundingClientRect().left,
+      set(text, over) { word.querySelectorAll('span').forEach(x => x.textContent = text); if (over) w.querySelector('.sc-over').textContent = over; } };
   }
   // плашка-заголовок рабочих экранов (вместо гигантского слова)
   function plaque(title, sub) {

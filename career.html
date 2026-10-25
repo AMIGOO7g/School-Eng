@@ -2,7 +2,7 @@
 <html lang="ru"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>ICE ENGLISH · Карьера</title>
-<link rel="stylesheet" href="fonts.css?v=36"><link rel="stylesheet" href="ui2.css?v=47">
+<link rel="stylesheet" href="fonts.css?v=36"><link rel="stylesheet" href="ui2.css?v=48">
 <style>
 html,body{height:100%;overflow:hidden}
 .sc-over{font-size:12px!important;letter-spacing:.42em!important;opacity:.9!important;color:var(--ink-2)!important}
@@ -81,11 +81,23 @@ html,body{height:100%;overflow:hidden}
 .aw2 small,.op3 small{display:none!important}
 .aw2 b,.op3 b{color:#fff!important;white-space:nowrap}
 /* проба: оформленный фон */
-.hand{color:#ff9aa0!important;text-shadow:0 2px 8px rgba(0,0,0,.45)!important}.hand svg path{stroke:#ff9aa0!important}
 .shelf .hd b{color:#fff!important}
 .rt,.lad{box-shadow:0 24px 50px rgba(0,0,0,.35)!important}
 .ab-word{top:8vh!important}
 .shelf .hd .tb{color:rgba(255,255,255,.55)!important}.shelf .hd .tb.on{color:#fff!important}
+.lock2{width:clamp(80px,7vw,120px);height:clamp(80px,7vw,120px);border-radius:24px;background:rgba(31,50,72,.08);display:grid;place-items:center;font-size:clamp(34px,3vw,52px)}
+.aw2.lock .lkk{background:rgba(10,20,34,.85)!important;width:20px!important;height:20px!important;font-size:10px!important;margin-top:-22px!important;box-shadow:none!important}
+.aw2 img,.op3 img{filter:drop-shadow(0 8px 10px rgba(0,0,0,.45))!important}
+.aw2.lock img{filter:grayscale(.85) brightness(.72) drop-shadow(0 8px 10px rgba(0,0,0,.45))!important}
+.board3{box-shadow:0 18px 30px rgba(10,20,34,.35)!important}
+.pc .pv{position:absolute;left:50%;bottom:0;height:86%;transform:translateX(-50%)}
+/* коллекционная карточка: наклон за мышью и голографический блик */
+.pc{transform:perspective(900px) rotateX(var(--ry,0deg)) rotateY(var(--rx,0deg));transition:transform .2s ease-out}
+.pc .glare{position:absolute;inset:0;pointer-events:none;z-index:5;border-radius:inherit;mix-blend-mode:screen;
+  background:linear-gradient(115deg,transparent 30%,rgba(255,255,255,.0) 38%,rgba(255,255,255,.45) 47%,rgba(140,220,255,.35) 52%,rgba(255,200,240,.25) 56%,transparent 66%) no-repeat;
+  background-size:250% 250%;background-position:var(--gx,0%) var(--gy,0%);animation:glr 6s ease-in-out infinite}
+@keyframes glr{0%,100%{background-position:0% 0%}50%{background-position:100% 100%}}
+.pc:hover .glare{animation:none}
 </style></head>
 <body class="dk">
 <div id="stage"></div>
@@ -96,18 +108,18 @@ html,body{height:100%;overflow:hidden}
 </section>
 <section class="shelf"><div class="hd"><button class="tb on" data-t="aw">МОИ ДОСТИЖЕНИЯ <span id="cnt"></span></button><button class="tb" data-t="op">СОПЕРНИКИ <span id="cnt2"></span></button></div><div class="board3" id="shelf"></div></section>
 <div class="veil2"></div>
-<script src="data.js?v=45"></script><script src="ui2.js?v=47"></script>
+<script src="data.js?v=45"></script><script src="ui2.js?v=48"></script>
 <script>
 (() => {
   const $ = id => document.getElementById(id), P = UI2.profile(), st = P.st, cur = P.league.id;
   UI2.header('career');
   const sc = UI2.abstract($('stage'), { theme: 'gold', word: 'КАРЬЕРА', over: `${P.name} · 7 класс · сезон 2026/27`, horizon: .42 });
   $('pc').innerHTML = `<div class="no">7<small>НАПАДАЮЩИЙ</small></div><div class="lg3"><img src="img/${P.league.img}.webp" alt="">${P.league.name}</div>
-    <img src="img/pl_portrait.webp" alt=""><div class="nm">${P.name}<small>${P.league.name} · ${P.league.lvl}</small></div>`;
+    <video class="pv" src="img/pl_breath.webm" poster="img/pl_breath.webp" autoplay muted loop playsinline></video><span class="glare"></span><div class="nm">${P.name}<small>${P.league.name} · ${P.league.lvl}</small></div>`;
   const sk = st.skills || { shot: 50, skate: 50, vision: 50, pass: 50 };
   const SK = [['shot', '🏒', 'БРОСОК', 'грамматика'], ['skate', '⛸', 'КАТАНИЕ', 'слова'], ['vision', '👁', 'ВИДЕНИЕ ПОЛЯ', 'чтение и слух'], ['pass', '✕', 'ПАС', 'письмо']];
-  $('rt').innerHTML = `<span class="kick">Общий рейтинг</span><div class="top3"><span class="big">${P.rating}</span>
-    <span class="txt">${P.rating === '—' ? 'Рейтинг появится после первого выигранного урока. Выиграй матч — и навыки начнут расти!' : 'Ты становишься сильнее с каждым уроком. Продолжай — впереди новые лиги!'}</span></div>
+  $('rt').innerHTML = `<span class="kick">Общий рейтинг</span><div class="top3">${P.rating === '—' ? '<span class="lock2">🔒</span>' : `<span class="big">${P.rating}</span>`}
+    <span class="txt">${P.rating === '—' ? '<b>Рейтинг откроется после первой победы.</b><br>Выиграй урок — и навыки начнут расти.' : 'Ты становишься сильнее с каждым уроком. Продолжай — впереди новые лиги!'}</span></div>
     <div class="skl">${SK.map(([k, ic, n, d]) => `<div class="row"><span class="ic">${ic}</span><span><b>${n}<small>· ${d.toUpperCase()}</small></b><span class="bar"><i data-w="${sk[k]}"></i></span></span><span class="v">${st.skills ? sk[k] : '—'}</span></div>`).join('')}</div>`;
   setTimeout(() => document.querySelectorAll('.skl .bar i').forEach(i => i.style.width = (st.skills ? i.dataset.w : 0) + '%'), 200);
   $('lad').innerHTML = UI2.LEAGUES.slice().reverse().map(l => {
@@ -128,10 +140,14 @@ html,body{height:100%;overflow:hidden}
   const opHTML = TEAMS.map((t, i) => `<div class="op3 ${beat[i] ? '' : 'lock'}"><img src="img/team_${t}.webp" alt=""><b>${beat[i] ? TEAMRU[i] : '???'}</b><small>${beat[i] ? 'ПОБЕЖДЕНЫ' : 'МАТЧ ' + (i + 1)}</small></div>`).join('');
   document.querySelectorAll('.tb').forEach(b => b.onclick = () => { document.querySelectorAll('.tb').forEach(x => x.classList.toggle('on', x === b));
     const op = b.dataset.t === 'op'; $('shelf').classList.toggle('ops', op); $('shelf').innerHTML = op ? opHTML : awHTML; });
+  { const pc = $('pc'); pc.addEventListener('pointermove', e => { const r = pc.getBoundingClientRect(), x = (e.clientX - r.left) / r.width, y = (e.clientY - r.top) / r.height;
+      pc.style.setProperty('--rx', ((x - .5) * 14).toFixed(1) + 'deg'); pc.style.setProperty('--ry', ((.5 - y) * 10).toFixed(1) + 'deg');
+      const g = pc.querySelector('.glare'); g.style.setProperty('--gx', (x * 100).toFixed(0) + '%'); g.style.setProperty('--gy', (y * 100).toFixed(0) + '%'); });
+    pc.addEventListener('pointerleave', () => { pc.style.setProperty('--rx', '0deg'); pc.style.setProperty('--ry', '0deg'); }); }
   UI2.ready();
-  setTimeout(() => { const r = document.querySelector('.lr.cur'); if (!r) return; const b = r.getBoundingClientRect(), nx = UI2.LEAGUES[cur];
+  setTimeout(() => { const r0 = document.querySelector('.lr.cur'); if (!r0) return; const r = r0.previousElementSibling || r0, b = r.getBoundingClientRect(), nx = UI2.LEAGUES[cur];
     if (!nx) return; const n = (() => { const lr = document.querySelector('.lad').getBoundingClientRect(), room = innerWidth - lr.right > 210;
-      return room ? UI2.note(document.body, `следующая лига —<br>${nx.name}`, lr.right + 14, b.top - 110, { x: -20, y: 60, d: 'M30 4 C 20 20, 8 36, -6 52 M-10 40 L-7 53 L5 47' })
+      return room ? UI2.note(document.body, `следующая лига —<br>${nx.name}`, lr.right + 14, b.top + b.height / 2 - 66, { x: -20, y: 60, d: 'M30 4 C 20 20, 8 36, -6 52 M-10 40 L-7 53 L5 47' })
                   : UI2.note(document.body, `следующая лига — ${nx.name}`, lr.right - 300, lr.top - 52, { x: 120, y: 26, d: 'M4 4 C 16 10, 24 18, 28 30 M20 22 L28 31 L33 20' }); })(); n.style.position = 'fixed'; n.style.zIndex = 15; }, 900);
 })();
 </script>

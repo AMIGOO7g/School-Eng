@@ -2,7 +2,7 @@
 <html lang="ru"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>ICE ENGLISH · Сезон</title>
-<link rel="stylesheet" href="fonts.css?v=36"><link rel="stylesheet" href="ui2.css?v=47">
+<link rel="stylesheet" href="fonts.css?v=36"><link rel="stylesheet" href="ui2.css?v=48">
 <style>
 html,body{height:100%;overflow:hidden}
 .sc-over{font-size:12px!important;letter-spacing:.32em!important;opacity:.85!important}
@@ -60,14 +60,32 @@ html,body{height:100%;overflow:hidden}
 @media (max-width:1100px){.area{width:91vw}.player{display:none}}
 @media (max-height:940px){.mblock .g,.mblock p{display:none}.match h2{font-size:52px;margin:4px 0 8px}}
 @media (max-height:820px){.mc{grid-template-rows:auto 48px 0 auto auto}.mc .nm{display:none}.opp img{max-height:100px}.mblock .g,.mblock p{display:none}}
-.mrow{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.mrow{display:flex;justify-content:center;margin:6px 0 0}
 .mrow .h{margin:0!important}
-.opp{flex-direction:row!important;gap:14px;justify-content:flex-start!important;flex:0 0 auto!important;min-height:0!important;margin:12px 0 4px}
-.opp img{position:static!important;transform:none!important;height:min(76px,8vh)!important;opacity:1!important;filter:drop-shadow(0 10px 18px rgba(10,20,34,.25))!important}
+.opp{flex-direction:column!important;align-items:center!important;justify-content:center!important;gap:8px;flex:1 1 auto!important;min-height:0!important;margin:8px 0}
+.opp img{position:static!important;transform:none!important;flex:none;height:clamp(80px,14vh,200px)!important;width:auto;object-fit:contain;opacity:.35!important;filter:grayscale(.3)!important;opacity:1!important;filter:drop-shadow(0 10px 18px rgba(10,20,34,.25))!important}
 .opp .tn{font-family:var(--head);font-size:clamp(18px,1.6vw,28px);color:#fff;background:linear-gradient(135deg,#1d3048,#0f1c2b);padding:4px 18px;border-radius:10px;transform:skewX(-8deg);letter-spacing:.04em}
 .area::before{display:none!important}
 .player{height:42vh!important}
 .area .kick,.area > .kick{color:rgba(255,255,255,.85)!important}
+.spacer2{display:none}
+#match{position:relative;overflow:hidden}
+#match .opp{position:static!important;display:flex!important;justify-content:center!important;margin:8px 0 0!important;flex:none!important;min-height:0!important}
+#match .opp img{position:absolute!important;left:50%!important;top:56%!important;transform:translate(-50%,-50%)!important;height:min(78%,420px)!important;opacity:.13!important;filter:grayscale(.2)!important;z-index:0;pointer-events:none;max-height:none!important}
+#match > *:not(.opp){position:relative;z-index:1}
+#match .opp .tn{position:relative;z-index:1}
+#lessons .kick,.lh .kick{color:var(--ink-2)!important}
+#match{display:flex;flex-direction:column}
+#match .mblock{margin-top:auto}
+#match .kick{color:var(--ink-2)!important}
+/* лента матчей: активный — следующий к игре, остальные приглушены до наведения */
+#fx > *:not(.sel) img{filter:grayscale(1);opacity:.55;transition:filter .25s,opacity .25s}
+#fx > *:not(.sel):hover img{filter:none;opacity:1}
+
+.lostm{position:absolute;top:6px;right:8px;font-size:10px;font-weight:900;color:var(--red);letter-spacing:.04em}
+.mc{position:relative}
+.mc:not(.now):not(.sel) img{filter:grayscale(1);opacity:.55}
+.mc:not(.now):hover img{filter:none;opacity:1}
 </style></head>
 <body class="dk">
 <div id="stage"></div>
@@ -78,7 +96,7 @@ html,body{height:100%;overflow:hidden}
   <div class="low"><div class="panel match" id="match"></div><div class="panel lessons" id="lessons"></div></div>
 </section>
 <div class="veil2"></div>
-<script src="data.js?v=45"></script><script src="ui2.js?v=47"></script>
+<script src="data.js?v=45"></script><script src="ui2.js?v=48"></script>
 <script>
 (() => {
   const $ = id => document.getElementById(id), P = UI2.profile(), st = P.st, B = ICE_BOOK;
@@ -94,7 +112,7 @@ html,body{height:100%;overflow:hidden}
     const d = doneIn(m), all = d === m.lessons.length, now = m.n === curM && !all, lostN = m.lessons.filter(l => st.lp[l.id] && st.lp[l.id].lost).length;
     const b = document.createElement('button'); b.className = 'mc ' + (all ? 'won' : now ? 'now' : 'later'); b.style.setProperty('--i', i);
     b.innerHTML = `<span class="no">${String(m.n).padStart(2, '0')}</span><span class="em"><img src="img/team_${TEAMS[i]}.webp" alt=""></span><span class="nm">Матч ${m.n}<small>${m.en}</small></span>
-      ${lostN ? `<span class="st" style="color:var(--red)">${d} : ${lostN}</span><span class="tg" style="background:var(--red)">ПЕРЕИГРАТЬ</span>` : all ? `<span class="st">${d} : 0</span><span class="tg">ПОБЕДА</span>` : now ? `<span class="st">${d} : ${m.lessons.length - d}</span><span class="tg">СЕГОДНЯ</span>` : `<span class="st" style="opacity:.45">— : —</span><span class="tg" style="background:#9aaabb">ВПЕРЕДИ</span>`}`;
+      ${now ? `<span class="st">${d} : ${m.lessons.length - d}</span><span class="tg">ИГРАТЬ</span>${lostN ? `<span class="lostm">переиграть: ${lostN}</span>` : ''}` : lostN ? `<span class="st" style="color:var(--red)">${d} : ${lostN}</span><span class="tg" style="background:var(--red)">ПЕРЕИГРАТЬ</span>` : all ? `<span class="st">${d} : 0</span><span class="tg">ПОБЕДА</span>` : `<span class="st" style="opacity:.45">— : —</span><span class="tg" style="background:#9aaabb">ВПЕРЕДИ</span>`}`;
     b.onclick = () => select(m.n); $('fx').appendChild(b);
   });
   let mf = null;
@@ -105,9 +123,9 @@ html,body{height:100%;overflow:hidden}
     const next = m.lessons.find(l => !st.done[l.id]) || m.lessons[0];
     const href = ICE_READY[next.id] ? `lesson.html?l=${next.id}` : `module.html?m=${n}&l=${next.id}`;
     const topic = m.grammar.split(',')[0].replace(/ и Present /, ' / ').replace(/ и /, ' / ');
-    $('match').innerHTML = `<span class="kick bar">Spotlight 7 · модуль ${n}</span><div class="mrow"><h2 class="h"><span class="flip" id="mt">Матч ${n}</span></h2>
-      <div class="vs"><span class="me2">${P.name} · №7</span><span class="x">VS</span><span class="op" title="${m.grammar}">${topic}</span></div></div>
-      <div class="opp"><img src="img/team_${TEAMS[i]}.webp" alt=""><span class="tn">${TEAMRU[i].toUpperCase()}</span></div>
+    $('match').innerHTML = `<span class="kick bar">Spotlight 7 · модуль ${n}</span><h2 class="h"><span class="flip" id="mt">Матч ${n}</span></h2>
+      <div class="mrow"><div class="vs"><span class="me2">${P.name} · №7</span><span class="x">VS</span><span class="op" title="${m.grammar}">${topic}</span></div></div>
+      <div class="opp"><img src="img/team_${TEAMS[i]}.webp" alt=""><span class="tn">${TEAMRU[i].toUpperCase()}</span></div><div class="spacer2"></div>
       <div class="mblock"><h3>${m.en} <span style="color:var(--mute)">· ${m.ru}</span></h3><div class="g">Темы матча</div><div class="gt">${m.grammar}</div><p>Учебник, стр. ${m.pages}${d ? ` · сыграно уроков: ${d} из ${m.lessons.length}` : ''}</p></div>
       <a class="btn" href="${href}" data-go>На лёд <span>→</span></a>`;
     $('lessons').innerHTML = `<div class="lh"><span class="kick bar">Уроки матча ${n}</span><small>${m.lessons.length} уроков</small></div><ul class="ll" id="ll"></ul>`;

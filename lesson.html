@@ -3,7 +3,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>ICE ENGLISH · Урок</title>
 <link rel="stylesheet" href="fonts.css?v=29">
-<link rel="stylesheet" href="ice.css?v=35"><link rel="stylesheet" href="ui2.css?v=47">
+<link rel="stylesheet" href="ice.css?v=35"><link rel="stylesheet" href="ui2.css?v=48">
 <style>
 :root{--left:clamp(24px,4.9vw,120px);--cardw:clamp(560px,47vw,1200px)}
 .stage{transition:transform 1.2s var(--ease)}
@@ -405,6 +405,36 @@ body.revmode .player-slot{width:min(40vw,700px)!important;right:-2vw!important;b
 @media (max-height:920px){.rew .who{height:66vh!important}.medal{width:min(260px,17vw)!important}.bigsc2 .n{font-size:clamp(84px,8vw,140px)!important}}
 .player-slot{width:min(30vw,calc((100vh - 200px) * 1.2))!important;bottom:4vh!important}
 body.revmode .player-slot{width:min(30vw,520px)!important}
+
+/* ===== v48 ===== */
+/* окно правила: фон размыт и затемнён, окно крупнее, больше воздуха, без подчёркиваний */
+.rule-pop{background:rgba(6,14,24,.55)!important;backdrop-filter:blur(10px)!important;-webkit-backdrop-filter:blur(10px)!important}
+#rulePop .rp-card{width:min(1180px,94vw)!important}
+#rulePop .rp-body{padding:30px 40px 36px!important}
+.rp-body mark,#pb mark{background:none!important;color:var(--red)!important;font-weight:800}
+.rp-body .duo,#pb .duo{gap:22px!important}
+.rp-body .duo > div{padding:22px 24px!important}
+.rp-body p,#pb p{margin:0 0 12px}
+.rp-body .cases,#pb .cases{gap:18px!important}
+/* таблица «как строится»: тёмный текст на светлом */
+.rp-body .forms,#pb .forms{font-size:16px!important;margin-top:10px}
+.rp-body .forms td,#pb .forms td{color:var(--ink)!important;border-bottom:1px solid rgba(31,50,72,.1)!important;padding:10px 0!important}
+.rp-body .forms td:first-child,#pb .forms td:first-child{color:var(--mute)!important;font-weight:700;font-size:14px}
+.rp-body .forms b,#pb .forms b{color:var(--red)!important}
+.rp-body .forms i,#pb .forms i{color:var(--red);font-family:var(--hand);font-size:20px;font-style:normal}
+/* подписи внутри светлых карточек всегда тёмные */
+.card .kicker,.card .kick{color:var(--ink-2)!important}
+/* табло матча сразу под меню — плашка урока теперь внизу */
+.board2{top:96px!important}
+.card{top:calc(96px + 128px)!important;bottom:calc(1.8vh + 92px)!important}
+@media (max-height:820px){.card{top:calc(92px + 118px)!important}}
+body.hwmode .card{top:110px!important;bottom:calc(1.8vh + 92px)!important}
+/* «отыграть» в штрафной: без картинки, карточка по центру и крупнее */
+body.revmode .player-slot{display:none!important}
+body.revmode .card,body.hwmode .card{left:50%!important;right:auto!important;transform:translateX(-50%)!important;width:min(1100px,78vw)!important}
+/* подсказки по ступенькам во «впиши» */
+.ladder{margin:10px 0 0;padding:10px 14px;border-radius:12px;background:rgba(242,179,61,.14);font-size:15px;line-height:1.5}
+.ladder b{color:var(--red)}
 </style></head>
 <body class="arriving dk">
 <main class="stage" id="stage"></main>
@@ -430,7 +460,7 @@ body.revmode .player-slot{width:min(30vw,520px)!important}
 <div class="veil"></div>
 
 <script src="data.js?v=45"></script>
-<script src="ice-ui.js?v=35"></script><script src="ui2.js?v=47"></script>
+<script src="ice-ui.js?v=35"></script><script src="ui2.js?v=48"></script>
 <script>
 (() => {
   const q = new URLSearchParams(location.search);
@@ -696,9 +726,14 @@ function run(L) {
       const d = el('div'); const parts = t.text.split('___');
       const p = el('p', 'q'); p.innerHTML = `${parts[0]}<input class="gap" autocomplete="off" spellcheck="false" placeholder="…">${parts[1] || ''}`; d.appendChild(p);
       if (t.hint) d.appendChild(el('p', 'meta', `Подсказка: ${t.hint}`));
-      const inp = p.querySelector('input'), go2 = btn('Проверить', 'go', () => { const r = judge(inp.value, [t.answer, ...(t.alt || [])]);
+      let tries = 0; const inp = p.querySelector('input'), go2 = btn('Проверить', 'go', () => { const r = judge(inp.value, [t.answer, ...(t.alt || [])]);
         if (r.ok) { inp.value = r.best; inp.classList.add('ok'); inp.disabled = true; go2.disabled = true; feedback(fb, true, (r.exact ? '' : ' Почти без ошибок — правильно пишется: <b>' + r.best + '</b>. ') + (t.why || '')); right(); }
-        else { inp.classList.add('bad'); setTimeout(() => inp.classList.remove('bad'), 600); feedback(fb, false, ' ' + (t.why || '')); wrong(); } });
+        else { inp.classList.add('bad'); setTimeout(() => inp.classList.remove('bad'), 600); tries++;
+          const lad = d.querySelector('.ladder') || d.appendChild(el('div', 'ladder'));
+          lad.innerHTML = tries === 1 ? `💡 <b>Подсказка:</b> ${t.why || 'вспомни правило урока.'}`
+            : tries === 2 ? `💡 <b>Начинается так:</b> ${t.answer.slice(0, Math.max(2, Math.ceil(t.answer.length / 3)))}…`
+            : `✍️ <b>Правильно:</b> ${t.answer}. Впиши его сам — так запомнится.`;
+          feedback(fb, false, tries >= 3 ? ' Перепиши правильный ответ в поле.' : ' Попробуй ещё раз — подсказка ниже.'); wrong(); } });
       inp.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); e.stopPropagation(); go2.click(); } });
       d.appendChild(go2); setTimeout(() => inp.focus(), 200); return d;
     },
